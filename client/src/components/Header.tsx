@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, ChevronRight } from "lucide-react";
+import { Menu, X, ChevronRight, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import profilePic from "../attached_assets/Vijit_github_profile_pic.jpg";
 import { useTheme } from "./ThemeProvider";
@@ -15,7 +15,7 @@ const Header = ({ activeSection }: HeaderProps) => {
   const headerRef = useRef<HTMLDivElement>(null);
   const prevScrollY = useRef(0);
   const [headerVisible, setHeaderVisible] = useState(true);
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   // Handle scroll direction to show/hide header
   useEffect(() => {
@@ -298,7 +298,7 @@ const Header = ({ activeSection }: HeaderProps) => {
         </AnimatePresence>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex">
+        <nav className="hidden md:flex items-center">
           <ul className="flex space-x-8">
             {navItems.map((item, index) => (
               <motion.li
@@ -349,6 +349,29 @@ const Header = ({ activeSection }: HeaderProps) => {
                 </button>
               </motion.li>
             ))}
+            
+            {/* Theme toggle in header */}
+            <motion.li
+              custom={navItems.length}
+              variants={navItemVariants}
+              initial="hidden"
+              animate="visible"
+              whileHover="hover"
+            >
+              <motion.button
+                onClick={toggleTheme}
+                className={`relative px-2 py-1 ${theme === 'dark' ? 'text-white' : 'text-gray-800'} hover:text-cyan-400 transition-colors duration-300`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              >
+                {theme === 'dark' ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
+              </motion.button>
+            </motion.li>
           </ul>
         </nav>
 
@@ -452,6 +475,30 @@ const Header = ({ activeSection }: HeaderProps) => {
                     </motion.button>
                   </motion.li>
                 ))}
+                
+                {/* Theme toggle in mobile menu */}
+                <motion.li
+                  variants={mobileNavItemVariants}
+                  className="overflow-hidden border-t border-gray-700/20 mt-4 pt-4"
+                >
+                  <motion.button
+                    onClick={toggleTheme}
+                    className={`group flex items-center py-2 w-full text-left ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-800'
+                    } hover:text-cyan-400 transition-colors duration-300`}
+                    whileHover={{ x: 5 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <span className="mr-2">
+                      {theme === 'dark' ? (
+                        <Sun size={16} className="text-cyan-400" />
+                      ) : (
+                        <Moon size={16} className="text-cyan-400" />
+                      )}
+                    </span>
+                    Toggle {theme === 'dark' ? 'Light' : 'Dark'} Mode
+                  </motion.button>
+                </motion.li>
               </ul>
             </motion.nav>
           </motion.div>

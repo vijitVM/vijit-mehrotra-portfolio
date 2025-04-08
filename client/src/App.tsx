@@ -10,7 +10,6 @@ import Footer from "./components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import LoadingScreen from "./components/LoadingScreen";
 import { AnimatePresence, motion } from "framer-motion";
-import ThemeToggle from "./components/ThemeToggle";
 
 function App() {
   const [activeSection, setActiveSection] = useState<string>("home");
@@ -111,7 +110,6 @@ function App() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <ThemeToggle />
             <Header activeSection={activeSection} />
             <main>
               <HeroSection />

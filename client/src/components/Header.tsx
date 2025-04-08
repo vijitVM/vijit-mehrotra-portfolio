@@ -40,52 +40,43 @@ const Header = ({ activeSection }: HeaderProps) => {
   };
 
   const handleNavClick = (sectionId: string) => {
-    // Close mobile menu first
+    // Close mobile menu immediately
     setIsMobileMenuOpen(false);
+    
+    try {
+      // Find target element
+      const element = document.getElementById(sectionId);
+      if (!element) return;
+      
+      // Static header offset (simpler and more reliable)
+      const headerOffset = 80;
+      
+      // Most direct approach for reliable scrolling
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - headerOffset;
 
-    // Wait a tiny bit to let animation complete
-    setTimeout(() => {
-      // Mark as active immediately for a more responsive feel
+      // Use standard scrolling
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      
+      // Update URL hash
+      setTimeout(() => {
+        window.history.pushState(
+          null, 
+          '', 
+          window.location.pathname + '#' + sectionId
+        );
+      }, 300);
+      
+    } catch (error) {
+      // Final fallback - just go to the element
       const element = document.getElementById(sectionId);
       if (element) {
-        // Add a small vibration effect to the header when navigating
-        if (headerRef.current) {
-          headerRef.current.style.transform = "translateY(-2px)";
-          setTimeout(() => {
-            if (headerRef.current) {
-              headerRef.current.style.transform = "translateY(0)";
-            }
-          }, 150);
-        }
-
-        // Calculate offset considering header height
-        const headerHeight = headerRef.current?.offsetHeight || 80;
-        const yOffset = -headerHeight;
-
-        // Get the target position with cross-browser support
-        const rect = element.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const elementPosition = rect.top + scrollTop;
-        const offsetPosition = elementPosition + yOffset;
-
-        // Scroll to the section - try multiple approaches for cross-browser mobile support
-        try {
-          // Try the most modern approach first
-          document.documentElement.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth",
-          });
-        } catch (err) {
-          // Fallback for older browsers
-          window.scrollTo(0, offsetPosition);
-        }
-
-        // Update URL without page reload
-        const newUrl =
-          window.location.origin + window.location.pathname + "#" + sectionId;
-        window.history.pushState({ path: newUrl }, "", newUrl);
+        element.scrollIntoView();
       }
-    }, 50);
+    }
   };
 
   const navItems = [
@@ -388,40 +379,21 @@ const Header = ({ activeSection }: HeaderProps) => {
         </nav>
 
         {/* Mobile Menu Button */}
-        <motion.button
-          className={`md:hidden relative ${theme === 'dark' ? 'text-white' : 'text-gray-800'} focus:outline-none`}
-          onClick={toggleMobileMenu}
-          aria-label="Toggle mobile menu"
-          whileTap={{ scale: 0.9 }}
-          whileHover={{ scale: 1.1 }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.2, delay: 0.3 }}
-        >
-          <AnimatePresence mode="wait">
+        <div className="md:hidden">
+          <button
+            type="button"
+            className={`p-3 ${theme === 'dark' ? 'text-white' : 'text-gray-800'} focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-md active:bg-gray-100/10`}
+            onClick={toggleMobileMenu}
+            aria-label="Toggle mobile menu"
+            style={{ touchAction: 'manipulation' }}
+          >
             {isMobileMenuOpen ? (
-              <motion.div
-                key="close"
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <X size={24} />
-              </motion.div>
+              <X size={26} />
             ) : (
-              <motion.div
-                key="menu"
-                initial={{ rotate: 90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Menu size={24} />
-              </motion.div>
+              <Menu size={26} />
             )}
-          </AnimatePresence>
-        </motion.button>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}
@@ -444,47 +416,35 @@ const Header = ({ activeSection }: HeaderProps) => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.1 }}
             >
-              <ul className="space-y-3">
+              <ul className="space-y-2">
                 {navItems.map((item, index) => (
                   <motion.li
                     key={item.id}
                     variants={mobileNavItemVariants}
                     className="overflow-hidden"
                   >
-                    <motion.button
-                      onClick={() => handleNavClick(item.id)}
-                      className={`group flex items-center py-2 w-full text-left ${
+                    <button
+                      type="button"
+                      className={`group flex items-center py-4 px-2 w-full text-left rounded-lg ${
                         activeSection === item.id
-                          ? "text-cyan-400"
+                          ? "text-cyan-400 bg-cyan-500/10"
                           : theme === 'dark'
                             ? "text-white"
                             : "text-gray-800"
-                      } hover:text-cyan-400 transition-colors duration-300`}
-                      whileHover={{ x: 5 }}
-                      whileTap={{ scale: 0.98 }}
+                      } hover:text-cyan-400 active:bg-gray-700/20 transition-colors duration-200 touch-manipulation`}
+                      style={{ touchAction: 'manipulation' }}
+                      onClick={() => handleNavClick(item.id)}
                     >
-                      <motion.span
-                        initial={{ opacity: 0, x: -5 }}
-                        animate={{
-                          opacity: activeSection === item.id ? 1 : 0,
-                          x: activeSection === item.id ? 0 : -5,
-                        }}
-                        className="mr-2"
-                      >
+                      <span className={`mr-2 ${activeSection === item.id ? 'opacity-100' : 'opacity-0'}`}>
                         <ChevronRight size={16} className="text-cyan-400" />
-                      </motion.span>
+                      </span>
 
                       {item.label}
 
                       {activeSection === item.id && (
-                        <motion.span
-                          className="ml-2 h-px bg-gradient-to-r from-cyan-400 to-transparent flex-grow"
-                          initial={{ scaleX: 0, originX: 0 }}
-                          animate={{ scaleX: 1 }}
-                          transition={{ duration: 0.5 }}
-                        />
+                        <span className="ml-2 h-px bg-gradient-to-r from-cyan-400 to-transparent flex-grow" />
                       )}
-                    </motion.button>
+                    </button>
                   </motion.li>
                 ))}
                 
@@ -493,13 +453,13 @@ const Header = ({ activeSection }: HeaderProps) => {
                   variants={mobileNavItemVariants}
                   className="overflow-hidden border-t border-gray-700/20 mt-4 pt-4"
                 >
-                  <motion.button
+                  <button
+                    type="button"
                     onClick={toggleTheme}
-                    className={`group flex items-center py-2 w-full text-left ${
+                    className={`group flex items-center py-4 px-2 w-full text-left rounded-lg ${
                       theme === 'dark' ? 'text-white' : 'text-gray-800'
-                    } hover:text-cyan-400 transition-colors duration-300`}
-                    whileHover={{ x: 5 }}
-                    whileTap={{ scale: 0.98 }}
+                    } hover:text-cyan-400 active:bg-gray-700/20 transition-colors duration-200 touch-manipulation`}
+                    style={{ touchAction: 'manipulation' }}
                   >
                     <span className="mr-2">
                       {theme === 'dark' ? (
@@ -509,7 +469,7 @@ const Header = ({ activeSection }: HeaderProps) => {
                       )}
                     </span>
                     Toggle {theme === 'dark' ? 'Light' : 'Dark'} Mode
-                  </motion.button>
+                  </button>
                 </motion.li>
               </ul>
             </motion.nav>

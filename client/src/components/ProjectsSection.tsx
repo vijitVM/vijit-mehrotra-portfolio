@@ -122,7 +122,7 @@ const ProjectsSection = () => {
           </motion.p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {projectsData.map((project, index) => {
             const projectAccent = getProjectAccent(project.id);
             const projectGradient = getProjectGradient(project.id);
@@ -160,7 +160,7 @@ const ProjectsSection = () => {
                   }`} />
                   
                   {/* Project image */}
-                  <div className="h-48 overflow-hidden">
+                  <div className="h-40 overflow-hidden">
                     <motion.div 
                       className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 relative"
                       initial={{ scale: 1 }}
@@ -197,9 +197,9 @@ const ProjectsSection = () => {
                   </div>
                   
                   {/* Project content */}
-                  <div className="p-6 flex-grow flex flex-col">
+                  <div className="p-4 flex-grow flex flex-col">
                     <motion.h3 
-                      className={`text-xl font-semibold mb-3 ${projectText}`}
+                      className={`text-lg font-semibold mb-2 ${projectText}`}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 + (index * 0.1) }}
@@ -207,11 +207,9 @@ const ProjectsSection = () => {
                       {project.title}
                     </motion.h3>
                     
-
-                    
                     {/* Project description */}
                     <motion.p 
-                      className="text-gray-300 text-sm leading-relaxed mb-4 flex-grow"
+                      className="text-gray-300 text-xs leading-relaxed mb-3 flex-grow"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.3 + (index * 0.1) }}
@@ -219,10 +217,8 @@ const ProjectsSection = () => {
                       {project.description}
                     </motion.p>
                     
-
-                    
                     {/* Project links */}
-                    <div className="flex justify-end items-center mt-auto pt-4">
+                    <div className="flex justify-end items-center mt-auto pt-2">
                       <div className="flex space-x-2">
                         <motion.button
                           onClick={() => {

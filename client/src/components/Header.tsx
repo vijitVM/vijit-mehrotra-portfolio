@@ -250,59 +250,66 @@ const Header = ({ activeSection }: HeaderProps) => {
       variants={headerVariants}
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        {/* Logo and Name */}
-        <motion.div
-          className="flex items-center space-x-3"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          whileHover={{ x: -2 }}
-        >
-          <motion.div
-            className="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 overflow-hidden flex items-center justify-center"
-            variants={logoVariants}
-            initial="initial"
-            animate="animate"
-            whileHover="hover"
-            whileTap={{ scale: 0.95 }}
-          >
+        {/* Logo and Name - Shown only when not in home section or when scrolled down */}
+        <AnimatePresence>
+          {(activeSection !== "home" || isScrolled) ? (
             <motion.div
-              className="w-full h-full flex items-center justify-center"
-              initial={{ rotateY: 90 }}
-              animate={{ rotateY: 0 }}
-              transition={{
-                delay: 0.3,
-                duration: 0.5,
-                type: "spring",
-                stiffness: 100,
-              }}
+              className="flex items-center space-x-3"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.5 }}
+              whileHover={{ x: -2 }}
             >
-              <img
-                src={profilePic}
-                alt="Vijit Mehrotra"
-                className="w-full h-full object-cover"
-              />
+              <motion.div
+                className="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 overflow-hidden flex items-center justify-center"
+                variants={logoVariants}
+                initial="initial"
+                animate="animate"
+                whileHover="hover"
+                whileTap={{ scale: 0.95 }}
+              >
+                <motion.div
+                  className="w-full h-full flex items-center justify-center"
+                  initial={{ rotateY: 90 }}
+                  animate={{ rotateY: 0 }}
+                  transition={{
+                    delay: 0.3,
+                    duration: 0.5,
+                    type: "spring",
+                    stiffness: 100,
+                  }}
+                >
+                  <img
+                    src={profilePic}
+                    alt="Vijit Mehrotra"
+                    className="w-full h-full object-cover"
+                  />
+                </motion.div>
+              </motion.div>
+              <div>
+                <motion.h1
+                  className="text-md md:text-lg font-semibold"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                >
+                  Vijit Mehrotra
+                </motion.h1>
+                <motion.p
+                  className="text-xs text-gray-400"
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.5 }}
+                >
+                  Data Science Specialist
+                </motion.p>
+              </div>
             </motion.div>
-          </motion.div>
-          <div>
-            <motion.h1
-              className="text-md md:text-lg font-semibold"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-            >
-              Vijit Mehrotra
-            </motion.h1>
-            <motion.p
-              className="text-xs text-gray-400"
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-            >
-              Data Science Specialist
-            </motion.p>
-          </div>
-        </motion.div>
+          ) : (
+            <motion.div className="w-32" initial={{ opacity: 0 }} animate={{ opacity: 0 }} />
+          )}
+        </AnimatePresence>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex">

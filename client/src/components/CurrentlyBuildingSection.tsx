@@ -93,7 +93,7 @@ const CurrentlyBuildingSection = () => {
   };
 
   return (
-    <section className="py-3" ref={sectionRef}>
+    <section className="py-12" ref={sectionRef}>
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-900/70 -z-10" />
       
       <div className="container mx-auto px-auto">

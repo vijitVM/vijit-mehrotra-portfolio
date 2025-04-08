@@ -102,13 +102,13 @@ const HeroSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          className="flex flex-col md:flex-row gap-8 items-center justify-center"
+          className="flex flex-col md:flex-row gap-12 items-center justify-between max-w-6xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           <motion.div className="flex-shrink-0" variants={profileVariants}>
-            <div className="w-72 h-72 rounded-lg bg-transparent border-2 border-dashed border-gray-600 flex items-center justify-center">
+            <div className="w-80 h-96 md:w-96 md:h-[28rem] rounded-lg bg-transparent border-2 border-dashed border-gray-600 flex items-center justify-center overflow-hidden shadow-2xl shadow-cyan-700/20">
               <img
                 src={profilePic}
                 alt="Vijit Mehrotra"
@@ -117,16 +117,16 @@ const HeroSection = () => {
             </div>
           </motion.div>
 
-          <motion.div className="max-w-2xl" variants={containerVariants}>
+          <motion.div className="max-w-2xl md:px-4" variants={containerVariants}>
             <motion.h1
-              className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 text-transparent bg-clip-text mb-4 text-center"
+              className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 text-transparent bg-clip-text mb-4 md:text-left text-center"
               variants={itemVariants}
             >
               Vijit Mehrotra
             </motion.h1>
 
             <motion.h2
-              className="text-xl font-medium text-gray-300 mb-6 flex justify-center h-8"
+              className="text-xl font-medium text-gray-300 mb-6 md:flex md:justify-start flex justify-center h-8"
               variants={itemVariants}
             >
               <span className="min-h-[1.5rem] bg-gradient-to-r from-amber-300 to-pink-500 text-transparent bg-clip-text font-semibold text-2xl">
@@ -142,7 +142,7 @@ const HeroSection = () => {
             </motion.h2>
 
             <motion.p
-              className="text-gray-300 mb-8 text-center"
+              className="text-gray-300 mb-8 md:text-left text-center"
               variants={itemVariants}
             >
               I am a Data Scientist and AI Engineer with 4+ years of experience,
@@ -156,7 +156,7 @@ const HeroSection = () => {
             </motion.p>
 
             <motion.div
-              className="flex space-x-4 justify-center"
+              className="flex space-x-4 md:justify-start justify-center"
               variants={itemVariants}
             >
               <motion.div
@@ -170,7 +170,7 @@ const HeroSection = () => {
                   onClick={() => {
                     // Using window.open with proper attributes can help avoid antivirus warnings
                     window.open(
-                      "https://drive.google.com/drive/folders/1ADhXSG5hcN3QJ8G_DA5z39YGUuHWGerU", 
+                      "https://drive.google.com/file/d/1BLgKxGvcxNgeM6kUwoUoGy4J_3LA8W2V/view?usp=sharing", 
                       "_blank", 
                       "noopener,noreferrer"
                     );

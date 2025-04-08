@@ -15,7 +15,7 @@ export const skillsData = {
     { name: "Generative AI & LLMs", value: 4.5 },
     { name: "Machine Learning", value: 4.1 },
     { name: "NLP", value: 4.0 },
-    { name: "CICD", value: 4.0 },
+    { name: "CI/CD", value: 4.0 },
     { name: "Data Visualization", value: 4.6 },
     { name: "App Development", value: 3.5 },
     { name: "EDA", value: 4.2 },

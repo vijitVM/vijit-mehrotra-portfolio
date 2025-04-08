@@ -1,20 +1,26 @@
-import { Card, CardContent } from "@/components/ui/card";
-import RadarChart from "./RadarChart";
-import { skillsData } from "../data/data";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { useSectionObserver } from "../hooks/use-section-observer";
+import { useTheme } from "./ThemeProvider";
+import { ArrowLeftRightIcon, BoxIcon, RadarIcon } from "lucide-react";
+import { Card, CardContent } from "./ui/card";
+import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
+import RadarChart from "./RadarChart";
+import SkillsThreeScene from "./SkillsThreeScene";
+import { skillsData } from "../data/data";
 
 const SkillsSection = () => {
+  const { theme } = useTheme();
   const sectionRef = useRef(null);
   const { isInView } = useSectionObserver({
     ref: sectionRef,
     threshold: 0.2,
     once: true,
   });
-  const [selectedSkillCategory, setSelectedSkillCategory] = useState<
-    string | null
-  >(null);
+  
+  // State for selected category and visualization type
+  const [selectedSkillCategory, setSelectedSkillCategory] = useState<string>("core");
+  const [visualizationType, setVisualizationType] = useState<"radar" | "3d">("radar");
 
   // Animation variants
   const headerVariants = {
@@ -68,6 +74,9 @@ const SkillsSection = () => {
       pointBackgroundColor: "rgba(6, 182, 212, 1)",
       gradient: "from-cyan-500 to-blue-600",
       highlight: "bg-cyan-500/10",
+      color: theme === 'dark' ? "text-cyan-500" : "text-cyan-600",
+      bgHover: theme === 'dark' ? "hover:bg-cyan-500/20" : "hover:bg-cyan-200/40",
+      borderColor2: theme === 'dark' ? "border-cyan-500/40" : "border-cyan-400/40",
     },
     {
       id: "technical",
@@ -78,6 +87,9 @@ const SkillsSection = () => {
       pointBackgroundColor: "rgba(245, 158, 11, 1)",
       gradient: "from-amber-500 to-orange-600",
       highlight: "bg-amber-500/10",
+      color: theme === 'dark' ? "text-amber-500" : "text-amber-600",
+      bgHover: theme === 'dark' ? "hover:bg-amber-500/20" : "hover:bg-amber-200/40",
+      borderColor2: theme === 'dark' ? "border-amber-500/40" : "border-amber-400/40",
     },
     {
       id: "soft",
@@ -88,8 +100,19 @@ const SkillsSection = () => {
       pointBackgroundColor: "rgba(196, 94, 219, 1)",
       gradient: "from-purple-500 to-pink-600",
       highlight: "bg-purple-500/10",
+      color: theme === 'dark' ? "text-purple-500" : "text-purple-600",
+      bgHover: theme === 'dark' ? "hover:bg-purple-500/20" : "hover:bg-purple-200/40",
+      borderColor2: theme === 'dark' ? "border-purple-500/40" : "border-purple-400/40",
     },
   ];
+
+  // Get the currently selected category
+  const selectedCategory = skillCategories.find(cat => cat.id === selectedSkillCategory) || skillCategories[0];
+
+  // Toggle visualization type
+  const toggleVisualization = () => {
+    setVisualizationType(prev => prev === "radar" ? "3d" : "radar");
+  };
 
   return (
     <section
@@ -104,7 +127,7 @@ const SkillsSection = () => {
         transition={{ duration: 1.5 }}
       />
 
-      <div className="container mx-auto px-auto relative z-10">
+      <div className="container mx-auto px-4 relative z-10">
         <motion.h2
           className="text-3xl font-bold mb-4 text-center text-cyan-500 uppercase tracking-wider"
           variants={headerVariants}
@@ -115,7 +138,7 @@ const SkillsSection = () => {
         </motion.h2>
 
         <motion.p
-          className="text-xl text-center mb-12"
+          className="text-xl text-center mb-8"
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -123,33 +146,90 @@ const SkillsSection = () => {
         >
           Core Competencies & Technical Proficiencies
         </motion.p>
+        
+        {/* Visualization toggle */}
+        <motion.div 
+          className="flex justify-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
+          <motion.button
+            onClick={toggleVisualization}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-full ${
+              theme === 'dark' 
+                ? 'bg-gray-800 hover:bg-gray-700 border border-gray-700' 
+                : 'bg-gray-100 hover:bg-gray-200 border border-gray-300'
+            } transition-all duration-300`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <span>{visualizationType === "radar" ? <BoxIcon size={18} /> : <RadarIcon size={18} />}</span>
+            <span className="font-medium">Switch to {visualizationType === "radar" ? "3D" : "Radar"} View</span>
+            <ArrowLeftRightIcon size={16} className="ml-1" />
+          </motion.button>
+        </motion.div>
 
-        {/* Skills Categories */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-auto mx-auto">
-          {skillCategories.map((category, index) => (
+        {/* Category Tabs */}
+        <motion.div
+          className="mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        >
+          <Tabs 
+            defaultValue="core" 
+            value={selectedSkillCategory}
+            onValueChange={setSelectedSkillCategory}
+            className="w-full"
+          >
+            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-6">
+              {skillCategories.map(category => (
+                <TabsTrigger 
+                  key={category.id} 
+                  value={category.id}
+                  className={`data-[state=active]:${category.color} data-[state=active]:shadow-sm ${category.bgHover}`}
+                >
+                  {category.title}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+        </motion.div>
+
+        {/* Skills Visualization */}
+        <motion.div
+          className="w-full max-w-4xl mx-auto"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ 
+            opacity: isInView ? 1 : 0, 
+            scale: isInView ? 1 : 0.9 
+          }}
+          transition={{ delay: 0.4, duration: 0.7 }}
+        >
+          <AnimatePresence mode="wait">
             <motion.div
-              key={category.id}
-              custom={index}
-              variants={cardVariants}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              whileHover="hover"
-              className="flex"
+              key={`${selectedSkillCategory}-${visualizationType}`}
+              initial={{ opacity: 0, x: visualizationType === "radar" ? -20 : 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: visualizationType === "radar" ? 20 : -20 }}
+              transition={{ duration: 0.5 }}
+              className="w-full"
             >
               <Card
-                className={`w-full bg-gray-800/70 backdrop-blur-sm rounded-lg shadow-xl border border-gray-700 shadow-${category.id === "core" ? "cyan" : category.id === "technical" ? "amber" : "purple"}-500/10 overflow-hidden`}
+                className={`w-full bg-gray-800/70 backdrop-blur-sm rounded-lg shadow-xl border ${selectedCategory.borderColor2} overflow-hidden`}
               >
                 <div
-                  className={`h-1 w-full bg-gradient-to-r ${category.gradient}`}
+                  className={`h-1 w-full bg-gradient-to-r ${selectedCategory.gradient}`}
                 />
                 <CardContent className="p-6 overflow-visible">
                   <motion.h3
-                    className="text-xl font-semibold mb-6 text-center"
+                    className={`text-xl font-semibold mb-6 text-center ${selectedCategory.color}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 + index * 0.15 }}
+                    transition={{ delay: 0.3 }}
                   >
-                    {category.title}
+                    {selectedCategory.title}
                   </motion.h3>
                   <motion.div
                     className="w-full h-80 relative pt-4 pb-6"
@@ -158,34 +238,38 @@ const SkillsSection = () => {
                       opacity: 1,
                       scale: 1,
                       transition: {
-                        delay: 0.4 + index * 0.15,
+                        delay: 0.4,
                         duration: 0.8,
                       },
                     }}
                   >
-                    <RadarChart
-                      data={category.data}
-                      backgroundColor={category.backgroundColor}
-                      borderColor={category.borderColor}
-                      pointBackgroundColor={category.pointBackgroundColor}
-                    />
+                    {visualizationType === "radar" ? (
+                      <RadarChart
+                        data={selectedCategory.data}
+                        backgroundColor={selectedCategory.backgroundColor}
+                        borderColor={selectedCategory.borderColor}
+                        pointBackgroundColor={selectedCategory.pointBackgroundColor}
+                      />
+                    ) : (
+                      <SkillsThreeScene categoryId={selectedCategory.id} />
+                    )}
 
-                    {/* Skill level indicator that appears when hovering */}
+                    {/* Skill level indicator that appears below the chart */}
                     <motion.div
                       className="absolute -bottom-2 left-0 right-0 text-center text-sm font-medium"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 + index * 0.15 }}
+                      transition={{ delay: 0.5 }}
                     >
                       <span
-                        className={`inline-block px-3 py-1 rounded-full ${category.highlight} text-white text-xs`}
+                        className={`inline-block px-3 py-1 rounded-full ${selectedCategory.highlight} text-white text-xs`}
                       >
                         Average:{" "}
                         {(
-                          category.data.reduce(
+                          selectedCategory.data.reduce(
                             (sum, skill) => sum + skill.value,
                             0,
-                          ) / category.data.length
+                          ) / selectedCategory.data.length
                         ).toFixed(1)}{" "}
                         / 5
                       </span>
@@ -194,8 +278,46 @@ const SkillsSection = () => {
                 </CardContent>
               </Card>
             </motion.div>
+          </AnimatePresence>
+        </motion.div>
+        
+        {/* Skills List */}
+        <motion.div 
+          className="w-full max-w-4xl mx-auto mt-8 grid grid-cols-2 md:grid-cols-3 gap-4"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 30 }}
+          transition={{ delay: 0.6, duration: 0.7 }}
+        >
+          {selectedCategory.data.map((skill, index) => (
+            <motion.div 
+              key={skill.name} 
+              className={`p-3 ${theme === 'dark' ? 'bg-gray-800/60' : 'bg-gray-100/80'} rounded-lg ${selectedCategory.borderColor2} border`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 * index + 0.7 }}
+              whileHover={{ 
+                y: -5, 
+                boxShadow: `0 8px 16px -2px ${selectedCategory.backgroundColor}`,
+                transition: { duration: 0.2 } 
+              }}
+            >
+              <div className="flex justify-between items-center">
+                <span className="font-medium">{skill.name}</span>
+                <span className={`px-2 py-1 rounded-md text-xs ${selectedCategory.highlight} text-white`}>
+                  {skill.value.toFixed(1)}
+                </span>
+              </div>
+              <div className="w-full h-2 bg-gray-700/50 rounded-full mt-2 overflow-hidden">
+                <motion.div 
+                  className={`h-full bg-gradient-to-r ${selectedCategory.gradient}`}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(skill.value / 5) * 100}%` }}
+                  transition={{ delay: 0.1 * index + 0.9, duration: 0.8, ease: "easeOut" }}
+                />
+              </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

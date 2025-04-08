@@ -40,40 +40,52 @@ const Header = ({ activeSection }: HeaderProps) => {
   };
 
   const handleNavClick = (sectionId: string) => {
+    // Close mobile menu first
     setIsMobileMenuOpen(false);
 
-    // Mark as active immediately for a more responsive feel
-    const element = document.getElementById(sectionId);
-    if (element) {
-      // Add a small vibration effect to the header when navigating
-      if (headerRef.current) {
-        headerRef.current.style.transform = "translateY(-2px)";
-        setTimeout(() => {
-          if (headerRef.current) {
-            headerRef.current.style.transform = "translateY(0)";
-          }
-        }, 150);
+    // Wait a tiny bit to let animation complete
+    setTimeout(() => {
+      // Mark as active immediately for a more responsive feel
+      const element = document.getElementById(sectionId);
+      if (element) {
+        // Add a small vibration effect to the header when navigating
+        if (headerRef.current) {
+          headerRef.current.style.transform = "translateY(-2px)";
+          setTimeout(() => {
+            if (headerRef.current) {
+              headerRef.current.style.transform = "translateY(0)";
+            }
+          }, 150);
+        }
+
+        // Calculate offset considering header height
+        const headerHeight = headerRef.current?.offsetHeight || 80;
+        const yOffset = -headerHeight;
+
+        // Get the target position with cross-browser support
+        const rect = element.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const elementPosition = rect.top + scrollTop;
+        const offsetPosition = elementPosition + yOffset;
+
+        // Scroll to the section - try multiple approaches for cross-browser mobile support
+        try {
+          // Try the most modern approach first
+          document.documentElement.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth",
+          });
+        } catch (err) {
+          // Fallback for older browsers
+          window.scrollTo(0, offsetPosition);
+        }
+
+        // Update URL without page reload
+        const newUrl =
+          window.location.origin + window.location.pathname + "#" + sectionId;
+        window.history.pushState({ path: newUrl }, "", newUrl);
       }
-
-      // Calculate offset considering header height
-      const headerHeight = headerRef.current?.offsetHeight || 80;
-      const yOffset = -headerHeight;
-
-      // Get the target position
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset + yOffset;
-
-      // Scroll to the section
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-
-      // Update URL without page reload
-      const newUrl =
-        window.location.origin + window.location.pathname + "#" + sectionId;
-      window.history.pushState({ path: newUrl }, "", newUrl);
-    }
+    }, 50);
   };
 
   const navItems = [

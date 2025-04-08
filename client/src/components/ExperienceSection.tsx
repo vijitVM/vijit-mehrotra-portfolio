@@ -5,11 +5,16 @@ import { experienceData } from "../data/data";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 
 // Define types for the updated data structure
+interface DetailItem {
+  domain: string;
+  text: string;
+}
+
 interface Position {
   id: number;
   role: string;
   period: string;
-  details: string[];
+  details: (string | DetailItem)[];
 }
 
 interface CompanyExperience {
@@ -333,21 +338,73 @@ const ExperienceSection = () => {
                                       transition={{ duration: 0.3 }}
                                       className="px-3 sm:px-5 pb-4"
                                     >
-                                      <ul className="list-disc pl-4 sm:pl-5 text-xs sm:text-sm text-gray-300 space-y-3 sm:space-y-4">
-                                        {position.details.map((detail, idx) => (
-                                          <motion.li
-                                            key={idx}
-                                            initial={{ opacity: 0, x: -10 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{
-                                              delay: 0.1 * idx,
-                                              duration: 0.3,
-                                            }}
-                                          >
-                                            {detail}
-                                          </motion.li>
-                                        ))}
-                                      </ul>
+                                      <div className="space-y-4">
+                                        {/* Process details and group by domain */}
+                                        {(() => {
+                                          let currentDomain = "";
+                                          
+                                          return position.details.map((detail, idx) => {
+                                            // Check if detail is a string or an object with domain
+                                            if (typeof detail === 'string') {
+                                              // It's a regular string detail
+                                              return (
+                                                <motion.div key={idx}>
+                                                  <ul className="list-disc pl-4 sm:pl-5 text-xs sm:text-sm text-gray-300">
+                                                    <motion.li
+                                                      initial={{ opacity: 0, x: -10 }}
+                                                      animate={{ opacity: 1, x: 0 }}
+                                                      transition={{
+                                                        delay: 0.1 * idx,
+                                                        duration: 0.3,
+                                                      }}
+                                                    >
+                                                      {detail}
+                                                    </motion.li>
+                                                  </ul>
+                                                </motion.div>
+                                              );
+                                            } else {
+                                              // It's a domain-based detail
+                                              const showDomain = detail.domain !== "";
+                                              
+                                              // Update current domain if a new one is provided
+                                              if (showDomain) {
+                                                currentDomain = detail.domain;
+                                              }
+                                              
+                                              return (
+                                                <motion.div key={idx} className="space-y-2">
+                                                  {/* Show domain header if it's a new domain */}
+                                                  {showDomain && (
+                                                    <motion.h5 
+                                                      className="text-sm font-medium text-cyan-400 pt-1"
+                                                      initial={{ opacity: 0, y: -5 }}
+                                                      animate={{ opacity: 1, y: 0 }}
+                                                      transition={{ delay: 0.05 * idx, duration: 0.3 }}
+                                                    >
+                                                      {detail.domain}
+                                                    </motion.h5>
+                                                  )}
+                                                  
+                                                  {/* Detail text as bullet point */}
+                                                  <ul className="list-disc pl-4 sm:pl-5 text-xs sm:text-sm text-gray-300">
+                                                    <motion.li
+                                                      initial={{ opacity: 0, x: -10 }}
+                                                      animate={{ opacity: 1, x: 0 }}
+                                                      transition={{
+                                                        delay: 0.1 * idx,
+                                                        duration: 0.3,
+                                                      }}
+                                                    >
+                                                      {detail.text}
+                                                    </motion.li>
+                                                  </ul>
+                                                </motion.div>
+                                              );
+                                            }
+                                          });
+                                        })()}
+                                      </div>
                                     </motion.div>
                                   )}
                               </AnimatePresence>

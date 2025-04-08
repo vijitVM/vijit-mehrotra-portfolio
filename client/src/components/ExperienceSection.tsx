@@ -163,7 +163,7 @@ const ExperienceSection = () => {
           {experienceData.map((company, index) => (
             <motion.div 
               key={company.id} 
-              className="relative mb-16"
+              className="relative mb-8"
               variants={cardVariants}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}

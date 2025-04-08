@@ -19,7 +19,8 @@ interface CompanyExperience {
   location: string;
   color: string;
   textColor: string;
-  logo: string;
+  logo: string | any; // Updated to accept both string and image import
+  logoType?: string; // Added to differentiate between text and image logos
   positions: Position[];
   awards: string[];
 }
@@ -197,14 +198,25 @@ const ExperienceSection = () => {
                         whileHover={{ scale: 1.1 }}
                         transition={{ type: "spring", stiffness: 400, damping: 10 }}
                       >
-                        <motion.div 
-                          className="text-white font-semibold text-lg"
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.4 + (index * 0.1), duration: 0.3 }}
-                        >
-                          {company.logo}
-                        </motion.div>
+                        {company.logoType === 'image' ? (
+                          <motion.img 
+                            src={company.logo} 
+                            alt={`${company.company} logo`}
+                            className="w-full h-full object-cover"
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.4 + (index * 0.1), duration: 0.3 }}
+                          />
+                        ) : (
+                          <motion.div 
+                            className="text-white font-semibold text-lg"
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.4 + (index * 0.1), duration: 0.3 }}
+                          >
+                            {company.logo}
+                          </motion.div>
+                        )}
                       </motion.div>
                       
                       {/* Company Info */}

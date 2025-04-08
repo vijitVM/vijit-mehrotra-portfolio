@@ -101,58 +101,54 @@ const CurrentlyBuildingSection = () => {
   };
 
   return (
-    <section className="pt-2 pb-12" ref={sectionRef}>
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-900/70 -z-10" />
-
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6 }}
-          className="bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-lg p-4 max-w-3xl mx-auto shadow-lg mt-6"
-        >
-          {/* Terminal header */}
-          <div className="flex items-center pb-3 border-b border-gray-700 mb-4">
-            <div className="flex space-x-2 mr-4">
-              <div className="h-3 w-3 rounded-full bg-red-500"></div>
-              <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
-              <div className="h-3 w-3 rounded-full bg-green-500"></div>
-            </div>
-            <div className="text-sm text-gray-400 font-mono">
-              ~/dev/currently-working-on
-            </div>
+    <div ref={sectionRef}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.6 }}
+        className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-lg p-3 max-w-xl mx-auto shadow-xl"
+      >
+        {/* Terminal header */}
+        <div className="flex items-center pb-3 border-b border-gray-700 mb-4">
+          <div className="flex space-x-2 mr-4">
+            <div className="h-3 w-3 rounded-full bg-red-500"></div>
+            <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
+            <div className="h-3 w-3 rounded-full bg-green-500"></div>
           </div>
-
-          {/* Terminal content */}
-          <div className="font-mono text-sm space-y-3">
-            {buildingData.map((item: BuildingItem, i: number) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                animate={
-                  isInView && typedTexts[i]
-                    ? { opacity: 1, x: 0 }
-                    : { opacity: 0, x: -10 }
-                }
-                transition={{ duration: 0.3, delay: i * 0.1 }}
-                className="flex items-start"
-              >
-                <div className="flex items-center min-w-[160px] text-gray-400">
-                  <span className="mr-2">{getIcon(item.type)}</span>
-                  <span>{getLabel(item.type)}</span>
-                </div>
-                <div className={`${getColor(item.type)} flex-1`}>
-                  {typedTexts[i]}
-                  {i === currentItemIndex && cursorVisible && (
-                    <span className="text-white">|</span>
-                  )}
-                </div>
-              </motion.div>
-            ))}
+          <div className="text-sm text-gray-400 font-mono">
+            ~/dev/currently-working-on
           </div>
-        </motion.div>
-      </div>
-    </section>
+        </div>
+
+        {/* Terminal content */}
+        <div className="font-mono text-sm space-y-3">
+          {buildingData.map((item: BuildingItem, i: number) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -10 }}
+              animate={
+                isInView && typedTexts[i]
+                  ? { opacity: 1, x: 0 }
+                  : { opacity: 0, x: -10 }
+              }
+              transition={{ duration: 0.3, delay: i * 0.1 }}
+              className="flex items-start"
+            >
+              <div className="flex items-center min-w-[160px] text-gray-400">
+                <span className="mr-2">{getIcon(item.type)}</span>
+                <span>{getLabel(item.type)}</span>
+              </div>
+              <div className={`${getColor(item.type)} flex-1`}>
+                {typedTexts[i]}
+                {i === currentItemIndex && cursorVisible && (
+                  <span className="text-white">|</span>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
   );
 };
 

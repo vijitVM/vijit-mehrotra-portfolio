@@ -6,6 +6,7 @@ import ThreeScene from "./ThreeScene";
 import MouseFollowEffect from "./MouseFollowEffect";
 import { useTheme } from "./ThemeProvider";
 import profilePic from "../attached_assets/Vijit_github_profile_pic.jpg";
+import CurrentlyBuildingSection from "./CurrentlyBuildingSection";
 
 const HeroSection = () => {
   const { theme } = useTheme();
@@ -293,6 +294,11 @@ const HeroSection = () => {
           </motion.div>
         </div>
       </MouseFollowEffect>
+      
+      {/* Currently Building Section integrated directly within the Hero Section */}
+      <div className="absolute bottom-12 left-0 right-0 z-20">
+        <CurrentlyBuildingSection />
+      </div>
     </section>
   );
 };

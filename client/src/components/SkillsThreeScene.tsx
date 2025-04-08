@@ -50,7 +50,11 @@ const SkillsThreeScene = ({ categoryId }: SkillsThreeSceneProps) => {
     
     // Create skill objects
     const skillObjects: THREE.Object3D[] = [];
-    const skillRadius = 4; // Radius of the circle on which skills are placed
+    
+    // Make the radius responsive based on container size
+    const containerWidth = containerRef.current.clientWidth;
+    const isMobile = containerWidth < 500;
+    const skillRadius = isMobile ? 3 : 4; // Smaller radius on mobile
     
     // Helper function to create color based on theme and category
     const getColor = () => {
@@ -74,7 +78,11 @@ const SkillsThreeScene = ({ categoryId }: SkillsThreeSceneProps) => {
       const z = (Math.random() - 0.5) * 2; // Random z position for depth
       
       // Create sphere for skill with size based on skill value
-      const geometry = new THREE.SphereGeometry(0.1 + (skill.value / 10), 16, 16);
+      // Make spheres slightly smaller on mobile screens
+      const sphereSize = isMobile ? 
+        0.08 + (skill.value / 12) : 
+        0.1 + (skill.value / 10);
+      const geometry = new THREE.SphereGeometry(sphereSize, 16, 16);
       const material = new THREE.MeshPhongMaterial({
         color: getColor(),
         transparent: true,
@@ -90,9 +98,19 @@ const SkillsThreeScene = ({ categoryId }: SkillsThreeSceneProps) => {
       
       // Create text label for skill name
       const myText = new Text();
-      myText.text = skill.name;
-      myText.fontSize = 0.2;
-      myText.position.set(x * 1.2, y * 1.2, z);
+      
+      // For mobile, use shorter names if needed (truncate with ellipsis)
+      const displayName = isMobile && skill.name.length > 10 ? 
+        skill.name.substring(0, 9) + '…' : 
+        skill.name;
+        
+      myText.text = displayName;
+      myText.fontSize = isMobile ? 0.15 : 0.2; // Smaller font on mobile
+      
+      // Position text labels further away on mobile to avoid overlap
+      const textDistanceFactor = isMobile ? 1.3 : 1.2;
+      myText.position.set(x * textDistanceFactor, y * textDistanceFactor, z);
+      
       myText.color = theme === 'dark' ? 0xffffff : 0x1f2937;
       myText.sync();
       
@@ -168,8 +186,9 @@ const SkillsThreeScene = ({ categoryId }: SkillsThreeSceneProps) => {
     
     containerRef.current.addEventListener('mousemove', handleMouseMove);
     
-    // Create central orbital node
-    const centralGeometry = new THREE.IcosahedronGeometry(0.5, 1);
+    // Create central orbital node - smaller on mobile
+    const centralNodeSize = isMobile ? 0.4 : 0.5;
+    const centralGeometry = new THREE.IcosahedronGeometry(centralNodeSize, 1);
     const centralMaterial = new THREE.MeshPhongMaterial({
       color: getColor(),
       emissive: getColor(),

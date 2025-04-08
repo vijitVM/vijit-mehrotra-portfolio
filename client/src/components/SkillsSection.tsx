@@ -224,7 +224,7 @@ const SkillsSection = () => {
                 />
                 <CardContent className="p-6 overflow-visible">
                   <motion.h3
-                    className={`text-xl font-semibold mb-6 text-center ${selectedCategory.color}`}
+                    className={`text-lg sm:text-xl font-semibold mb-3 sm:mb-6 text-center ${selectedCategory.color}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
@@ -232,7 +232,7 @@ const SkillsSection = () => {
                     {selectedCategory.title}
                   </motion.h3>
                   <motion.div
-                    className="w-full h-80 relative pt-4 pb-6"
+                    className="w-full h-60 sm:h-72 md:h-80 relative pt-2 sm:pt-4 pb-6"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{
                       opacity: 1,
@@ -283,7 +283,7 @@ const SkillsSection = () => {
         
         {/* Skills List */}
         <motion.div 
-          className="w-full max-w-4xl mx-auto mt-8 grid grid-cols-2 md:grid-cols-3 gap-4"
+          className="w-full max-w-4xl mx-auto mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 30 }}
           transition={{ delay: 0.6, duration: 0.7 }}
@@ -291,7 +291,7 @@ const SkillsSection = () => {
           {selectedCategory.data.map((skill, index) => (
             <motion.div 
               key={skill.name} 
-              className={`p-3 ${theme === 'dark' ? 'bg-gray-800/60' : 'bg-gray-100/80'} rounded-lg ${selectedCategory.borderColor2} border`}
+              className={`p-2 sm:p-3 ${theme === 'dark' ? 'bg-gray-800/60' : 'bg-gray-100/80'} rounded-lg ${selectedCategory.borderColor2} border`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * index + 0.7 }}
@@ -301,9 +301,9 @@ const SkillsSection = () => {
                 transition: { duration: 0.2 } 
               }}
             >
-              <div className="flex justify-between items-center">
-                <span className="font-medium">{skill.name}</span>
-                <span className={`px-2 py-1 rounded-md text-xs ${selectedCategory.highlight} text-white`}>
+              <div className="flex justify-between items-center gap-2">
+                <span className="font-medium text-sm sm:text-base truncate">{skill.name}</span>
+                <span className={`px-2 py-1 rounded-md text-xs whitespace-nowrap ${selectedCategory.highlight} text-white`}>
                   {skill.value.toFixed(1)}
                 </span>
               </div>

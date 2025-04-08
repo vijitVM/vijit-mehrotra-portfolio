@@ -97,6 +97,56 @@ const ExperienceSection = () => {
     },
   };
 
+  // Add this function in your ExperienceSection component
+  const parseFormattedText = (text: string) => {
+    const parts = [];
+    let currentIndex = 0;
+    let boldStartIndex;
+
+    while (currentIndex < text.length) {
+      boldStartIndex = text.indexOf("[[", currentIndex);
+
+      if (boldStartIndex === -1) {
+        // No more bold parts, add the rest of the text
+        parts.push(
+          <span key={currentIndex}>{text.substring(currentIndex)}</span>,
+        );
+        break;
+      }
+
+      // Add normal text before the bold part
+      if (boldStartIndex > currentIndex) {
+        parts.push(
+          <span key={currentIndex}>
+            {text.substring(currentIndex, boldStartIndex)}
+          </span>,
+        );
+      }
+
+      // Find end of bold part
+      const boldEndIndex = text.indexOf("]]", boldStartIndex);
+      if (boldEndIndex === -1) {
+        // No closing tag, treat as normal text
+        parts.push(
+          <span key={boldStartIndex}>{text.substring(boldStartIndex)}</span>,
+        );
+        break;
+      }
+
+      // Add bold text
+      const boldText = text.substring(boldStartIndex + 2, boldEndIndex);
+      parts.push(
+        <span key={boldStartIndex} className="font-bold">
+          {boldText}
+        </span>,
+      );
+
+      currentIndex = boldEndIndex + 2;
+    }
+
+    return parts;
+  };
+
   const positionVariants = {
     hidden: { opacity: 0, y: 10 },
     visible: {
@@ -260,11 +310,19 @@ const ExperienceSection = () => {
                       >
                         {expandedCompanies.includes(company.id) ? (
                           <>
-                            Hide <span className="hidden sm:inline ml-1">Details</span> <span className="ml-1">▴</span>
+                            Hide{" "}
+                            <span className="hidden sm:inline ml-1">
+                              Details
+                            </span>{" "}
+                            <span className="ml-1">▴</span>
                           </>
                         ) : (
                           <>
-                            Show <span className="hidden sm:inline ml-1">Details</span> <span className="ml-1">▾</span>
+                            Show{" "}
+                            <span className="hidden sm:inline ml-1">
+                              Details
+                            </span>{" "}
+                            <span className="ml-1">▾</span>
                           </>
                         )}
                       </Button>
@@ -342,67 +400,96 @@ const ExperienceSection = () => {
                                         {/* Process details and group by domain */}
                                         {(() => {
                                           let currentDomain = "";
-                                          
-                                          return position.details.map((detail, idx) => {
-                                            // Check if detail is a string or an object with domain
-                                            if (typeof detail === 'string') {
-                                              // It's a regular string detail
-                                              return (
-                                                <motion.div key={idx}>
-                                                  <ul className="list-disc pl-4 sm:pl-5 text-xs sm:text-sm text-gray-300">
-                                                    <motion.li
-                                                      initial={{ opacity: 0, x: -10 }}
-                                                      animate={{ opacity: 1, x: 0 }}
-                                                      transition={{
-                                                        delay: 0.1 * idx,
-                                                        duration: 0.3,
-                                                      }}
-                                                    >
-                                                      {detail}
-                                                    </motion.li>
-                                                  </ul>
-                                                </motion.div>
-                                              );
-                                            } else {
-                                              // It's a domain-based detail
-                                              const showDomain = detail.domain !== "";
-                                              
-                                              // Update current domain if a new one is provided
-                                              if (showDomain) {
-                                                currentDomain = detail.domain;
+
+                                          return position.details.map(
+                                            (detail, idx) => {
+                                              // Check if detail is a string or an object with domain
+                                              if (typeof detail === "string") {
+                                                // It's a regular string detail
+                                                return (
+                                                  <motion.div key={idx}>
+                                                    <ul className="list-disc pl-4 sm:pl-5 text-xs sm:text-sm text-gray-300">
+                                                      <motion.li
+                                                        initial={{
+                                                          opacity: 0,
+                                                          x: -10,
+                                                        }}
+                                                        animate={{
+                                                          opacity: 1,
+                                                          x: 0,
+                                                        }}
+                                                        transition={{
+                                                          delay: 0.1 * idx,
+                                                          duration: 0.3,
+                                                        }}
+                                                      >
+                                                        {detail}
+                                                      </motion.li>
+                                                    </ul>
+                                                  </motion.div>
+                                                );
+                                              } else {
+                                                // It's a domain-based detail
+                                                const showDomain =
+                                                  detail.domain !== "";
+
+                                                // Update current domain if a new one is provided
+                                                if (showDomain) {
+                                                  currentDomain = detail.domain;
+                                                }
+
+                                                return (
+                                                  <motion.div
+                                                    key={idx}
+                                                    className="space-y-2"
+                                                  >
+                                                    {/* Show domain header if it's a new domain */}
+                                                    {showDomain && (
+                                                      <motion.h5
+                                                        className="text-sm font-medium text-cyan-400 pt-1"
+                                                        initial={{
+                                                          opacity: 0,
+                                                          y: -5,
+                                                        }}
+                                                        animate={{
+                                                          opacity: 1,
+                                                          y: 0,
+                                                        }}
+                                                        transition={{
+                                                          delay: 0.05 * idx,
+                                                          duration: 0.3,
+                                                        }}
+                                                      >
+                                                        {detail.domain}
+                                                      </motion.h5>
+                                                    )}
+
+                                                    {/* Detail text as bullet point */}
+                                                    <ul className="list-disc pl-4 sm:pl-5 text-xs sm:text-sm text-gray-300">
+                                                      <motion.li
+                                                        initial={{
+                                                          opacity: 0,
+                                                          x: -10,
+                                                        }}
+                                                        animate={{
+                                                          opacity: 1,
+                                                          x: 0,
+                                                        }}
+                                                        transition={{
+                                                          delay: 0.1 * idx,
+                                                          duration: 0.3,
+                                                        }}
+                                                      >
+                                                        {parseFormattedText(
+                                                          detail.text,
+                                                        )}
+                                                      </motion.li>
+                                                    </ul>
+                                                  </motion.div>
+                                                );
                                               }
-                                              
-                                              return (
-                                                <motion.div key={idx} className="space-y-2">
-                                                  {/* Show domain header if it's a new domain */}
-                                                  {showDomain && (
-                                                    <motion.h5 
-                                                      className="text-sm font-medium text-cyan-400 pt-1"
-                                                      initial={{ opacity: 0, y: -5 }}
-                                                      animate={{ opacity: 1, y: 0 }}
-                                                      transition={{ delay: 0.05 * idx, duration: 0.3 }}
-                                                    >
-                                                      {detail.domain}
-                                                    </motion.h5>
-                                                  )}
-                                                  
-                                                  {/* Detail text as bullet point */}
-                                                  <ul className="list-disc pl-4 sm:pl-5 text-xs sm:text-sm text-gray-300">
-                                                    <motion.li
-                                                      initial={{ opacity: 0, x: -10 }}
-                                                      animate={{ opacity: 1, x: 0 }}
-                                                      transition={{
-                                                        delay: 0.1 * idx,
-                                                        duration: 0.3,
-                                                      }}
-                                                    >
-                                                      {detail.text}
-                                                    </motion.li>
-                                                  </ul>
-                                                </motion.div>
-                                              );
-                                            }
-                                          });
+                                            },
+                                          );
                                         })()}
                                       </div>
                                     </motion.div>

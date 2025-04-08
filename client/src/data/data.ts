@@ -63,23 +63,23 @@ export const experienceData = [
         details: [
           {
             domain: "Fast Moving Consumer Goods (FMCG)",
-            text: "Data Analysis Assistant: Built a RAG-based chatbot trained on Market Mix Modeling data to support brand and market analysis. Integrated LLMs, vector databases, and Langfuse for prompt monitoring and automated SQL generation. Built an end-to-end workflow with semantic search, query refinement, error handling, and data visualization to deliver marketing insights and optimize decision-making.(Technologies: gpt-4o-mini, gpt-4o,PostgreSQL, Custom GenAI, Langfuse)",
+            text: "[[Data Analysis Assistant:]] Built a RAG-based chatbot trained on Market Mix Modeling data to support brand and market analysis. Integrated LLMs, vector databases, and Langfuse for prompt monitoring and automated SQL generation. Built an end-to-end workflow with semantic search, query refinement, error handling, and data visualization to deliver marketing insights and optimize decision-making.(Technologies: gpt-4o-mini, gpt-4o,PostgreSQL, Custom GenAI, Langfuse)",
           },
           {
             domain: "Healthcare",
-            text: "AI-Powered Web Scraping & Compliance Assistant: Built a GenAI-powered web scraping LLM agent to automate data extraction from websites based on user provided URL and description. The agent analyzes internal links to gather relevant insights and assists in answering predefined compliance-related questions.(Technologies: gpt-4o-mini, gpt-4o,Custom GenAI, Langfuse, Playwright)",
+            text: "[[AI-Powered Web Scraping & Compliance Assistant:]] Built a GenAI-powered web scraping LLM agent to automate data extraction from websites based on user provided URL and description. The agent analyzes internal links to gather relevant insights and assists in answering predefined compliance-related questions.(Technologies: gpt-4o-mini, gpt-4o,Custom GenAI, Langfuse, Playwright)",
           },
           {
             domain: "",
-            text: "Task Automation Bot: Developed a GenAI-powered automation bot for Jira to streamline agile workflows. Automated Jira story creation, Planning Poker estimations, and sprint planning, enabling teams to generate well-structured user stories, estimate effort collaboratively, and optimize backlog refinement. Reduced manual effort by around 50% while ensuring clarity, consistency, and efficiency in agile development. (Technolgies: gpt-4o-mini, gpt-4o,Custom GenAI, Langfuse, Jira API, Milvus)",
+            text: "[[Task Automation Bot:]] Developed a GenAI-powered automation bot for Jira to streamline agile workflows. Automated Jira story creation, Planning Poker estimations, and sprint planning, enabling teams to generate well-structured user stories, estimate effort collaboratively, and optimize backlog refinement. Reduced manual effort by around 50% while ensuring clarity, consistency, and efficiency in agile development. (Technolgies: gpt-4o-mini, gpt-4o,Custom GenAI, Langfuse, Jira API, Milvus)",
           },
           {
             domain: "",
-            text: "GenAI-Powered Code Reviewer: Built an AI-driven code reviewer leveraging LLMs and LLMOps for automated analysis, performance monitoring, vulnerability detection, and code standardization. Integrated with GitLab for real-time suggestions, redundancy removal, security best practices, and automated code cleaning. Ensured consistent coding standards and maintainability, enhancing development speed and overall code quality.",
+            text: "[[GenAI-Powered Code Reviewer:]] Built an AI-driven code reviewer leveraging LLMs and LLMOps for automated analysis, performance monitoring, vulnerability detection, and code standardization. Integrated with GitLab for real-time suggestions, redundancy removal, security best practices, and automated code cleaning. Ensured consistent coding standards and maintainability, enhancing development speed and overall code quality.",
           },
           {
             domain: "",
-            text: "Data Catalog Chatbot Assistant: Built a multi-agent healthcare Q&A RAG- chatbot to handle structured (SQL) and unstructured (PDF's, Excel) data. Integrated with Google AI for real-time, secure data access, enhancing data discovery and collaboration. (Technologies: gpt-4o, Milvus, Langfuse, SQL, Google AI, Langchain, Neo4j, FlashRank, Custom GenAI)",
+            text: "[[Data Catalog Chatbot Assistant:]] Built a multi-agent healthcare Q&A RAG- chatbot to handle structured (SQL) and unstructured (PDF's, Excel) data. Integrated with Google AI for real-time, secure data access, enhancing data discovery and collaboration. (Technologies: gpt-4o, Milvus, Langfuse, SQL, Google AI, Langchain, Neo4j, FlashRank, Custom GenAI)",
           },
         ],
       },

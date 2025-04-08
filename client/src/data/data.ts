@@ -61,10 +61,26 @@ export const experienceData = [
         role: "Consultant, Data Science",
         period: "May 2024 - Present",
         details: [
-          "Data Analysis Assistant: Built a RAG-based chatbot trained on Market Mix Modeling data to support brand and market analysis. Integrated LLMs, vector databases, and Langfuse for prompt monitoring and automated SQL generation. Built an end-to-end workflow with semantic search, query refinement, error handling, and data visualization to deliver marketing insights and optimize decision-making.(Technologies: gpt-4o-mini, gpt-4o,PostgreSQL, Custom GenAI, Langfuse)",
-          "AI-Powered Web Scraping & Compliance Assistant: Built a GenAI-powered web scraping LLM agent to automate data extraction from websites based on user provided URL and description. The agent analyzes internal links to gather relevant insights and assists in answering predefined compliance-related questions.(Technologies: gpt-4o-mini, gpt-4o,Custom GenAI, Langfuse, Playwright)",
-          "Task Automation Bot: Developed a GenAI-powered automation bot for Jira to streamline agile workflows. Automated Jira story creation, Planning Poker estimations, and sprint planning, enabling teams to generate well-structured user stories, estimate effort collaboratively, and optimize backlog refinement. Reduced manual effort by around 50% while ensuring clarity, consistency, and efficiency in agile development. (Technolgies: gpt-4o-mini, gpt-4o,Custom GenAI, Langfuse, Jira API, Milvus)",
-          "Data Catalog Chatbot Assistant: Built a multi-agent healthcare Q&A RAG- chatbot to handle structured (SQL) and unstructured (PDF's, Excel) data. Integrated with Google AI for real-time, secure data access, enhancing data discovery and collaboration. (Technologies: gpt-4o, Milvus, Langfuse, SQL, Google AI, Langchain, Neo4j, FlashRank, Custom GenAI)",
+          {
+            domain: "Fast Moving Consumer Goods (FMCG)",
+            text: "Data Analysis Assistant: Built a RAG-based chatbot trained on Market Mix Modeling data to support brand and market analysis. Integrated LLMs, vector databases, and Langfuse for prompt monitoring and automated SQL generation. Built an end-to-end workflow with semantic search, query refinement, error handling, and data visualization to deliver marketing insights and optimize decision-making.(Technologies: gpt-4o-mini, gpt-4o,PostgreSQL, Custom GenAI, Langfuse)",
+          },
+          {
+            domain: "Healthcare",
+            text: "AI-Powered Web Scraping & Compliance Assistant: Built a GenAI-powered web scraping LLM agent to automate data extraction from websites based on user provided URL and description. The agent analyzes internal links to gather relevant insights and assists in answering predefined compliance-related questions.(Technologies: gpt-4o-mini, gpt-4o,Custom GenAI, Langfuse, Playwright)",
+          },
+          {
+            domain: "",
+            text: "Task Automation Bot: Developed a GenAI-powered automation bot for Jira to streamline agile workflows. Automated Jira story creation, Planning Poker estimations, and sprint planning, enabling teams to generate well-structured user stories, estimate effort collaboratively, and optimize backlog refinement. Reduced manual effort by around 50% while ensuring clarity, consistency, and efficiency in agile development. (Technolgies: gpt-4o-mini, gpt-4o,Custom GenAI, Langfuse, Jira API, Milvus)",
+          },
+          {
+            domain: "",
+            text: "GenAI-Powered Code Reviewer: Built an AI-driven code reviewer leveraging LLMs and LLMOps for automated analysis, performance monitoring, vulnerability detection, and code standardization. Integrated with GitLab for real-time suggestions, redundancy removal, security best practices, and automated code cleaning. Ensured consistent coding standards and maintainability, enhancing development speed and overall code quality.",
+          },
+          {
+            domain: "",
+            text: "Data Catalog Chatbot Assistant: Built a multi-agent healthcare Q&A RAG- chatbot to handle structured (SQL) and unstructured (PDF's, Excel) data. Integrated with Google AI for real-time, secure data access, enhancing data discovery and collaboration. (Technologies: gpt-4o, Milvus, Langfuse, SQL, Google AI, Langchain, Neo4j, FlashRank, Custom GenAI)",
+          },
         ],
       },
       {
@@ -72,11 +88,26 @@ export const experienceData = [
         role: "Consultant, Data Analyst / Data Engineer",
         period: "May 2023 - Apr 2024",
         details: [
-          "Automated lead generation process by designing robust ETL pipelines in PostgreSQL/Python, seamlessly integrating quarterly and weekly Excel account lists into production database tables for real-time access.",
-          "Accelerated data retrieval by 60% and optimized database schema by 30%, ensuring swift delivery of accurate insights for timely decision-making.",
-          "Uncovered strategic opportunities through comprehensive quarterly buyer analysis on account target list, revealing priority coverage percentages for key marketing strategies (buy more, cross-sell, acquisition) with exceptional accuracy of 97-100%.",
-          "Empowered client analysis by creating a dedicated Channel Lead Table in the database, facilitating direct exploration of buyer lever priorities.",
-          "Fuelled targeted marketing campaigns by crafting precise, data-driven messages that resonated with specific audience segments, business lines, and account attributes, ultimately boosting purchases, cross-selling, and customer acquisition.",
+          {
+            domain: "Technology",
+            text: "Automated lead generation process by designing robust ETL pipelines in PostgreSQL/Python, seamlessly integrating quarterly and weekly Excel account lists into production database tables for real-time access.",
+          },
+          {
+            domain: "",
+            text: "Accelerated data retrieval by 60% and optimized database schema by 30%, ensuring swift delivery of accurate insights for timely decision-making.",
+          },
+          {
+            domain: "",
+            text: "Uncovered strategic opportunities through comprehensive quarterly buyer analysis on account target list, revealing priority coverage percentages for key marketing strategies (buy more, cross-sell, acquisition) with exceptional accuracy of 97-100%.",
+          },
+          {
+            domain: "",
+            text: "Empowered client analysis by creating a dedicated Channel Lead Table in the database, facilitating direct exploration of buyer lever priorities.",
+          },
+          {
+            domain: "",
+            text: "Fuelled targeted marketing campaigns by crafting precise, data-driven messages that resonated with specific audience segments, business lines, and account attributes, ultimately boosting purchases, cross-selling, and customer acquisition.",
+          },
         ],
       },
     ],
@@ -97,12 +128,30 @@ export const experienceData = [
         role: "Business Consultant",
         period: "May 2022 - May 2023",
         details: [
-          "Substantiated model credibility through meticulous A/B and hypothesis testing across diverse segments and business lines.",
-          "Slashed data processing time by 50% by implementing automated ETL pipelines, ensuring timely data availability for critical decisions.",
-          "Fueled marketing campaign performance by providing data-driven insights and analyzing retention patterns for optimized customer sales.",
-          "Forged collaborative client partnerships for weekly, monthly, and quarterly account targeting campaigns through seamless cooperation with internal teams.",
-          "Transformed data into compelling narratives using impactful visualizations created in Excel and Python, promoting clear communication and understanding.",
-          "Leveraged Agile Analysis principles to deliver informative reports that empowered strategic decision-making across the organization.",
+          {
+            domain: "Technology",
+            text: "Substantiated model credibility through meticulous A/B and hypothesis testing across diverse segments and business lines.",
+          },
+          {
+            domain: "",
+            text: "Slashed data processing time by 50% by implementing automated ETL pipelines, ensuring timely data availability for critical decisions.",
+          },
+          {
+            domain: "",
+            text: "Fueled marketing campaign performance by providing data-driven insights and analyzing retention patterns for optimized customer sales.",
+          },
+          {
+            domain: "",
+            text: "Forged collaborative client partnerships for weekly, monthly, and quarterly account targeting campaigns through seamless cooperation with internal teams.",
+          },
+          {
+            domain: "",
+            text: "Transformed data into compelling narratives using impactful visualizations created in Excel and Python, promoting clear communication and understanding.",
+          },
+          {
+            domain: "",
+            text: "Leveraged Agile Analysis principles to deliver informative reports that empowered strategic decision-making across the organization.",
+          },
         ],
       },
       {
@@ -110,8 +159,14 @@ export const experienceData = [
         role: "Intern",
         period: "Jan 2022 - Apr 2022",
         details: [
-          "Assisted with data analytics projects and learned various data processing methodologies.",
-          "Supported the team with data preparation and initial analysis tasks.",
+          {
+            domain: "Technology",
+            text: "Assisted with data analytics projects and learned various data processing methodologies.",
+          },
+          {
+            domain: "",
+            text: "Supported the team with data preparation and initial analysis tasks.",
+          },
         ],
       },
     ],
@@ -132,7 +187,10 @@ export const experienceData = [
         role: "Junior Consultant",
         period: "Sep 2021 - Oct 2021",
         details: [
-          "Participated in the Mendix ('Low Code / No Code') platform training program and contributed towards the development of an internal Mendix application.",
+          {
+            domain: "Technology",
+            text: "Participated in the Mendix ('Low Code / No Code') platform training program and contributed towards the development of an internal Mendix application.",
+          },
         ],
       },
     ],
@@ -153,7 +211,10 @@ export const experienceData = [
         role: "Graduate Trainee",
         period: "Jun 2017 - Aug 2017",
         details: [
-          "Responsible for providing transaction and analytics services to the UK office within the Real Estate and Mortgage Industry through Data Mining.",
+          {
+            domain: "Financial Services",
+            text: "Responsible for providing transaction and analytics services to the UK office within the Real Estate and Mortgage Industry through Data Mining.",
+          },
         ],
       },
     ],

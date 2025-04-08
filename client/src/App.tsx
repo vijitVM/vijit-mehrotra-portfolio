@@ -114,7 +114,6 @@ function App() {
             <Header activeSection={activeSection} />
             <main>
               <HeroSection />
-              <CurrentlyBuildingSection />
               <SkillsSection />
               <ExperienceSection />
               <ProjectsSection />

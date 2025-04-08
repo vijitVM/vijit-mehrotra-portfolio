@@ -51,7 +51,7 @@ const EducationSection = () => {
   return (
     <section
       id="education"
-      className="py-20 overflow-hidden bg-[#111827]"
+      className="py-20 pt-24 overflow-hidden bg-[#111827]"
       ref={sectionRef}
     >
       <div className="container mx-auto px-4">

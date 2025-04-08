@@ -49,15 +49,22 @@ const Header = ({ activeSection }: HeaderProps) => {
     const targetElement = document.getElementById(sectionId);
     
     if (targetElement) {
-      // Simple fixed offset
-      const offset = 80;
+      // More precise header offset calculation
+      const headerHeight = headerRef.current?.offsetHeight || 80;
       
-      // Basic position calculation
-      const elementPosition = targetElement.offsetTop - offset;
+      // Get the actual element position relative to the viewport
+      const elementRect = targetElement.getBoundingClientRect();
       
-      // Simple scroll - no extras
+      // Calculate scroll position (current position + scroll offset - header height)
+      // This ensures we scroll to the very top of the section, not the middle
+      // Adding a small padding (10px) to prevent it being right at the edge
+      const scrollPosition = window.scrollY + elementRect.top - headerHeight - 10;
+      
+      console.log(`Scrolling to section: ${sectionId}, position: ${scrollPosition}`);
+      
+      // Scroll to position
       window.scrollTo({
-        top: elementPosition,
+        top: scrollPosition,
         behavior: 'smooth'
       });
     } else {

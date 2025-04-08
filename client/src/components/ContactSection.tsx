@@ -73,7 +73,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gray-900/50" ref={sectionRef}>
+    <section id="contact" className="py-20 pt-24 bg-gray-900/50" ref={sectionRef}>
       <div className="container mx-auto px-4">
         <motion.div
           variants={containerVariants}

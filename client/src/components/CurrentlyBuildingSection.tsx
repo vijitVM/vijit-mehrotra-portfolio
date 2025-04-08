@@ -93,10 +93,10 @@ const CurrentlyBuildingSection = () => {
   };
 
   return (
-    <section className="py-21" ref={sectionRef}>
+    <section className="py-21 relative" ref={sectionRef}>
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-900/70 -z-10" />
       
-      <div className="container mx-auto px-auto">
+      <div className="container mx-auto px-3">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}

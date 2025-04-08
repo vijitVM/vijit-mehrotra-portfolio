@@ -19,10 +19,10 @@ function App() {
 
   // Handle initial loading
   useEffect(() => {
-    // Simulate resource loading time
+    // Minimal loading time - just enough to show the logo briefly
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
-    }, 2500);
+    }, 500); // Reduced from 2500ms to 500ms
 
     return () => clearTimeout(loadingTimer);
   }, []);

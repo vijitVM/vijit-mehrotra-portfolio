@@ -22,23 +22,9 @@ const Header = ({ activeSection }: HeaderProps) => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Always show header at the top of the page
-      if (currentScrollY < 50) {
-        setHeaderVisible(true);
-        setIsScrolled(false);
-        prevScrollY.current = currentScrollY;
-        return;
-      }
-
-      // Show/hide based on scroll direction
-      if (prevScrollY.current < currentScrollY) {
-        // Scrolling down
-        setHeaderVisible(false);
-      } else {
-        // Scrolling up
-        setHeaderVisible(true);
-      }
-
+      // Always show header regardless of scroll direction
+      setHeaderVisible(true);
+      
       // Update scroll state for shadow and border
       setIsScrolled(currentScrollY > 10);
 

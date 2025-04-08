@@ -40,42 +40,28 @@ const Header = ({ activeSection }: HeaderProps) => {
   };
 
   const handleNavClick = (sectionId: string) => {
-    // Close mobile menu immediately
+    console.log(`Navigation clicked for: ${sectionId}`);
+    
+    // Close mobile menu first
     setIsMobileMenuOpen(false);
     
-    try {
-      // Find target element
-      const element = document.getElementById(sectionId);
-      if (!element) return;
+    // Get the element directly
+    const targetElement = document.getElementById(sectionId);
+    
+    if (targetElement) {
+      // Simple fixed offset
+      const offset = 80;
       
-      // Static header offset (simpler and more reliable)
-      const headerOffset = 80;
+      // Basic position calculation
+      const elementPosition = targetElement.offsetTop - offset;
       
-      // Most direct approach for reliable scrolling
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - headerOffset;
-
-      // Use standard scrolling
+      // Simple scroll - no extras
       window.scrollTo({
-        top: offsetPosition,
+        top: elementPosition,
         behavior: 'smooth'
       });
-      
-      // Update URL hash
-      setTimeout(() => {
-        window.history.pushState(
-          null, 
-          '', 
-          window.location.pathname + '#' + sectionId
-        );
-      }, 300);
-      
-    } catch (error) {
-      // Final fallback - just go to the element
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView();
-      }
+    } else {
+      console.error(`Element with ID ${sectionId} not found`);
     }
   };
 
@@ -385,7 +371,6 @@ const Header = ({ activeSection }: HeaderProps) => {
             className={`p-3 ${theme === 'dark' ? 'text-white' : 'text-gray-800'} focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-md active:bg-gray-100/10`}
             onClick={toggleMobileMenu}
             aria-label="Toggle mobile menu"
-            style={{ touchAction: 'manipulation' }}
           >
             {isMobileMenuOpen ? (
               <X size={26} />
@@ -396,86 +381,62 @@ const Header = ({ activeSection }: HeaderProps) => {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            className={`md:hidden ${
-              theme === 'dark'
-                ? 'bg-gray-800/95'
-                : 'bg-gray-100/95'
-            } backdrop-blur-md border-b border-gray-700/50 overflow-hidden`}
-            variants={mobileMenuVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            <motion.nav
-              className="container mx-auto px-4 py-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-            >
-              <ul className="space-y-2">
-                {navItems.map((item, index) => (
-                  <motion.li
-                    key={item.id}
-                    variants={mobileNavItemVariants}
-                    className="overflow-hidden"
-                  >
-                    <button
-                      type="button"
-                      className={`group flex items-center py-4 px-2 w-full text-left rounded-lg ${
-                        activeSection === item.id
-                          ? "text-cyan-400 bg-cyan-500/10"
-                          : theme === 'dark'
-                            ? "text-white"
-                            : "text-gray-800"
-                      } hover:text-cyan-400 active:bg-gray-700/20 transition-colors duration-200 touch-manipulation`}
-                      style={{ touchAction: 'manipulation' }}
-                      onClick={() => handleNavClick(item.id)}
-                    >
-                      <span className={`mr-2 ${activeSection === item.id ? 'opacity-100' : 'opacity-0'}`}>
-                        <ChevronRight size={16} className="text-cyan-400" />
-                      </span>
-
-                      {item.label}
-
-                      {activeSection === item.id && (
-                        <span className="ml-2 h-px bg-gradient-to-r from-cyan-400 to-transparent flex-grow" />
-                      )}
-                    </button>
-                  </motion.li>
-                ))}
-                
-                {/* Theme toggle in mobile menu */}
-                <motion.li
-                  variants={mobileNavItemVariants}
-                  className="overflow-hidden border-t border-gray-700/20 mt-4 pt-4"
-                >
+      {/* Mobile Navigation - Simplified for better touch handling */}
+      {isMobileMenuOpen && (
+        <div className={`md:hidden ${
+          theme === 'dark' ? 'bg-gray-800/95' : 'bg-gray-100/95'
+        } backdrop-blur-md border-b border-gray-700/50`}>
+          <nav className="container mx-auto px-4 py-4">
+            <ul className="space-y-2">
+              {navItems.map((item) => (
+                <li key={item.id} className="overflow-hidden">
                   <button
                     type="button"
-                    onClick={toggleTheme}
                     className={`group flex items-center py-4 px-2 w-full text-left rounded-lg ${
-                      theme === 'dark' ? 'text-white' : 'text-gray-800'
-                    } hover:text-cyan-400 active:bg-gray-700/20 transition-colors duration-200 touch-manipulation`}
-                    style={{ touchAction: 'manipulation' }}
+                      activeSection === item.id
+                        ? "text-cyan-400 bg-cyan-500/10"
+                        : theme === 'dark'
+                          ? "text-white"
+                          : "text-gray-800"
+                    } hover:text-cyan-400 active:bg-gray-700/20`}
+                    onClick={() => handleNavClick(item.id)}
                   >
-                    <span className="mr-2">
-                      {theme === 'dark' ? (
-                        <Sun size={16} className="text-cyan-400" />
-                      ) : (
-                        <Moon size={16} className="text-cyan-400" />
-                      )}
+                    <span className={`mr-2 ${activeSection === item.id ? 'opacity-100' : 'opacity-0'}`}>
+                      <ChevronRight size={16} className="text-cyan-400" />
                     </span>
-                    Toggle {theme === 'dark' ? 'Light' : 'Dark'} Mode
+
+                    {item.label}
+
+                    {activeSection === item.id && (
+                      <span className="ml-2 h-px bg-gradient-to-r from-cyan-400 to-transparent flex-grow" />
+                    )}
                   </button>
-                </motion.li>
-              </ul>
-            </motion.nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                </li>
+              ))}
+              
+              {/* Theme toggle in mobile menu */}
+              <li className="overflow-hidden border-t border-gray-700/20 mt-4 pt-4">
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className={`group flex items-center py-4 px-2 w-full text-left rounded-lg ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-800'
+                  } hover:text-cyan-400 active:bg-gray-700/20`}
+                >
+                  <span className="mr-2">
+                    {theme === 'dark' ? (
+                      <Sun size={16} className="text-cyan-400" />
+                    ) : (
+                      <Moon size={16} className="text-cyan-400" />
+                    )}
+                  </span>
+                  Toggle {theme === 'dark' ? 'Light' : 'Dark'} Mode
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      )}
 
       {/* Optional glow effect at the bottom of header when scrolled */}
       {isScrolled && (

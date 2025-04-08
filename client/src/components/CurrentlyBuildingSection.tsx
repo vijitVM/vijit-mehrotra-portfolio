@@ -7,7 +7,9 @@ import { buildingData, BuildingItem } from "../data/buildingData";
 const CurrentlyBuildingSection = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
-  const [typedTexts, setTypedTexts] = useState<string[]>(Array(buildingData.length).fill(""));
+  const [typedTexts, setTypedTexts] = useState<string[]>(
+    Array(buildingData.length).fill(""),
+  );
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const [cursorVisible, setCursorVisible] = useState(true);
@@ -17,24 +19,30 @@ const CurrentlyBuildingSection = () => {
     if (!isInView) return;
 
     const currentItem = buildingData[currentItemIndex];
-    
+
     if (currentCharIndex < currentItem.content.length) {
-      const timer = setTimeout(() => {
-        setTypedTexts(prev => {
-          const newTexts = [...prev];
-          newTexts[currentItemIndex] = currentItem.content.substring(0, currentCharIndex + 1);
-          return newTexts;
-        });
-        setCurrentCharIndex(prev => prev + 1);
-      }, 50 + Math.random() * 30); // Random delay for realistic typing effect
-      
+      const timer = setTimeout(
+        () => {
+          setTypedTexts((prev) => {
+            const newTexts = [...prev];
+            newTexts[currentItemIndex] = currentItem.content.substring(
+              0,
+              currentCharIndex + 1,
+            );
+            return newTexts;
+          });
+          setCurrentCharIndex((prev) => prev + 1);
+        },
+        50 + Math.random() * 30,
+      ); // Random delay for realistic typing effect
+
       return () => clearTimeout(timer);
     } else if (currentItemIndex < buildingData.length - 1) {
       const timer = setTimeout(() => {
-        setCurrentItemIndex(prev => prev + 1);
+        setCurrentItemIndex((prev) => prev + 1);
         setCurrentCharIndex(0);
       }, 500);
-      
+
       return () => clearTimeout(timer);
     }
   }, [currentItemIndex, currentCharIndex, isInView]);
@@ -42,11 +50,11 @@ const CurrentlyBuildingSection = () => {
   // Blinking cursor effect
   useEffect(() => {
     if (!isInView) return;
-    
+
     const timer = setInterval(() => {
-      setCursorVisible(prev => !prev);
+      setCursorVisible((prev) => !prev);
     }, 530);
-    
+
     return () => clearInterval(timer);
   }, [isInView]);
 
@@ -93,15 +101,15 @@ const CurrentlyBuildingSection = () => {
   };
 
   return (
-    <section className="py-2 relative" ref={sectionRef}>
+    <section className="pt-2 pb-12" ref={sectionRef}>
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-900/70 -z-10" />
-      
-      <div className="container mx-auto -mt-16">
+
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
-          className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg p-4 max-w-3xl mx-auto shadow-lg"
+          className="bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-lg p-4 max-w-3xl mx-auto shadow-lg mt-6"
         >
           {/* Terminal header */}
           <div className="flex items-center pb-3 border-b border-gray-700 mb-4">
@@ -110,16 +118,22 @@ const CurrentlyBuildingSection = () => {
               <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
               <div className="h-3 w-3 rounded-full bg-green-500"></div>
             </div>
-            <div className="text-sm text-gray-400 font-mono">~/dev/currently-working-on</div>
+            <div className="text-sm text-gray-400 font-mono">
+              ~/dev/currently-working-on
+            </div>
           </div>
-          
+
           {/* Terminal content */}
           <div className="font-mono text-sm space-y-3">
             {buildingData.map((item: BuildingItem, i: number) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -10 }}
-                animate={isInView && typedTexts[i] ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+                animate={
+                  isInView && typedTexts[i]
+                    ? { opacity: 1, x: 0 }
+                    : { opacity: 0, x: -10 }
+                }
                 transition={{ duration: 0.3, delay: i * 0.1 }}
                 className="flex items-start"
               >
@@ -129,7 +143,9 @@ const CurrentlyBuildingSection = () => {
                 </div>
                 <div className={`${getColor(item.type)} flex-1`}>
                   {typedTexts[i]}
-                  {i === currentItemIndex && cursorVisible && <span className="text-white">|</span>}
+                  {i === currentItemIndex && cursorVisible && (
+                    <span className="text-white">|</span>
+                  )}
                 </div>
               </motion.div>
             ))}

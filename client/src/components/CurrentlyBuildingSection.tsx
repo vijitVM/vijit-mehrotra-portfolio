@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { Terminal, Code, Sparkles, Target } from "lucide-react";
-import { buildingData, BuildingItem } from "../data/BuildingData";
+import { buildingData, BuildingItem } from "../data/buildingData";
 
 const CurrentlyBuildingSection = () => {
   const sectionRef = useRef(null);

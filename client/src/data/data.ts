@@ -5,6 +5,10 @@ import TimeSeriesImage from "../attached_assets/time_series.png";
 import LendingClubImage from "../attached_assets/lending_club.png";
 import CNNFilterImage from "../attached_assets/block1_conv1_filter27.png";
 import ChatPDFImage from "../attached_assets/chat_with_PDF.png";
+import FirstAmericanLogo from "../attached_assets/first_american_india_logo.jpeg";
+import ConvergyticsLogo from "../attached_assets/convergytics_solutions_logo.jpeg";
+import ClevrLogo from "../attached_assets/clevr_de_gmbh_logo.jpeg";
+import QuationLogo from "../attached_assets/quation_solutions_private_limited_logo.jpeg";
 
 export const skillsData = {
   coreSkills: [
@@ -49,7 +53,8 @@ export const experienceData = [
     location: "Bengaluru",
     color: "bg-blueAccent",
     textColor: "text-blueAccent",
-    logo: "QS",
+    logo: QuationLogo,
+    logoType: "image",
     positions: [
       {
         id: 101,
@@ -75,10 +80,7 @@ export const experienceData = [
         ],
       },
     ],
-    awards: [
-      "🏆 2023 - India Impact Award Winner",
-      "🏆 2024 - Most Popular Innovator (Team Award)",
-    ],
+    awards: [],
   },
   {
     id: 2,
@@ -87,7 +89,8 @@ export const experienceData = [
     location: "Bengaluru",
     color: "bg-purpleAccent",
     textColor: "text-purpleAccent",
-    logo: "CS",
+    logo: ConvergyticsLogo,
+    logoType: "image",
     positions: [
       {
         id: 201,
@@ -112,7 +115,7 @@ export const experienceData = [
         ],
       },
     ],
-    awards: [],
+    awards: ["🏆 2023 - Fresher of the Year Award"],
   },
   {
     id: 3,
@@ -121,7 +124,8 @@ export const experienceData = [
     location: "Sankt Inbert, Germany",
     color: "bg-blueAccent",
     textColor: "text-blueAccent",
-    logo: "CL",
+    logo: ClevrLogo,
+    logoType: "image",
     positions: [
       {
         id: 301,
@@ -141,7 +145,8 @@ export const experienceData = [
     location: "Bengaluru",
     color: "bg-orangeAccent",
     textColor: "text-orangeAccent",
-    logo: "FAI",
+    logo: FirstAmericanLogo,
+    logoType: "image",
     positions: [
       {
         id: 401,
@@ -155,8 +160,6 @@ export const experienceData = [
     awards: [],
   },
 ];
-
-
 
 export const projectsData = [
   {

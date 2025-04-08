@@ -159,7 +159,7 @@ const ExperienceSection = () => {
         <div className="relative max-w-4xl mx-auto">
           {/* Vertical Timeline Line */}
           <motion.div
-            className="absolute left-[50px] md:left-[50px] h-full w-1 bg-gradient-to-b from-cyan-500 to-pink-500"
+            className="absolute left-[25px] sm:left-[50px] h-full w-1 bg-gradient-to-b from-cyan-500 to-pink-500"
             variants={timelineVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
@@ -177,7 +177,7 @@ const ExperienceSection = () => {
             >
               {/* Timeline Dot */}
               <motion.div
-                className="absolute left-[50px] transform -translate-x-1/2 h-4 w-4 rounded-full shadow-lg shadow-cyan-500/20 z-10 border-2 border-gray-900"
+                className="absolute left-[25px] sm:left-[50px] transform -translate-x-1/2 h-3 w-3 sm:h-4 sm:w-4 rounded-full shadow-lg shadow-cyan-500/20 z-10 border-2 border-gray-900"
                 style={{
                   background: `linear-gradient(to right, rgb(6, 182, 212), rgb(124, 58, 237))`,
                   top: "30px",
@@ -190,17 +190,17 @@ const ExperienceSection = () => {
 
               {/* Company Card */}
               <motion.div
-                className="ml-[75px] mr-4"
+                className="ml-[45px] sm:ml-[75px] mr-2 sm:mr-4"
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.3 }}
               >
                 <Card className="bg-gray-800/70 backdrop-blur-sm border border-gray-700 hover:border-cyan-500/50 transition-all duration-300 shadow-xl shadow-cyan-500/5 overflow-hidden">
                   <CardContent className="p-0">
                     {/* Company Header section */}
-                    <div className="flex items-start p-6">
+                    <div className="flex flex-wrap sm:flex-nowrap items-start p-4 sm:p-6">
                       {/* Company Logo */}
                       <motion.div
-                        className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-indigo-600 flex items-center justify-center overflow-hidden mr-4 shadow-lg shadow-purple-500/20 flex-shrink-0"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-indigo-600 flex items-center justify-center overflow-hidden mr-3 sm:mr-4 shadow-lg shadow-purple-500/20 flex-shrink-0"
                         whileHover={{ scale: 1.1 }}
                         transition={{
                           type: "spring",
@@ -236,13 +236,13 @@ const ExperienceSection = () => {
                       </motion.div>
 
                       {/* Company Info */}
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold">
+                      <div className="flex-1 mb-2 sm:mb-0">
+                        <h3 className="text-base sm:text-lg font-semibold">
                           {company.company}
                         </h3>
-                        <p className="text-sm text-cyan-400">
+                        <p className="text-xs sm:text-sm text-cyan-400">
                           <span>{company.companyPeriod}</span>
-                          <span className="mx-2">•</span>
+                          <span className="mx-1 sm:mx-2">•</span>
                           <span>{company.location}</span>
                         </p>
                       </div>
@@ -250,16 +250,16 @@ const ExperienceSection = () => {
                       {/* Toggle Company Button */}
                       <Button
                         variant="link"
-                        className="text-cyan-400 hover:text-cyan-300 focus:outline-none text-sm p-0 h-auto flex items-center"
+                        className="text-cyan-400 hover:text-cyan-300 focus:outline-none text-xs sm:text-sm p-0 h-auto flex items-center mt-1 sm:mt-0"
                         onClick={() => toggleCompany(company.id)}
                       >
                         {expandedCompanies.includes(company.id) ? (
                           <>
-                            Hide Details <span className="ml-1">▴</span>
+                            Hide <span className="hidden sm:inline ml-1">Details</span> <span className="ml-1">▴</span>
                           </>
                         ) : (
                           <>
-                            Show Details <span className="ml-1">▾</span>
+                            Show <span className="hidden sm:inline ml-1">Details</span> <span className="ml-1">▾</span>
                           </>
                         )}
                       </Button>
@@ -286,9 +286,9 @@ const ExperienceSection = () => {
                               className="border-b border-gray-700/50 last:border-b-0"
                             >
                               {/* Position Header */}
-                              <div className="p-4 flex justify-between items-center">
-                                <div>
-                                  <h4 className="font-medium text-white">
+                              <div className="p-3 sm:p-4 flex flex-wrap sm:flex-nowrap justify-between items-center">
+                                <div className="w-full sm:w-auto mb-2 sm:mb-0">
+                                  <h4 className="font-medium text-white text-sm sm:text-base">
                                     {position.role}
                                   </h4>
                                   <p className="text-xs text-gray-400">
@@ -331,9 +331,9 @@ const ExperienceSection = () => {
                                       animate={{ opacity: 1, height: "auto" }}
                                       exit={{ opacity: 0, height: 0 }}
                                       transition={{ duration: 0.3 }}
-                                      className="px-5 pb-4"
+                                      className="px-3 sm:px-5 pb-4"
                                     >
-                                      <ul className="list-disc pl-5 text-sm text-gray-300 space-y-4">
+                                      <ul className="list-disc pl-4 sm:pl-5 text-xs sm:text-sm text-gray-300 space-y-3 sm:space-y-4">
                                         {position.details.map((detail, idx) => (
                                           <motion.li
                                             key={idx}
@@ -357,24 +357,24 @@ const ExperienceSection = () => {
                           {/* Company Awards */}
                           {company.awards.length > 0 && (
                             <motion.div
-                              className="p-5 space-y-2 bg-gray-800/50"
+                              className="p-3 sm:p-5 space-y-2 bg-gray-800/50"
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               transition={{ delay: 0.3, duration: 0.3 }}
                             >
-                              <h4 className="text-sm font-semibold text-gray-300 mb-2">
+                              <h4 className="text-xs sm:text-sm font-semibold text-gray-300 mb-2">
                                 Awards & Recognition
                               </h4>
                               {company.awards.map((award, idx) => (
                                 <motion.div
                                   key={idx}
-                                  className="flex items-center text-sm"
+                                  className="flex items-center text-xs sm:text-sm"
                                   initial={{ opacity: 0, y: 10 }}
                                   animate={{ opacity: 1, y: 0 }}
                                   transition={{ delay: 0.2 + idx * 0.1 }}
                                 >
                                   <svg
-                                    className="w-5 h-5 mr-2 text-green-400"
+                                    className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-green-400"
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 20 20"
                                     fill="currentColor"

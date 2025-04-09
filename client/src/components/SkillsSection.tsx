@@ -114,7 +114,7 @@ const SkillsSection = () => {
   return (
     <section
       id="skills"
-      className="py-8 pt-4 bg-gray-900/50 relative"
+      className="py-6 pt-12 bg-gray-900/50 relative"
       ref={sectionRef}
     >
       <motion.div
@@ -123,38 +123,32 @@ const SkillsSection = () => {
         animate={{ opacity: isInView ? 1 : 0 }}
         transition={{ duration: 1.5 }}
       />
-      
-      {/* Skills header with sticky position */}
-      <div className="sticky top-14 z-20 bg-gray-900/90 backdrop-blur-md py-3 border-b border-gray-800 shadow-lg">
-        <div className="container mx-auto px-4">
-          <motion.h2
-            className="text-3xl font-bold mb-1 text-center text-cyan-500 uppercase tracking-wider"
-            variants={headerVariants}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-          >
-            SKILLS
-          </motion.h2>
 
-          <motion.p
-            className="text-sm sm:text-base text-center text-gray-400"
-            variants={headerVariants}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            transition={{ delay: 0.1 }}
-          >
-            Core Competencies & Technical Proficiencies
-          </motion.p>
-        </div>
-      </div>
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.h2
+          className="text-3xl font-bold mb-2 text-center text-cyan-500 uppercase tracking-wider"
+          variants={headerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          SKILLS
+        </motion.h2>
 
-      <div className="container mx-auto px-4 relative z-10 pt-3">
-        
+        {/* <motion.p
+          className="text-xl text-center mb-4"
+          variants={headerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          transition={{ delay: 0.1 }}
+        >
+          Core Competencies & Technical Proficiencies
+        </motion.p>
+         */}
 {/* 3D View toggle removed */}
 
         {/* Category Tabs */}
         <motion.div
-          className="mb-8"
+          className="mb-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
           transition={{ delay: 0.3, duration: 0.6 }}

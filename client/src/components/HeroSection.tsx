@@ -147,7 +147,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center py-20 overflow-hidden relative"
+      className="min-h-screen flex items-center py-16 overflow-hidden relative"
       ref={heroRef}
       onMouseMove={handleMouseMove}
     >
@@ -296,7 +296,7 @@ const HeroSection = () => {
       </MouseFollowEffect>
       
       {/* Currently Building Section integrated directly within the Hero Section */}
-      <div className="absolute bottom-[32px] left-0 right-0 z-20">
+      <div className="absolute bottom-6 left-0 right-0 z-20">
         <CurrentlyBuildingSection />
       </div>
     </section>

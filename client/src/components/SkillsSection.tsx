@@ -117,7 +117,7 @@ const SkillsSection = () => {
   return (
     <section
       id="skills"
-      className="py-20 bg-gray-900/50 relative"
+      className="py-16 pt-16 bg-gray-900/50 relative"
       ref={sectionRef}
     >
       <motion.div

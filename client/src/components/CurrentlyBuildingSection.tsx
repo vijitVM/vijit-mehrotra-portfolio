@@ -106,16 +106,16 @@ const CurrentlyBuildingSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-lg px-3 max-w-2xl mx-auto shadow-xl"
+        className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-lg px-4 py-2 max-w-4xl max-h-[180px] mx-auto shadow-xl"
       >
         {/* Terminal header */}
-        <div className="flex items-center pb-3 border-b border-gray-700 mb-3">
+        <div className="flex items-center pb-2 border-b border-gray-700 mb-2">
           <div className="flex space-x-2 mr-4">
-            <div className="h-3 w-3 rounded-full bg-red-500"></div>
-            <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
-            <div className="h-3 w-3 rounded-full bg-green-500"></div>
+            <div className="h-2.5 w-2.5 rounded-full bg-red-500"></div>
+            <div className="h-2.5 w-2.5 rounded-full bg-yellow-500"></div>
+            <div className="h-2.5 w-2.5 rounded-full bg-green-500"></div>
           </div>
-          <div className="text-sm text-gray-400 font-mono">
+          <div className="text-xs text-gray-400 font-mono">
             ~/dev/currently-working-on
           </div>
         </div>
@@ -134,11 +134,11 @@ const CurrentlyBuildingSection = () => {
               transition={{ duration: 0.3, delay: i * 0.1 }}
               className="flex items-start"
             >
-              <div className="flex items-center min-w-[160px] text-gray-400">
-                <span className="mr-2">{getIcon(item.type)}</span>
+              <div className="flex items-center min-w-[140px] text-gray-400 text-xs">
+                <span className="mr-1">{getIcon(item.type)}</span>
                 <span>{getLabel(item.type)}</span>
               </div>
-              <div className={`${getColor(item.type)} flex-1`}>
+              <div className={`${getColor(item.type)} flex-1 text-sm`}>
                 {typedTexts[i]}
                 {i === currentItemIndex && cursorVisible && (
                   <span className="text-white">|</span>

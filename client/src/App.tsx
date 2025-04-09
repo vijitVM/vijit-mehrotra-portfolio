@@ -83,13 +83,6 @@ function App() {
           const headerHeight = document.querySelector('header')?.offsetHeight || 80;
           let elementPosition = element.getBoundingClientRect().top + window.scrollY;
           
-          // For skills section, adjust the scroll position to show the radar chart
-          if (hash === 'skills') {
-            // This ensures the radar chart is visible, similar to the second image
-            // We add an offset to scroll further down to show the chart
-            elementPosition = elementPosition + 20;
-          }
-          
           const offsetPosition = elementPosition - headerHeight - 10;
           
           window.scrollTo({

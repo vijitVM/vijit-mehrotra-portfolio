@@ -21,9 +21,13 @@ const Header = ({ activeSection }: HeaderProps) => {
   useEffect(() => {
     if (window.location.hash) {
       // Use history.pushState to remove hash without reloading page
-      window.history.pushState("", document.title, window.location.pathname + window.location.search);
+      window.history.pushState(
+        "",
+        document.title,
+        window.location.pathname + window.location.search,
+      );
     }
-    
+
     // Debug the active section
     console.log("Current active section:", activeSection);
   }, [activeSection]);
@@ -35,7 +39,7 @@ const Header = ({ activeSection }: HeaderProps) => {
 
       // Always show header regardless of scroll direction
       setHeaderVisible(true);
-      
+
       // Update scroll state for shadow and border
       setIsScrolled(currentScrollY > 10);
 
@@ -52,34 +56,35 @@ const Header = ({ activeSection }: HeaderProps) => {
 
   const handleNavClick = (sectionId: string) => {
     console.log(`Navigation clicked for: ${sectionId}`);
-    
+
     // Close mobile menu first
     setIsMobileMenuOpen(false);
-    
+
     // Prevent default behavior to avoid full page reload
-    
+
     // Get the element directly
     const targetElement = document.getElementById(sectionId);
-    
+
     if (targetElement) {
       // More precise header offset calculation
-      const headerHeight = headerRef.current?.offsetHeight || 80;
-      
+      const headerHeight = (headerRef.current?.offsetHeight ?? 80) - 20;
       // Get the actual element position relative to the viewport
       const elementRect = targetElement.getBoundingClientRect();
 
-      const extraOffset = sectionId === "skills" ? 10 : 10;
-        // For other sections, use normal calculation with small padding
-      scrollPosition = window.scrollY + elementRect.top - headerHeight - extraOffset;
-      
-      console.log(`Scrolling to section: ${sectionId}, position: ${scrollPosition}`);
-      
+      // const extraOffset = sectionId === "skills" ? 2 : 2;
+      // For other sections, use normal calculation with small padding
+      const scrollPosition = window.scrollY + elementRect.top - headerHeight;
+
+      console.log(
+        `Scrolling to section: ${sectionId}, position: ${scrollPosition}`,
+      );
+
       // Don't update URL hash, just scroll to the section
-      
+
       // Scroll to position
       window.scrollTo({
         top: scrollPosition,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
 
       // For the Skills section, force a second scroll with a slight delay to ensure everything is visible
@@ -87,10 +92,9 @@ const Header = ({ activeSection }: HeaderProps) => {
         setTimeout(() => {
           window.scrollTo({
             top: scrollPosition,
-            behavior: 'smooth'
+            behavior: "smooth",
           });
         }, 100);
-         
       }
     } else {
       console.error(`Element with ID ${sectionId} not found`);
@@ -244,9 +248,7 @@ const Header = ({ activeSection }: HeaderProps) => {
     <motion.header
       ref={headerRef}
       className={`sticky top-0 z-50 ${
-        theme === 'dark' 
-          ? 'bg-gray-900/95' 
-          : 'bg-white/95 text-gray-800'
+        theme === "dark" ? "bg-gray-900/95" : "bg-white/95 text-gray-800"
       } backdrop-blur-sm ${
         isScrolled
           ? "shadow-lg shadow-cyan-500/5 border-b border-cyan-500/10"
@@ -314,7 +316,11 @@ const Header = ({ activeSection }: HeaderProps) => {
               </div>
             </motion.div>
           ) : (
-            <motion.div className="w-32" initial={{ opacity: 0 }} animate={{ opacity: 0 }} />
+            <motion.div
+              className="w-32"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0 }}
+            />
           )}
         </AnimatePresence>
 
@@ -335,10 +341,10 @@ const Header = ({ activeSection }: HeaderProps) => {
                 <button
                   onClick={() => handleNavClick(item.id)}
                   className={`relative px-2 py-1 ${
-                    activeSection === item.id 
-                      ? "text-cyan-400" 
-                      : theme === 'dark' 
-                        ? "text-white" 
+                    activeSection === item.id
+                      ? "text-cyan-400"
+                      : theme === "dark"
+                        ? "text-white"
                         : "text-gray-800"
                   } hover:text-cyan-400 transition-colors duration-300`}
                 >
@@ -370,7 +376,7 @@ const Header = ({ activeSection }: HeaderProps) => {
                 </button>
               </motion.li>
             ))}
-            
+
             {/* Theme toggle in header */}
             <motion.li
               custom={navItems.length}
@@ -381,12 +387,12 @@ const Header = ({ activeSection }: HeaderProps) => {
             >
               <motion.button
                 onClick={toggleTheme}
-                className={`relative px-2 py-1 ${theme === 'dark' ? 'text-white' : 'text-gray-800'} hover:text-cyan-400 transition-colors duration-300`}
+                className={`relative px-2 py-1 ${theme === "dark" ? "text-white" : "text-gray-800"} hover:text-cyan-400 transition-colors duration-300`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
               >
-                {theme === 'dark' ? (
+                {theme === "dark" ? (
                   <Sun className="h-5 w-5" />
                 ) : (
                   <Moon className="h-5 w-5" />
@@ -400,24 +406,22 @@ const Header = ({ activeSection }: HeaderProps) => {
         <div className="md:hidden">
           <button
             type="button"
-            className={`p-3 ${theme === 'dark' ? 'text-white' : 'text-gray-800'} focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-md active:bg-gray-100/10`}
+            className={`p-3 ${theme === "dark" ? "text-white" : "text-gray-800"} focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-md active:bg-gray-100/10`}
             onClick={toggleMobileMenu}
             aria-label="Toggle mobile menu"
           >
-            {isMobileMenuOpen ? (
-              <X size={26} />
-            ) : (
-              <Menu size={26} />
-            )}
+            {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Navigation - Simplified for better touch handling */}
       {isMobileMenuOpen && (
-        <div className={`md:hidden ${
-          theme === 'dark' ? 'bg-gray-800/95' : 'bg-gray-100/95'
-        } backdrop-blur-md border-b border-gray-700/50`}>
+        <div
+          className={`md:hidden ${
+            theme === "dark" ? "bg-gray-800/95" : "bg-gray-100/95"
+          } backdrop-blur-md border-b border-gray-700/50`}
+        >
           <nav className="container mx-auto px-4 py-4">
             <ul className="space-y-2">
               {navItems.map((item) => (
@@ -427,13 +431,15 @@ const Header = ({ activeSection }: HeaderProps) => {
                     className={`group flex items-center py-4 px-2 w-full text-left rounded-lg ${
                       activeSection === item.id
                         ? "text-cyan-400 bg-cyan-500/10"
-                        : theme === 'dark'
+                        : theme === "dark"
                           ? "text-white"
                           : "text-gray-800"
                     } hover:text-cyan-400 active:bg-gray-700/20`}
                     onClick={() => handleNavClick(item.id)}
                   >
-                    <span className={`mr-2 ${activeSection === item.id ? 'opacity-100' : 'opacity-0'}`}>
+                    <span
+                      className={`mr-2 ${activeSection === item.id ? "opacity-100" : "opacity-0"}`}
+                    >
                       <ChevronRight size={16} className="text-cyan-400" />
                     </span>
 
@@ -445,24 +451,24 @@ const Header = ({ activeSection }: HeaderProps) => {
                   </button>
                 </li>
               ))}
-              
+
               {/* Theme toggle in mobile menu */}
               <li className="overflow-hidden border-t border-gray-700/20 mt-4 pt-4">
                 <button
                   type="button"
                   onClick={toggleTheme}
                   className={`group flex items-center py-4 px-2 w-full text-left rounded-lg ${
-                    theme === 'dark' ? 'text-white' : 'text-gray-800'
+                    theme === "dark" ? "text-white" : "text-gray-800"
                   } hover:text-cyan-400 active:bg-gray-700/20`}
                 >
                   <span className="mr-2">
-                    {theme === 'dark' ? (
+                    {theme === "dark" ? (
                       <Sun size={16} className="text-cyan-400" />
                     ) : (
                       <Moon size={16} className="text-cyan-400" />
                     )}
                   </span>
-                  Toggle {theme === 'dark' ? 'Light' : 'Dark'} Mode
+                  Toggle {theme === "dark" ? "Light" : "Dark"} Mode
                 </button>
               </li>
             </ul>

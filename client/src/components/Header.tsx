@@ -67,6 +67,8 @@ const Header = ({ activeSection }: HeaderProps) => {
       
       // Get the actual element position relative to the viewport
       const elementRect = targetElement.getBoundingClientRect();
+
+      const extraOffset = sectionId === "skills" ? 10 : 10;
         // For other sections, use normal calculation with small padding
       scrollPosition = window.scrollY + elementRect.top - headerHeight - extraOffset;
       

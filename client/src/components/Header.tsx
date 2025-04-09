@@ -65,13 +65,23 @@ const Header = ({ activeSection }: HeaderProps) => {
       // Get the actual element position relative to the viewport
       const elementRect = targetElement.getBoundingClientRect();
       
-      // Apply a larger offset for the Skills section to ensure it's fully visible
-      const extraOffset = sectionId === "skills" ? 40 : 10;
+      // Special handling for Skills section
+      let extraOffset = 10;
+      let scrollPosition;
       
-      // Calculate scroll position (current position + scroll offset - header height)
-      // This ensures we scroll to the very top of the section, not the middle
-      // Adding a padding to prevent it being right at the edge
-      const scrollPosition = window.scrollY + elementRect.top - headerHeight - extraOffset;
+      if (sectionId === "skills") {
+        // For skills, we need to position to show the radar chart in view
+        // This places the view to show both the section header and the chart content
+        extraOffset = 0;
+        const skillsTop = targetElement.getBoundingClientRect().top + window.scrollY;
+        
+        // Position to show the radar chart in view (approximately 200px down from the top of the skills section)
+        // This ensures the radar chart is visible as in the second image
+        scrollPosition = skillsTop - headerHeight - 80;
+      } else {
+        // For other sections, use normal calculation with small padding
+        scrollPosition = window.scrollY + elementRect.top - headerHeight - extraOffset;
+      }
       
       console.log(`Scrolling to section: ${sectionId}, position: ${scrollPosition}`);
       
@@ -86,11 +96,19 @@ const Header = ({ activeSection }: HeaderProps) => {
       // For the Skills section, force a second scroll with a slight delay to ensure everything is visible
       if (sectionId === "skills") {
         setTimeout(() => {
-          window.scrollTo({
-            top: scrollPosition,
-            behavior: 'smooth'
-          });
-        }, 100);
+          // Recalculate position after initial scroll to ensure the radar chart is in view
+          const skillsElement = document.getElementById(sectionId);
+          if (skillsElement) {
+            // Calculate a position that shows the radar chart clearly
+            // This value positions the view to show the chart as in the second image
+            const updatedPosition = skillsElement.getBoundingClientRect().top + window.scrollY - headerHeight + 200;
+            
+            window.scrollTo({
+              top: updatedPosition,
+              behavior: 'smooth'
+            });
+          }
+        }, 300);
       }
     } else {
       console.error(`Element with ID ${sectionId} not found`);

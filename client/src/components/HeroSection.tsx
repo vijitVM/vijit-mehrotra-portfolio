@@ -296,7 +296,7 @@ const HeroSection = () => {
       </MouseFollowEffect>
       
       {/* Currently Building Section integrated directly within the Hero Section */}
-      <div className="absolute bottom-4 left-0 right-0 z-20">
+      <div className="absolute bottom-1 left-0 right-0 z-20">
         <CurrentlyBuildingSection />
       </div>
     </section>

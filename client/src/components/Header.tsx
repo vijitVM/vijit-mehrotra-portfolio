@@ -55,10 +55,13 @@ const Header = ({ activeSection }: HeaderProps) => {
       // Get the actual element position relative to the viewport
       const elementRect = targetElement.getBoundingClientRect();
       
+      // Apply a larger offset for the Skills section to ensure it's fully visible
+      const extraOffset = sectionId === "skills" ? 40 : 10;
+      
       // Calculate scroll position (current position + scroll offset - header height)
       // This ensures we scroll to the very top of the section, not the middle
-      // Adding a small padding (10px) to prevent it being right at the edge
-      const scrollPosition = window.scrollY + elementRect.top - headerHeight - 10;
+      // Adding a padding to prevent it being right at the edge
+      const scrollPosition = window.scrollY + elementRect.top - headerHeight - extraOffset;
       
       console.log(`Scrolling to section: ${sectionId}, position: ${scrollPosition}`);
       
@@ -67,6 +70,16 @@ const Header = ({ activeSection }: HeaderProps) => {
         top: scrollPosition,
         behavior: 'smooth'
       });
+
+      // For the Skills section, force a second scroll with a slight delay to ensure everything is visible
+      if (sectionId === "skills") {
+        setTimeout(() => {
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: 'smooth'
+          });
+        }, 100);
+      }
     } else {
       console.error(`Element with ID ${sectionId} not found`);
     }

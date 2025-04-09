@@ -149,10 +149,10 @@ const RadarChart = ({
             maintainAspectRatio: false,
             layout: {
               padding: {
-                top: 15,
-                bottom: 15,
-                left: 15,
-                right: 15,
+                top: 20,
+                bottom: 20,
+                left: 20,
+                right: 20,
               },
             },
             elements: {
@@ -174,7 +174,7 @@ const RadarChart = ({
                 pointLabels: {
                   color: "rgba(255, 255, 255, 0.85)",
                   font: {
-                    size: isMobile ? 8 : 9.5,
+                    size: isMobile ? 10 : 12,
                     weight: "bold",
                   },
                 },

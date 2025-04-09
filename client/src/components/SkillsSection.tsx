@@ -208,7 +208,7 @@ const SkillsSection = () => {
                     {selectedCategory.title}
                   </motion.h3>
                   <motion.div
-                    className="w-full h-60 sm:h-72 md:h-80 relative pt-2 sm:pt-4 pb-6"
+                    className="w-full h-72 sm:h-80 md:h-96 relative pt-2 sm:pt-4 pb-6"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{
                       opacity: 1,

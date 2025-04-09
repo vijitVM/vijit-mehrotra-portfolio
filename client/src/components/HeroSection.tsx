@@ -156,6 +156,24 @@ const HeroSection = () => {
       
       <MouseFollowEffect>
         <div className="container mx-auto px-4 relative z-10">
+          {/* Header name on left like in screenshot 2 */}
+          <div className="flex items-center mb-4 md:mb-8">
+            <motion.div 
+              className="flex items-center"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-amber-400 mr-3">
+                <img src={profilePic} alt="Vijit Mehrotra" className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold">Vijit Mehrotra</h2>
+                <p className="text-sm text-gray-400">Data Science Specialist</p>
+              </div>
+            </motion.div>
+          </div>
+          
           <motion.div
             className="flex flex-col md:flex-row gap-12 items-center justify-between max-w-6xl mx-auto"
             variants={containerVariants}
@@ -296,7 +314,7 @@ const HeroSection = () => {
       </MouseFollowEffect>
       
       {/* Currently Building Section integrated directly within the Hero Section */}
-      <div className="absolute bottom-6 left-0 right-0 z-20">
+      <div className="absolute bottom-10 left-0 right-0 z-20">
         <CurrentlyBuildingSection />
       </div>
     </section>

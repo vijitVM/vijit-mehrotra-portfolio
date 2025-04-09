@@ -2,7 +2,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { useSectionObserver } from "../hooks/use-section-observer";
 import { useTheme } from "./ThemeProvider";
-import { ArrowLeftRightIcon, BoxIcon, RadarIcon } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import RadarChart from "./RadarChart";
@@ -18,9 +17,10 @@ const SkillsSection = () => {
     once: true,
   });
   
-  // State for selected category and visualization type
+  // State for selected category
   const [selectedSkillCategory, setSelectedSkillCategory] = useState<string>("core");
-  const [visualizationType, setVisualizationType] = useState<"radar" | "3d">("radar");
+  // Always use radar view (3D view toggle removed)
+  const visualizationType = "radar";
 
   // Animation variants
   const headerVariants = {
@@ -109,15 +109,12 @@ const SkillsSection = () => {
   // Get the currently selected category
   const selectedCategory = skillCategories.find(cat => cat.id === selectedSkillCategory) || skillCategories[0];
 
-  // Toggle visualization type
-  const toggleVisualization = () => {
-    setVisualizationType(prev => prev === "radar" ? "3d" : "radar");
-  };
+  // Toggle visualization function removed
 
   return (
     <section
       id="skills"
-      className="py-16 pt-16 bg-gray-900/50 relative"
+      className="py-10 pt-12 bg-gray-900/50 relative"
       ref={sectionRef}
     >
       <motion.div
@@ -147,28 +144,7 @@ const SkillsSection = () => {
           Core Competencies & Technical Proficiencies
         </motion.p>
         
-        {/* Visualization toggle */}
-        <motion.div 
-          className="flex justify-center mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
-          <motion.button
-            onClick={toggleVisualization}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-full ${
-              theme === 'dark' 
-                ? 'bg-gray-800 hover:bg-gray-700 border border-gray-700' 
-                : 'bg-gray-100 hover:bg-gray-200 border border-gray-300'
-            } transition-all duration-300`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span>{visualizationType === "radar" ? <BoxIcon size={18} /> : <RadarIcon size={18} />}</span>
-            <span className="font-medium">Switch to {visualizationType === "radar" ? "3D" : "Radar"} View</span>
-            <ArrowLeftRightIcon size={16} className="ml-1" />
-          </motion.button>
-        </motion.div>
+{/* 3D View toggle removed */}
 
         {/* Category Tabs */}
         <motion.div

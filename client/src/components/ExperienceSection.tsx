@@ -178,7 +178,7 @@ const ExperienceSection = () => {
   return (
     <section
       id="experience"
-      className="py-16 pt-16 overflow-x-hidden"
+      className="py-10 pt-12 overflow-x-hidden"
       ref={sectionRef}
     >
       <div className="container mx-auto px-4">

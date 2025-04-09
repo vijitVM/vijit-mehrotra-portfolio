@@ -17,6 +17,14 @@ const Header = ({ activeSection }: HeaderProps) => {
   const [headerVisible, setHeaderVisible] = useState(true);
   const { theme, toggleTheme } = useTheme();
 
+  // Remove hash from URL on page load
+  useEffect(() => {
+    if (window.location.hash) {
+      // Use history.pushState to remove hash without reloading page
+      window.history.pushState("", document.title, window.location.pathname + window.location.search);
+    }
+  }, []);
+
   // Handle scroll direction to show/hide header
   useEffect(() => {
     const handleScroll = () => {
@@ -45,6 +53,8 @@ const Header = ({ activeSection }: HeaderProps) => {
     // Close mobile menu first
     setIsMobileMenuOpen(false);
     
+    // Prevent default behavior to avoid full page reload
+    
     // Get the element directly
     const targetElement = document.getElementById(sectionId);
     
@@ -64,6 +74,8 @@ const Header = ({ activeSection }: HeaderProps) => {
       const scrollPosition = window.scrollY + elementRect.top - headerHeight - extraOffset;
       
       console.log(`Scrolling to section: ${sectionId}, position: ${scrollPosition}`);
+      
+      // Don't update URL hash, just scroll to the section
       
       // Scroll to position
       window.scrollTo({

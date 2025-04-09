@@ -126,7 +126,7 @@ const SkillsSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.h2
-          className="text-3xl font-bold mb-4 text-center text-cyan-500 uppercase tracking-wider"
+          className="text-3xl font-bold mb-2 text-center text-cyan-500 uppercase tracking-wider"
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -148,7 +148,7 @@ const SkillsSection = () => {
 
         {/* Category Tabs */}
         <motion.div
-          className="mb-6"
+          className="mb-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
           transition={{ delay: 0.3, duration: 0.6 }}

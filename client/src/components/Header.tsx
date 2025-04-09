@@ -23,7 +23,10 @@ const Header = ({ activeSection }: HeaderProps) => {
       // Use history.pushState to remove hash without reloading page
       window.history.pushState("", document.title, window.location.pathname + window.location.search);
     }
-  }, []);
+    
+    // Debug the active section
+    console.log("Current active section:", activeSection);
+  }, [activeSection]);
 
   // Handle scroll direction to show/hide header
   useEffect(() => {
@@ -64,24 +67,8 @@ const Header = ({ activeSection }: HeaderProps) => {
       
       // Get the actual element position relative to the viewport
       const elementRect = targetElement.getBoundingClientRect();
-      
-      // Special handling for Skills section
-      let extraOffset = 10;
-      let scrollPosition;
-      
-      if (sectionId === "skills") {
-        // For skills, we need to position to show the radar chart in view
-        // This places the view to show both the section header and the chart content
-        extraOffset = 0;
-        const skillsTop = targetElement.getBoundingClientRect().top + window.scrollY;
-        
-        // Position to show the radar chart in view (approximately 200px down from the top of the skills section)
-        // This ensures the radar chart is visible as in the second image
-        scrollPosition = skillsTop - headerHeight - 80;
-      } else {
         // For other sections, use normal calculation with small padding
-        scrollPosition = window.scrollY + elementRect.top - headerHeight - extraOffset;
-      }
+      scrollPosition = window.scrollY + elementRect.top - headerHeight - extraOffset;
       
       console.log(`Scrolling to section: ${sectionId}, position: ${scrollPosition}`);
       
@@ -96,19 +83,12 @@ const Header = ({ activeSection }: HeaderProps) => {
       // For the Skills section, force a second scroll with a slight delay to ensure everything is visible
       if (sectionId === "skills") {
         setTimeout(() => {
-          // Recalculate position after initial scroll to ensure the radar chart is in view
-          const skillsElement = document.getElementById(sectionId);
-          if (skillsElement) {
-            // Calculate a position that shows the radar chart clearly
-            // This value positions the view to show the chart as in the second image
-            const updatedPosition = skillsElement.getBoundingClientRect().top + window.scrollY - headerHeight + 200;
-            
-            window.scrollTo({
-              top: updatedPosition,
-              behavior: 'smooth'
-            });
-          }
-        }, 300);
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: 'smooth'
+          });
+        }, 100);
+         
       }
     } else {
       console.error(`Element with ID ${sectionId} not found`);
@@ -277,7 +257,7 @@ const Header = ({ activeSection }: HeaderProps) => {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo and Name - Only shown in non-home sections */}
         <AnimatePresence>
-          {activeSection !== "home" ? (
+          {activeSection !== "home" && activeSection !== "" ? (
             <motion.div
               className="flex items-center space-x-3"
               initial={{ opacity: 0, x: -20 }}

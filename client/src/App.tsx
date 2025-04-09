@@ -22,6 +22,12 @@ function App() {
     // Minimal loading time - just enough to show the logo briefly
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
+      
+      // Force set activeSection to "home" on initial load
+      if (window.location.hash === '') {
+        setActiveSection("home");
+        console.log("Forcing active section to home on load");
+      }
     }, 500); // Reduced from 2500ms to 500ms
 
     return () => clearTimeout(loadingTimer);
@@ -83,6 +89,13 @@ function App() {
           const headerHeight = document.querySelector('header')?.offsetHeight || 80;
           let elementPosition = element.getBoundingClientRect().top + window.scrollY;
           
+          // For skills section, adjust the scroll position to show the radar chart
+          if (hash === 'skills') {
+            // This ensures the radar chart is visible, similar to the second image
+            // We add an offset to scroll further down to show the chart
+            elementPosition = elementPosition + 200;
+          }
+          
           const offsetPosition = elementPosition - headerHeight - 10;
           
           window.scrollTo({
@@ -103,12 +116,16 @@ function App() {
     }
   }, [appReady]);
 
-  // Prevent scrolling until app is ready
+  // Prevent scrolling until app is ready and ensure activeSection is set to "home"
   useEffect(() => {
     if (!appReady) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
+      
+      // Force "home" as active section when app becomes ready
+      setActiveSection("home");
+      console.log("App ready, setting active section to home");
     }
     
     return () => {

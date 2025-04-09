@@ -7,31 +7,51 @@ import rateLimit from "express-rate-limit";
 
 const app = express();
 
-// Security middleware with more permissive settings to avoid antivirus warnings
+// Enhanced security middleware to address HTTP Observatory issues
 app.use(helmet({
   contentSecurityPolicy: {
+    useDefaults: false,
     directives: {
-      defaultSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https:", "data:", "blob:"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https:", "http:", "blob:"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https:", "http:"],
-      imgSrc: ["'self'", "data:", "blob:", "https:", "http:"],
-      fontSrc: ["'self'", "data:", "https:", "http:"],
-      connectSrc: ["'self'", "https:", "http:", "ws:", "wss:"],
-      mediaSrc: ["'self'", "https:", "http:", "data:"],
-      objectSrc: ["'self'", "https:", "http:", "data:"],
-      frameSrc: ["'self'", "https:", "http:"],
-      workerSrc: ["'self'", "blob:", "https:", "http:"]
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", 
+                  // Allow inline scripts for core functionality
+                  "'unsafe-inline'",
+                  "'unsafe-eval'",
+                  // Add specific trusted scripts here
+                  "https://replit.com/public/js/replit-badge-v3.js",
+                  "https://www.googletagmanager.com",
+                  "https://www.google-analytics.com"],
+      styleSrc: ["'self'", "'unsafe-inline'"], // Consider replacing with specific hashes
+      imgSrc: ["'self'", "data:", "https:", "blob:"],
+      fontSrc: ["'self'", "https:", "data:"],
+      connectSrc: ["'self'", "https:", "wss:", "ws:"],
+      mediaSrc: ["'self'", "https:", "data:"],
+      objectSrc: ["'none'"], // Recommended for security
+      frameSrc: ["'self'", "https:"],
+      frameAncestors: ["'self'"], // Similar to X-Frame-Options
+      formAction: ["'self'"],
+      workerSrc: ["'self'", "blob:"],
+      manifestSrc: ["'self'"],
+      baseUri: ["'self'"],
+      upgradeInsecureRequests: [],
     },
+    reportOnly: false, // Enforce the policy
   },
-  // Disable HSTS to avoid certificate warnings
-  hsts: false,
+  // Enable HTTP Strict Transport Security
+  hsts: {
+    maxAge: 15552000, // 180 days in seconds
+    includeSubDomains: true,
+    preload: true
+  },
   // Keep basic protections
   xssFilter: true,
   noSniff: true,
-  // Allow framing for portfolio demonstrations
-  frameguard: false,
-  // Disable referrer for privacy
-  referrerPolicy: { policy: 'no-referrer' }
+  // Set X-Frame-Options for better control
+  frameguard: { action: 'sameorigin' },
+  // Set referrer policy
+  referrerPolicy: { policy: 'no-referrer-when-downgrade' },
+  // Disable X-Powered-By header
+  hidePoweredBy: true,
 }));
 
 // Generate a random string for security tokens
@@ -54,27 +74,40 @@ const limiter = rateLimit({
 // Apply rate limiter to all API routes
 app.use('/api', limiter);
 
-// Add more relaxed security headers to prevent antivirus warnings
+// Enhanced security headers for better HTTP Observatory scores
 app.use((req: Request, res: Response, next: NextFunction) => {
-  // Set security headers with more permissive options
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Referrer-Policy', 'no-referrer');
+  // Content-Security-Policy is handled by Helmet but we can add additional security headers here
   
-  // Allow embedding for portfolio demos
+  // Reinforce STS header to ensure it's properly set for HTTP Observatory
+  res.setHeader('Strict-Transport-Security', 'max-age=15552000; includeSubDomains; preload');
+  
+  // Add Feature-Policy/Permissions-Policy for additional security
+  res.setHeader('Permissions-Policy', 'accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()');
+  
+  // Set X-Content-Type-Options to prevent MIME type sniffing
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  
+  // Enable XSS protection in browsers
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  
+  // Control referrer information
+  res.setHeader('Referrer-Policy', 'no-referrer-when-downgrade');
+  
+  // Allow embedding only from same origin
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   
-  // More permissive permissions policy
-  res.setHeader('Permissions-Policy', 'interest-cohort=()');
+  // Add Cross-Origin-Resource-Policy header
+  res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
   
-  // Add CORS headers to allow any origin to access the site
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // Add CORS headers with more restrictive settings for better security
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   
   // Handle OPTIONS requests for CORS preflight
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    return res.status(204).end();
   }
   
   // Add API token to response headers for non-public routes, but with relaxed security

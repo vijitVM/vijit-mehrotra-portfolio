@@ -148,7 +148,7 @@ const SkillsSection = () => {
 
         {/* Category Tabs */}
         <motion.div
-          className="mb-8"
+          className="mb-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
           transition={{ delay: 0.3, duration: 0.6 }}

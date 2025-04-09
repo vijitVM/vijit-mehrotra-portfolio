@@ -134,7 +134,7 @@ const SkillsSection = () => {
           SKILLS
         </motion.h2>
 
-        <motion.p
+        {/* <motion.p
           className="text-xl text-center mb-4"
           variants={headerVariants}
           initial="hidden"
@@ -143,7 +143,7 @@ const SkillsSection = () => {
         >
           Core Competencies & Technical Proficiencies
         </motion.p>
-        
+         */}
 {/* 3D View toggle removed */}
 
         {/* Category Tabs */}

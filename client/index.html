@@ -11,14 +11,29 @@
     <meta property="og:image" content="/assets/profile-thumb.png">
     <meta name="theme-color" content="#0e1015">
     
-    <!-- Security meta tags -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://replit.com/public/js/replit-badge-v3.js; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' https: data:; connect-src 'self' https: ws: wss:; frame-src 'self' https:; media-src 'self' https: data:; worker-src 'self' blob:; manifest-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none';">
+    <!-- Security meta tags with stricter Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self'; 
+      script-src 'self' https://replit.com/public/js/replit-badge-v3.js 'sha256-BekLfXYAhGYiXUXrkVj5BV0+SGjwpOmlXGWZyvbf/S8='; 
+      style-src 'self' 'unsafe-inline'; 
+      img-src 'self' https:; 
+      font-src 'self' https:; 
+      connect-src 'self' https: ws: wss:; 
+      frame-src 'self'; 
+      media-src 'self' https:; 
+      worker-src 'self' blob:; 
+      manifest-src 'self'; 
+      base-uri 'self'; 
+      form-action 'self'; 
+      object-src 'none';
+      upgrade-insecure-requests;
+    ">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Referrer-Policy" content="no-referrer-when-downgrade">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <meta http-equiv="Strict-Transport-Security" content="max-age=15552000; includeSubDomains; preload">
-    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+    <meta http-equiv="Permissions-Policy" content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()">
     
     <!-- Favicon links for different devices and browsers -->
     <link rel="icon" href="/favicon.ico">

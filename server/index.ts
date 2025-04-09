@@ -2,7 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import helmet from "helmet";
-import crypto from "crypto";
+import * as crypto from "crypto";
 import rateLimit from "express-rate-limit";
 
 const app = express();
@@ -13,26 +13,46 @@ app.use(helmet({
     useDefaults: false,
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", 
-                  // Allow inline scripts for core functionality
-                  "'unsafe-inline'",
-                  "'unsafe-eval'",
-                  // Add specific trusted scripts here
-                  "https://replit.com/public/js/replit-badge-v3.js",
-                  "https://www.googletagmanager.com",
-                  "https://www.google-analytics.com"],
-      styleSrc: ["'self'", "'unsafe-inline'"], // Consider replacing with specific hashes
-      imgSrc: ["'self'", "data:", "https:", "blob:"],
-      fontSrc: ["'self'", "https:", "data:"],
+      // Stricter scriptSrc without unsafe-inline or unsafe-eval
+      // We'll use nonces or hashes for inline scripts instead
+      scriptSrc: [
+        "'self'", 
+        // Specific trusted external scripts only
+        "https://replit.com/public/js/replit-badge-v3.js",
+        "https://www.googletagmanager.com",
+        "https://www.google-analytics.com",
+        // Add a nonce generator for any required inline scripts
+        (req: Request, res: Response) => {
+          const nonce = crypto.randomBytes(16).toString('base64');
+          (res as any).locals.cspNonce = nonce;
+          return `'nonce-${nonce}'`;
+        }
+      ],
+      // For styleSrc, we still need unsafe-inline for most frameworks
+      // but we can replace this with nonces or hashes in the future
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      // Remove data: URI from image sources where possible
+      imgSrc: ["'self'", "https:", "blob:"],
+      // Remove data: URI from font sources where possible
+      fontSrc: ["'self'", "https:"],
       connectSrc: ["'self'", "https:", "wss:", "ws:"],
-      mediaSrc: ["'self'", "https:", "data:"],
-      objectSrc: ["'none'"], // Recommended for security
-      frameSrc: ["'self'", "https:"],
-      frameAncestors: ["'self'"], // Similar to X-Frame-Options
+      // Remove data: URI from media sources
+      mediaSrc: ["'self'", "https:"],
+      // Set objectSrc to 'none' to block <object>, <embed>, and <applet>
+      objectSrc: ["'none'"],
+      // Restrict frame sources
+      frameSrc: ["'self'"],
+      // Set frameAncestors to control who can embed your site in frames
+      frameAncestors: ["'self'"],
+      // Restrict form submissions to same origin
       formAction: ["'self'"],
+      // Allow workers from same origin and blobs
       workerSrc: ["'self'", "blob:"],
+      // Allow manifests from same origin
       manifestSrc: ["'self'"],
+      // Restrict base URI to same origin
       baseUri: ["'self'"],
+      // Force HTTPS
       upgradeInsecureRequests: [],
     },
     reportOnly: false, // Enforce the policy
@@ -48,8 +68,8 @@ app.use(helmet({
   noSniff: true,
   // Set X-Frame-Options for better control
   frameguard: { action: 'sameorigin' },
-  // Set referrer policy
-  referrerPolicy: { policy: 'no-referrer-when-downgrade' },
+  // Set referrer policy to a stricter option as recommended by HTTP Observatory
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
   // Disable X-Powered-By header
   hidePoweredBy: true,
 }));
@@ -90,8 +110,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   // Enable XSS protection in browsers
   res.setHeader('X-XSS-Protection', '1; mode=block');
   
-  // Control referrer information
-  res.setHeader('Referrer-Policy', 'no-referrer-when-downgrade');
+  // Set stricter referrer policy as recommended by HTTP Observatory
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   
   // Allow embedding only from same origin
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');

@@ -147,7 +147,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center py-16 overflow-hidden relative"
+      className="min-h-screen flex items-center py-24 overflow-hidden relative"
       ref={heroRef}
       onMouseMove={handleMouseMove}
     >

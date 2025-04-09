@@ -55,9 +55,8 @@ function App() {
       if (currentSection) {
         setActiveSection(currentSection);
         
-        // Update URL without triggering page reload (for better sharing and bookmarking)
-        const url = window.location.origin + window.location.pathname + '#' + currentSection;
-        window.history.replaceState(null, '', url);
+        // Don't update URL hash when scrolling
+        // Just update active section state
       }
     };
 
@@ -65,20 +64,40 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [appReady]);
   
-  // Handle initial hash in URL
+  // Handle initial hash in URL (remove it to keep URL clean)
   useEffect(() => {
     if (!appReady) return;
     
-    // Check if there's a hash in the URL and scroll to that section
-    const hash = window.location.hash.substring(1);
-    if (hash) {
+    // Check if there's a hash in the URL
+    if (window.location.hash) {
+      // Get the hash value without the # symbol
+      const hash = window.location.hash.substring(1);
+      
+      // Find the element with this ID
       const element = document.getElementById(hash);
+      
       if (element) {
         // Small timeout to ensure the page has loaded
         setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth' });
+          // Scroll to the element
+          const headerHeight = document.querySelector('header')?.offsetHeight || 80;
+          const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+          const offsetPosition = elementPosition - headerHeight - 10;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+          
+          // Update active section
           setActiveSection(hash);
+          
+          // Remove the hash from the URL without refreshing the page
+          history.pushState(null, document.title, window.location.pathname + window.location.search);
         }, 500);
+      } else {
+        // If element not found, just remove the hash
+        history.pushState(null, document.title, window.location.pathname + window.location.search);
       }
     }
   }, [appReady]);
@@ -114,6 +133,7 @@ function App() {
             <Header activeSection={activeSection} />
             <main>
               <HeroSection />
+              {/* CurrentlyBuildingSection moved into HeroSection to position it closer */}
               <SkillsSection />
               <ExperienceSection />
               <ProjectsSection />

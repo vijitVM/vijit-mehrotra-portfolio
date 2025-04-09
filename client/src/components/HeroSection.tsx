@@ -147,7 +147,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center py-5 md:py-8 overflow-hidden relative"
+      className="min-h-[88vh] flex items-center py-6 md:py-10 overflow-hidden relative"
       ref={heroRef}
       onMouseMove={handleMouseMove}
     >
@@ -188,7 +188,7 @@ const HeroSection = () => {
               style={{ perspective: '1000px' }}
             >
               <motion.div 
-                className={`w-72 h-80 sm:w-80 sm:h-96 md:w-96 md:h-[28rem] rounded-lg bg-transparent border-2 border-dashed ${
+                className={`w-64 h-72 sm:w-72 sm:h-80 md:w-80 md:h-96 rounded-lg bg-transparent border-2 border-dashed ${
                   theme === 'dark' ? 'border-cyan-700' : 'border-amber-300'
                 } flex items-center justify-center overflow-hidden ${
                   theme === 'dark' ? 'shadow-2xl shadow-cyan-700/20' : 'shadow-2xl shadow-amber-500/20'
@@ -251,17 +251,13 @@ const HeroSection = () => {
               </motion.h2>
 
               <motion.p
-                className="text-gray-300 mb-8 md:text-left text-center"
+                className="text-gray-300 mb-6 md:text-left text-center text-sm sm:text-base"
                 variants={itemVariants}
               >
-                I am a Data Scientist and AI Engineer with 4+ years of experience,
-                specializing in Generative AI solutions. Currently at Quation
-                Solutions Private Limited, I lead projects that leverage AI to
-                streamline processes and drive innovation. My focus is on
-                developing advanced AI applications that solve complex problems
-                and enhance decision-making. Passionate about pushing the
-                boundaries of AI, I'm dedicated to delivering impactful,
-                data-driven solutions.
+                Data Scientist and AI Engineer with 4+ years of experience, specializing in 
+                Generative AI solutions. At Quation Solutions, I lead projects leveraging AI 
+                to streamline processes and drive innovation. Passionate about developing 
+                advanced AI applications that solve complex problems and enhance decision-making.
               </motion.p>
 
               <motion.div
@@ -282,7 +278,7 @@ const HeroSection = () => {
                     } font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md border transition-all duration-300`}
                     onClick={() => {
                       window.open(
-                        "https://drive.google.com/file/d/161v89Y4NrisLgFPdGh1Hj8NNlBKNuUYZ/view?usp=sharing", 
+                        "https://drive.google.com/file/d/1BLgKxGvcxNgeM6kUwoUoGy4J_3LA8W2V/view?usp=sharing", 
                         "_blank", 
                         "noopener,noreferrer"
                       );

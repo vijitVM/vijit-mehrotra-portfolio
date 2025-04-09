@@ -282,7 +282,7 @@ const HeroSection = () => {
                     } font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md border transition-all duration-300`}
                     onClick={() => {
                       window.open(
-                        "https://drive.google.com/file/d/1BLgKxGvcxNgeM6kUwoUoGy4J_3LA8W2V/view?usp=sharing", 
+                        "https://drive.google.com/file/d/1usOAjCvESMAYDb-mE1xEDSay5MGTMfd7/view?usp=sharing", 
                         "_blank", 
                         "noopener,noreferrer"
                       );

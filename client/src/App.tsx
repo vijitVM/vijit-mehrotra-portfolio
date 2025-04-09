@@ -87,7 +87,7 @@ function App() {
           if (hash === 'skills') {
             // This ensures the radar chart is visible, similar to the second image
             // We add an offset to scroll further down to show the chart
-            elementPosition = elementPosition + 100;
+            elementPosition = elementPosition + 20;
           }
           
           const offsetPosition = elementPosition - headerHeight - 10;

@@ -135,7 +135,7 @@ const SkillsSection = () => {
         </motion.h2>
 
         <motion.p
-          className="text-xl text-center mb-8"
+          className="text-xl text-center mb-4"
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}

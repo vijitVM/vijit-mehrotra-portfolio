@@ -121,7 +121,7 @@ const CurrentlyBuildingSection = () => {
         </div>
 
         {/* Terminal content */}
-        <div className="font-mono text-sm space-y-1">
+        <div className="font-mono text-sm space-y-0.5">
           {buildingData.map((item: BuildingItem, i: number) => (
             <motion.div
               key={i}

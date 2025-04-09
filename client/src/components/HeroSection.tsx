@@ -147,7 +147,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center py-16 overflow-hidden relative"
+      className="min-h-screen flex items-center py-10 md:py-16 overflow-hidden relative"
       ref={heroRef}
       onMouseMove={handleMouseMove}
     >
@@ -164,12 +164,12 @@ const HeroSection = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-amber-400 mr-3">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-amber-400 mr-2 md:mr-3">
                 <img src={profilePic} alt="Vijit Mehrotra" className="w-full h-full object-cover" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold">Vijit Mehrotra</h2>
-                <p className="text-sm text-gray-400">Data Science Specialist</p>
+                <h2 className="text-lg md:text-xl font-semibold">Vijit Mehrotra</h2>
+                <p className="text-xs md:text-sm text-gray-400">Data Science Specialist</p>
               </div>
             </motion.div>
           </div>
@@ -188,7 +188,7 @@ const HeroSection = () => {
               style={{ perspective: '1000px' }}
             >
               <motion.div 
-                className={`w-80 h-96 md:w-96 md:h-[28rem] rounded-lg bg-transparent border-2 border-dashed ${
+                className={`w-72 h-80 sm:w-80 sm:h-96 md:w-96 md:h-[28rem] rounded-lg bg-transparent border-2 border-dashed ${
                   theme === 'dark' ? 'border-cyan-700' : 'border-amber-300'
                 } flex items-center justify-center overflow-hidden ${
                   theme === 'dark' ? 'shadow-2xl shadow-cyan-700/20' : 'shadow-2xl shadow-amber-500/20'
@@ -218,7 +218,7 @@ const HeroSection = () => {
 
             <motion.div className="max-w-2xl md:px-4" variants={containerVariants}>
               <motion.h1
-                className={`text-5xl md:text-6xl font-bold bg-gradient-to-r ${
+                className={`text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r ${
                   theme === 'dark' 
                     ? 'from-cyan-400 to-purple-500' 
                     : 'from-amber-400 to-orange-500'
@@ -236,7 +236,7 @@ const HeroSection = () => {
                   theme === 'dark'
                     ? 'from-amber-300 to-pink-500'
                     : 'from-cyan-400 to-blue-500'
-                } text-transparent bg-clip-text font-semibold text-2xl transition-colors duration-300`}>
+                } text-transparent bg-clip-text font-semibold text-xl sm:text-2xl transition-colors duration-300`}>
                   {typedText}
                 </span>
                 <span
@@ -279,7 +279,7 @@ const HeroSection = () => {
                       theme === 'dark'
                         ? 'bg-gray-800/50 hover:bg-cyan-500/80 text-white border-gray-700 hover:border-cyan-400'
                         : 'bg-gray-200/50 hover:bg-amber-500/80 text-gray-800 border-gray-300 hover:border-amber-400'
-                    } font-medium py-2 px-6 rounded-md border transition-all duration-300`}
+                    } font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md border transition-all duration-300`}
                     onClick={() => {
                       window.open(
                         "https://drive.google.com/file/d/1BLgKxGvcxNgeM6kUwoUoGy4J_3LA8W2V/view?usp=sharing", 
@@ -301,7 +301,7 @@ const HeroSection = () => {
                       theme === 'dark'
                         ? 'from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 shadow-lg shadow-cyan-500/20'
                         : 'from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 shadow-lg shadow-amber-500/20'
-                    } text-white font-medium py-2 px-6 rounded-md transition-all duration-300`}
+                    } text-white font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md transition-all duration-300`}
                     onClick={scrollToContact}
                   >
                     CONTACT
@@ -313,8 +313,8 @@ const HeroSection = () => {
         </div>
       </MouseFollowEffect>
       
-      {/* Currently Building Section integrated directly within the Hero Section - moved to right side */}
-      <div className="md:absolute md:top-1/2 md:right-8 md:transform md:-translate-y-1/2 md:w-80 lg:w-96 mt-6 md:mt-0 z-20">
+      {/* Currently Building Section integrated directly within the Hero Section - responsive positioning */}
+      <div className="w-full md:absolute md:top-1/2 md:right-8 md:transform md:-translate-y-1/2 md:w-80 lg:w-96 mt-8 mb-6 md:mt-0 md:mb-0 z-20 px-4 md:px-0">
         <CurrentlyBuildingSection />
       </div>
     </section>

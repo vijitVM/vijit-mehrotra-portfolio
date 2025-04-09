@@ -308,15 +308,18 @@ const HeroSection = () => {
                   </Button>
                 </motion.div>
               </motion.div>
+              
+              {/* Currently Building Section moved below buttons */}
+              <motion.div
+                className="mt-8 w-full"
+                variants={itemVariants}
+              >
+                <CurrentlyBuildingSection />
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
       </MouseFollowEffect>
-      
-      {/* Currently Building Section integrated directly within the Hero Section - responsive positioning */}
-      <div className="w-full md:absolute md:top-1/2 md:right-8 md:transform md:-translate-y-1/2 md:w-80 lg:w-96 mt-8 mb-6 md:mt-0 md:mb-0 z-20 px-4 md:px-0">
-        <CurrentlyBuildingSection />
-      </div>
     </section>
   );
 };

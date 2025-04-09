@@ -106,22 +106,22 @@ const CurrentlyBuildingSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-lg px-4 py-2 max-w-3xl max-h-[160px] mx-auto shadow-xl"
+        className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-lg px-3 py-1.5 w-full shadow-xl"
       >
         {/* Terminal header */}
-        <div className="flex items-center pb-2 border-b border-gray-700 mb-2">
-          <div className="flex space-x-2 mr-4">
-            <div className="h-2.5 w-2.5 rounded-full bg-red-500"></div>
-            <div className="h-2.5 w-2.5 rounded-full bg-yellow-500"></div>
-            <div className="h-2.5 w-2.5 rounded-full bg-green-500"></div>
+        <div className="flex items-center pb-1 border-b border-gray-700 mb-1">
+          <div className="flex space-x-1.5 mr-2">
+            <div className="h-2 w-2 rounded-full bg-red-500"></div>
+            <div className="h-2 w-2 rounded-full bg-yellow-500"></div>
+            <div className="h-2 w-2 rounded-full bg-green-500"></div>
           </div>
-          <div className="text-xs text-gray-400 font-mono">
+          <div className="text-xs text-gray-400 font-mono text-[10px]">
             ~/dev/currently-working-on
           </div>
         </div>
 
         {/* Terminal content */}
-        <div className="font-mono text-sm space-y-2">
+        <div className="font-mono text-sm space-y-1">
           {buildingData.map((item: BuildingItem, i: number) => (
             <motion.div
               key={i}
@@ -134,11 +134,11 @@ const CurrentlyBuildingSection = () => {
               transition={{ duration: 0.3, delay: i * 0.1 }}
               className="flex items-start"
             >
-              <div className="flex items-center min-w-[140px] text-gray-400 text-xs">
+              <div className="flex items-center min-w-[100px] text-gray-400 text-xs">
                 <span className="mr-1">{getIcon(item.type)}</span>
                 <span>{getLabel(item.type)}</span>
               </div>
-              <div className={`${getColor(item.type)} flex-1 text-sm`}>
+              <div className={`${getColor(item.type)} flex-1 text-xs`}>
                 {typedTexts[i]}
                 {i === currentItemIndex && cursorVisible && (
                   <span className="text-white">|</span>

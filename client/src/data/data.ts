@@ -6,12 +6,9 @@ import CNNFilterImage from "../attached_assets/block1_conv1_filter27.png";
 import ChatPDFImage from "../attached_assets/chat_with_PDF.png";
 import FirstAmericanLogo from "../attached_assets/first_american_india_logo.jpeg";
 import ConvergyticsLogo from "../attached_assets/convergytics_solutions_logo.jpeg";
-import Quation from "../attached_assets/quation.jpg";
-import Clevr from "../attached_assets/clevr.jpg";
+import quation from "../attached_assets/quation.jpg";
+import clevr from "../attached_assets/clevr.jpg";
 
-console.log("Quation:", Quation);
-console.log("Clevr:", Clevr);
-  
 export const skillsData = {
   coreSkills: [
     { name: "Generative AI & LLMs", value: 4.5 },
@@ -181,7 +178,7 @@ export const experienceData = [
     location: "Sankt Inbert, Germany",
     color: "bg-blueAccent",
     textColor: "text-blueAccent",
-    logo: Clevr,
+    logo: clevr,
     logoType: "image",
     positions: [
       {

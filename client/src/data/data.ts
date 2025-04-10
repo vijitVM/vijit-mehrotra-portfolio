@@ -6,8 +6,8 @@ import CNNFilterImage from "@attached/block1_conv1_filter27.png";
 import ChatPDFImage from "@attached/chat_with_PDF.png";
 import FirstAmericanLogo from "@attached/first_american_india_logo.jpeg";
 import ConvergyticsLogo from "@attached/convergytics_solutions_logo.jpeg";
-import clevrlogo from "@asset/clevr.png";
-import quationlogo from "@asset/quation.jpeg";
+import clevrlogo from "@asset/clevr.png?url";
+import quationlogo from "@asset/quation.jpeg?url";
 
 
 export const skillsData = {

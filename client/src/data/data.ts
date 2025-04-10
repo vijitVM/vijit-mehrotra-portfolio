@@ -1,13 +1,13 @@
 // Import assets
-import NLPImage from "../attached_assets/NLP.jpg";
-import TimeSeriesImage from "../attached_assets/time_series.png";
-import LendingClubImage from "../attached_assets/lending_club.png";
-import CNNFilterImage from "../attached_assets/block1_conv1_filter27.png";
-import ChatPDFImage from "../attached_assets/chat_with_PDF.png";
-import FirstAmericanLogo from "../attached_assets/first_american_india_logo.jpeg";
-import ConvergyticsLogo from "../attached_assets/convergytics_solutions_logo.jpeg";
-import clevrlogo from "@asset/clevr.png";
-import quationlogo from "@asset/quation.jpeg";
+import NLPImage from "@attached_assets/NLP.jpg";
+import TimeSeriesImage from "@attached_assets/time_series.png";
+import LendingClubImage from "@attached_assets/lending_club.png";
+import CNNFilterImage from "@attached_assets/block1_conv1_filter27.png";
+import ChatPDFImage from "@attached_assets/chat_with_PDF.png";
+import FirstAmericanLogo from "@attached_assets/first_american_india_logo.jpeg";
+import ConvergyticsLogo from "@attached_assets/convergytics_solutions_logo.jpeg";
+import clevrlogo from "@assets/clevr.png";
+import quationlogo from "@assets/quation.jpeg";
 
 
 export const skillsData = {

@@ -53,7 +53,7 @@ export const experienceData = [
     color: "bg-blueAccent",
     textColor: "text-blueAccent",
     logo: quationlogo,
-    logoType: "image",
+    logoType: "text",
     positions: [
       {
         id: 101,
@@ -179,7 +179,7 @@ export const experienceData = [
     color: "bg-blueAccent",
     textColor: "text-blueAccent",
     logo: clevrlogo,
-    logoType: "image",
+    logoType: "text",
     positions: [
       {
         id: 301,

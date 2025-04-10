@@ -25,7 +25,7 @@ interface CompanyExperience {
   color: string;
   textColor: string;
   logo: string | any; // Updated to accept both string and image import
-  logoType?: string; // Added to differentiate between text and image logos
+  logoType?: 'image' | 'text';
   positions: Position[];
   awards: string[];
 }

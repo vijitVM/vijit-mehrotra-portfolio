@@ -38,68 +38,68 @@ const ExperienceSection = () => {
   const timelineRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Use a static value for experience as requested
-  // const experienceInfo = useMemo(() => {
-  //   return {
-  //     years: 3,
-  //     timePeriod: "(2017 - Present)",
-  //     experienceText: "3 Years 9 Months of Experience",
-  //   };
-  // }, []);
-
   const experienceInfo = useMemo(() => {
-  const monthMap = {
-    Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
-    Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
-  };
+    return {
+      years: 3,
+      timePeriod: "(2017 - Present)",
+      experienceText: "3 Years 9 Months of Experience",
+    };
+  }, []);
 
-  let totalMonths = 0;
+//   const experienceInfo = useMemo(() => {
+//   const monthMap = {
+//     Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+//     Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
+//   };
 
-  experienceData.forEach((company) => {
-    company.positions.forEach((position) => {
-      const [startStr, endStr] = position.period.split(" - ");
-      const [startMonthStr, startYearStr] = startStr.split(" ");
-      const startDate = new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
+//   let totalMonths = 0;
 
-      let endDate: Date;
-      if (endStr === "Present") {
-        endDate = new Date();
-      } else {
-        const [endMonthStr, endYearStr] = endStr.split(" ");
-        endDate = new Date(parseInt(endYearStr), monthMap[endMonthStr as keyof typeof monthMap]);
-      }
+//   experienceData.forEach((company) => {
+//     company.positions.forEach((position) => {
+//       const [startStr, endStr] = position.period.split(" - ");
+//       const [startMonthStr, startYearStr] = startStr.split(" ");
+//       const startDate = new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
 
-      const months =
-        (endDate.getFullYear() - startDate.getFullYear()) * 12 +
-        (endDate.getMonth() - startDate.getMonth());
+//       let endDate: Date;
+//       if (endStr === "Present") {
+//         endDate = new Date();
+//       } else {
+//         const [endMonthStr, endYearStr] = endStr.split(" ");
+//         endDate = new Date(parseInt(endYearStr), monthMap[endMonthStr as keyof typeof monthMap]);
+//       }
 
-      totalMonths += months;
-    });
-  });
+//       const months =
+//         (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+//         (endDate.getMonth() - startDate.getMonth());
 
-  const years = Math.floor(totalMonths / 12);
-  const months = totalMonths % 12;
+//       totalMonths += months;
+//     });
+//   });
 
-  const earliestStart = experienceData
-    .flatMap(company => company.positions)
-    .map(position => {
-      const [startStr] = position.period.split(" - ");
-      const [startMonthStr, startYearStr] = startStr.split(" ");
-      return new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
-    })
-    .sort((a, b) => a.getTime() - b.getTime())[0];
+//   const years = Math.floor(totalMonths / 12);
+//   const months = totalMonths % 12;
 
-  const timePeriod = earliestStart ? `(${earliestStart.getFullYear()} - Present)` : "";
+//   const earliestStart = experienceData
+//     .flatMap(company => company.positions)
+//     .map(position => {
+//       const [startStr] = position.period.split(" - ");
+//       const [startMonthStr, startYearStr] = startStr.split(" ");
+//       return new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
+//     })
+//     .sort((a, b) => a.getTime() - b.getTime())[0];
 
-  const experienceText = `${years} Year${years !== 1 ? "s" : ""}${
-    months > 0 ? ` ${months} Month${months !== 1 ? "s" : ""}` : ""
-  } of Experience`;
+//   const timePeriod = earliestStart ? `(${earliestStart.getFullYear()} - Present)` : "";
 
-  return {
-    years,
-    timePeriod,
-    experienceText,
-  };
-}, [experienceData]);
+//   const experienceText = `${years} Year${years !== 1 ? "s" : ""}${
+//     months > 0 ? ` ${months} Month${months !== 1 ? "s" : ""}` : ""
+//   } of Experience`;
+
+//   return {
+//     years,
+//     timePeriod,
+//     experienceText,
+//   };
+// }, [experienceData]);
 
 
   const toggleCompany = (id: number) => {

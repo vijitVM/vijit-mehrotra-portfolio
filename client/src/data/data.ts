@@ -7,9 +7,11 @@ import CNNFilterImage from "../attached_assets/block1_conv1_filter27.png";
 import ChatPDFImage from "../attached_assets/chat_with_PDF.png";
 import FirstAmericanLogo from "../attached_assets/first_american_india_logo.jpeg";
 import ConvergyticsLogo from "../attached_assets/convergytics_solutions_logo.jpeg";
-import ClevrLogo from "../attached_assets/clevr_gmbh_logo.jpeg";
-import QuationLogo from "../attached_assets/quation_solutions_private_ltd_logo.jpeg";
-
+// import ClevrLogo from "../attached_assets/clevr_gmbh_logo.jpeg";
+// import QuationLogo from "../attached_assets/quation_solutions_private_ltd_logo.jpeg";
+import QuationLogo from "../attached_assets/first_american_india_logo.jpeg";
+import CleverLogo from "../attached_assets/first_american_india_logo.jpeg";
+  
 export const skillsData = {
   coreSkills: [
     { name: "Generative AI & LLMs", value: 4.5 },

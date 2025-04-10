@@ -6,7 +6,7 @@ import CNNFilterImage from "../attached_assets/block1_conv1_filter27.png";
 import ChatPDFImage from "../attached_assets/chat_with_PDF.png";
 import FirstAmericanLogo from "../attached_assets/first_american_india_logo.jpeg";
 import ConvergyticsLogo from "../attached_assets/convergytics_solutions_logo.jpeg";
-import clevr from "../attached_assets/clevr.jpeg";
+import clevr from "../attached_assets/clevr.png";
 import quation from "../attached_assets/quation.jpeg"
 
 export const skillsData = {

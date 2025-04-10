@@ -7,8 +7,11 @@ import CNNFilterImage from "../attached_assets/block1_conv1_filter27.png";
 import ChatPDFImage from "../attached_assets/chat_with_PDF.png";
 import FirstAmericanLogo from "../attached_assets/first_american_india_logo.jpeg";
 import ConvergyticsLogo from "../attached_assets/convergytics_solutions_logo.jpeg";
-import QuationLogo from "../attached_assets/quation.jpeg";
-import ClevrLogo from "../attached_assets/clevr.jpeg";
+import Quation from "../attached_assets/quation.jpg";
+import Clevr from "../attached_assets/clevr.jpg";
+
+console.log("Quation:", Quation);
+console.log("Clevr:", Clevr);
   
 export const skillsData = {
   coreSkills: [
@@ -53,7 +56,7 @@ export const experienceData = [
     location: "Bengaluru",
     color: "bg-blueAccent",
     textColor: "text-blueAccent",
-    logo: QuationLogo,
+    logo: Quation,
     logoType: "image",
     positions: [
       {
@@ -179,7 +182,7 @@ export const experienceData = [
     location: "Sankt Inbert, Germany",
     color: "bg-blueAccent",
     textColor: "text-blueAccent",
-    logo: ClevrLogo,
+    logo: Clevr,
     logoType: "image",
     positions: [
       {

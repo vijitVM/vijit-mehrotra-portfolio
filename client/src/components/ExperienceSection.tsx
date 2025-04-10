@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useMemo } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { experienceData } from "../data/data";
-import { Card, CardContent } from "./ui/card";
-import { Button } from "./ui/button";
-import { Separator } from "./ui/separator";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 
+
+
+// Define types for the updated data structure
 interface DetailItem {
   domain: string;
   text: string;
@@ -30,209 +32,345 @@ interface CompanyExperience {
   awards: string[];
 }
 
-// HTML parsing helper
-const parseFormattedText = (text: string) => {
-  return <span dangerouslySetInnerHTML={{ __html: text }} />;
-};
-
-const ExperienceSection: React.FC = () => {
+const ExperienceSection = () => {
   const [expandedCompanies, setExpandedCompanies] = useState<number[]>([]);
   const [expandedPositions, setExpandedPositions] = useState<number[]>([]);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
+  const timelineRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Calculate total experience dynamically
+  // Use a static value for experience as requested
   const experienceInfo = useMemo(() => {
-    const monthMap = {
-      Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
-      Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
-    };
-
-    let totalMonths = 0;
-    let minDate = null;
-    let maxDate = null;
-
-    experienceData.forEach((company) => {
-      company.positions.forEach((position) => {
-        const [startStr, endStr] = position.period.split(" - ");
-
-        const [startMonthStr, startYearStr] = startStr.split(" ");
-        const startDate = new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
-
-        let endDate;
-        if (endStr === "Present") {
-          endDate = new Date();
-        } else {
-          const [endMonthStr, endYearStr] = endStr.split(" ");
-          endDate = new Date(parseInt(endYearStr), monthMap[endMonthStr as keyof typeof monthMap]);
-        }
-
-        if (!minDate || startDate < minDate) minDate = startDate;
-        if (!maxDate || endDate > maxDate) maxDate = endDate;
-
-        const months =
-          (endDate.getFullYear() - startDate.getFullYear()) * 12 +
-          (endDate.getMonth() - startDate.getMonth());
-
-        totalMonths += months;
-      });
-    });
-
-    const years = Math.floor(totalMonths / 12);
-    const months = totalMonths % 12;
-
-    const timePeriod = minDate && maxDate
-      ? `(${minDate.getFullYear()} - ${maxDate.getFullYear() === new Date().getFullYear() ? 'Present' : maxDate.getFullYear()})`
-      : "";
-
-    const experienceText = `${years} Year${years !== 1 ? "s" : ""}${
-      months > 0 ? ` ${months} Month${months !== 1 ? "s" : ""}` : ""
-    } of Experience`;
-
-    return {
-      years,
-      timePeriod,
-      experienceText,
-    };
-  }, []);
-
-  useEffect(() => {
-    // Expand the first company by default
-    setExpandedCompanies([experienceData[0]?.id || 0]);
-    
-    // Also expand the first position of the first company
-    const firstPosition = experienceData[0]?.positions[0]?.id;
-    if (firstPosition) {
-      setExpandedPositions([firstPosition]);
-    }
-  }, []);
-
-  const toggleCompany = (companyId: number) => {
-    setExpandedCompanies((prev) =>
-      prev.includes(companyId)
-        ? prev.filter((id) => id !== companyId)
-        : [...prev, companyId]
-    );
+  const monthMap = {
+    Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+    Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
   };
 
-  const togglePosition = (positionId: number) => {
-    setExpandedPositions((prev) =>
-      prev.includes(positionId)
-        ? prev.filter((id) => id !== positionId)
-        : [...prev, positionId]
-    );
+  let minDate: Date | null = null;
+
+  experienceData.forEach((company) => {
+    company.positions.forEach((position) => {
+      const [startStr] = position.period.split(" - ");
+      const [startMonthStr, startYearStr] = startStr.split(" ");
+      const startDate = new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
+
+      if (!minDate || startDate < minDate) minDate = startDate;
+    });
+  });
+
+  const today = new Date();
+
+  let totalMonths = 0;
+  if (minDate) {
+    totalMonths =
+      (today.getFullYear() - minDate.getFullYear()) * 12 +
+      (today.getMonth() - minDate.getMonth());
+  }
+
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+
+  const timePeriod = minDate ? `(${minDate.getFullYear()} - Present)` : "";
+
+  const experienceText = `${years} Year${years !== 1 ? "s" : ""}${
+    months > 0 ? ` ${months} Month${months !== 1 ? "s" : ""}` : ""
+  } of Experience`;
+
+  return {
+    years,
+    months,
+    timePeriod,
+    experienceText,
+  };
+}, [experienceData]);
+
+
+  const toggleCompany = (id: number) => {
+    if (expandedCompanies.includes(id)) {
+      setExpandedCompanies(
+        expandedCompanies.filter((companyId) => companyId !== id),
+      );
+    } else {
+      setExpandedCompanies([...expandedCompanies, id]);
+    }
+  };
+
+  const togglePosition = (id: number) => {
+    if (expandedPositions.includes(id)) {
+      setExpandedPositions(expandedPositions.filter((posId) => posId !== id));
+    } else {
+      setExpandedPositions([...expandedPositions, id]);
+    }
+  };
+
+  // Animation variants
+  const headerVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
+  };
+
+  const timelineVariants = {
+    hidden: { opacity: 0, height: 0 },
+    visible: {
+      opacity: 1,
+      height: "100%",
+      transition: { duration: 1.5, ease: "easeOut" },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        damping: 15,
+        stiffness: 50,
+        duration: 0.7,
+      },
+    },
+  };
+
+  // Add this function in your ExperienceSection component
+  const parseFormattedText = (text: string) => {
+    const parts = [];
+    let currentIndex = 0;
+    let boldStartIndex;
+
+    while (currentIndex < text.length) {
+      boldStartIndex = text.indexOf("[[", currentIndex);
+
+      if (boldStartIndex === -1) {
+        // No more bold parts, add the rest of the text
+        parts.push(
+          <span key={currentIndex}>{text.substring(currentIndex)}</span>,
+        );
+        break;
+      }
+
+      // Add normal text before the bold part
+      if (boldStartIndex > currentIndex) {
+        parts.push(
+          <span key={currentIndex}>
+            {text.substring(currentIndex, boldStartIndex)}
+          </span>,
+        );
+      }
+
+      // Find end of bold part
+      const boldEndIndex = text.indexOf("]]", boldStartIndex);
+      if (boldEndIndex === -1) {
+        // No closing tag, treat as normal text
+        parts.push(
+          <span key={boldStartIndex}>{text.substring(boldStartIndex)}</span>,
+        );
+        break;
+      }
+
+      // Add bold text
+      const boldText = text.substring(boldStartIndex + 2, boldEndIndex);
+      parts.push(
+        <span key={boldStartIndex} className="font-bold">
+          {boldText}
+        </span>,
+      );
+
+      currentIndex = boldEndIndex + 2;
+    }
+
+    return parts;
+  };
+
+  const positionVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        damping: 15,
+        stiffness: 50,
+        duration: 0.5,
+      },
+    },
+
+  };
+
+  const dotVariants = {
+    hidden: { scale: 0 },
+    visible: (i: number) => ({
+      scale: 1,
+      transition: {
+        delay: 0.2 + i * 0.1,
+        type: "spring",
+        stiffness: 300,
+        damping: 15,
+        duration: 0.4,
+      },
+    }),
   };
 
   return (
-    <section id="experience" className="py-16 md:py-20 bg-background/50">
-      <div className="container max-w-6xl mx-auto px-4">
-        <div className="mb-12 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-2xl md:text-3xl font-bold mb-3"
-          >
-            Professional Experience
-          </motion.h2>
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-3"
-          >
-            <span className="text-xl font-semibold text-primary">
-              {experienceInfo.experienceText}
-            </span>
-            <span className="text-gray-400 text-lg">
-              {experienceInfo.timePeriod}
-            </span>
-          </motion.div>
-          <Separator className="mt-6 mb-8 mx-auto w-24 bg-primary" />
-        </div>
+    <section
+      id="experience"
+      className="py-10 pt-12 overflow-x-hidden"
+      ref={sectionRef}
+    >
+      <div className="container mx-auto px-4">
+        <motion.h2
+          className="text-3xl font-bold mb-4 text-center text-cyan-500 uppercase tracking-wider"
+          variants={headerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          EXPERIENCE
+        </motion.h2>
 
-        <div className="space-y-8">
+        <motion.p
+          className="text-xl text-center"
+          variants={headerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          {experienceInfo.experienceText}
+        </motion.p>
+
+        <motion.p
+          className="text-center text-gray-400 mb-12"
+          variants={headerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          transition={{ delay: 0.2 }}
+        >
+          {experienceInfo.timePeriod}
+        </motion.p>
+
+        {/* Timeline */}
+        <div className="relative max-w-4xl mx-auto">
+          {/* Vertical Timeline Line */}
+          <motion.div
+            className="absolute left-[25px] sm:left-[50px] h-full w-1 bg-gradient-to-b from-cyan-500 to-pink-500"
+            variants={timelineVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            style={{ top: 0, bottom: 0, zIndex: 0 }}
+          />
+
           {experienceData.map((company, index) => (
             <motion.div
               key={company.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true, margin: "-100px" }}
+              className="relative mb-2"
+              variants={cardVariants}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              ref={(el) => (timelineRefs.current[index] = el)}
             >
+              {/* Timeline Dot */}
               <motion.div
-                initial={{ opacity: 0.4 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
+                className="absolute left-[25px] sm:left-[50px] transform -translate-x-1/2 h-3 w-3 sm:h-4 sm:w-4 rounded-full shadow-lg shadow-cyan-500/20 z-10 border-2 border-gray-900"
+                style={{
+                  background: `linear-gradient(to right, rgb(6, 182, 212), rgb(124, 58, 237))`,
+                  top: "30px",
+                }}
+                variants={dotVariants}
+                custom={index}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+              />
+
+              {/* Company Card */}
+              <motion.div
+                className="ml-[45px] sm:ml-[75px] mr-2 sm:mr-4"
+                whileHover={{ y: -5 }}
                 transition={{ duration: 0.3 }}
-                className="relative"
+
               >
-                <Card className="overflow-hidden relative">
+                <Card className="bg-gray-800/70 backdrop-blur-sm border border-gray-700 hover:border-cyan-500/50 transition-all duration-300 shadow-xl shadow-cyan-500/5 overflow-hidden">
                   <CardContent className="p-0">
-                    {/* Company Header */}
-                    <div
-                      className={`p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between cursor-pointer ${company.color} bg-opacity-10`}
-                      onClick={() => toggleCompany(company.id)}
-                    >
-                      <div className="flex items-center space-x-3 sm:space-x-4 mb-3 sm:mb-0">
-                        {/* Logo - support both text and image */}
-                        <div className="flex-shrink-0">
-                          {company.logoType === "image" ? (
-                            <img
-                              src={company.logo}
-                              alt={company.company}
-                              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full"
-                            />
-                          ) : (
-                            <div
-                              className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg sm:text-xl font-bold ${company.color} text-white`}
-                            >
-                              {company.company.charAt(0)}
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Company Info */}
-                        <div>
-                          <h3 className="text-base sm:text-lg md:text-xl font-bold">
-                            {company.company}
-                          </h3>
-                          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 text-xs sm:text-sm text-gray-400">
-                            <span>{company.companyPeriod}</span>
-                            <span className="hidden sm:inline">•</span>
-                            <span>{company.location}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Toggle Icon */}
-                      <div
-                        className={`${
-                          company.textColor
-                        } transition-transform duration-300 ${
-                          expandedCompanies.includes(company.id)
-                            ? "rotate-180"
-                            : ""
-                        }`}
+                    {/* Company Header section */}
+                    <div className="flex flex-wrap sm:flex-nowrap items-start p-4 sm:p-6">
+                      {/* Company Logo */}
+                      <motion.div
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-indigo-600 flex items-center justify-center overflow-hidden mr-3 sm:mr-4 shadow-lg shadow-purple-500/20 flex-shrink-0"
+                        whileHover={{ scale: 1.1 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 10,
+                        }}
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 sm:h-6 sm:w-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
+                        {company.logoType === "image" ? (
+                          <motion.img
+                            src={company.logo}
+                            alt={`${company.company} logo`}
+                            className="w-full h-full object-cover"
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                              delay: 0.4 + index * 0.1,
+                              duration: 0.3,
+                            }}
                           />
-                        </svg>
+                        ) : (
+                          <motion.div
+                            className="text-white font-semibold text-lg"
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                              delay: 0.4 + index * 0.1,
+                              duration: 0.3,
+                            }}
+                          >
+                            {company.logo}
+                          </motion.div>
+                        )}
+                      </motion.div>
+
+                      {/* Company Info */}
+                      <div className="flex-1 mb-2 sm:mb-0">
+                        <h3 className="text-base sm:text-lg font-semibold">
+                          {company.company}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-cyan-400">
+                          <span>{company.companyPeriod}</span>
+                          <span className="mx-1 sm:mx-2">•</span>
+                          <span>{company.location}</span>
+                        </p>
                       </div>
+
+                      {/* Toggle Company Button */}
+                      <Button
+                        variant="link"
+                        className="text-cyan-400 hover:text-cyan-300 focus:outline-none text-xs sm:text-sm p-0 h-auto flex items-center mt-1 sm:mt-0"
+                        onClick={() => toggleCompany(company.id)}
+
+                      >
+                        {expandedCompanies.includes(company.id) ? (
+                          <>
+                            Hide{" "}
+                            <span className="hidden sm:inline ml-1">
+                              Details
+                            </span>{" "}
+                            <span className="ml-1">▴</span>
+                          </>
+                        ) : (
+                          <>
+                            Show{" "}
+                            <span className="hidden sm:inline ml-1">
+                              Details
+                            </span>{" "}
+                            <span className="ml-1">▾</span>
+                          </>
+                        )}
+                      </Button>
                     </div>
 
-                    {/* Positions Section */}
+                    {/* Expanded Company Details - Positions */}
                     <AnimatePresence>
                       {expandedCompanies.includes(company.id) && (
                         <motion.div
@@ -240,43 +378,49 @@ const ExperienceSection: React.FC = () => {
                           animate={{ opacity: 1, height: "auto" }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
-                          className="bg-card"
+                          className="border-t border-gray-700"
                         >
-                          {/* Map through positions */}
-                          {company.positions.map((position) => (
+                          {/* Positions List */}
+                          {company.positions.map((position, posIdx) => (
                             <motion.div
                               key={position.id}
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ duration: 0.3 }}
-                              className="border-b border-gray-700 last:border-b-0"
+                              variants={positionVariants}
+                              initial="hidden"
+                              animate="visible"
+                              transition={{ delay: posIdx * 0.1 }}
+                              className="border-b border-gray-700/50 last:border-b-0"
                             >
-                              <div
-                                className="p-3 sm:p-5 flex justify-between items-center cursor-pointer hover:bg-gray-800/50"
-                                onClick={() => togglePosition(position.id)}
-                              >
-                                <div>
-                                  <h4 className="text-sm sm:text-base font-semibold">
+                              {/* Position Header */}
+                              <div className="p-3 sm:p-4 flex flex-wrap sm:flex-nowrap justify-between items-center">
+                                <div className="w-full sm:w-auto mb-2 sm:mb-0">
+                                  <h4 className="font-medium text-white text-sm sm:text-base">
+
+
                                     {position.role}
                                   </h4>
-                                  <p className="text-xs sm:text-sm text-gray-400">
+                                  <p className="text-xs text-gray-400">
                                     {position.period}
                                   </p>
                                 </div>
 
-                                {/* Toggle button for details */}
-                                {position.details && position.details.length > 0 && (
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="text-xs sm:text-sm p-1 h-auto"
-                                  >
-                                    {expandedPositions.includes(position.id) ? (
-                                      <>
-                                        Hide <span className="ml-1">▴</span>
-                                      </>
-                                    ) : (
-                                      <>
+                                {/* Only show toggle if position has details */}
+                                {position.details &&
+                                  position.details.length > 0 && (
+                                    <Button
+                                      variant="link"
+                                      className="text-cyan-400/80 hover:text-cyan-400 focus:outline-none text-xs p-0 h-auto flex items-center"
+                                      onClick={() =>
+                                        togglePosition(position.id)
+                                      }
+                                    >
+                                      {expandedPositions.includes(
+                                        position.id,
+                                      ) ? (
+                                        <>
+                                          Hide <span className="ml-1">▴</span>
+                                        </>
+                                      ) : (
+                                        <>
                                           Show <span className="ml-1">▾</span>
                                         </>
                                       )}

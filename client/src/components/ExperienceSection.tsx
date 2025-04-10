@@ -4,8 +4,6 @@ import { Button } from "@/components/ui/button";
 import { experienceData } from "../data/data";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 
-
-
 // Define types for the updated data structure
 interface DetailItem {
   domain: string;
@@ -40,37 +38,57 @@ const ExperienceSection = () => {
   const timelineRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Use a static value for experience as requested
+  // const experienceInfo = useMemo(() => {
+  //   return {
+  //     years: 3,
+  //     timePeriod: "(2017 - Present)",
+  //     experienceText: "3 Years 9 Months of Experience",
+  //   };
+  // }, []);
+
   const experienceInfo = useMemo(() => {
   const monthMap = {
     Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
     Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
   };
 
-  let minDate: Date | null = null;
+  let totalMonths = 0;
 
   experienceData.forEach((company) => {
     company.positions.forEach((position) => {
-      const [startStr] = position.period.split(" - ");
+      const [startStr, endStr] = position.period.split(" - ");
       const [startMonthStr, startYearStr] = startStr.split(" ");
       const startDate = new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
 
-      if (!minDate || startDate < minDate) minDate = startDate;
+      let endDate: Date;
+      if (endStr === "Present") {
+        endDate = new Date();
+      } else {
+        const [endMonthStr, endYearStr] = endStr.split(" ");
+        endDate = new Date(parseInt(endYearStr), monthMap[endMonthStr as keyof typeof monthMap]);
+      }
+
+      const months =
+        (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+        (endDate.getMonth() - startDate.getMonth());
+
+      totalMonths += months;
     });
   });
-
-  const today = new Date();
-
-  let totalMonths = 0;
-  if (minDate) {
-    totalMonths =
-      (today.getFullYear() - minDate.getFullYear()) * 12 +
-      (today.getMonth() - minDate.getMonth());
-  }
 
   const years = Math.floor(totalMonths / 12);
   const months = totalMonths % 12;
 
-  const timePeriod = minDate ? `(${minDate.getFullYear()} - Present)` : "";
+  const earliestStart = experienceData
+    .flatMap(company => company.positions)
+    .map(position => {
+      const [startStr] = position.period.split(" - ");
+      const [startMonthStr, startYearStr] = startStr.split(" ");
+      return new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
+    })
+    .sort((a, b) => a.getTime() - b.getTime())[0];
+
+  const timePeriod = earliestStart ? `(${earliestStart.getFullYear()} - Present)` : "";
 
   const experienceText = `${years} Year${years !== 1 ? "s" : ""}${
     months > 0 ? ` ${months} Month${months !== 1 ? "s" : ""}` : ""
@@ -78,7 +96,6 @@ const ExperienceSection = () => {
 
   return {
     years,
-    months,
     timePeriod,
     experienceText,
   };
@@ -198,7 +215,6 @@ const ExperienceSection = () => {
         duration: 0.5,
       },
     },
-
   };
 
   const dotVariants = {
@@ -288,7 +304,6 @@ const ExperienceSection = () => {
                 className="ml-[45px] sm:ml-[75px] mr-2 sm:mr-4"
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.3 }}
-
               >
                 <Card className="bg-gray-800/70 backdrop-blur-sm border border-gray-700 hover:border-cyan-500/50 transition-all duration-300 shadow-xl shadow-cyan-500/5 overflow-hidden">
                   <CardContent className="p-0">
@@ -348,7 +363,6 @@ const ExperienceSection = () => {
                         variant="link"
                         className="text-cyan-400 hover:text-cyan-300 focus:outline-none text-xs sm:text-sm p-0 h-auto flex items-center mt-1 sm:mt-0"
                         onClick={() => toggleCompany(company.id)}
-
                       >
                         {expandedCompanies.includes(company.id) ? (
                           <>
@@ -394,8 +408,6 @@ const ExperienceSection = () => {
                               <div className="p-3 sm:p-4 flex flex-wrap sm:flex-nowrap justify-between items-center">
                                 <div className="w-full sm:w-auto mb-2 sm:mb-0">
                                   <h4 className="font-medium text-white text-sm sm:text-base">
-
-
                                     {position.role}
                                   </h4>
                                   <p className="text-xs text-gray-400">

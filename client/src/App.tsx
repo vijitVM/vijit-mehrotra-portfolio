@@ -11,11 +11,18 @@ import Footer from "./components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import LoadingScreen from "./components/LoadingScreen";
 import { AnimatePresence, motion } from "framer-motion";
+import { useScreenSize } from "./hooks/use-screen-size";
 
 function App() {
   const [activeSection, setActiveSection] = useState<string>("home");
   const [isLoading, setIsLoading] = useState(true);
   const [appReady, setAppReady] = useState(false);
+  const screenSize = useScreenSize();
+  
+  // Log screen size changes for debugging
+  useEffect(() => {
+    console.log("App detected screen size:", screenSize);
+  }, [screenSize]);
 
   // Handle initial loading
   useEffect(() => {
@@ -47,12 +54,28 @@ function App() {
         "contact"
       ];
 
+      // Adjust trigger point based on screen size
+      let triggerPercentage = 0.3; // Default 30% of viewport height
+      
+      if (screenSize === 'largeDesktop') {
+        // For 24-inch and larger displays, adjust the trigger point to be lower
+        triggerPercentage = 0.25;
+      } else if (screenSize === 'desktop') {
+        triggerPercentage = 0.28;
+      } else if (screenSize === 'laptop') {
+        triggerPercentage = 0.3;
+      } else {
+        triggerPercentage = 0.35; // Mobile/tablet needs higher trigger point
+      }
+      
+      const triggerPoint = window.innerHeight * triggerPercentage;
+      console.log(`Using trigger point at ${Math.round(triggerPercentage * 100)}% of viewport height (${triggerPoint}px) for ${screenSize}`);
+
       const currentSection = sections.find(section => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          // Adjust the detection area for more accurate section highlighting
-          const triggerPoint = window.innerHeight * 0.3;
+          // Adjusted detection area based on screen size
           return rect.top <= triggerPoint && rect.bottom >= triggerPoint;
         }
         return false;
@@ -89,14 +112,34 @@ function App() {
           const headerHeight = document.querySelector('header')?.offsetHeight || 80;
           let elementPosition = element.getBoundingClientRect().top + window.scrollY;
           
-          // For skills section, adjust the scroll position to show the radar chart
+          // Apply scroll adjustments based on screen size
+          let scrollAdjustment = 0;
+          
+          // For skills section, adjust the scroll position based on screen size
           if (hash === 'skills') {
-            // This ensures the radar chart is visible, similar to the second image
-            // We add an offset to scroll further down to show the chart
-            elementPosition = elementPosition + 200;
+            if (screenSize === 'largeDesktop') {
+              // For 24-inch and larger monitors (1440px+)
+              scrollAdjustment = 250;
+              console.log('Using large desktop initial scroll adjustment for', hash);
+            } else if (screenSize === 'desktop') {
+              // For standard desktop displays (1024px-1440px)
+              scrollAdjustment = 180;
+              console.log('Using desktop initial scroll adjustment for', hash);
+            } else if (screenSize === 'laptop') {
+              // For laptop displays (768px-1024px)
+              scrollAdjustment = 100;
+              console.log('Using laptop initial scroll adjustment for', hash);
+            } else {
+              // For smaller screens (under 768px)
+              scrollAdjustment = 50;
+            }
+            
+            elementPosition = elementPosition + scrollAdjustment;
           }
           
           const offsetPosition = elementPosition - headerHeight - 10;
+          
+          console.log(`Initial scroll to section: ${hash}, position: ${offsetPosition}, screen size: ${screenSize}`);
           
           window.scrollTo({
             top: offsetPosition,
@@ -114,7 +157,7 @@ function App() {
         history.pushState(null, document.title, window.location.pathname + window.location.search);
       }
     }
-  }, [appReady]);
+  }, [appReady, screenSize]);
 
   // Prevent scrolling until app is ready and ensure activeSection is set to "home"
   useEffect(() => {
@@ -148,7 +191,7 @@ function App() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <Header activeSection={activeSection} />
+            <Header activeSection={activeSection} screenSize={screenSize} />
             <main>
               <HeroSection />
               {/* CurrentlyBuildingSection moved into HeroSection to position it closer */}

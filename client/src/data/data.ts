@@ -10,7 +10,7 @@ import ConvergyticsLogo from "../attached_assets/convergytics_solutions_logo.jpe
 // import ClevrLogo from "../attached_assets/clevr_gmbh_logo.jpeg";
 // import QuationLogo from "../attached_assets/quation_solutions_private_ltd_logo.jpeg";
 import QuationLogo from "../attached_assets/first_american_india_logo.jpeg";
-import CleverLogo from "../attached_assets/first_american_india_logo.jpeg";
+import ClevrLogo from "../attached_assets/first_american_india_logo.jpeg";
   
 export const skillsData = {
   coreSkills: [

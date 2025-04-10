@@ -1,5 +1,4 @@
 // Import assets
-import DL from "../attached_assets/DeepLearning.AI.jpg";
 import NLPImage from "../attached_assets/NLP.jpg";
 import TimeSeriesImage from "../attached_assets/time_series.png";
 import LendingClubImage from "../attached_assets/lending_club.png";

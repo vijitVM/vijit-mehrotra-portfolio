@@ -270,7 +270,7 @@ const HeroSection = () => {
                 className="text-gray-300 mb-6 md:text-left text-center text-sm sm:text-base"
                 variants={itemVariants}
               >
-                Data Scientist and AI Engineer with 4+ years of experience,
+                Data Scientist and AI Engineer with 4 years of experience,
                 specializing in Generative AI solutions. At Quation Solutions, I
                 lead projects leveraging AI to streamline processes and drive
                 innovation. Passionate about developing advanced AI applications

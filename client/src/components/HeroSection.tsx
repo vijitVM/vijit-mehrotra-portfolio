@@ -267,16 +267,22 @@ const HeroSection = () => {
               </motion.h2>
 
               <motion.p
-                className="text-gray-300 mb-6 md:text-left text-center text-sm sm:text-base"
+                className="text-gray-300 mb-5 md:text-left text-center text-sm sm:text-base"
                 variants={itemVariants}
               >
-               Data Scientist and AI Engineer with 4 years of experience specializing in Generative AI solutions to streamline operations and drive business growth. 
-               At Quation Solutions, I lead the development of advanced GenAI applications that enhance decision-making, automate workflows, and solve complex problems 
-               across industries such as Healthcare, FMCG, and Tech.
-
-              I design and deploy scalable, end-to-end AI tools—from robust ETL pipelines and predictive model validation to PoCs for knowledge systems and automation. 
-              Passionate about using data to uncover actionable insights, optimize processes, and accelerate lead generation through intelligent, data-driven strategies.
+                Data Scientist and AI Engineer with 4 years of experience specializing in Generative AI solutions to streamline operations and drive business growth. 
+                At Quation Solutions, I lead the development of advanced GenAI applications that enhance decision-making, automate workflows, and solve complex problems 
+                across industries such as Healthcare, FMCG, and Tech.
               </motion.p>
+
+              <motion.p
+                className="text-gray-300 mb-5 md:text-left text-center text-sm sm:text-base"
+                variants={itemVariants}
+              >
+                I design and deploy scalable, end-to-end AI tools—from robust ETL pipelines and predictive model validation to PoCs for knowledge systems and automation. 
+                Passionate about using data to uncover actionable insights, optimize processes, and accelerate lead generation through intelligent, data-driven strategies.
+              </motion.p>
+
 
               <motion.div
                 className="flex space-x-4 md:justify-start justify-center"

@@ -3,12 +3,14 @@ import { Menu, X, ChevronRight, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import profilePic from "../attached_assets/Vijit_github_profile_pic.jpg";
 import { useTheme } from "./ThemeProvider";
+import { ScreenSize } from "../hooks/use-screen-size";
 
 interface HeaderProps {
   activeSection: string;
+  screenSize?: ScreenSize;
 }
 
-const Header = ({ activeSection }: HeaderProps) => {
+const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -54,32 +56,83 @@ const Header = ({ activeSection }: HeaderProps) => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  // Log current screen size for debugging
+  useEffect(() => {
+    console.log("Current screen size:", screenSize);
+  }, [screenSize]);
+
   const handleNavClick = (sectionId: string) => {
     console.log(`Navigation clicked for: ${sectionId}`);
 
     // Close mobile menu first
     setIsMobileMenuOpen(false);
 
-    // Prevent default behavior to avoid full page reload
-
     // Get the element directly
     const targetElement = document.getElementById(sectionId);
 
     if (targetElement) {
-      // More precise header offset calculation
-      const headerHeight = (headerRef.current?.offsetHeight ?? 80) - 20;
+      // Calculate header height more precisely
+      const headerHeight = (headerRef.current?.offsetHeight ?? 80);
+      
       // Get the actual element position relative to the viewport
       const elementRect = targetElement.getBoundingClientRect();
 
-      // const extraOffset = sectionId === "skills" ? 2 : 2;
-      // For other sections, use normal calculation with small padding
-      const scrollPosition = window.scrollY + elementRect.top - headerHeight;
+      // Check if we're using an Acer monitor (previously detected in DisplayScalingProvider)
+      const isAcerMonitor = document.documentElement.classList.contains('acer-monitor');
+      
+      // Adjust scroll behavior based on screen size, section, and monitor type
+      let scrollAdjustment = 0;
+      
+      // Apply different scroll adjustments based on screen size and monitor type
+      if (isAcerMonitor) {
+        // Special adjustments for Acer monitors
+        console.log('Using Acer monitor scroll adjustments');
+        
+        switch(sectionId) {
+          case 'hero':
+            scrollAdjustment = 0;
+            break;
+          case 'experience':
+            scrollAdjustment = -70;
+            break;
+          case 'education':
+            scrollAdjustment = -70;
+            break;
+          case 'skills':
+            scrollAdjustment = -60;
+            break;
+          case 'projects':
+            scrollAdjustment = -70;
+            break;
+          case 'contact':
+            scrollAdjustment = -80;
+            break;
+          default:
+            scrollAdjustment = -60;
+        }
+      } else if (screenSize === 'largeDesktop') {
+        // For 24-inch and larger displays (non-Acer)
+        scrollAdjustment = sectionId === 'skills' ? 250 : 0;
+        console.log('Using large desktop scroll adjustments');
+      } else if (screenSize === 'desktop') {
+        // For standard desktop displays
+        scrollAdjustment = sectionId === 'skills' ? 180 : 0;
+        console.log('Using desktop scroll adjustments');
+      } else if (screenSize === 'laptop') {
+        // For laptop displays
+        scrollAdjustment = sectionId === 'skills' ? 100 : 0;
+        console.log('Using laptop scroll adjustments');
+      } else {
+        // For smaller screens
+        scrollAdjustment = sectionId === 'skills' ? 50 : 0;
+      }
+      
+      // Calculate final scroll position with screen-specific adjustments
+      const scrollPosition = window.scrollY + elementRect.top - headerHeight + scrollAdjustment;
 
       console.log(
-        `Scrolling to section: ${sectionId}, position: ${scrollPosition}`,
+        `Scrolling to section: ${sectionId}, position: ${scrollPosition}, screen size: ${screenSize}, isAcerMonitor: ${isAcerMonitor}`,
       );
-
-      // Don't update URL hash, just scroll to the section
 
       // Scroll to position
       window.scrollTo({
@@ -87,14 +140,18 @@ const Header = ({ activeSection }: HeaderProps) => {
         behavior: "smooth",
       });
 
-      // For the Skills section, force a second scroll with a slight delay to ensure everything is visible
-      if (sectionId === "skills") {
+      // For the Skills section and Acer monitors, force a second scroll with a slight delay to ensure everything is visible
+      if (sectionId === "skills" || isAcerMonitor) {
         setTimeout(() => {
+          // Recalculate position in case anything has shifted
+          const newElementRect = targetElement.getBoundingClientRect();
+          const newScrollPosition = window.scrollY + newElementRect.top - headerHeight + scrollAdjustment;
+          
           window.scrollTo({
-            top: scrollPosition,
+            top: newScrollPosition,
             behavior: "smooth",
           });
-        }, 100);
+        }, 150);
       }
     } else {
       console.error(`Element with ID ${sectionId} not found`);

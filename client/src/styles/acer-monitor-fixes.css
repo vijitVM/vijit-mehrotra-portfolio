@@ -2,180 +2,221 @@
 
 /* Base font size override for Acer monitors */
 :root.acer-monitor {
-    /* Base font size adjustment */
-    font-size: 14.8px !important;
-    line-height: 1.45 !important;
-  }
-  
-  /* Only apply these styles when the .acer-monitor class is present on root */
-  :root.acer-monitor .experience-title,
-  :root.acer-monitor .education-title,
-  :root.acer-monitor .contact-title {
-    font-size: 1.8rem !important; /* Override the text-3xl class */
-    line-height: 1.3 !important;
-    margin-bottom: 1rem !important;
-  }
-  
-  /* Experience section specific fixes */
-  :root.acer-monitor #experience {
-    padding-top: 2.5rem !important;
-  }
-  
-  :root.acer-monitor #education {
-    padding-top: 2.5rem !important;
-  }
-  
-  :root.acer-monitor #experience .text-xl,
-  :root.acer-monitor #education .text-xl {
-    font-size: 1.1rem !important;
-    margin-bottom: 0.5rem !important;
-  }
-  
-  :root.acer-monitor #experience h3.text-base,
-  :root.acer-monitor #experience h3.text-lg {
-    font-size: 0.95rem !important;
-  }
-  
-  :root.acer-monitor #experience p.text-xs,
-  :root.acer-monitor #experience p.text-sm {
-    font-size: 0.75rem !important;
-  }
-  
-  :root.acer-monitor #experience h4.font-medium {
-    font-size: 0.9rem !important;
-  }
-  
-  /* Education section specific fixes */
-  :root.acer-monitor #education h4.text-lg {
-    font-size: 1rem !important;
-  }
-  
-  :root.acer-monitor #education p.text-sm,
-  :root.acer-monitor #education .text-sm {
-    font-size: 0.8rem !important;
-  }
-  
-  :root.acer-monitor #education .text-xs {
-    font-size: 0.7rem !important;
-  }
-  
-  /* Experience dots and timeline fixes */
+  /* Base font size adjustment */
+  font-size: 14.8px !important;
+  line-height: 1.45 !important;
+}
+
+/* Only apply these styles when the .acer-monitor class is present on root */
+:root.acer-monitor .experience-title,
+:root.acer-monitor .education-title,
+:root.acer-monitor .contact-title {
+  font-size: 1.8rem !important; /* Override the text-3xl class */
+  line-height: 1.3 !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Experience section specific fixes */
+:root.acer-monitor #experience {
+  padding-top: 2.5rem !important;
+}
+
+:root.acer-monitor #education {
+  padding-top: 2.5rem !important;
+}
+
+:root.acer-monitor #experience .text-xl,
+:root.acer-monitor #education .text-xl {
+  font-size: 1.1rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+:root.acer-monitor #experience h3.text-base,
+:root.acer-monitor #experience h3.text-lg {
+  font-size: 0.95rem !important;
+}
+
+:root.acer-monitor #experience p.text-xs,
+:root.acer-monitor #experience p.text-sm {
+  font-size: 0.75rem !important;
+}
+
+:root.acer-monitor #experience h4.font-medium {
+  font-size: 0.9rem !important;
+}
+
+/* Education section specific fixes */
+:root.acer-monitor #education h4.text-lg {
+  font-size: 1rem !important;
+}
+
+:root.acer-monitor #education p.text-sm,
+:root.acer-monitor #education .text-sm {
+  font-size: 0.8rem !important;
+}
+
+:root.acer-monitor #education .text-xs {
+  font-size: 0.7rem !important;
+}
+
+/* Experience dots and timeline fixes */
+:root.acer-monitor #experience .timeline-line {
+  left: 25px !important;
+}
+
+@media (min-width: 640px) {
   :root.acer-monitor #experience .timeline-line {
-    left: 25px !important;
-  }
-  
-  @media (min-width: 640px) {
-    :root.acer-monitor #experience .timeline-line {
-      left: 50px !important;
-    }
-  }
-  
-  :root.acer-monitor #experience .absolute.left-\[25px\] {
-    left: 25px !important;
-  }
-  
-  :root.acer-monitor #experience .absolute.left-\[50px\] {
     left: 50px !important;
   }
-  
-  /* Fix for card margins */
+}
+
+:root.acer-monitor #experience .absolute.left-\[25px\] {
+  left: 25px !important;
+}
+
+:root.acer-monitor #experience .absolute.left-\[50px\] {
+  left: 50px !important;
+}
+
+/* Fix for card margins */
+:root.acer-monitor #experience .ml-\[45px\] {
+  margin-left: 45px !important;
+}
+
+:root.acer-monitor #experience .ml-\[75px\] {
+  margin-left: 75px !important;
+}
+
+@media (min-width: 640px) {
   :root.acer-monitor #experience .ml-\[45px\] {
-    margin-left: 45px !important;
-  }
-  
-  :root.acer-monitor #experience .ml-\[75px\] {
     margin-left: 75px !important;
   }
-  
-  @media (min-width: 640px) {
-    :root.acer-monitor #experience .ml-\[45px\] {
-      margin-left: 75px !important;
-    }
-  }
-  
-  /* Timeline dot position fix */
+}
+
+/* Timeline dot position fix */
+:root.acer-monitor #experience .timeline-dot {
+  transform: translateX(-50%) !important;
+  left: 25px !important;
+  top: 30px !important;
+  height: 12px !important;
+  width: 12px !important;
+}
+
+@media (min-width: 640px) {
   :root.acer-monitor #experience .timeline-dot {
-    transform: translateX(-50%) !important;
-    left: 25px !important;
-    top: 30px !important;
-    height: 12px !important;
-    width: 12px !important;
+    left: 50px !important;
+    height: 14px !important;
+    width: 14px !important;
   }
-  
-  @media (min-width: 640px) {
-    :root.acer-monitor #experience .timeline-dot {
-      left: 50px !important;
-      height: 14px !important;
-      width: 14px !important;
-    }
-  }
-  
-  /* Fix spacing between company cards */
-  :root.acer-monitor #experience .mb-2 {
-    margin-bottom: 0.75rem !important;
-  }
-  
-  /* Better card content spacing */
-  :root.acer-monitor #experience .p-4 {
-    padding: 1rem !important;
-  }
-  
-  :root.acer-monitor #experience .p-6 {
-    padding: 1.25rem !important;
-  }
-  
-  /* Prevent overflow in cards */
-  :root.acer-monitor .card-content {
-    max-width: 100%;
-    overflow-wrap: break-word;
-  }
-  
-  /* Education cards fixes */
-  :root.acer-monitor #education .space-y-6 > div {
-    margin-bottom: 1.25rem !important;
-  }
-  
-  :root.acer-monitor #education .mb-6 {
-    margin-bottom: 1.25rem !important;
-  }
-  
-  :root.acer-monitor #education .p-6 {
-    padding: 1.25rem !important;
-  }
-  
-  /* Contact section fixes */
-  :root.acer-monitor #contact .text-xl {
-    font-size: 1.15rem !important;
-  }
-  
-  :root.acer-monitor #contact .mb-12 {
-    margin-bottom: 2rem !important;
-  }
-  
-  :root.acer-monitor #contact .p-8 {
-    padding: 1.75rem !important;
-  }
-  
-  /* Vertical spacing fixes for all sections */
-  :root.acer-monitor section {
-    padding-top: 2.5rem !important;
-    padding-bottom: 2.5rem !important;
-  }
-  
-  :root.acer-monitor #skills .mb-8 {
-    margin-bottom: 1.5rem !important;
-  }
-  
-  /* Fix spacing between sections */
-  :root.acer-monitor .pt-12 {
-    padding-top: 2.5rem !important;
-  }
-  
-  :root.acer-monitor .pb-12 {
-    padding-bottom: 2.5rem !important;
-  }
-  
-  :root.acer-monitor .my-12 {
-    margin-top: 2.5rem !important;
-    margin-bottom: 2.5rem !important;
-  }
+}
+
+/* Fix spacing between company cards */
+:root.acer-monitor #experience .mb-2 {
+  margin-bottom: 0.75rem !important;
+}
+
+/* Better card content spacing */
+:root.acer-monitor #experience .p-4 {
+  padding: 1rem !important;
+}
+
+:root.acer-monitor #experience .p-6 {
+  padding: 1.25rem !important;
+}
+
+/* Prevent overflow in cards */
+:root.acer-monitor .card-content {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+/* Education cards fixes */
+:root.acer-monitor #education .space-y-6 > div {
+  margin-bottom: 1.25rem !important;
+}
+
+:root.acer-monitor #education .mb-6 {
+  margin-bottom: 1.25rem !important;
+}
+
+:root.acer-monitor #education .p-6 {
+  padding: 1.25rem !important;
+}
+
+/* Contact section fixes */
+:root.acer-monitor #contact .text-xl {
+  font-size: 1.15rem !important;
+}
+
+:root.acer-monitor #contact .mb-12 {
+  margin-bottom: 2rem !important;
+}
+
+:root.acer-monitor #contact .p-8 {
+  padding: 1.75rem !important;
+}
+
+/* Vertical spacing fixes for all sections */
+:root.acer-monitor section {
+  padding-top: 2.5rem !important;
+  padding-bottom: 2.5rem !important;
+}
+
+/* Fix section scroll offsets - this helps with navigation */
+:root.acer-monitor {
+  scroll-padding-top: 80px !important; /* Add padding to account for fixed header */
+}
+
+/* Individual section scroll fixes */
+:root.acer-monitor #hero {
+  padding-top: 5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+:root.acer-monitor #experience {
+  scroll-margin-top: 100px !important;
+  padding-top: 3.5rem !important;
+}
+
+:root.acer-monitor #education {
+  scroll-margin-top: 100px !important;
+  padding-top: 3.5rem !important;
+}
+
+:root.acer-monitor #skills {
+  scroll-margin-top: 100px !important;
+  padding-top: 3.5rem !important;
+}
+
+:root.acer-monitor #projects {
+  scroll-margin-top: 100px !important;
+  padding-top: 3.5rem !important;
+}
+
+:root.acer-monitor #contact {
+  scroll-margin-top: 100px !important;
+  padding-top: 3.5rem !important;
+}
+
+:root.acer-monitor #skills .mb-8 {
+  margin-bottom: 1.5rem !important;
+}
+
+/* Fix spacing between sections */
+:root.acer-monitor .pt-12 {
+  padding-top: 2.5rem !important;
+}
+
+:root.acer-monitor .pb-12 {
+  padding-bottom: 2.5rem !important;
+}
+
+:root.acer-monitor .my-12 {
+  margin-top: 2.5rem !important;
+  margin-bottom: 2.5rem !important;
+}
+
+/* Add more space between sections to prevent overlap */
+:root.acer-monitor section + section {
+  margin-top: 2rem !important;
+}

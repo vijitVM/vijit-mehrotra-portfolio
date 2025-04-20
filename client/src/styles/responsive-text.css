@@ -7,109 +7,146 @@
  * This enables better scaling across displays with different pixel densities
  */
  :root {
-    /* Default font size settings */
-    font-size: 16px;
-    
-    /* Set text rendering for better clarity */
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+  /* Default font size settings */
+  font-size: 16px;
   
-  /* Adjust base font size using calc() to scale based on viewport width AND screen resolution */
-  @media screen and (min-width: 1024px) and (max-width: 1440px) {
-    /* For typical laptop displays */
-    :root {
-      font-size: calc(16px + 0.1vmin);
-    }
-  }
+  /* Set text rendering for better clarity */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 
+ * IMPORTANT: We use classes added by the DisplayScalingProvider 
+ * to target specific monitor types without affecting others
+ */
+
+/* Specific adjustments for Acer monitors (and similar) */
+:root.acer-monitor {
+  /* Smaller base font size to fix oversized text on Acer displays */
+  font-size: 14.5px !important; /* Use !important to override media queries */
   
-  @media screen and (min-width: 1441px) and (max-width: 1920px) {
-    /* For typical desktop monitors (1080p) */
-    :root {
-      font-size: calc(16px + 0.15vmin);
-    }
+  /* Additional adjustments for better readability on Acer displays */
+  letter-spacing: -0.01em;
+}
+
+/* General external monitor adjustments - these apply to all external displays except Acer */
+:root.external-monitor:not(.acer-monitor) {
+  font-size: calc(16px + 0.1vmin);
+}
+
+/* Adjust base font size using calc() to scale based on viewport width AND screen resolution */
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+  /* For typical laptop displays */
+  :root:not(.external-monitor) { /* Only apply to non-external displays */
+    font-size: calc(16px + 0.1vmin);
   }
-  
-  @media screen and (min-width: 1921px) and (max-width: 2560px) {
-    /* For 24-inch and larger monitors (1440p) */
-    :root {
-      font-size: calc(16px + 0.2vmin);
-    }
+}
+
+@media screen and (min-width: 1441px) and (max-width: 1920px) {
+  /* For typical desktop monitors (1080p) */
+  :root:not(.acer-monitor) { /* Exclude Acer monitors */
+    font-size: calc(16px + 0.15vmin);
   }
-  
-  @media screen and (min-width: 2561px) {
-    /* For 4K and larger displays */
-    :root {
-      font-size: calc(16px + 0.25vmin);
-    }
+}
+
+@media screen and (min-width: 1921px) and (max-width: 2560px) {
+  /* For 24-inch and larger monitors (1440p) */
+  :root:not(.acer-monitor) {
+    font-size: calc(16px + 0.2vmin);
   }
-  
-  /* Specific adjustments for screens with high pixel density (retina displays) */
-  @media screen and (-webkit-min-device-pixel-ratio: 2), 
-         screen and (min-resolution: 192dpi) {
-    :root {
-      font-size: calc(16px + 0.05vmin); /* Subtle adjustment for high DPI screens */
-    }
+}
+
+@media screen and (min-width: 2561px) {
+  /* For 4K and larger displays */
+  :root:not(.acer-monitor) {
+    font-size: calc(16px + 0.25vmin);
   }
-  
-  /* Font size utility classes that can be used for different text elements 
-   * These use rem units which are relative to the root font size
-   */
-  .text-base {
-    font-size: 1rem;
-    line-height: 1.5;
+}
+
+/* Specific adjustments for screens with high pixel density (retina displays) */
+@media screen and (-webkit-min-device-pixel-ratio: 2), 
+       screen and (min-resolution: 192dpi) {
+  :root:not(.external-monitor) { /* Only apply to high-DPI laptop screens */
+    font-size: calc(16px + 0.05vmin);
   }
-  
-  .text-xs {
-    font-size: 0.75rem;
-    line-height: 1.2;
-  }
-  
-  .text-sm {
-    font-size: 0.875rem;
-    line-height: 1.4;
-  }
-  
-  .text-lg {
-    font-size: 1.125rem;
-    line-height: 1.6;
-  }
-  
-  .text-xl {
-    font-size: 1.25rem;
-    line-height: 1.6;
-  }
-  
-  .text-2xl {
-    font-size: 1.5rem;
-    line-height: 1.4;
-  }
-  
-  .text-3xl {
-    font-size: 1.875rem;
-    line-height: 1.3;
-  }
-  
-  .text-4xl {
-    font-size: 2.25rem;
-    line-height: 1.2;
-  }
-  
-  .text-5xl {
-    font-size: 3rem;
-    line-height: 1.1;
-  }
-  
-  /* Display scaling for certain UI elements (optional) */
-  .scale-ui {
-    transform-origin: center;
-    transition: transform 0.2s ease;
-  }
-  
-  /* Helper class to apply consistent font size adjustments */
-  .display-adjusted {
-    font-kerning: normal;
-    font-feature-settings: "kern" 1;
-    font-size-adjust: 0.5; /* Adjust x-height for better readability */
-  }
+}
+
+/* Font size utility classes that can be used for different text elements 
+ * These use rem units which are relative to the root font size
+ */
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 1.3;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 1.2;
+}
+
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1.1;
+}
+
+/* Acer-specific class overrides to ensure text scales properly on these monitors */
+:root.acer-monitor .text-3xl {
+  font-size: 1.7rem; /* Slightly smaller for Acer monitors */
+}
+
+:root.acer-monitor .text-4xl {
+  font-size: 2rem; /* Slightly smaller for Acer monitors */
+}
+
+:root.acer-monitor .text-5xl {
+  font-size: 2.7rem; /* Slightly smaller for Acer monitors */
+}
+
+/* Display scaling for certain UI elements (optional) */
+.scale-ui {
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+
+/* Specific scaling for Acer monitors */
+:root.acer-monitor .scale-ui {
+  transform: scale(0.95); /* Slightly smaller UI elements on Acer */
+}
+
+/* Helper class to apply consistent font size adjustments */
+.display-adjusted {
+  font-kerning: normal;
+  font-feature-settings: "kern" 1;
+  font-size-adjust: 0.5; /* Adjust x-height for better readability */
+}

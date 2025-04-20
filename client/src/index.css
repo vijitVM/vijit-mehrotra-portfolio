@@ -1,3 +1,6 @@
+/* Import responsive text scaling styles */
+@import './styles/responsive-text.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

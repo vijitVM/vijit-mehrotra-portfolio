@@ -12,6 +12,7 @@ import { Toaster } from "@/components/ui/toaster";
 import LoadingScreen from "./components/LoadingScreen";
 import { AnimatePresence, motion } from "framer-motion";
 import { useScreenSize } from "./hooks/use-screen-size";
+import DisplayScalingProvider from "./components/DisplayScalingProvider";
 
 function App() {
   const [activeSection, setActiveSection] = useState<string>("home");
@@ -177,7 +178,7 @@ function App() {
   }, [appReady]);
 
   return (
-    <>
+    <DisplayScalingProvider>
       <LoadingScreen 
         isLoading={isLoading} 
         onLoadingComplete={() => setAppReady(true)} 
@@ -206,7 +207,7 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </DisplayScalingProvider>
   );
 }
 

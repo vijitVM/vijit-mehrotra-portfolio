@@ -79,7 +79,7 @@ export const experienceData = [
           },
           {
             domain: "",
-            text: "[[Data Catalog Chatbot Assistant:]]  Built a multi-agent RAG-based GenAI chatbot for querying structured (SQL) and unstructured data (PDF's / Excel), significantly improving information access (70% reduction in retrieval time) and collaboration across healthcare teams. (Technologies: gpt-4o, Milvus DB, Langfuse, SQL, Google AI, Langchain, Neo4j, FlashRank, Custom GenAI)",
+            text: "[[Data Catalog Chatbot Assistant:]] Data Catalog Assistant: Built a multi-agent RAG GenAI chatbot for querying structured (SQL) and unstructured data (PDFs, Excel); integrated with Google AI for real-time, secure access, cutting retrieval time by 70% and boosting cross-team collaboration in healthcare. (Technologies: gpt-4o, Milvus DB, Langfuse, SQL, Google AI, Langchain, Neo4j, FlashRank, Custom GenAI)",
           },
         ],
       },

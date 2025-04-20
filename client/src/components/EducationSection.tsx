@@ -56,7 +56,7 @@ const EducationSection = () => {
     >
       <div className="container mx-auto px-4">
         <motion.h2
-          className="text-3xl font-bold mb-8 text-center text-cyan-500 uppercase tracking-wider"
+          className="text-3xl font-bold mb-8 text-center text-cyan-500 uppercase tracking-wider education-title"
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}

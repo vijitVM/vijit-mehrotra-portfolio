@@ -1,5 +1,7 @@
 /* Import responsive text scaling styles */
 @import './styles/responsive-text.css';
+/* Import Acer monitor specific fixes */
+@import './styles/acer-monitor-fixes.css';
 
 @tailwind base;
 @tailwind components;

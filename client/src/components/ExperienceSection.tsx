@@ -24,8 +24,8 @@ interface CompanyExperience {
   location: string;
   color: string;
   textColor: string;
-  logo: string;
-  logoType: 'image';
+  logo: string | any; // Updated to accept both string and image import
+  logoType?: "image" | "text";
   positions: Position[];
   awards: string[];
 }
@@ -46,61 +46,60 @@ const ExperienceSection = () => {
     };
   }, []);
 
-//   const experienceInfo = useMemo(() => {
-//   const monthMap = {
-//     Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
-//     Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
-//   };
+  //   const experienceInfo = useMemo(() => {
+  //   const monthMap = {
+  //     Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+  //     Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
+  //   };
 
-//   let totalMonths = 0;
+  //   let totalMonths = 0;
 
-//   experienceData.forEach((company) => {
-//     company.positions.forEach((position) => {
-//       const [startStr, endStr] = position.period.split(" - ");
-//       const [startMonthStr, startYearStr] = startStr.split(" ");
-//       const startDate = new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
+  //   experienceData.forEach((company) => {
+  //     company.positions.forEach((position) => {
+  //       const [startStr, endStr] = position.period.split(" - ");
+  //       const [startMonthStr, startYearStr] = startStr.split(" ");
+  //       const startDate = new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
 
-//       let endDate: Date;
-//       if (endStr === "Present") {
-//         endDate = new Date();
-//       } else {
-//         const [endMonthStr, endYearStr] = endStr.split(" ");
-//         endDate = new Date(parseInt(endYearStr), monthMap[endMonthStr as keyof typeof monthMap]);
-//       }
+  //       let endDate: Date;
+  //       if (endStr === "Present") {
+  //         endDate = new Date();
+  //       } else {
+  //         const [endMonthStr, endYearStr] = endStr.split(" ");
+  //         endDate = new Date(parseInt(endYearStr), monthMap[endMonthStr as keyof typeof monthMap]);
+  //       }
 
-//       const months =
-//         (endDate.getFullYear() - startDate.getFullYear()) * 12 +
-//         (endDate.getMonth() - startDate.getMonth());
+  //       const months =
+  //         (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+  //         (endDate.getMonth() - startDate.getMonth());
 
-//       totalMonths += months;
-//     });
-//   });
+  //       totalMonths += months;
+  //     });
+  //   });
 
-//   const years = Math.floor(totalMonths / 12);
-//   const months = totalMonths % 12;
+  //   const years = Math.floor(totalMonths / 12);
+  //   const months = totalMonths % 12;
 
-//   const earliestStart = experienceData
-//     .flatMap(company => company.positions)
-//     .map(position => {
-//       const [startStr] = position.period.split(" - ");
-//       const [startMonthStr, startYearStr] = startStr.split(" ");
-//       return new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
-//     })
-//     .sort((a, b) => a.getTime() - b.getTime())[0];
+  //   const earliestStart = experienceData
+  //     .flatMap(company => company.positions)
+  //     .map(position => {
+  //       const [startStr] = position.period.split(" - ");
+  //       const [startMonthStr, startYearStr] = startStr.split(" ");
+  //       return new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
+  //     })
+  //     .sort((a, b) => a.getTime() - b.getTime())[0];
 
-//   const timePeriod = earliestStart ? `(${earliestStart.getFullYear()} - Present)` : "";
+  //   const timePeriod = earliestStart ? `(${earliestStart.getFullYear()} - Present)` : "";
 
-//   const experienceText = `${years} Year${years !== 1 ? "s" : ""}${
-//     months > 0 ? ` ${months} Month${months !== 1 ? "s" : ""}` : ""
-//   } of Experience`;
+  //   const experienceText = `${years} Year${years !== 1 ? "s" : ""}${
+  //     months > 0 ? ` ${months} Month${months !== 1 ? "s" : ""}` : ""
+  //   } of Experience`;
 
-//   return {
-//     years,
-//     timePeriod,
-//     experienceText,
-//   };
-// }, [experienceData]);
-
+  //   return {
+  //     years,
+  //     timePeriod,
+  //     experienceText,
+  //   };
+  // }, [experienceData]);
 
   const toggleCompany = (id: number) => {
     if (expandedCompanies.includes(id)) {
@@ -239,7 +238,7 @@ const ExperienceSection = () => {
     >
       <div className="container mx-auto px-4">
         <motion.h2
-          className="text-3xl font-bold mb-4 text-center text-cyan-500 uppercase tracking-wider"
+          className="text-3xl font-bold mb-4 text-center text-cyan-500 uppercase tracking-wider experience-title"
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -270,7 +269,7 @@ const ExperienceSection = () => {
         <div className="relative max-w-4xl mx-auto">
           {/* Vertical Timeline Line */}
           <motion.div
-            className="absolute left-[25px] sm:left-[50px] h-full w-1 bg-gradient-to-b from-cyan-500 to-pink-500"
+            className="absolute left-[25px] sm:left-[50px] h-full w-1 bg-gradient-to-b from-cyan-500 to-pink-500 timeline-line"
             variants={timelineVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
@@ -288,7 +287,7 @@ const ExperienceSection = () => {
             >
               {/* Timeline Dot */}
               <motion.div
-                className="absolute left-[25px] sm:left-[50px] transform -translate-x-1/2 h-3 w-3 sm:h-4 sm:w-4 rounded-full shadow-lg shadow-cyan-500/20 z-10 border-2 border-gray-900"
+                className="absolute left-[25px] sm:left-[50px] transform -translate-x-1/2 h-3 w-3 sm:h-4 sm:w-4 rounded-full shadow-lg shadow-cyan-500/20 z-10 border-2 border-gray-900 timeline-dot"
                 style={{
                   background: `linear-gradient(to right, rgb(6, 182, 212), rgb(124, 58, 237))`,
                   top: "30px",
@@ -311,7 +310,7 @@ const ExperienceSection = () => {
                     <div className="flex flex-wrap sm:flex-nowrap items-start p-4 sm:p-6">
                       {/* Company Logo */}
                       <motion.div
-                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-indigo-600 flex items-center justify-center overflow-hidden mr-3 sm:mr-4 shadow-lg shadow-purple-500/20 flex-shrink-0"
+                        className="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-gradient-to-r from-cyan-500 to-indigo-600 flex items-center justify-center overflow-hidden mr-3 sm:mr-4 shadow-lg shadow-purple-500/20 flex-shrink-0"
                         whileHover={{ scale: 1.1 }}
                         transition={{
                           type: "spring",
@@ -323,7 +322,20 @@ const ExperienceSection = () => {
                           <motion.img
                             src={company.logo}
                             alt={`${company.company} logo`}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain p-2 bg-white"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              console.error(`Failed to load logo for ${company.company}`);
+                              // Fall back to first letter of company name
+                              target.style.display = 'none';
+                              const parent = target.parentElement;
+                              if (parent) {
+                                const span = document.createElement('span');
+                                span.className = 'text-white font-semibold text-lg';
+                                span.textContent = company.company.charAt(0);
+                                parent.appendChild(span);
+                              }
+                            }}
                             initial={{ opacity: 0, scale: 0 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{

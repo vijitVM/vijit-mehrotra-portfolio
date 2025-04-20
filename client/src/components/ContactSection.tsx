@@ -81,7 +81,7 @@ const ContactSection = () => {
           animate={isInView ? "visible" : "hidden"}
         >
           <motion.h2
-            className="text-3xl font-bold mb-4 text-center text-cyan-500 uppercase tracking-wider"
+            className="text-3xl font-bold mb-4 text-center text-cyan-500 uppercase tracking-wider contact-title"
             variants={itemVariants}
           >
             CONTACT

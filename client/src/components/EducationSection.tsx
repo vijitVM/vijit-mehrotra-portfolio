@@ -138,11 +138,9 @@ const EducationSection = () => {
                         <motion.div
                           className="w-fit h-12 overflow-hidden flex items-center justify-center mr-4 shadow-md border-2"
                           style={{
-                            borderColor:
-                              certification.colorClass === "bg-gray-700"
-                                ? "#ff0080"
-                                : "#22d3ee",
+                            borderColor: "transparent",
                           }}
+                    
                           whileHover={{ scale: 1.1, rotate: 5 }}
                           transition={{
                             type: "spring",

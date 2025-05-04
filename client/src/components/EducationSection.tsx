@@ -135,7 +135,7 @@ const EducationSection = () => {
                     <CardContent className="p-4">
                       <div className="flex items-center">
                         <motion.div
-                         className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center mr-4 shadow-md border-2"
+                          className="w-16 h-16 overflow-hidden flex items-center justify-center mr-4 shadow-md border-2"
                           style={{
                             borderColor:
                               certification.colorClass === "bg-gray-700"

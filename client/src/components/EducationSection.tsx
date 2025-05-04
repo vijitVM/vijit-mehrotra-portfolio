@@ -136,7 +136,7 @@ const EducationSection = () => {
                     <CardContent className="flex px-2 py-2 items-center w-full text-md bg-gray-800 bg-opacity-80 duration-300 rounded-lg justify-start cursor-pointer hover:bg-gradient-to-r hover:from-cyan-500 hover:to-indigo-600 hover:text-white">
                       <div className="flex items-center">
                         <motion.div
-                          className="w-fit h-12 overflow-hidden flex items-center justify-center mr-4 shadow-md border-2"
+                          className="w-fit h-12 overflow-hidden flex items-center justify-center mr-4 shadow-md"
                           style={{
                             borderColor: "transparent",
                           }}

@@ -131,7 +131,7 @@ const EducationSection = () => {
                   animate={isInView ? "visible" : "hidden"}
                   className="mb-0.5"
                 >
-                  <card className="lgl:w-full sm:w-full group flex">
+                  <Card className="lgl:w-full sm:w-full group flex">
                     <CardContent className="flex px-2 py-2 items-center w-full text-md bg-gray-800 bg-opacity-80 duration-300 rounded-lg justify-start cursor-pointer hover:bg-gradient-to-r hover:from-pink-500 hover:to-violet-500 hover:text-white">
                       <div className="flex items-center">
                         <motion.div

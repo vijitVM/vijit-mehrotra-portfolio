@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { FaGraduationCap } from "react-icons/fa";
 import deepLearningLogo from "../attached_assets/DeepLearning.AI.jpg";
 import courseraLogo from "../attached_assets/coursera-logo.svg";
+import HuggingFaceLogo from "../attached_assets/hf-logo.svg";
 
 const EducationSection = () => {
   const sectionRef = useRef(null);
@@ -153,6 +154,12 @@ const EducationSection = () => {
                             <img
                               src={deepLearningLogo}
                               alt="DeepLearning.AI"
+                              className="w-full h-full object-contain"
+                            />
+                          ) : certification.logo === "HF" ? (
+                            <img
+                              src={HuggingFaceLogo}
+                              alt="Hugging Face"
                               className="w-full h-full object-contain"
                             />
                           ) : certification.logo === "CS" ? (

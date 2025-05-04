@@ -271,7 +271,7 @@ export const educationData = {
       year: "2020",
       details:
         "Post Graduate program with Major in Data Analytics and Data Science",
-      score: "GPA - 2.9/5",
+      score: "GPA - 3.25/5",
     },
     {
       id: 2,

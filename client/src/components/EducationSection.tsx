@@ -121,7 +121,7 @@ const EducationSection = () => {
               Certifications
             </motion.h3>
 
-            <div className="space-y-2">
+            <div className="space-y-1">
               {educationData.certifications.map((certification, index) => (
                 <motion.div
                   key={certification.id}
@@ -129,7 +129,7 @@ const EducationSection = () => {
                   variants={certCardVariants}
                   initial="hidden"
                   animate={isInView ? "visible" : "hidden"}
-                  className="mt-2 w-fit flex flex-col gap-3 lgl:px-0 sm:px-4"
+                  className="mt-2 w-full flex flex-col gap-3 lgl:px-0 sm:px-4"
                 >
                   <Card className="lgl:w-full sm:w-full group flex">
                     <CardContent className="flex px-2 py-2 items-center w-full text-md bg-gray-800 bg-opacity-80 duration-300 rounded-lg justify-start cursor-pointer hover:bg-gradient-to-r hover:from-cyan-500 hover:to-indigo-600 hover:text-white">

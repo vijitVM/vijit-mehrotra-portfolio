@@ -135,7 +135,7 @@ const EducationSection = () => {
                     <CardContent className="p-4">
                       <div className="flex items-center">
                         <motion.div
-                          className="w-16 h-16 overflow-hidden flex items-center justify-center mr-4 shadow-md border-2"
+                          className="w-24 h-12 overflow-hidden flex items-center justify-center mr-4 shadow-md border-2"
                           style={{
                             borderColor:
                               certification.colorClass === "bg-gray-700"
@@ -162,7 +162,7 @@ const EducationSection = () => {
                               className="w-full h-full object-contain" // Make it fit without distorting"
                             />
                           ) : (
-                            <div className="max-h-16 w-auto bg-gray-700 flex items-center justify-center rounded-md">
+                            <div className="h-auto w-auto bg-gray-700 flex items-center justify-center rounded-md">
                               <FaGraduationCap className="text-white text-xl" />
                             </div>
                           )}

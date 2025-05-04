@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { FaGraduationCap } from "react-icons/fa";
-import deepLearningLogo from "../attached_assets/DeepLearning.AI.jpg";
+import deepLearningLogo from "../attached_assets/DeepLearning.AI.svg";
 import courseraLogo from "../attached_assets/coursera-logo.svg";
 import HuggingFaceLogo from "../attached_assets/hf-logo.svg";
 

@@ -153,13 +153,13 @@ const EducationSection = () => {
                             <img
                               src={deepLearningLogo}
                               alt="DeepLearning.AI"
-                              className="max-h-16 w-auto object-contain rounded-md"
+                              className="w-full h-full object-contain"
                             />
                           ) : certification.logo === "CS" ? (
                             <img
                               src={courseraLogo}
                               alt="Coursera"
-                              className="max-h-16 w-auto object-contain rounded-md"
+                              className="w-full h-full object-contain" // Make it fit without distorting"
                             />
                           ) : (
                             <div className="max-h-16 w-auto bg-gray-700 flex items-center justify-center rounded-md">

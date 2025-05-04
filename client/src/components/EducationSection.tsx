@@ -153,16 +153,16 @@ const EducationSection = () => {
                             <img
                               src={deepLearningLogo}
                               alt="DeepLearning.AI"
-                              className="w-full h-full object-cover"
+                              className="max-h-16 w-auto object-contain rounded-md"
                             />
                           ) : certification.logo === "CS" ? (
                             <img
                               src={courseraLogo}
                               alt="Coursera"
-                              className="w-full h-full object-cover"
+                              className="max-h-16 w-auto object-contain rounded-md"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gray-700 flex items-center justify-center">
+                            <div className="max-h-16 w-auto bg-gray-700 flex items-center justify-center rounded-md">
                               <FaGraduationCap className="text-white text-xl" />
                             </div>
                           )}

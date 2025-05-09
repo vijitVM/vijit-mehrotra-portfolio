@@ -131,8 +131,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Shadcn UI for the component library
 - Lucide React for the icon set
 - React Three Fiber community
-- Replit for development platform
-
 ---
 
 Made with ❤️ by [Vijit Mehrotra](https://github.com/vijitVM)

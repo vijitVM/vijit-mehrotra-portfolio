@@ -134,7 +134,7 @@ const CurrentlyBuildingSection = () => {
               transition={{ duration: 0.3, delay: i * 0.1 }}
               className="flex items-start"
             >
-              <div className="flex items-center min-w-[100px] text-gray-400 text-sm">
+              <div className="flex items-center min-w-[100px] text-sm">
                 <span className="mr-1">{getIcon(item.type)}</span>
                 <span>{getLabel(item.type)}</span>
               </div>

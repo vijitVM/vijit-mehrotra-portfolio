@@ -172,7 +172,7 @@ const HeroSection = () => {
           </div>
 
           <motion.div
-            className=" flex flex-col md:flex-row font-titleFont w-full md:items-center justify-center"
+            className="flex flex-col md:flex-row font-titleFont w-full md:items-center justify-center md:flex-wrap"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -328,14 +328,13 @@ const HeroSection = () => {
                     </motion.div>
                   </motion.div>
                 </motion.div>
-              </div>    
+              </div>
             </div>
-
-            {/* Currently Building Section positioned with reduced space above */}
-            <motion.div className="mt-3 w-full" variants={itemVariants}>
-              <CurrentlyBuildingSection />
-            </motion.div>
+          </motion.div>
           
+          {/* Currently Building Section positioned below the two columns */}
+          <motion.div className="mt-1 md:mt-3 lg:mt-2 w-full max-w-[80%] mx-auto" variants={itemVariants}>
+            <CurrentlyBuildingSection />
           </motion.div>
         </div>
       </MouseFollowEffect>

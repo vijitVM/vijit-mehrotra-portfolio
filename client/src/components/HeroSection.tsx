@@ -152,7 +152,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-[88vh] flex items-center py-4 md:py-8 overflow-hidden relative"
+      className="flex flex-col items-center justify-center min-h-[88vh] w-full py-4 md:py-8 overflow-hidden relative"
       ref={heroRef}
       onMouseMove={handleMouseMove}
     >
@@ -169,28 +169,17 @@ const HeroSection = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              {/* <div className="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-amber-400 mr-2 md:mr-3">
-                <img src={profilePic} alt="Vijit Mehrotra" className="w-full h-full object-cover" />
-              </div> */}
-              {/* <div>
-                <h2 className="text-lg md:text-xl font-semibold">
-                  Vijit Mehrotra
-                </h2>
-                <p className="text-xs md:text-sm text-gray-400">
-                  Data Science Specialist
-                </p>
-              </div> */}
             </motion.div>
           </div>
 
           <motion.div
-            className="flex flex-col md:flex-row gap-12 items-center justify-between max-w-6xl mx-auto"
+            className=" flex flex-col md:flex-row font-titleFont w-full lg:w-11/12 xl:w-11/12 md:items-center justify-center md:gap-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
             <motion.div
-              className="flex-shrink-0"
+              className="w-full md:w-5/12 px-4"
               variants={profileVariants}
               onMouseMove={handleProfileHover}
               onMouseLeave={handleProfileLeave}
@@ -228,7 +217,7 @@ const HeroSection = () => {
             </motion.div>
 
             <motion.div
-              className="max-w-2xl md:px-4"
+              className="flex flex-col gap-4"
               variants={containerVariants}
             >
               <motion.h1

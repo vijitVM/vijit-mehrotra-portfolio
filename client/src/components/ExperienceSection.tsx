@@ -178,7 +178,7 @@ const ExperienceSection = () => {
   return (
     <section
       id="experience"
-      className="w-full flex flex-col items-center justify-center"
+      className="w-full flex flex-col items-center justify-center py-12 pt-12"
       ref={sectionRef}
     >
       <div className="container mx-auto px-4">

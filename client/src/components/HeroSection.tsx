@@ -152,7 +152,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="flex flex-col items-center justify-center h-full w-full px-4 border-b-[1px] pb-5"
+      className="flex flex-col items-center justify-center h-full w-full px-2 border-b-[1px] pb-5"
       ref={heroRef}
       onMouseMove={handleMouseMove}
     >
@@ -160,7 +160,7 @@ const HeroSection = () => {
       <ThreeScene />
 
       <MouseFollowEffect>
-        <div className="flex flex-col items-center justify-center h-full w-full px-4">
+        <div className="flex flex-col items-center justify-center h-full w-full px-2">
           {/* Header name on left like in screenshot 2 */}
           <div className="flex items-center mb-4 md:mb-8">
             <motion.div

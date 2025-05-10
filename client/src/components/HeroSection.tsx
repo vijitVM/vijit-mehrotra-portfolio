@@ -187,7 +187,8 @@ const HeroSection = () => {
             >
               <div className ="w-full sm:min-h-full md:min-h-screen lg:w-auto flex justify-center items-center relative pt-10 pb-5 md:p-0">
                 <motion.div
-                  className={`w-64 h-72 sm:w-72 sm:h-80 md:w-80 md:h-96 rounded-lg bg-transparent border-2 border-dashed ${
+
+                  className={`w-fit h-full rounded-lg bg-transparent border-2 border-dashed ${
                     theme === "dark" ? "border-cyan-700" : "border-amber-300"
                   } flex items-center justify-center overflow-hidden ${
                     theme === "dark"

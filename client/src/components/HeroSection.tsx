@@ -218,113 +218,118 @@ const HeroSection = () => {
               </div>
             </motion.div>
 
-            <motion.div
-              className="flex flex-col gap-4"
-              variants={containerVariants}
-            >
-              <motion.h1
-                className={`text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r ${
-                  theme === "dark"
-                    ? "from-cyan-400 to-purple-500"
-                    : "from-amber-400 to-orange-500"
-                } text-transparent bg-clip-text mb-4 md:text-left text-center transition-colors duration-300`}
-                variants={itemVariants}
-              >
-                Vijit Mehrotra
-              </motion.h1>
+            <div className ="flex items-center justify-start w-full md:w-6/12 pb-10">
+              <div className = "items-start justify-center w-full sm:min-h-full md:min-h-screen lg:min-h-[80vh] flex flex-col gap-6">
 
-              <motion.h2
-                className="text-xl font-medium text-gray-300 mb-6 md:flex md:justify-start flex justify-center h-8"
-                variants={itemVariants}
-              >
-                <span
-                  className={`min-h-[1.5rem] bg-gradient-to-r ${
-                    theme === "dark"
-                      ? "from-amber-300 to-pink-500"
-                      : "from-cyan-400 to-blue-500"
-                  } text-transparent bg-clip-text font-semibold text-xl sm:text-2xl transition-colors duration-300`}
-                >
-                  {typedText}
-                </span>
-                <span
-                  className={`${
-                    theme === "dark" ? "text-cyan-500" : "text-amber-500"
-                  } font-bold ml-1 transition-all duration-300 ${
-                    cursorVisible ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  |
-                </span>
-              </motion.h2>
-
-              <motion.p
-                className="mb-3 md:text-left text-center text-md sm:text-base"
-                variants={itemVariants}
-              >
-                Data Scientist and AI Engineer with 3+ years of experience specializing in Generative AI solutions to streamline operations and drive business growth. 
-                At Quation Solutions, I lead the development of advanced GenAI applications that enhance decision-making, automate workflows, and solve complex problems 
-                across industries such as Healthcare, FMCG, and Tech.
-              </motion.p>
-
-              <motion.p
-                className="mb-3 md:text-left text-center text-md sm:text-base"
-                variants={itemVariants}
-              >
-                I design and deploy scalable, end-to-end AI tools—from robust ETL pipelines and predictive model validation to PoCs for knowledge systems and automation. 
-                Passionate about using data to uncover actionable insights, optimize processes, and accelerate lead generation through intelligent, data-driven strategies.
-              </motion.p>
-
-
-              <motion.div
-                className="flex space-x-4 md:justify-start justify-center"
-                variants={itemVariants}
-              >
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
+                  className="flex flex-col gap-4"
+                  variants={containerVariants}
                 >
-                  <Button
-                    variant="outline"
-                    className={`${
+                  <motion.h1
+                    className={`text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r ${
                       theme === "dark"
-                        ? "bg-gray-800/50 hover:bg-cyan-500/80 text-white border-gray-700 hover:border-cyan-400"
-                        : "bg-gray-200/50 hover:bg-amber-500/80 text-gray-800 border-gray-300 hover:border-amber-400"
-                    } font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md border transition-all duration-300`}
-                    onClick={() => {
-                      window.open(
-                        "https://drive.google.com/file/d/1AhDPtVqTZ8G1FojXVIXDmbdVoekmxGXD/view?usp=sharing",
-                        "_blank",
-                        "noopener,noreferrer",
-                      );
-                    }}
+                        ? "from-cyan-400 to-purple-500"
+                        : "from-amber-400 to-orange-500"
+                    } text-transparent bg-clip-text mb-4 md:text-left text-center transition-colors duration-300`}
+                    variants={itemVariants}
                   >
-                    RÉSUMÉ
-                  </Button>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Button
-                    className={`bg-gradient-to-r ${
-                      theme === "dark"
-                        ? "from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 shadow-lg shadow-cyan-500/20"
-                        : "from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 shadow-lg shadow-amber-500/20"
-                    } text-white font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md transition-all duration-300`}
-                    onClick={scrollToContact}
-                  >
-                    CONTACT
-                  </Button>
-                </motion.div>
-              </motion.div>
+                    Vijit Mehrotra
+                  </motion.h1>
 
-              {/* Currently Building Section moved below buttons */}
-              <motion.div className="mt-5 w-full" variants={itemVariants}>
-                <CurrentlyBuildingSection />
-              </motion.div>
-            </motion.div>
+                  <motion.h2
+                    className="text-xl font-medium text-gray-300 mb-6 md:flex md:justify-start flex justify-center h-8"
+                    variants={itemVariants}
+                  >
+                    <span
+                      className={`min-h-[1.5rem] bg-gradient-to-r ${
+                        theme === "dark"
+                          ? "from-amber-300 to-pink-500"
+                          : "from-cyan-400 to-blue-500"
+                      } text-transparent bg-clip-text font-semibold text-xl sm:text-2xl transition-colors duration-300`}
+                    >
+                      {typedText}
+                    </span>
+                    <span
+                      className={`${
+                        theme === "dark" ? "text-cyan-500" : "text-amber-500"
+                      } font-bold ml-1 transition-all duration-300 ${
+                        cursorVisible ? "opacity-100" : "opacity-0"
+                      }`}
+                    >
+                      |
+                    </span>
+                  </motion.h2>
+
+                  <motion.p
+                    className="mb-3 md:text-left text-center text-md sm:text-base"
+                    variants={itemVariants}
+                  >
+                    Data Scientist and AI Engineer with 3+ years of experience specializing in Generative AI solutions to streamline operations and drive business growth. 
+                    At Quation Solutions, I lead the development of advanced GenAI applications that enhance decision-making, automate workflows, and solve complex problems 
+                    across industries such as Healthcare, FMCG, and Tech.
+                  </motion.p>
+
+                  <motion.p
+                    className="mb-3 md:text-left text-center text-md sm:text-base"
+                    variants={itemVariants}
+                  >
+                    I design and deploy scalable, end-to-end AI tools—from robust ETL pipelines and predictive model validation to PoCs for knowledge systems and automation. 
+                    Passionate about using data to uncover actionable insights, optimize processes, and accelerate lead generation through intelligent, data-driven strategies.
+                  </motion.p>
+
+
+                  <motion.div
+                    className="flex space-x-4 md:justify-start justify-center"
+                    variants={itemVariants}
+                  >
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Button
+                        variant="outline"
+                        className={`${
+                          theme === "dark"
+                            ? "bg-gray-800/50 hover:bg-cyan-500/80 text-white border-gray-700 hover:border-cyan-400"
+                            : "bg-gray-200/50 hover:bg-amber-500/80 text-gray-800 border-gray-300 hover:border-amber-400"
+                        } font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md border transition-all duration-300`}
+                        onClick={() => {
+                          window.open(
+                            "https://drive.google.com/file/d/1AhDPtVqTZ8G1FojXVIXDmbdVoekmxGXD/view?usp=sharing",
+                            "_blank",
+                            "noopener,noreferrer",
+                          );
+                        }}
+                      >
+                        RÉSUMÉ
+                      </Button>
+                    </motion.div>
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Button
+                        className={`bg-gradient-to-r ${
+                          theme === "dark"
+                            ? "from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 shadow-lg shadow-cyan-500/20"
+                            : "from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 shadow-lg shadow-amber-500/20"
+                        } text-white font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md transition-all duration-300`}
+                        onClick={scrollToContact}
+                      >
+                        CONTACT
+                      </Button>
+                    </motion.div>
+                  </motion.div>
+
+                  {/* Currently Building Section moved below buttons */}
+                  <motion.div className="mt-5 w-full" variants={itemVariants}>
+                    <CurrentlyBuildingSection />
+                  </motion.div>
+                </motion.div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </MouseFollowEffect>

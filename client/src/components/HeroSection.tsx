@@ -326,9 +326,6 @@ const HeroSection = () => {
                 </motion.div>
               </div>
             </div>
-            <motion.div className="mt-3 w-full" variants={itemVariants}>
-              <CurrentlyBuildingSection />
-            </motion.div>
           </motion.div>
         </div>
       </MouseFollowEffect>

@@ -381,7 +381,7 @@ const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
       animate={headerVisible ? "visible" : "scrolledDown"}
       variants={headerVariants}
     >
-      <div className="container mx-auto px-4 py-4 flex justify-end items-center">
+      <div className="container mx-auto py-4 flex justify-end items-center">
         {/* Logo and Name - Only shown in non-home sections */}
         <AnimatePresence>
           {activeSection !== "home" && activeSection !== "" ? (

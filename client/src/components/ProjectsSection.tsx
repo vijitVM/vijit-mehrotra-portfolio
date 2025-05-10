@@ -100,7 +100,7 @@ const ProjectsSection = () => {
 
   return (
     <section id="projects" className="py-0.5 pt-0.5 bg-gray-900/50" ref={sectionRef}>
-      <div className="sm:w-full px-0 sm:px-1 lg:w-11/12 xl:w-5/6 py-20 border-b-gray-800">
+      <div className="sm:w-full px-0 sm:px-1 lg:w-11/12 xl:w-5/6 py-1 border-b-gray-800">
         <motion.div
           variants={headerVariants}
           initial="hidden"

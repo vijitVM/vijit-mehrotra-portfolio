@@ -160,7 +160,7 @@ const HeroSection = () => {
       <ThreeScene />
 
       <MouseFollowEffect>
-        <div className="flex flex-col items-center justify-center min-h-full w-full px-2">
+        <div className="flex flex-col items-center justify-center min-h-full w-full px-2 relative">
           {/* Header name on left like in screenshot 2 */}
           <div className="flex items-center mb-4 md:mb-8">
             <motion.div
@@ -184,7 +184,7 @@ const HeroSection = () => {
               onMouseLeave={handleProfileLeave}
               style={{ perspective: "1000px" }}
             >
-              <div className="w-full sm:min-h-full md:min-h-[85vh] lg:w-auto flex justify-center items-center relative pt-6 pb-6 md:p-0">
+              <div className="w-full sm:min-h-full md:min-h-[65vh] lg:w-auto flex justify-center items-center relative pt-6 pb-6 md:p-0">
                 <motion.div
                   className={`w-fit h-full rounded-lg bg-transparent border-2 border-dashed ${
                     theme === "dark" ? "border-cyan-700" : "border-amber-300"
@@ -218,7 +218,7 @@ const HeroSection = () => {
             </motion.div>
 
             <div className="flex items-center justify-start w-full md:w-6/12 pb-6">
-              <div className="items-start justify-center w-full sm:min-h-full md:min-h-[85vh] flex flex-col gap-4">
+              <div className="items-start justify-center w-full sm:min-h-full md:min-h-[65vh] flex flex-col gap-4">
                 <motion.div
                   className="flex flex-col gap-2.5"
                   variants={containerVariants}
@@ -332,9 +332,9 @@ const HeroSection = () => {
             </div>
           </motion.div>
 
-          {/* Currently Building Section - Updated positioning with positive padding */}
+          {/* Currently Building Section - Positioned with absolute positioning */}
           <motion.div
-            className="w-full max-w-[80%] mx-auto pt-3 md:pt-5"
+            className="w-full max-w-[80%] mx-auto absolute md:top-[65%] lg:top-[60%] left-0 right-0"
             variants={itemVariants}
           >
             <CurrentlyBuildingSection />

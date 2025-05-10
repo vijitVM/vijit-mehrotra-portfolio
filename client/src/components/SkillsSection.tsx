@@ -294,6 +294,7 @@ const SkillsSection = () => {
             </motion.div>
           ))}
         </motion.div>
+        <div className="w-4/6 py-20 border-b-[1px] border-b-gray-800 sm:px-2 lgl:px-0"></div>
       </div>
     </section>
   );

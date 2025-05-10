@@ -333,7 +333,7 @@ const HeroSection = () => {
           </motion.div>
           
           {/* Currently Building Section positioned below the two columns */}
-          <motion.div className="-mt-6 md:mt-3 lg:mt-2 w-full max-w-[80%] mx-auto" variants={itemVariants}>
+          <motion.div className="-mt-6 md:-mt-3 lg:-mt-2 w-full max-w-[80%] mx-auto" variants={itemVariants}>
             <CurrentlyBuildingSection />
           </motion.div>
         </div>

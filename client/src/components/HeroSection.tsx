@@ -174,7 +174,7 @@ const HeroSection = () => {
 
           {/* First row: Main content columns */}
           <motion.div
-            className="flex flex-col md:flex-row font-titleFont w-full md:items-start justify-center md:flex-wrap gap-4 mb-8"
+            className="flex flex-col md:flex-row font-titleFont w-full md:items-start justify-center md:flex-wrap gap-4 mb-4"
             variants={containerVariants}
             initial="hidden"
             animate="visible"

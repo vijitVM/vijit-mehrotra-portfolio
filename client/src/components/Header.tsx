@@ -393,7 +393,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
       animate={headerVisible ? "visible" : "scrolledDown"}
       variants={headerVariants}
     >
-      <div className="container w-full px-8  flex justify-between items-end">
+      <div className="w-full px-8 py-4 flex justify-between items-end">
         {/* Logo and Name - Only shown in non-home sections */}
         <AnimatePresence>
           {activeSection !== "home" && activeSection !== "" ? (
@@ -475,7 +475,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
               >
                 <button
                   onClick={() => handleNavClick(item.id)}
-                  className={`relative px-2 py-1 ${
+                  className={`relative px-2 py-1 text-sm ${
                     activeSection === item.id
                       ? "text-cyan-400"
                       : theme === "dark"

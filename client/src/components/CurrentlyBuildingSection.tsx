@@ -115,7 +115,7 @@ const CurrentlyBuildingSection = () => {
             <div className="h-2 w-2 rounded-full bg-yellow-500"></div>
             <div className="h-2 w-2 rounded-full bg-green-500"></div>
           </div>
-          <div className="text-xs text-gray-400 font-mono text-[10px]">
+          <div className="text-sm font-mono text-[10px]">
             ~/dev/currently-working-on
           </div>
         </div>
@@ -134,11 +134,11 @@ const CurrentlyBuildingSection = () => {
               transition={{ duration: 0.3, delay: i * 0.1 }}
               className="flex items-start"
             >
-              <div className="flex items-center min-w-[100px] text-gray-400 text-xs">
+              <div className="flex items-center min-w-[100px] text-gray-400 text-sm">
                 <span className="mr-1">{getIcon(item.type)}</span>
                 <span>{getLabel(item.type)}</span>
               </div>
-              <div className={`${getColor(item.type)} flex-1 text-xs`}>
+              <div className={`${getColor(item.type)} flex-1 text-sm`}>
                 {typedTexts[i]}
                 {i === currentItemIndex && cursorVisible && (
                   <span className="text-white">|</span>

@@ -99,7 +99,7 @@ const ProjectsSection = () => {
 
 
   return (
-    <section id="projects" className="py-6 pt-6 bg-gray-900/50" ref={sectionRef}>
+    <section id="projects" className="py-4 pt-4 bg-gray-900/50" ref={sectionRef}>
       <div className="sm:w-full px-0 sm:px-2 lg:w-11/12 xl:w-5/6 py-20 border-b-[1px] border-b-gray-800">
         <motion.div
           variants={headerVariants}

@@ -475,7 +475,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
               >
                 <button
                   onClick={() => handleNavClick(item.id)}
-                  className={`relative px-2 py-1 text-sm ${
+                  className={`relative px-2 py-1 text-xs ${
                     activeSection === item.id
                       ? "text-cyan-400"
                       : theme === "dark"

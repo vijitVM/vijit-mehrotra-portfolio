@@ -381,7 +381,7 @@ const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
       animate={headerVisible ? "visible" : "scrolledDown"}
       variants={headerVariants}
     >
-      <div className="container mx-auto px-4 py-4 flex justify-between items-end">
+      <div className="container w-full px-8 flex justify-end">
         {/* Logo and Name - Only shown in non-home sections */}
         <AnimatePresence>
           {activeSection !== "home" && activeSection !== "" ? (
@@ -421,7 +421,7 @@ const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
               </motion.div>
               <div>
                 <motion.h1
-                  className="text-md md:text-lg font-semibold"
+                  className="text-md md:text-xl font-semibold"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
@@ -429,7 +429,7 @@ const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
                   Vijit Mehrotra
                 </motion.h1>
                 <motion.p
-                  className="text-xs text-gray-400"
+                  className="text-sm text-gray-400"
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.5 }}

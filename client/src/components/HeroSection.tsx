@@ -160,7 +160,7 @@ const HeroSection = () => {
       <ThreeScene />
 
       <MouseFollowEffect>
-        <div className="flex flex-col items-center justify-center min-h-full w-full px-2 relative">
+        <div className="flex flex-col items-center justify-center w-full px-2">
           {/* Header name on left like in screenshot 2 */}
           <div className="flex items-center mb-4 md:mb-8">
             <motion.div
@@ -171,12 +171,14 @@ const HeroSection = () => {
             ></motion.div>
           </div>
 
+          {/* First row: Main content columns */}
           <motion.div
-            className="flex flex-col md:flex-row font-titleFont w-full md:items-center justify-center md:flex-wrap gap-4"
+            className="flex flex-col md:flex-row font-titleFont w-full md:items-start justify-center md:flex-wrap gap-4 mb-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
+            {/* Left column (profile image) */}
             <motion.div
               className="w-full md:w-5/12 px-4"
               variants={profileVariants}
@@ -184,7 +186,7 @@ const HeroSection = () => {
               onMouseLeave={handleProfileLeave}
               style={{ perspective: "1000px" }}
             >
-              <div className="w-full sm:min-h-full md:min-h-[65vh] lg:w-auto flex justify-center items-center relative pt-6 pb-6 md:p-0">
+              <div className="w-full md:min-h-[70vh] lg:w-auto flex justify-center items-center pt-6 pb-6 md:p-0">
                 <motion.div
                   className={`w-fit h-full rounded-lg bg-transparent border-2 border-dashed ${
                     theme === "dark" ? "border-cyan-700" : "border-amber-300"
@@ -217,8 +219,9 @@ const HeroSection = () => {
               </div>
             </motion.div>
 
+            {/* Right column (text content) */}
             <div className="flex items-center justify-start w-full md:w-6/12 pb-6">
-              <div className="items-start justify-center w-full sm:min-h-full md:min-h-[65vh] flex flex-col gap-4">
+              <div className="items-start justify-center w-full md:min-h-[50vh] flex flex-col gap-4">
                 <motion.div
                   className="flex flex-col gap-2.5"
                   variants={containerVariants}
@@ -332,9 +335,9 @@ const HeroSection = () => {
             </div>
           </motion.div>
 
-          {/* Currently Building Section - Positioned with absolute positioning */}
+          {/* Second row: Currently Building Section - Properly positioned without hacks */}
           <motion.div
-            className="w-full max-w-[80%] mx-auto absolute md:top-[65%] lg:top-[60%] left-0 right-0"
+            className="w-full max-w-[80%] mx-auto mb-8"
             variants={itemVariants}
           >
             <CurrentlyBuildingSection />

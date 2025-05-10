@@ -152,7 +152,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="flex flex-col items-center justify-center h-full w-full px-4 border-b-[1px]"
+      className="flex flex-col items-center justify-center h-full w-full px-4 border-b-[1px] pb-5"
       ref={heroRef}
       onMouseMove={handleMouseMove}
     >
@@ -160,7 +160,7 @@ const HeroSection = () => {
       <ThreeScene />
 
       <MouseFollowEffect>
-        <div className = "flex flex-col items-center justify-center h-full w-full px-4">
+        <div className="flex flex-col items-center justify-center h-full w-full px-4">
           {/* Header name on left like in screenshot 2 */}
           <div className="flex items-center mb-4 md:mb-8">
             <motion.div
@@ -168,8 +168,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-            >
-            </motion.div>
+            ></motion.div>
           </div>
 
           <motion.div
@@ -185,9 +184,8 @@ const HeroSection = () => {
               onMouseLeave={handleProfileLeave}
               style={{ perspective: "1000px" }}
             >
-              <div className ="w-full sm:min-h-full md:min-h-screen lg:w-auto flex justify-center items-center relative pt-10 pb-5 md:p-0">
+              <div className="w-full sm:min-h-full md:min-h-screen lg:w-auto flex justify-center items-center relative pt-10 pb-5 md:p-0">
                 <motion.div
-
                   className={`w-fit h-full rounded-lg bg-transparent border-2 border-dashed ${
                     theme === "dark" ? "border-cyan-700" : "border-amber-300"
                   } flex items-center justify-center overflow-hidden ${
@@ -219,9 +217,8 @@ const HeroSection = () => {
               </div>
             </motion.div>
 
-            <div className ="flex items-center justify-start w-full md:w-6/12 pb-10">
-              <div className = "items-start justify-center w-full sm:min-h-full md:min-h-screen lg:min-h-[80vh] flex flex-col gap-6">
-
+            <div className="flex items-center justify-start w-full md:w-6/12 pb-10">
+              <div className="items-start justify-center w-full sm:min-h-full md:min-h-screen lg:min-h-[80vh] flex flex-col gap-6">
                 <motion.div
                   className="flex flex-col gap-4"
                   variants={containerVariants}
@@ -265,19 +262,26 @@ const HeroSection = () => {
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                    Data Scientist and AI Engineer with 3+ years of experience specializing in Generative AI solutions to streamline operations and drive business growth. 
-                    At Quation Solutions, I lead the development of advanced GenAI applications that enhance decision-making, automate workflows, and solve complex problems 
-                    across industries such as Healthcare, FMCG, and Tech.
+                    Data Scientist and AI Engineer with 3+ years of experience
+                    specializing in Generative AI solutions to streamline
+                    operations and drive business growth. At Quation Solutions,
+                    I lead the development of advanced GenAI applications that
+                    enhance decision-making, automate workflows, and solve
+                    complex problems across industries such as Healthcare, FMCG,
+                    and Tech.
                   </motion.p>
 
                   <motion.p
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                    I design and deploy scalable, end-to-end AI tools—from robust ETL pipelines and predictive model validation to PoCs for knowledge systems and automation. 
-                    Passionate about using data to uncover actionable insights, optimize processes, and accelerate lead generation through intelligent, data-driven strategies.
+                    I design and deploy scalable, end-to-end AI tools—from
+                    robust ETL pipelines and predictive model validation to PoCs
+                    for knowledge systems and automation. Passionate about using
+                    data to uncover actionable insights, optimize processes, and
+                    accelerate lead generation through intelligent, data-driven
+                    strategies.
                   </motion.p>
-
 
                   <motion.div
                     className="flex space-x-4 md:justify-start justify-center"
@@ -327,13 +331,12 @@ const HeroSection = () => {
               </div>
             </div>
           </motion.div>
-          {/* Currently Building Section moved below buttons */}
-          <motion.div className="mt-5 w-full" variants={itemVariants}>
+          {/* Currently Building Section positioned with reduced space above */}
+          <motion.div className="mt-0 -mb-10 w-full" variants={itemVariants}>
             <CurrentlyBuildingSection />
           </motion.div>
         </div>
       </MouseFollowEffect>
-      
     </section>
   );
 };

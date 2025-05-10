@@ -160,7 +160,7 @@ const HeroSection = () => {
       <ThreeScene />
 
       <MouseFollowEffect>
-        <div className = "flex flex-col items-center justify-center h-full w-full px-4 border-b-[1px]">
+        <div className = "flex flex-col items-center justify-center h-full w-full px-4">
           {/* Header name on left like in screenshot 2 */}
           <div className="flex items-center mb-4 md:mb-8">
             <motion.div
@@ -185,35 +185,37 @@ const HeroSection = () => {
               onMouseLeave={handleProfileLeave}
               style={{ perspective: "1000px" }}
             >
-              <motion.div
-                className={`w-64 h-72 sm:w-72 sm:h-80 md:w-80 md:h-96 rounded-lg bg-transparent border-2 border-dashed ${
-                  theme === "dark" ? "border-cyan-700" : "border-amber-300"
-                } flex items-center justify-center overflow-hidden ${
-                  theme === "dark"
-                    ? "shadow-2xl shadow-cyan-700/20"
-                    : "shadow-2xl shadow-amber-500/20"
-                } transition-colors duration-300`}
-                style={{
-                  transform: profileTransform,
-                }}
-              >
-                <div className="w-full h-full relative overflow-hidden">
-                  <img
-                    src={profilePic}
-                    alt="Vijit Mehrotra"
-                    className="w-full h-full object-cover"
-                  />
+              <div className ="w-full sm:min-h-full md:min-h-screen lg:w-auto flex justify-center items-center relative pt-10 pb-5 md:p-0">
+                <motion.div
+                  className={`w-64 h-72 sm:w-72 sm:h-80 md:w-80 md:h-96 rounded-lg bg-transparent border-2 border-dashed ${
+                    theme === "dark" ? "border-cyan-700" : "border-amber-300"
+                  } flex items-center justify-center overflow-hidden ${
+                    theme === "dark"
+                      ? "shadow-2xl shadow-cyan-700/20"
+                      : "shadow-2xl shadow-amber-500/20"
+                  } transition-colors duration-300`}
+                  style={{
+                    transform: profileTransform,
+                  }}
+                >
+                  <div className="w-full h-full relative overflow-hidden">
+                    <img
+                      src={profilePic}
+                      alt="Vijit Mehrotra"
+                      className="w-full h-full object-cover"
+                    />
 
-                  {/* Hover glow effect */}
-                  <motion.div
-                    className={`absolute inset-0 opacity-0 hover:opacity-40 ${
-                      theme === "dark"
-                        ? "bg-gradient-to-tr from-cyan-500/30 to-purple-500/30"
-                        : "bg-gradient-to-tr from-amber-500/30 to-orange-500/30"
-                    } transition-opacity duration-300 pointer-events-none`}
-                  />
-                </div>
-              </motion.div>
+                    {/* Hover glow effect */}
+                    <motion.div
+                      className={`absolute inset-0 opacity-0 hover:opacity-40 ${
+                        theme === "dark"
+                          ? "bg-gradient-to-tr from-cyan-500/30 to-purple-500/30"
+                          : "bg-gradient-to-tr from-amber-500/30 to-orange-500/30"
+                      } transition-opacity duration-300 pointer-events-none`}
+                    />
+                  </div>
+                </motion.div>
+              </div>
             </motion.div>
 
             <motion.div
@@ -325,7 +327,6 @@ const HeroSection = () => {
             </motion.div>
           </motion.div>
         </div>
-         <div className="w-full py-20 border-b-[1px] border-b-gray-800 sm:px-2 lgl:px-0"></div>
       </MouseFollowEffect>
     </section>
   );

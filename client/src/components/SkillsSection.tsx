@@ -259,7 +259,7 @@ const SkillsSection = () => {
 
         {/* Skills List */}
         <motion.div 
-          className="w-full max-w-4xl mx-auto mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4"
+          className="w-full max-w-3xl mx-auto mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 30 }}
           transition={{ delay: 0.6, duration: 0.7 }}

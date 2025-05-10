@@ -152,7 +152,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="flex flex-col items-center justify-center min-h-full w-full px-2 border-b-[1px] pb-5"
+      className="flex flex-col items-center justify-center min-h-full w-full px-2"
       ref={heroRef}
       onMouseMove={handleMouseMove}
     >
@@ -184,7 +184,7 @@ const HeroSection = () => {
               onMouseLeave={handleProfileLeave}
               style={{ perspective: "1000px" }}
             >
-              <div className="w-full sm:min-h-full md:min-h-screen lg:w-auto flex justify-center items-center relative pt-5 pb-2 md:p-0">
+              <div className="w-full sm:min-h-full md:min-h-[85vh] lg:w-auto flex justify-center items-center relative pt-6 pb-6 md:p-0">
                 <motion.div
                   className={`w-fit h-full rounded-lg bg-transparent border-2 border-dashed ${
                     theme === "dark" ? "border-cyan-700" : "border-amber-300"
@@ -217,8 +217,8 @@ const HeroSection = () => {
               </div>
             </motion.div>
 
-            <div className="flex items-center justify-start w-full md:w-6/12 pb-5">
-              <div className="items-start justify-center w-full sm:min-h-full md:min-h-screen lg:min-h-[80vh] flex flex-col gap-3">
+            <div className="flex items-center justify-start w-full md:w-6/12 pb-6">
+              <div className="items-start justify-center w-full sm:min-h-full md:min-h-[85vh] flex flex-col gap-4">
                 <motion.div
                   className="flex flex-col gap-2.5"
                   variants={containerVariants}
@@ -331,9 +331,12 @@ const HeroSection = () => {
               </div>
             </div>
           </motion.div>
-          
-          {/* Currently Building Section positioned below the two columns */}
-          <motion.div className="-mt-6 md:-mt-45 lg:-mt-60 w-full max-w-[80%] mx-auto" variants={itemVariants}>
+
+          {/* Currently Building Section - Updated positioning with positive padding */}
+          <motion.div
+            className="w-full max-w-[80%] mx-auto pt-3 md:pt-5"
+            variants={itemVariants}
+          >
             <CurrentlyBuildingSection />
           </motion.div>
         </div>

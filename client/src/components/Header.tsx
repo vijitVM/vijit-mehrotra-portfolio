@@ -10,7 +10,7 @@ interface HeaderProps {
   screenSize?: ScreenSize;
 }
 
-const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
+const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -73,115 +73,117 @@ const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
     if (targetElement) {
       // Calculate header height more precisely with padding to ensure the entire section is visible
       const headerHeight = (headerRef.current?.offsetHeight ?? 80) + 10;
-      
+
       // Get the actual element position relative to the viewport
       const elementRect = targetElement.getBoundingClientRect();
 
       // Check if we're using an Acer monitor (previously detected in DisplayScalingProvider)
-      const isAcerMonitor = document.documentElement.classList.contains('acer-monitor');
-      
+      const isAcerMonitor =
+        document.documentElement.classList.contains("acer-monitor");
+
       // Adjust scroll behavior based on screen size, section, and monitor type
       let scrollAdjustment = 0;
-      
+
       // Apply different scroll adjustments based on screen size, monitor type, and section
       if (isAcerMonitor) {
         // Special adjustments for Acer monitors
-        console.log('Using Acer monitor scroll adjustments');
-        
-        switch(sectionId) {
-          case 'home':
-          case 'hero':
+        console.log("Using Acer monitor scroll adjustments");
+
+        switch (sectionId) {
+          case "home":
+          case "hero":
             scrollAdjustment = 0;
             break;
-          case 'experience':
+          case "experience":
             scrollAdjustment = -80;
             break;
-          case 'education':
+          case "education":
             scrollAdjustment = -80;
             break;
-          case 'skills':
+          case "skills":
             scrollAdjustment = -80;
             break;
-          case 'projects':
+          case "projects":
             scrollAdjustment = -80;
             break;
-          case 'contact':
+          case "contact":
             scrollAdjustment = -80;
             break;
           default:
             scrollAdjustment = -60;
         }
-      } else if (screenSize === 'largeDesktop') {
+      } else if (screenSize === "largeDesktop") {
         // For 24-inch and larger displays (non-Acer)
-        switch(sectionId) {
-          case 'home':
-          case 'hero':
+        switch (sectionId) {
+          case "home":
+          case "hero":
             scrollAdjustment = 0;
             break;
-          case 'skills':
+          case "skills":
             scrollAdjustment = -100;
             break;
-          case 'experience':
+          case "experience":
             scrollAdjustment = -90;
             break;
-          case 'education':
+          case "education":
             scrollAdjustment = -90;
             break;
-          case 'projects':
+          case "projects":
             scrollAdjustment = -90;
             break;
-          case 'contact':
+          case "contact":
             scrollAdjustment = -90;
             break;
           default:
             scrollAdjustment = -80;
         }
-        console.log('Using large desktop scroll adjustments');
-      } else if (screenSize === 'desktop') {
+        console.log("Using large desktop scroll adjustments");
+      } else if (screenSize === "desktop") {
         // For standard desktop displays
-        switch(sectionId) {
-          case 'home':
-          case 'hero':
+        switch (sectionId) {
+          case "home":
+          case "hero":
             scrollAdjustment = 0;
             break;
-          case 'skills':
+          case "skills":
             scrollAdjustment = -90;
             break;
           default:
             scrollAdjustment = -80;
         }
-        console.log('Using desktop scroll adjustments');
-      } else if (screenSize === 'laptop') {
+        console.log("Using desktop scroll adjustments");
+      } else if (screenSize === "laptop") {
         // For laptop displays
-        switch(sectionId) {
-          case 'home':
-          case 'hero':
+        switch (sectionId) {
+          case "home":
+          case "hero":
             scrollAdjustment = 0;
             break;
-          case 'skills':
+          case "skills":
             scrollAdjustment = -80;
             break;
           default:
             scrollAdjustment = -70;
         }
-        console.log('Using laptop scroll adjustments');
+        console.log("Using laptop scroll adjustments");
       } else {
         // For smaller screens
-        switch(sectionId) {
-          case 'home':
-          case 'hero':
+        switch (sectionId) {
+          case "home":
+          case "hero":
             scrollAdjustment = 0;
             break;
-          case 'skills':
+          case "skills":
             scrollAdjustment = -60;
             break;
           default:
             scrollAdjustment = -50;
         }
       }
-      
+
       // Calculate final scroll position with screen-specific adjustments
-      const scrollPosition = window.scrollY + elementRect.top - headerHeight + scrollAdjustment;
+      const scrollPosition =
+        window.scrollY + elementRect.top - headerHeight + scrollAdjustment;
 
       console.log(
         `Scrolling to section: ${sectionId}, position: ${scrollPosition}, screen size: ${screenSize}, isAcerMonitor: ${isAcerMonitor}, adjustment: ${scrollAdjustment}`,
@@ -198,25 +200,35 @@ const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
       setTimeout(() => {
         // Quick adjustment after initial scroll
         const quickAdjustRect = targetElement.getBoundingClientRect();
-        const quickAdjustPosition = window.scrollY + quickAdjustRect.top - headerHeight + scrollAdjustment;
-        
+        const quickAdjustPosition =
+          window.scrollY +
+          quickAdjustRect.top -
+          headerHeight +
+          scrollAdjustment;
+
         window.scrollTo({
           top: quickAdjustPosition,
           behavior: "smooth",
         });
-        
+
         // Final adjustment after all content and animations have settled
         setTimeout(() => {
           // Recalculate final position
           const finalAdjustRect = targetElement.getBoundingClientRect();
-          const finalScrollPosition = window.scrollY + finalAdjustRect.top - headerHeight + scrollAdjustment;
-          
+          const finalScrollPosition =
+            window.scrollY +
+            finalAdjustRect.top -
+            headerHeight +
+            scrollAdjustment;
+
           window.scrollTo({
             top: finalScrollPosition,
             behavior: "smooth",
           });
-          
-          console.log(`Final adjustment for ${sectionId}, position: ${finalScrollPosition}`);
+
+          console.log(
+            `Final adjustment for ${sectionId}, position: ${finalScrollPosition}`,
+          );
         }, 300);
       }, 100);
     } else {
@@ -429,7 +441,7 @@ const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
                   Vijit Mehrotra
                 </motion.h1>
                 <motion.p
-                  className="text-sm text-gray-400"
+                  className="text-xs text-gray-400"
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.5 }}
@@ -448,7 +460,7 @@ const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
         </AnimatePresence>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center jusitfy-between">
+        <nav className="hidden md:flex items-center">
           <ul className="flex space-x-8">
             {navItems.map((item, index) => (
               <motion.li

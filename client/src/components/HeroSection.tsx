@@ -172,7 +172,7 @@ const HeroSection = () => {
           </div>
 
           <motion.div
-            className=" flex flex-col md:flex-row font-titleFont w-full lg:w-11/12 xl:w-11/12 md:items-center justify-center md:gap-6"
+            className=" flex flex-col md:flex-row font-titleFont w-full lg:w-11/12 xl:w-11/12 md:items-center justify-centerW"
             variants={containerVariants}
             initial="hidden"
             animate="visible"

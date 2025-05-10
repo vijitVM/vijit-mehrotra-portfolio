@@ -108,18 +108,11 @@ const ProjectsSection = () => {
           className="w-full flex items-center justify-center"
         >
           <motion.h2 
-            className="text-3xl font-bold mb-4 text-cyan-500 uppercase tracking-wider text-center"
+            className="text-3xl text font-bold mb-4 text-cyan-500 uppercase tracking-wider text-center"
             variants={headerVariants}
           >
             PROJECTS
           </motion.h2>
-          <motion.p
-            className="text-xl text-center mx-auto max-w-2xl"
-            variants={headerVariants}
-            transition={{ delay: 0.1 }}
-          >
-            Showcasing Innovation & Technical Excellence
-          </motion.p>
         </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">

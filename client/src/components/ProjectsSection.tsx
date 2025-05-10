@@ -108,7 +108,7 @@ const ProjectsSection = () => {
           className="w-full flex items-center justify-center"
         >
           <motion.h2 
-            className="text-3xl font-bold mb-4 text-cyan-500 uppercase tracking-wider"
+            className="text-3xl font-bold mb-4 text-cyan-500 uppercase tracking-wider text-center"
             variants={headerVariants}
           >
             PROJECTS

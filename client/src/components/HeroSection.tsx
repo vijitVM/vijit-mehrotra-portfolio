@@ -152,7 +152,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="flex flex-col items-center justify-center min-h-full w-full px-2 border-b-[1px] pb-5"
+      className="flex flex-col items-center justify-center w-full px-2 border-b-[1px] pb-2"
       ref={heroRef}
       onMouseMove={handleMouseMove}
     >
@@ -184,7 +184,7 @@ const HeroSection = () => {
               onMouseLeave={handleProfileLeave}
               style={{ perspective: "1000px" }}
             >
-              <div className="w-full sm:min-h-full md:min-h-screen lg:w-auto flex justify-center items-center relative pt-10 pb-5 md:p-0">
+              <div className="w-full sm:min-h-full md:min-h-[auto] lg:w-auto flex justify-center items-center relative pt-10 pb-2 md:p-0">
                 <motion.div
                   className={`w-fit h-full rounded-lg bg-transparent border-2 border-dashed ${
                     theme === "dark" ? "border-cyan-700" : "border-amber-300"
@@ -217,8 +217,8 @@ const HeroSection = () => {
               </div>
             </motion.div>
 
-            <div className="flex items-center justify-start w-full md:w-6/12 pb-10">
-              <div className="items-start justify-center w-full sm:min-h-full md:min-h-screen lg:min-h-[80vh] flex flex-col gap-4">
+            <div className="flex items-center justify-start w-full md:w-6/12 pb-4">
+              <div className="items-start justify-center w-full sm:min-h-full md:min-h-[auto] lg:min-h-[auto] flex flex-col gap-3">
                 <motion.div
                   className="flex flex-col gap-2.5"
                   variants={containerVariants}
@@ -333,7 +333,7 @@ const HeroSection = () => {
           </motion.div>
           
           {/* Currently Building Section positioned below the two columns */}
-          <motion.div className="mt-1 md:mt-3 lg:mt-2 w-full max-w-[80%] mx-auto" variants={itemVariants}>
+          <motion.div className="-mt-8 w-full max-w-[80%] mx-auto" variants={itemVariants}>
             <CurrentlyBuildingSection />
           </motion.div>
         </div>

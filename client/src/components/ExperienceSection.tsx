@@ -46,61 +46,6 @@ const ExperienceSection = () => {
     };
   }, []);
 
-  //   const experienceInfo = useMemo(() => {
-  //   const monthMap = {
-  //     Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
-  //     Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
-  //   };
-
-  //   let totalMonths = 0;
-
-  //   experienceData.forEach((company) => {
-  //     company.positions.forEach((position) => {
-  //       const [startStr, endStr] = position.period.split(" - ");
-  //       const [startMonthStr, startYearStr] = startStr.split(" ");
-  //       const startDate = new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
-
-  //       let endDate: Date;
-  //       if (endStr === "Present") {
-  //         endDate = new Date();
-  //       } else {
-  //         const [endMonthStr, endYearStr] = endStr.split(" ");
-  //         endDate = new Date(parseInt(endYearStr), monthMap[endMonthStr as keyof typeof monthMap]);
-  //       }
-
-  //       const months =
-  //         (endDate.getFullYear() - startDate.getFullYear()) * 12 +
-  //         (endDate.getMonth() - startDate.getMonth());
-
-  //       totalMonths += months;
-  //     });
-  //   });
-
-  //   const years = Math.floor(totalMonths / 12);
-  //   const months = totalMonths % 12;
-
-  //   const earliestStart = experienceData
-  //     .flatMap(company => company.positions)
-  //     .map(position => {
-  //       const [startStr] = position.period.split(" - ");
-  //       const [startMonthStr, startYearStr] = startStr.split(" ");
-  //       return new Date(parseInt(startYearStr), monthMap[startMonthStr as keyof typeof monthMap]);
-  //     })
-  //     .sort((a, b) => a.getTime() - b.getTime())[0];
-
-  //   const timePeriod = earliestStart ? `(${earliestStart.getFullYear()} - Present)` : "";
-
-  //   const experienceText = `${years} Year${years !== 1 ? "s" : ""}${
-  //     months > 0 ? ` ${months} Month${months !== 1 ? "s" : ""}` : ""
-  //   } of Experience`;
-
-  //   return {
-  //     years,
-  //     timePeriod,
-  //     experienceText,
-  //   };
-  // }, [experienceData]);
-
   const toggleCompany = (id: number) => {
     if (expandedCompanies.includes(id)) {
       setExpandedCompanies(
@@ -233,7 +178,7 @@ const ExperienceSection = () => {
   return (
     <section
       id="experience"
-      className="py-10 pt-12 overflow-x-hidden"
+      className="w-full flex flex-col items-center justify-center"
       ref={sectionRef}
     >
       <div className="container mx-auto px-4">

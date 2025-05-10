@@ -100,12 +100,12 @@ const ProjectsSection = () => {
 
   return (
     <section id="projects" className="py-10 pt-12 bg-gray-900/50" ref={sectionRef}>
-      <div className="container mx-auto px-4">
+      <div className="sm:w-full px-0 sm:px-4 lg:w-11/12 xl:w-5/6 py-20 border-b-[1px] border-b-gray-800">
         <motion.div
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="text-center mb-16"
+          className="w-full flex items-center justify-center"
         >
           <motion.h2 
             className="text-3xl font-bold mb-4 text-cyan-500 uppercase tracking-wider"
@@ -141,8 +141,8 @@ const ProjectsSection = () => {
                 onHoverEnd={() => setHoveredProject(null)}
                 className="h-full"
               >
-                <Card 
-                  className={`bg-gray-800/80 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg border border-gray-700 hover:shadow-xl hover:shadow-${projectAccent}-500/10 transition-all duration-300 h-full flex flex-col relative group`}
+                <Card
+                  className={`w-full max-w-[400px] p-3 xl:px-4 h-[500px] xl:py-3 rounded-lg flex flex-col bg-gray-800 bg-opacity-70 shadow-lg hover:shadow-xl hover:shadow-${projectAccent}-500/10 transition-all duration-300`}
                 >
                   {/* Animated highlight on hover */}
                   <motion.div 

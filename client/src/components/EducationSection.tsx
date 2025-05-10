@@ -52,7 +52,7 @@ const EducationSection = () => {
   return (
     <section
       id="education"
-      className="py-10 pt-12 overflow-hidden bg-[#111827]"
+      className="w-full flex items-center justify-center bg-[#111827]"
       ref={sectionRef}
     >
       <div className="container mx-auto px-4">
@@ -130,7 +130,7 @@ const EducationSection = () => {
                   variants={certCardVariants}
                   initial="hidden"
                   animate={isInView ? "visible" : "hidden"}
-                  className="mt-2 w-full flex flex-col gap-3 lgl:px-0 sm:px-4"
+                  className="lgl:w-full sm:w-full group flex"
                 >
                   <Card className="lgl:w-full sm:w-full group flex">
                     <CardContent className="flex px-2 py-2 items-center w-full text-md bg-gray-800 bg-opacity-80 duration-300 rounded-lg justify-start cursor-pointer hover:bg-gradient-to-r hover:from-cyan-500 hover:to-indigo-600 hover:text-white">

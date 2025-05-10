@@ -99,7 +99,7 @@ const ProjectsSection = () => {
 
 
   return (
-    <section id="projects" className="py-10 pt-12 bg-gray-900/50" ref={sectionRef}>
+    <section id="projects" className="py-10 pt-10 bg-gray-900/50" ref={sectionRef}>
       <div className="sm:w-full px-0 sm:px-4 lg:w-11/12 xl:w-5/6 py-20 border-b-[1px] border-b-gray-800">
         <motion.div
           variants={headerVariants}
@@ -108,14 +108,14 @@ const ProjectsSection = () => {
           className="w-full flex items-center justify-center"
         >
           <motion.h2 
-            className="text-3xl text font-bold mb-4 text-cyan-500 uppercase tracking-wider text-center"
+            className="text-3xl text font-bold mb-4 text-cyan-500 uppercase tracking-wider text-center gap-4"
             variants={headerVariants}
           >
             PROJECTS
           </motion.h2>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-w-7xl mx-auto">
           {projectsData.map((project, index) => {
             const projectAccent = getProjectAccent(project.id);
             const projectGradient = getProjectGradient(project.id);

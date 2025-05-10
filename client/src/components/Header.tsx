@@ -382,7 +382,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
   return (
     <motion.header
       ref={headerRef}
-      className={`w-full sticky top-0 z-50 flex items-center justify-end font-titleFont backdrop-blur-sm transition-all duration-300 ${
+      className={`w-full lgl:h-20 lg:h-20 sm:h-14 sticky top-0 z-50 flex items-center justify-end font-titleFont backdrop-blur-sm transition-all duration-300 ${
           theme === "dark" ? "bg-gray-900/95" : "bg-white/95 text-gray-800"
         } ${
           isScrolled
@@ -433,7 +433,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
               </motion.div>
               <div>
                 <motion.h1
-                  className="text-sm sm:text-lg font-semibold"
+                  className="text-sm sm:text-xl font-semibold"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.5 }}

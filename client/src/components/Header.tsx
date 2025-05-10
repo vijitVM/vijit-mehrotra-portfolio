@@ -433,7 +433,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
               </motion.div>
               <div>
                 <motion.h1
-                  className="text-md md:text-xl font-semibold"
+                  className="text-md md:text-lg font-semibold"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.5 }}

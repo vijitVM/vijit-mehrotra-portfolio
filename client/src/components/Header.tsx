@@ -382,12 +382,12 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
   return (
     <motion.header
       ref={headerRef}
-      className={`sticky top-0 z-50 ${
-        theme === "dark" ? "bg-gray-900/95" : "bg-white/95 text-gray-800"
-      } backdrop-blur-sm ${
-        isScrolled
-          ? "shadow-lg shadow-cyan-500/5 border-b border-cyan-500/10"
-          : ""
+      className={`w-full sticky top-0 z-50 flex items-center justify-end font-titleFont backdrop-blur-sm transition-all duration-300 ${
+          theme === "dark" ? "bg-gray-900/95" : "bg-white/95 text-gray-800"
+        } ${
+          isScrolled
+            ? "shadow-lg shadow-cyan-500/5 border-b border-cyan-500/10"
+            : ""
       } transition-all duration-300`}
       initial="hidden"
       animate={headerVisible ? "visible" : "scrolledDown"}

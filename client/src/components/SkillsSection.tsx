@@ -126,7 +126,7 @@ const SkillsSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.h2
-          className="text-3xl font-bold mb-14 text-center text-cyan-500 uppercase tracking-wider"
+          className="text-3xl font-bold mb-10 text-center text-cyan-500 uppercase tracking-wider"
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}

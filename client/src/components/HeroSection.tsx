@@ -256,7 +256,7 @@ const HeroSection = () => {
               </motion.h2>
 
               <motion.p
-                className="text-gray-200 mb-3 md:text-left text-center text-sm xs:text-base"
+                className="mb-3 md:text-left text-center text-md sm:text-base"
                 variants={itemVariants}
               >
                 Data Scientist and AI Engineer with 3+ years of experience specializing in Generative AI solutions to streamline operations and drive business growth. 
@@ -265,7 +265,7 @@ const HeroSection = () => {
               </motion.p>
 
               <motion.p
-                className="text-gray-200 mb-3 md:text-left text-center text-sm xs:text-base"
+                className="mb-3 md:text-left text-center text-md sm:text-base"
                 variants={itemVariants}
               >
                 I design and deploy scalable, end-to-end AI tools—from robust ETL pipelines and predictive model validation to PoCs for knowledge systems and automation. 

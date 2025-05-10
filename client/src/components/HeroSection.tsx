@@ -172,7 +172,7 @@ const HeroSection = () => {
           </div>
 
           <motion.div
-            className=" flex flex-col md:flex-row font-titleFont w-full lg:w-11/12 xl:w-11/12 md:items-center justify-center md:gap-8"
+            className=" flex flex-col md:flex-row font-titleFont w-full lg:w-11/12 xl:w-11/12 md:items-center justify-center md:gap-6"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -218,9 +218,9 @@ const HeroSection = () => {
             </motion.div>
 
             <div className="flex items-center justify-start w-full md:w-6/12 pb-10">
-              <div className="items-start justify-center w-full sm:min-h-full md:min-h-screen lg:min-h-[80vh] flex flex-col gap-6">
+              <div className="items-start justify-center w-full sm:min-h-full md:min-h-screen lg:min-h-[80vh] flex flex-col gap-4">
                 <motion.div
-                  className="flex flex-col gap-4"
+                  className="flex flex-col gap-2.5"
                   variants={containerVariants}
                 >
                   <motion.h1
@@ -328,12 +328,12 @@ const HeroSection = () => {
                     </motion.div>
                   </motion.div>
                 </motion.div>
-              </div>
-              {/* Currently Building Section positioned with reduced space above */}
-              <motion.div className="mt-2.5 w-full" variants={itemVariants}>
-                <CurrentlyBuildingSection />
-              </motion.div>
+              </div>    
             </div>
+          </motion.div>
+          {/* Currently Building Section positioned with reduced space above */}
+          <motion.div className="mt-3 w-full" variants={itemVariants}>
+            <CurrentlyBuildingSection />
           </motion.div>
         </div>
       </MouseFollowEffect>

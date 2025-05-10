@@ -382,7 +382,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
   return (
     <motion.header
       ref={headerRef}
-      className={`w-full lgl:h-20 lg:h-20 sm:h-14 sticky top-0 z-50 flex items-center justify-end font-titleFont backdrop-blur-sm transition-all duration-300 ${
+      className={`w-full lgl:h-18 lg:h-18 sm:h-12 sticky top-0 z-50 flex items-center justify-end font-titleFont backdrop-blur-sm transition-all duration-300 ${
           theme === "dark" ? "bg-gray-900/95" : "bg-white/95 text-gray-800"
         } ${
           isScrolled
@@ -406,7 +406,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
               whileHover={{ x: -2 }}
             >
               <motion.div
-                className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 overflow-hidden flex items-center justify-center"
+                className="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 overflow-hidden flex items-center justify-center"
                 variants={logoVariants}
                 initial="initial"
                 animate="animate"

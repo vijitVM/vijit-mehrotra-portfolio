@@ -99,8 +99,8 @@ const ProjectsSection = () => {
 
 
   return (
-    <section id="projects" className="py-10 pt-10 bg-gray-900/50" ref={sectionRef}>
-      <div className="sm:w-full px-0 sm:px-4 lg:w-11/12 xl:w-5/6 py-20 border-b-[1px] border-b-gray-800">
+    <section id="projects" className="py-6 pt-6 bg-gray-900/50" ref={sectionRef}>
+      <div className="sm:w-full px-0 sm:px-4 lg:w-11/12 xl:w-5/6 py-16 border-b-[1px] border-b-gray-800">
         <motion.div
           variants={headerVariants}
           initial="hidden"
@@ -108,7 +108,7 @@ const ProjectsSection = () => {
           className="w-full flex items-center justify-center"
         >
           <motion.h2 
-            className="text-3xl text font-bold mb-4 text-cyan-500 uppercase tracking-wider text-center gap-4"
+            className="text-3xl text font-bold mb-12 text-cyan-500 uppercase tracking-wider text-center"
             variants={headerVariants}
           >
             PROJECTS

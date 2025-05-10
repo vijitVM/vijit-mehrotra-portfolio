@@ -114,7 +114,7 @@ const SkillsSection = () => {
   return (
     <section
       id="skills"
-      className="w-full mx-auto items-center justify-center py-4 pt-4 bg-gray-900/50 relative"
+      className="w-full mx-auto items-center justify-center py-8 pt-8 bg-gray-900/50 relative"
       ref={sectionRef}
     >
       <motion.div
@@ -126,7 +126,7 @@ const SkillsSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.h2
-          className="text-3xl font-bold mb-2 text-center text-cyan-500 uppercase tracking-wider"
+          className="text-3xl font-bold mb-8 text-center text-cyan-500 uppercase tracking-wider"
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -294,7 +294,7 @@ const SkillsSection = () => {
             </motion.div>
           ))}
         </motion.div>
-        <div className="w-4/6 py-20 border-b-[1px] border-b-gray-800 sm:px-2 lgl:px-0"></div>
+        <div className="w-full py-20 border-b-[1px] border-b-gray-800 sm:px-2 lgl:px-0"></div>
       </div>
     </section>
   );

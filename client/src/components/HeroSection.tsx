@@ -238,7 +238,7 @@ const HeroSection = () => {
                   </motion.h1>
 
                   <motion.h2
-                    className="text-xl font-medium text-gray-300 mb-6 md:flex md:justify-start flex justify-center h-8"
+                    className="text-xl font-medium text-gray-300 mb-6 md:flex md:justify-start flex justify-center"
                     variants={itemVariants}
                   >
                     <span

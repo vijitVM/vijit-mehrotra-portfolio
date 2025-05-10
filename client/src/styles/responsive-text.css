@@ -6,7 +6,7 @@
 /* Base font size is set proportional to the root element 
  * This enables better scaling across displays with different pixel densities
  */
- :root {
+:root {
   /* Default font size settings */
   font-size: 16px;
   
@@ -149,4 +149,44 @@
   font-kerning: normal;
   font-feature-settings: "kern" 1;
   font-size-adjust: 0.5; /* Adjust x-height for better readability */
+}
+
+/* Improve section scrolling behavior across all devices */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Default padding to account for fixed header */
+}
+
+/* Targeted scroll adjustments for different displays */
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+  /* For laptop displays */
+  html {
+    scroll-padding-top: 90px;
+  }
+}
+
+@media screen and (min-width: 1441px) and (max-width: 1920px) {
+  /* For typical desktop monitors */
+  html {
+    scroll-padding-top: 100px;
+  }
+}
+
+@media screen and (min-width: 1921px) {
+  /* For larger monitors */
+  html {
+    scroll-padding-top: 120px;
+  }
+}
+
+/* General section spacing to ensure full visibility */
+section {
+  position: relative;
+  min-height: 50vh; /* Minimum height to ensure content is visible */
+  padding-bottom: 2rem;
+}
+
+/* Ensure all section content is properly spaced */
+section > .container {
+  padding-bottom: 1rem;
 }

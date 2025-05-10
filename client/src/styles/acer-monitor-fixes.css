@@ -168,34 +168,46 @@
 }
 
 /* Individual section scroll fixes */
-:root.acer-monitor #hero {
+:root.acer-monitor #hero,
+:root.acer-monitor #home {
+  scroll-margin-top: 0 !important;
   padding-top: 5rem !important;
   margin-bottom: 1rem !important;
 }
 
 :root.acer-monitor #experience {
-  scroll-margin-top: 100px !important;
-  padding-top: 3.5rem !important;
+  scroll-margin-top: 120px !important;
+  padding-top: 4rem !important;
+  min-height: 200px !important; /* Ensure minimum height even with few items */
 }
 
 :root.acer-monitor #education {
-  scroll-margin-top: 100px !important;
-  padding-top: 3.5rem !important;
+  scroll-margin-top: 120px !important;
+  padding-top: 4rem !important;
+  min-height: 200px !important;
 }
 
 :root.acer-monitor #skills {
-  scroll-margin-top: 100px !important;
-  padding-top: 3.5rem !important;
+  scroll-margin-top: 120px !important;
+  padding-top: 4rem !important;
+  min-height: 300px !important;
 }
 
 :root.acer-monitor #projects {
-  scroll-margin-top: 100px !important;
-  padding-top: 3.5rem !important;
+  scroll-margin-top: 120px !important;
+  padding-top: 4rem !important;
+  min-height: 200px !important;
 }
 
 :root.acer-monitor #contact {
-  scroll-margin-top: 100px !important;
-  padding-top: 3.5rem !important;
+  scroll-margin-top: 120px !important;
+  padding-top: 4rem !important;
+  min-height: 200px !important;
+}
+
+/* Section content spacing to ensure visibility */
+:root.acer-monitor section > div.container {
+  padding-bottom: 2rem !important;
 }
 
 :root.acer-monitor #skills .mb-8 {

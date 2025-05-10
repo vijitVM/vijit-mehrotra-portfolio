@@ -433,7 +433,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
               </motion.div>
               <div>
                 <motion.h1
-                  className="text-md md:text-lg font-semibold"
+                  className="text-sm sm:text-lg font-semibold"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
@@ -441,7 +441,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
                   Vijit Mehrotra
                 </motion.h1>
                 <motion.p
-                  className="text-xs text-gray-400"
+                  className="text-sm text-gray-400"
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.5 }}
@@ -460,7 +460,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
         </AnimatePresence>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center">
+        <nav className="hidden sm:flex items-center">
           <ul className="flex space-x-8">
             {navItems.map((item, index) => (
               <motion.li

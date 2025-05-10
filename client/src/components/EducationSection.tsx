@@ -52,7 +52,7 @@ const EducationSection = () => {
   return (
     <section
       id="education"
-      className="w-full flex items-center justify-center bg-[#111827]"
+      className="w-full flex items-center justify-center bg-gray-900/50 relative"
       ref={sectionRef}
     >
       <div className="container mx-auto px-4">

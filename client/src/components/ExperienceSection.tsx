@@ -558,6 +558,7 @@ const ExperienceSection = () => {
             </motion.div>
           ))}
         </div>
+         <div className="w-full py-20 border-b-[1px] border-b-gray-800 sm:px-2 lgl:px-0"></div>
       </div>
     </section>
   );

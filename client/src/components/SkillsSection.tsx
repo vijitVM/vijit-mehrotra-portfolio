@@ -256,7 +256,7 @@ const SkillsSection = () => {
             </motion.div>
           </AnimatePresence>
         </motion.div>
-        
+
         {/* Skills List */}
         <motion.div 
           className="w-full max-w-4xl mx-auto mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4"
@@ -267,7 +267,7 @@ const SkillsSection = () => {
           {selectedCategory.data.map((skill, index) => (
             <motion.div 
               key={skill.name} 
-              className={`p-2 sm:p-3 ${theme === 'dark' ? 'bg-gray-800/60' : 'bg-gray-100/80'} rounded-lg ${selectedCategory.borderColor2} border`}
+              className={`p-1.5 sm:p-2 ${theme === 'dark' ? 'bg-gray-800/60' : 'bg-gray-100/80'} rounded-lg ${selectedCategory.borderColor2} border`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * index + 0.7 }}

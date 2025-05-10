@@ -202,7 +202,7 @@ const HeroSection = () => {
                     <img
                       src={profilePic}
                       alt="Vijit Mehrotra"
-                      className="w-full h-full object-cover"
+                      className="object-cover w-full h-full sm:max-w-[350px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[600px]"
                     />
 
                     {/* Hover glow effect */}

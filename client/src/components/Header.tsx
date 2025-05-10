@@ -381,12 +381,12 @@ const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
       animate={headerVisible ? "visible" : "scrolledDown"}
       variants={headerVariants}
     >
-      <div className="container px-8 flex justify-end items-center">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo and Name - Only shown in non-home sections */}
         <AnimatePresence>
           {activeSection !== "home" && activeSection !== "" ? (
             <motion.div
-              className="flex items-center w-full px-8 justify-between"
+              className="flex items-center space-x-3"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
@@ -394,7 +394,7 @@ const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
               whileHover={{ x: -2 }}
             >
               <motion.div
-                className="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 overflow-hidden flex items-center justify-end"
+                className="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 overflow-hidden flex items-center justify-center"
                 variants={logoVariants}
                 initial="initial"
                 animate="animate"
@@ -402,7 +402,7 @@ const Header = ({ activeSection, screenSize = 'laptop' }: HeaderProps) => {
                 whileTap={{ scale: 0.95 }}
               >
                 <motion.div
-                  className="w-full h-full flex items-center justify-end"
+                  className="w-full h-full flex items-center justify-center"
                   initial={{ rotateY: 90 }}
                   animate={{ rotateY: 0 }}
                   transition={{

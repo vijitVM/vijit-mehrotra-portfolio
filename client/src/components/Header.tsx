@@ -174,22 +174,22 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
             scrollAdjustment = 0;
             break;
           case "skills":
-            scrollAdjustment = -130;
+            scrollAdjustment = -180;
             break;
           case "experience":
-            scrollAdjustment = -120;
+            scrollAdjustment = -170;
             break;
           case "education":
-            scrollAdjustment = -100;
+            scrollAdjustment = -150;
             break;
           case "projects":
-            scrollAdjustment = -100;
+            scrollAdjustment = -150;
             break;
           case "contact":
-            scrollAdjustment = -100;
+            scrollAdjustment = -150;
             break;
           default:
-            scrollAdjustment = -100;
+            scrollAdjustment = -140;
         }
       }
 

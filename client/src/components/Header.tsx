@@ -169,12 +169,24 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
       } else {
         // For smaller screens
         switch (sectionId) {
-          case "home":
+         case "home":
           case "hero":
             scrollAdjustment = 0;
             break;
           case "skills":
-            scrollAdjustment = -80;
+            scrollAdjustment = -100;
+            break;
+          case "experience":
+            scrollAdjustment = -100;
+            break;
+          case "education":
+            scrollAdjustment = -100;
+            break;
+          case "projects":
+            scrollAdjustment = -100;
+            break;
+          case "contact":
+            scrollAdjustment = -100;
             break;
           default:
             scrollAdjustment = -90;

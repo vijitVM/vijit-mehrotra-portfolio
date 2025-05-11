@@ -161,7 +161,7 @@ const HeroSection = () => {
       <ThreeScene />
 
       <MouseFollowEffect>
-        <div className="flex flex-col items-center justify-center w-full px-2">
+        <div className="flex flex-col items-center justify-center w-full px-2 py-2">
           {/* Header name on left like in screenshot 2 */}
           <div className="flex items-center mb-4 md:mb-8">
             <motion.div
@@ -338,7 +338,7 @@ const HeroSection = () => {
 
           {/* Second row: Currently Building Section - Properly positioned without hacks */}
           <motion.div
-            className="w-full max-w-[80%] mx-auto mb-8"
+            className="w-full max-w-[80%] mx-auto mb-8 py-2"
             variants={itemVariants}
           >
             <CurrentlyBuildingSection />

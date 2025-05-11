@@ -14,6 +14,6 @@ export interface BuildingItem {
     },
     {
       type: "learning",
-      content: "Understanding How LLM can be used for OCR extraction" // Learning goal
+      content: "Exploring how LLMs enhance OCR text extraction" // Learning goal
     }
   ];

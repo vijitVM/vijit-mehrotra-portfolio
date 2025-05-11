@@ -161,7 +161,7 @@ const HeroSection = () => {
       <ThreeScene />
 
       <MouseFollowEffect>
-        <div className="flex flex-col items-center justify-center w-full px-2 py-4">
+        <div className="flex flex-col items-center justify-center w-full px-2 py-1">
           {/* Header name on left like in screenshot 2 */}
           <div className="flex items-center mb-4 md:mb-8">
             <motion.div

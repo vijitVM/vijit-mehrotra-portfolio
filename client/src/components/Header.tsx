@@ -120,22 +120,22 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
             scrollAdjustment = 0;
             break;
           case "skills":
-            scrollAdjustment = -100;
+            scrollAdjustment = -50;
             break;
           case "experience":
-            scrollAdjustment = -90;
+            scrollAdjustment = -40;
             break;
           case "education":
-            scrollAdjustment = -90;
+            scrollAdjustment = -40;
             break;
           case "projects":
-            scrollAdjustment = -90;
+            scrollAdjustment = -40;
             break;
           case "contact":
-            scrollAdjustment = -90;
+            scrollAdjustment = -40;
             break;
           default:
-            scrollAdjustment = -80;
+            scrollAdjustment = -30;
         }
         console.log("Using large desktop scroll adjustments");
       } else if (screenSize === "desktop") {

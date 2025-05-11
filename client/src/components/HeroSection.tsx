@@ -187,7 +187,7 @@ const HeroSection = () => {
               onMouseLeave={handleProfileLeave}
               style={{ perspective: "1000px" }}
             >
-              <div className="w-full md:min-h-[60vh] lg:w-auto flex justify-center items-center pt-6 pb-6 md:p-0">
+              <div className="w-full md:min-h-[50vh] lg:w-auto flex justify-center items-center pt-6 pb-6 md:p-0">
                 <motion.div
                   className={`w-fit h-full rounded-lg bg-transparent border-2 border-dashed ${
                     theme === "dark" ? "border-cyan-700" : "border-amber-300"
@@ -221,7 +221,7 @@ const HeroSection = () => {
             </motion.div>
 
             {/* Right column (text content) */}
-            <div className="flex items-center justify-start w-full">
+            <div className="flex items-center justify-start w-full md:w-full">
               <div className="items-start justify-center w-full md:min-h-[50vh] flex flex-col gap-4">
                 <motion.div
                   className="flex flex-col gap-2"

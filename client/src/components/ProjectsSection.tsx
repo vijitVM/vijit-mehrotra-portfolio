@@ -99,7 +99,7 @@ const ProjectsSection = () => {
 
 
   return (
-    <section id="projects" className="w-full flex flex-col items-center justify-center py-12 pt-12 bg-gray-900/50 relative" ref={sectionRef}>
+    <section id="projects" className="w-full flex flex-col items-center justify-center py-12 pt-20 bg-gray-900/50 relative" ref={sectionRef}>
       <div className="sm:w-full px-0 sm:px-2 lg:w-11/12 xl:w-5/6 py-14 border-b-gray-800">
         <motion.div
           variants={headerVariants}

@@ -115,7 +115,7 @@ const CurrentlyBuildingSection = () => {
             <div className="h-2 w-2 rounded-full bg-yellow-500"></div>
             <div className="h-2 w-2 rounded-full bg-green-500"></div>
           </div>
-          <div className="text-sm font-mono text-[10px]">
+          <div className="text-sm font-mono text-[8px]">
             ~/dev/currently-working-on
           </div>
         </div>

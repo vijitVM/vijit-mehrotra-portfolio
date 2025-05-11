@@ -221,7 +221,7 @@ const HeroSection = () => {
             </motion.div>
 
             {/* Right column (text content) */}
-            <div className="flex items-center justify-start w-full md:w-[60%] pb-6">
+            <div className="flex items-center justify-start w-full md:w-6.5/12 pb-6">
               <div className="items-start justify-center w-full md:min-h-[60vh] flex flex-col gap-4">
                 <motion.div
                   className="flex flex-col gap-2"

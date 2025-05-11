@@ -121,7 +121,7 @@ const CurrentlyBuildingSection = () => {
         </div>
 
         {/* Terminal content */}
-        <div className="font-mono text-sm space-y-0.5">
+        <div className="font-mono text-xs space-y-0.5">
           {buildingData.map((item: BuildingItem, i: number) => (
             <motion.div
               key={i}
@@ -134,11 +134,11 @@ const CurrentlyBuildingSection = () => {
               transition={{ duration: 0.3, delay: i * 0.1 }}
               className="flex items-start"
             >
-              <div className="flex items-center min-w-[100px] text-sm">
+              <div className="flex items-center min-w-[100px] text-xs">
                 <span className="mr-1">{getIcon(item.type)}</span>
                 <span>{getLabel(item.type)}</span>
               </div>
-              <div className={`${getColor(item.type)} flex-1 text-sm`}>
+              <div className={`${getColor(item.type)} flex-1 text-xs`}>
                 {typedTexts[i]}
                 {i === currentItemIndex && cursorVisible && (
                   <span className="text-white">|</span>

@@ -58,8 +58,19 @@ export const experienceData = [
     positions: [
       {
         id: 101,
+        role: "Senior Consultant, Data Science",
+        period: "May 2025 - Present",
+        details: [
+          {
+            domain: "Automotive Retail",
+            text: "[[Generative AI Complaint Analyzer:]] Currently developing a proof of concept Generative AI pipeline to analyze customer complaints by detecting sentiment nuances, auto-tagging issues, and computing emotional scores. Delivered real-time insights through interactive Power BI dashboards to accelerate resolution and enhance customer experience. (Technologies: GPT-4o-mini, Power BI, NLP, Sentiment Analysis, Langfuse)",
+          },
+        ],
+      },
+      {
+        id: 102,
         role: "Consultant, Data Science",
-        period: "May 2024 - Present",
+        period: "May 2024 - April 2025",
         details: [
           {
             domain: "Fast Moving Consumer Goods (FMCG)",
@@ -84,7 +95,7 @@ export const experienceData = [
         ],
       },
       {
-        id: 102,
+        id: 103,
         role: "Consultant, Data Analyst / Data Engineer",
         period: "May 2023 - Apr 2024",
         details: [

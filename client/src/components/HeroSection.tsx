@@ -305,7 +305,7 @@ const HeroSection = () => {
                         } font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md border transition-all duration-300`}
                         onClick={() => {
                           window.open(
-                            "https://drive.google.com/file/d/1AhDPtVqTZ8G1FojXVIXDmbdVoekmxGXD/view?usp=sharing",
+                            "https://drive.google.com/file/d/1XBdj4sVCIDOPiLly2gW4wo0OnN65RiLg/view?usp=sharing",
                             "_blank",
                             "noopener,noreferrer",
                           );

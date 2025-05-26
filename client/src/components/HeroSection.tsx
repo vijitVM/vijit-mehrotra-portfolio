@@ -16,10 +16,10 @@ import CurrentlyBuildingSection from "./CurrentlyBuildingSection";
 const HeroSection = () => {
   const { theme } = useTheme();
   const titles = [
+    "Senior Data Science Consultant",
     "Generative AI Specialist",
-    "Team Player",
-    "Data Science Consultant",
     "AI Engineer",
+     "Team Player",
   ];
   const [typedText, setTypedText] = useState("");
   const [titleIndex, setTitleIndex] = useState(0);

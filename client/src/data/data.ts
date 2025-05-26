@@ -63,7 +63,7 @@ export const experienceData = [
         details: [
           {
             domain: "Automotive Retail",
-            text: "[[Generative AI Complaint Analyzer:]] Currently developing a proof of concept Generative AI pipeline to analyze customer complaints by detecting sentiment nuances, auto-tagging issues, and computing emotional scores. Delivered real-time insights through interactive Power BI dashboards to accelerate resolution and enhance customer experience. (Technologies: GPT-4o-mini, Power BI, NLP, Sentiment Analysis, Langfuse)",
+            text: "[[Generative AI Complaint Analyzer:]] Currently developing a proof-of-concept Generative AI pipeline with an integrated autonomous agent to analyze customer complaints by detecting sentiment nuances, auto-tagging issues, and computing emotional scores. Delivered real-time insights through interactive Power BI dashboards to accelerate resolution and enhance customer experience. (Technologies: GPT-4o-mini, Power BI, NLP, Sentiment Analysis, Langfuse)",
           },
         ],
       },

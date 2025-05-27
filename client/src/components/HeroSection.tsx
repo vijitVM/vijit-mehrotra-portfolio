@@ -266,25 +266,23 @@ const HeroSection = () => {
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                    Senior Data Scientist and AI Engineer with 3+ years of experience
-                    specializing in Generative AI solutions to streamline
-                    operations and drive business growth. At Quation Solutions,
-                    I lead the development of advanced GenAI applications that
-                    enhance decision-making, automate workflows, and solve
-                    complex problems across industries such as Healthcare, FMCG,
-                    and Tech.
+                    Senior Data Scientist & AI Engineer with 3+ years of experience 
+                    delivering impactful end-to-end analytics and AI solutions that streamline 
+                    operations and drive business growth. At Quation Solutions, 
+                    I lead the development of intelligent systems that enhance decision-making, 
+                    automate workflows, and solve complex challenges across industries including Healthcare, 
+                    FMCG, Technology and other industries.
                   </motion.p>
 
                   <motion.p
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                    I design and deploy scalable, end-to-end AI tools—from
-                    robust ETL pipelines and predictive model validation to PoCs
-                    for knowledge systems and automation. Passionate about using
-                    data to uncover actionable insights, optimize processes, and
-                    accelerate lead generation through intelligent, data-driven
-                    strategies.
+                  I specialize in designing and deploying scalable AI tools—ranging from 
+                  robust ETL pipelines and predictive model validation to proof-of-concepts 
+                  for generative AI, knowledge systems, and business automation. My work integrates 
+                  both traditional analytics and cutting-edge GenAI, enabling organizations to uncover 
+                  actionable insights, optimize processes, and accelerate lead generation through intelligent, data-driven strategies.
                   </motion.p>
 
                   <motion.div

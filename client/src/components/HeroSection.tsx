@@ -271,7 +271,7 @@ const HeroSection = () => {
                     operations and drive business growth. At Quation Solutions, 
                     I lead the development of intelligent systems that enhance decision-making, 
                     automate workflows, and solve complex challenges across industries including Healthcare, 
-                    FMCG, Technology and other industries.
+                    FMCG, Technology.
                   </motion.p>
 
                   <motion.p

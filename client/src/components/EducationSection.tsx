@@ -1,8 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { educationData } from "../data/data";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { FaGraduationCap } from "react-icons/fa";
 import deepLearningLogo from "../attached_assets/DeepLearning.AI.svg";
@@ -118,82 +117,87 @@ const EducationSection = () => {
             </motion.h3>
 
             <div className="space-y-1">
-              {certificationsToShow.map((certification, index) => (
-                <motion.div
-                  key={certification.id}
-                  custom={index}
-                  variants={certCardVariants}
-                  initial="hidden"
-                  animate={isInView ? "visible" : "hidden"}
-                  className="lgl:w-full sm:w-full group flex"
-                >
-                  <Card className="lgl:w-full sm:w-full group flex">
-                    <CardContent className="flex px-2 py-2 items-center w-full text-md bg-gray-800 bg-opacity-80 duration-300 rounded-lg justify-start cursor-pointer hover:bg-gradient-to-r hover:from-cyan-500 hover:to-indigo-600 hover:text-white">
-                      <div className="flex items-center">
-                        <motion.div
-                          className="w-fit h-12 overflow-hidden flex items-center justify-center mr-4 shadow-md"
-                          style={{ borderColor: "transparent" }}
-                          whileHover={{ scale: 1.1, rotate: 5 }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 300,
-                            damping: 10,
-                          }}
-                        >
-                          {certification.logo === "N4J" ? (
-                            <img
-                              src={Neo4jLogo}
-                              alt="Neo4j"
-                              className="w-full h-full object-contain"
-                            />
-                          ) : certification.logo === "DL" ? (
-                            <img
-                              src={deepLearningLogo}
-                              alt="DeepLearning.AI"
-                              className="w-full h-full object-contain"
-                            />
-                          ) : certification.logo === "HF" ? (
-                            <img
-                              src={HuggingFaceLogo}
-                              alt="Hugging Face"
-                              className="w-full h-full object-contain"
-                            />
-                          ) : certification.logo === "CS" ? (
-                            <img
-                              src={courseraLogo}
-                              alt="Coursera"
-                              className="w-full h-full object-contain"
-                            />
-                          ) : (
-                            <div className="h-auto w-auto bg-gray-700 flex items-center justify-center rounded-md">
-                              <FaGraduationCap className="text-white text-xl" />
+              <AnimatePresence initial={false}>
+                {certificationsToShow.map((certification, index) => (
+                  <motion.div
+                    key={certification.id}
+                    custom={index}
+                    variants={certCardVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <Card className="group flex w-full">
+                      <CardContent className="flex px-2 py-2 items-center w-full text-md bg-gray-800 bg-opacity-80 duration-300 rounded-lg justify-start cursor-pointer hover:bg-gradient-to-r hover:from-cyan-500 hover:to-indigo-600 hover:text-white">
+                        <div className="flex items-center">
+                          <motion.div
+                            className="w-fit h-12 overflow-hidden flex items-center justify-center mr-4 shadow-md"
+                            style={{ borderColor: "transparent" }}
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 10,
+                            }}
+                          >
+                            {certification.logo === "N4J" ? (
+                              <img
+                                src={Neo4jLogo}
+                                alt="Neo4j"
+                                className="w-full h-full object-contain"
+                              />
+                            ) : certification.logo === "DL" ? (
+                              <img
+                                src={deepLearningLogo}
+                                alt="DeepLearning.AI"
+                                className="w-full h-full object-contain"
+                              />
+                            ) : certification.logo === "HF" ? (
+                              <img
+                                src={HuggingFaceLogo}
+                                alt="Hugging Face"
+                                className="w-full h-full object-contain"
+                              />
+                            ) : certification.logo === "CS" ? (
+                              <img
+                                src={courseraLogo}
+                                alt="Coursera"
+                                className="w-full h-full object-contain"
+                              />
+                            ) : (
+                              <div className="h-auto w-auto bg-gray-700 flex items-center justify-center rounded-md">
+                                <FaGraduationCap className="text-white text-xl" />
+                              </div>
+                            )}
+                          </motion.div>
+                          <div className="flex-1">
+                            <div className="text-white text-sm font-medium">
+                              {certification.name}
                             </div>
-                          )}
-                        </motion.div>
-                        <div className="flex-1">
-                          <div className="text-white text-sm font-medium">
-                            {certification.name}
-                          </div>
-                          <div className="text-gray text-xs font-medium">
-                            {certification.issuer}
+                            <div className="text-gray-100 text-xs font-medium">
+                              {certification.issuer}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
 
             {/* Toggle Button */}
             {educationData.certifications.length > 4 && (
               <div className="flex justify-center mt-4">
-                <button
+                <motion.button
                   onClick={() => setShowAll((prev) => !prev)}
+                  whileTap={{ scale: 0.95 }}
                   className="text-cyan-400 hover:text-white text-sm underline focus:outline-none transition"
                 >
                   {showAll ? "Show Less" : "Show More"}
-                </button>
+                </motion.button>
               </div>
             )}
           </div>

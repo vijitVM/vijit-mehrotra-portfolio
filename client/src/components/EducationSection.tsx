@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { educationData } from "../data/data";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FaGraduationCap } from "react-icons/fa";
 import deepLearningLogo from "../attached_assets/DeepLearning.AI.svg";
 import courseraLogo from "../attached_assets/coursera-logo.svg";
@@ -14,7 +14,8 @@ const EducationSection = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
-  // Animation variants
+  const [showAll, setShowAll] = useState(false);
+
   const headerVariants = {
     hidden: { opacity: 0, y: -20 },
     visible: {
@@ -37,18 +38,11 @@ const EducationSection = () => {
     }),
   };
 
-  const certCardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        delay: 0.2 + i * 0.1,
-        ease: "easeOut",
-      },
-    }),
-  };
+  const certCardVariants = cardVariants;
+
+  const certificationsToShow = showAll
+    ? educationData.certifications
+    : educationData.certifications.slice(0, 4);
 
   return (
     <section
@@ -124,7 +118,7 @@ const EducationSection = () => {
             </motion.h3>
 
             <div className="space-y-1">
-              {educationData.certifications.map((certification, index) => (
+              {certificationsToShow.map((certification, index) => (
                 <motion.div
                   key={certification.id}
                   custom={index}
@@ -138,10 +132,7 @@ const EducationSection = () => {
                       <div className="flex items-center">
                         <motion.div
                           className="w-fit h-12 overflow-hidden flex items-center justify-center mr-4 shadow-md"
-                          style={{
-                            borderColor: "transparent",
-                          }}
-                    
+                          style={{ borderColor: "transparent" }}
                           whileHover={{ scale: 1.1, rotate: 5 }}
                           transition={{
                             type: "spring",
@@ -149,14 +140,13 @@ const EducationSection = () => {
                             damping: 10,
                           }}
                         >
-                          {
-                           certification.logo === "N4J" ? (
+                          {certification.logo === "N4J" ? (
                             <img
                               src={Neo4jLogo}
                               alt="Neo4j"
                               className="w-full h-full object-contain"
                             />
-                           ) : certification.logo === "DL" ? (
+                          ) : certification.logo === "DL" ? (
                             <img
                               src={deepLearningLogo}
                               alt="DeepLearning.AI"
@@ -172,7 +162,7 @@ const EducationSection = () => {
                             <img
                               src={courseraLogo}
                               alt="Coursera"
-                              className="w-full h-full object-contain" // Make it fit without distorting"
+                              className="w-full h-full object-contain"
                             />
                           ) : (
                             <div className="h-auto w-auto bg-gray-700 flex items-center justify-center rounded-md">
@@ -184,7 +174,7 @@ const EducationSection = () => {
                           <div className="text-white text-sm font-medium">
                             {certification.name}
                           </div>
-                          <div className="text-gray-700 text-xs">
+                          <div className="text-gray text-xs font-medium">
                             {certification.issuer}
                           </div>
                         </div>
@@ -194,8 +184,21 @@ const EducationSection = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* Toggle Button */}
+            {educationData.certifications.length > 4 && (
+              <div className="flex justify-center mt-4">
+                <button
+                  onClick={() => setShowAll((prev) => !prev)}
+                  className="text-cyan-400 hover:text-white text-sm underline focus:outline-none transition"
+                >
+                  {showAll ? "Show Less" : "Show More"}
+                </button>
+              </div>
+            )}
           </div>
         </div>
+
         <div className="w-full py-20 border-b-[1px] border-b-gray-800 sm:px-2 lgl:px-0"></div>
       </div>
     </section>

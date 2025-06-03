@@ -297,27 +297,34 @@ export const educationData = {
   certifications: [
     {
       id: 1,
+      name: "Neo4j Professional Certificate",
+      issuer: "Neo4j",
+      logo: "N4J",
+      colorClass: "bg-gray-700",
+    },
+    {
+      id: 2,
       name: "AI Agents Course",
       issuer: "Hugging Face",
       logo: "HF",
       colorClass: "bg-gray-700",
     },
     {
-      id: 2,
+      id: 3,
       name: "Generative AI with Large Language Models",
       issuer: "DeepLearning.AI",
       logo: "DL",
       colorClass: "bg-gray-700",
     },
     {
-      id: 3,
+      id: 4,
       name: "Generative AI for Everyone",
       issuer: "DeepLearning.AI",
       logo: "DL",
       colorClass: "bg-gray-700",
     },
     {
-      id: 4,
+      id: 5,
       name: "Google Data Analytics Certificate",
       issuer: "Coursera",
       logo: "CS",

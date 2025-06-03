@@ -8,6 +8,7 @@ import { FaGraduationCap } from "react-icons/fa";
 import deepLearningLogo from "../attached_assets/DeepLearning.AI.svg";
 import courseraLogo from "../attached_assets/coursera-logo.svg";
 import HuggingFaceLogo from "../attached_assets/hf-logo.svg";
+import Neo4jLogo from "../attached_assets/Neo4jLockup_Color.svg";
 
 const EducationSection = () => {
   const sectionRef = useRef(null);
@@ -148,7 +149,14 @@ const EducationSection = () => {
                             damping: 10,
                           }}
                         >
-                          {certification.logo === "DL" ? (
+                          {
+                           certification.logo === "N4J" ? (
+                            <img
+                              src={Neo4jLogo}
+                              alt="Neo4j"
+                              className="w-full h-full object-contain"
+                            />
+                           ) : certification.logo === "DL" ? (
                             <img
                               src={deepLearningLogo}
                               alt="DeepLearning.AI"

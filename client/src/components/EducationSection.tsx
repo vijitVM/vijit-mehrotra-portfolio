@@ -184,7 +184,7 @@ const EducationSection = () => {
                           <div className="text-white text-sm font-medium">
                             {certification.name}
                           </div>
-                          <div className="text-gray-400 text-xs">
+                          <div className="text-gray-700 text-xs">
                             {certification.issuer}
                           </div>
                         </div>

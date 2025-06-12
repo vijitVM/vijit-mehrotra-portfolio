@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { projectsData } from "../data/data"; // Ensure this path is correct for your project
+import { projectsData } from "../data/data";
 import { motion, useSpring } from "framer-motion";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useInView } from "framer-motion";
@@ -17,7 +17,7 @@ interface Project {
 
 const ProjectsSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null); // Corrected: HTMLDivElement
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
@@ -57,8 +57,8 @@ const ProjectsSection = () => {
 
       if (scrollContainerRef.current) {
         const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-        setIsAtStart(scrollLeft <= 5);
-        setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5);
+        setIsAtStart(scrollLeft <= 5); // Tolerance for start
+        setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5); // Tolerance for end
       }
     };
 
@@ -213,11 +213,9 @@ const ProjectsSection = () => {
         </motion.div>
 
         <div className="relative w-full overflow-hidden">
-          <motion.div // THIS IS THE motion.div with scrollContainerRef
+          <motion.div
             ref={scrollContainerRef}
             className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-0 snap-x snap-mandatory px-4"
-            // No custom inline width for this div, let Tailwind classes handle it
-            // The parent 'relative w-full overflow-hidden' ensures it takes full available width
           >
             {projectsData.map((project, index) => {
               const projectAccent = getProjectAccent(project.id);
@@ -246,7 +244,7 @@ const ProjectsSection = () => {
                     lg:w-[calc((100%-32px-32px)/3)]
                     // xl breakpoint: 4 cards. Available width: (100% - 32px outer padding - 48px inner gaps) / 4
                     // To avoid sliver of 5th card, subtract a tiny amount (e.g., 0.5px or 1px)
-                    xl:w-[calc(((100%-32px-48px)/4) - 1px)] // Subtract 1px to ensure clean fit
+                    xl:w-[calc(((100%-32px-48px)/4) - 1.5px)] // Increased subtraction to 1.5px
                   `}
                 >
                   <Card
@@ -372,11 +370,12 @@ const ProjectsSection = () => {
                 </motion.div>
               );
             })}
-          </motion.div> {/* Correct closing tag for the scrollContainerRef motion.div */}
-        </div> {/* Correct closing tag for the 'relative w-full overflow-hidden' div */}
+          </motion.div>
+        </div>
 
-        {/* Navigation Arrows */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-4 z-10">
+        {/* Navigation Arrows: Adjusted placement */}
+        {/* Placed inside the max-w-7xl parent, but directly at its edges */}
+        <div className="absolute top-1/2 -translate-y-1/2 w-full max-w-7xl flex justify-between mx-auto px-4 z-10">
           <Button
             variant="ghost"
             size="icon"
@@ -397,10 +396,10 @@ const ProjectsSection = () => {
           </Button>
         </div>
 
-        {/* Bottom border, also needs to respect the same horizontal padding */}
+        {/* Bottom border */}
         <div className="w-full pt-0 pb-20 border-b-[1px] border-b-gray-800 px-4 sm:px-6 lg:px-8"></div>
-      </div> {/* Correct closing tag for the 'max-w-7xl mx-auto' div */}
-    </section> // Correct closing tag for the main section
+      </div>
+    </section>
   );
 };
 

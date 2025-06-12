@@ -17,7 +17,7 @@ interface Project {
 
 const ProjectsSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null); // Corrected
+  const scrollContainerRef = useRef<HTMLDivElement>(null); // Corrected: HTMLDivElement
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
@@ -213,28 +213,11 @@ const ProjectsSection = () => {
         </motion.div>
 
         <div className="relative w-full overflow-hidden">
-          <motion.div
-            ref={scrollContainerRef}
-            className={`flex overflow-x-scroll scrollbar-hide space-x-4 pb-0 snap-x snap-mandatory px-4
-              // IMPORTANT: Explicitly set the container width at xl for perfect 4-card display
-              xl:w-[calc( ( (100vw-32px) - ( (100vw-32px) % ( (100vw-32px-48px)/4 ) ) ) )]
-              // The above is a complex calc to try and get exact pixel alignment for the container
-              // A simpler, and often more reliable approach with Tailwind for this specific issue is
-              // to adjust the parent of scrollContainerRef if possible, or use a fixed pixel width.
-              // However, since we want responsive, let's try a different calc for xl:
-              xl:w-[calc( (100%-32px) + 48px + 32px)] // (available width - outer padding) + (3 gaps) + (inner padding that was subtracted)
-              // No, this is also tricky. The previous approach was good. Let's simplify and make the cards slightly smaller to fit.
-            `}
-            // Removed the inline style width: '100%' as it conflicts with Tailwind.
-            // Tailwind classes should handle it.
-            // Let's re-evaluate the width of the scrollContainerRef, it should be 100% of its parent.
-            // The problem is the card calc, or the parent `max-w-7xl` interactions.
-          >
-          {/* Re-adding the original scrollContainerRef width, the problem is likely card sizing */}
-          <motion.div
+          <motion.div // THIS IS THE motion.div with scrollContainerRef
             ref={scrollContainerRef}
             className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-0 snap-x snap-mandatory px-4"
-            style={{ width: '100%', height: 'auto' }} // Keep this for clarity, but Tailwind dominates
+            // No custom inline width for this div, let Tailwind classes handle it
+            // The parent 'relative w-full overflow-hidden' ensures it takes full available width
           >
             {projectsData.map((project, index) => {
               const projectAccent = getProjectAccent(project.id);
@@ -254,7 +237,6 @@ const ProjectsSection = () => {
                   onHoverEnd={() => setHoveredProject(null)}
                   className={`flex-shrink-0 project-card-item snap-start
                     // Base case for 1 card (on very small screens before sm breakpoint).
-                    // It should take the full width minus the 32px from the parent's px-4.
                     w-[calc(100%-32px)]
                     // sm breakpoint: 1 card, same logic as above
                     sm:w-[calc(100%-32px)]
@@ -263,8 +245,8 @@ const ProjectsSection = () => {
                     // lg breakpoint: 3 cards. Available width: (100% - 32px outer padding - 32px inner gaps) / 3
                     lg:w-[calc((100%-32px-32px)/3)]
                     // xl breakpoint: 4 cards. Available width: (100% - 32px outer padding - 48px inner gaps) / 4
-                    // To avoid sliver of 5th card, let's make it slightly smaller
-                    xl:w-[calc(((100%-32px-48px)/4) - 0.5px)] // Subtract a tiny amount
+                    // To avoid sliver of 5th card, subtract a tiny amount (e.g., 0.5px or 1px)
+                    xl:w-[calc(((100%-32px-48px)/4) - 1px)] // Subtract 1px to ensure clean fit
                   `}
                 >
                   <Card
@@ -370,7 +352,7 @@ const ProjectsSection = () => {
                                 window.open(
                                   project.liveUrl,
                                   "_blank",
-                                "noopener,noreferrer"
+                                  "noopener,noreferrer"
                                 );
                               }}
                               whileHover={{ scale: 1.1 }}
@@ -390,35 +372,35 @@ const ProjectsSection = () => {
                 </motion.div>
               );
             })}
-          </motion.div>
+          </motion.div> {/* Correct closing tag for the scrollContainerRef motion.div */}
+        </div> {/* Correct closing tag for the 'relative w-full overflow-hidden' div */}
 
-          {/* Navigation Arrows */}
-          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-4 z-10">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="bg-gray-700/50 hover:bg-gray-600/70 text-white rounded-full p-2"
-              onClick={scrollLeft}
-              disabled={isAtStart}
-            >
-              <ArrowLeft size={24} />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="bg-gray-700/50 hover:bg-gray-600/70 text-white rounded-full p-2"
-              onClick={scrollRight}
-              disabled={isAtEnd}
-            >
-              <ArrowRight size={24} />
-            </Button>
-          </div>
+        {/* Navigation Arrows */}
+        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-4 z-10">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="bg-gray-700/50 hover:bg-gray-600/70 text-white rounded-full p-2"
+            onClick={scrollLeft}
+            disabled={isAtStart}
+          >
+            <ArrowLeft size={24} />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="bg-gray-700/50 hover:bg-gray-600/70 text-white rounded-full p-2"
+            onClick={scrollRight}
+            disabled={isAtEnd}
+          >
+            <ArrowRight size={24} />
+          </Button>
         </div>
 
         {/* Bottom border, also needs to respect the same horizontal padding */}
         <div className="w-full pt-0 pb-20 border-b-[1px] border-b-gray-800 px-4 sm:px-6 lg:px-8"></div>
-      </div>
-    </section>
+      </div> {/* Correct closing tag for the 'max-w-7xl mx-auto' div */}
+    </section> // Correct closing tag for the main section
   );
 };
 

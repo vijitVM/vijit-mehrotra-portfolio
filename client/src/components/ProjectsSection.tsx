@@ -22,9 +22,7 @@ const ProjectsSection = () => {
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
   // Tuned stiffness and damping for a snappier, but still smooth feel
-  // Higher stiffness makes it faster. Higher damping makes it less bouncy.
-  // restDelta helps it "snap" to the end value faster if it's very close.
-  const scrollX = useSpring(0, { stiffness: 120, damping: 20, restDelta: 0.5 }); // Adjusted values
+  const scrollX = useSpring(0, { stiffness: 120, damping: 20, restDelta: 0.5 });
 
   // Use a ref for scroll progress to avoid re-renders on every scroll update
   const scrollProgress = useRef(0);
@@ -40,11 +38,11 @@ const ProjectsSection = () => {
     return () => unsubscribe();
   }, [scrollX]);
 
-  const [visibleCardsCount, setVisibleCardsCount] = useState(1); // Default to 1 card
+  const [visibleCardsCount, setVisibleCardsCount] = useState(1);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
 
-  // Function to calculate the number of cards visible and the scroll distance
+  // Function to calculate the number of cards visible and their dimensions
   const getScrollMetrics = useCallback(() => {
     if (!scrollContainerRef.current) {
       return { cardsVisible: 1, cardWidth: 0, gapWidth: 0 };
@@ -64,9 +62,6 @@ const ProjectsSection = () => {
         currentVisibleCards = 2;
       }
 
-      // Instead of calculating a fixed page scroll amount,
-      // we'll rely on knowing how many cards are visible and
-      // directly target the next set of cards based on their offset.
       return { cardsVisible: currentVisibleCards, cardWidth, gapWidth };
     }
     return { cardsVisible: 1, cardWidth: 0, gapWidth: 0 };
@@ -75,12 +70,11 @@ const ProjectsSection = () => {
   useEffect(() => {
     const updateScrollStates = () => {
       const { cardsVisible } = getScrollMetrics();
-      setVisibleCardsCount(cardsVisible); // Update state for visible cards
+      setVisibleCardsCount(cardsVisible);
 
       if (scrollContainerRef.current) {
         const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-        setIsAtStart(scrollLeft <= 5); // Small buffer for start
-        // Check if nearly at the end, considering floating point inaccuracies
+        setIsAtStart(scrollLeft <= 5);
         setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5);
       }
     };
@@ -124,28 +118,17 @@ const ProjectsSection = () => {
       if (cards.length === 0) return;
 
       let targetScrollLeft = 0;
-      let foundTarget = false;
-
-      // Find the first card that is fully visible, then scroll back by `visibleCardsCount`
-      for (let i = 0; i < cards.length; i++) {
-        if (cards[i].offsetLeft >= currentScroll - 10 && cards[i].offsetLeft <= currentScroll + 10) { // Check if current card is near current scroll start
-          // If at the start of a snapped card, calculate new target by moving back by visibleCardsCount
-          const previousPageIndex = Math.max(0, i - visibleCardsCount);
-          targetScrollLeft = cards[previousPageIndex].offsetLeft;
-          foundTarget = true;
+      // Find the card whose right edge is closest to currentScroll and is to the left
+      // This aims to find the "current page" and move back one.
+      for (let i = cards.length - 1; i >= 0; i--) {
+        // If the card is fully or mostly visible to the left of current scroll, this is our "current" start
+        if (cards[i].offsetLeft < currentScroll + 5) {
+          // Calculate target for the *previous* page based on the current visible card's index
+          const targetIndex = Math.max(0, i - visibleCardsCount);
+          targetScrollLeft = cards[targetIndex].offsetLeft;
           break;
-        } else if (cards[i].offsetLeft < currentScroll) {
-          // If we've passed the current snapped card, and haven't found a match,
-          // this is the last candidate for the "previous page"
-          targetScrollLeft = cards[i].offsetLeft;
         }
       }
-
-      // If no exact snap point found, just move back by a visible amount
-      if (!foundTarget) {
-        targetScrollLeft = Math.max(0, currentScroll - (cards[0].offsetWidth * visibleCardsCount + (visibleCardsCount - 1) * 16));
-      }
-
 
       scrollX.set(targetScrollLeft);
     }
@@ -159,32 +142,22 @@ const ProjectsSection = () => {
       if (cards.length === 0) return;
 
       const maxScroll = scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth;
-
       let targetScrollLeft = maxScroll; // Default to end
-      let foundTarget = false;
 
-      // Find the first card that is currently partially or fully off-screen to the right
+      // Find the first card that is *just* out of view to the right
       for (let i = 0; i < cards.length; i++) {
-        // If the card's start is beyond the current visible area's start + a buffer
+        // If the card's start is beyond the current visible area's start + a small buffer
+        // This means it's the first card of the "next page"
         if (cards[i].offsetLeft > currentScroll + 5) {
           targetScrollLeft = cards[i].offsetLeft;
-          foundTarget = true;
           break;
         }
       }
-
-      // If we didn't find a clear next snap point (e.g., at the end of the scroll),
-      // just try to scroll by a "page" amount
-      if (!foundTarget) {
-         targetScrollLeft = Math.min(maxScroll, currentScroll + (cards[0].offsetWidth * visibleCardsCount + (visibleCardsCount - 1) * 16));
-      }
-
-
       scrollX.set(targetScrollLeft);
     }
   };
 
-  // Animation variants (slightly adjusted for spring feel)
+  // Animation variants
   const headerVariants = {
     hidden: { opacity: 0, y: -20 },
     visible: {
@@ -210,12 +183,12 @@ const ProjectsSection = () => {
       scale: 1,
       rotateY: 0,
       transition: {
-        delay: 0.1 + i * 0.08, // Slightly reduced delay for faster reveal
-        duration: 0.7, // Slightly increased duration for a bit more "pop"
+        delay: 0.1 + i * 0.08,
+        duration: 0.7,
         type: "spring",
-        stiffness: 120, // Slightly higher stiffness for more immediate feel
-        damping: 15,    // Maintained damping for good balance
-        mass: 0.8       // Added mass for a heavier, more impactful feel
+        stiffness: 120,
+        damping: 15,
+        mass: 0.8
       },
     }),
     hover: {
@@ -223,7 +196,7 @@ const ProjectsSection = () => {
       scale: 1.02,
       transition: {
         type: "spring",
-        stiffness: 250, // More reactive on hover
+        stiffness: 250,
         damping: 12,
       },
     },
@@ -231,16 +204,14 @@ const ProjectsSection = () => {
 
   // Determine project accent color (adjusted for 4 cards)
   const getProjectAccent = (projectId: number) => {
-    // Using (projectId - 1) % 4 ensures that project 1 gets the first color, etc.
-    // Assuming projectId starts from 1 based on typical data structures.
     const effectiveId = (projectId - 1) % 4;
     if (effectiveId === 0) return "cyan";
     if (effectiveId === 1) return "amber";
     if (effectiveId === 2) return "purple";
-    return "blue"; // The fourth color
+    return "blue";
   };
 
-  // Get gradient based on project accent (remain the same, with added blue)
+  // Get gradient based on project accent
   const getProjectGradient = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "from-cyan-500/20 to-blue-600/20";
@@ -249,7 +220,7 @@ const ProjectsSection = () => {
     return "from-blue-500/20 to-indigo-600/20";
   };
 
-  // Get border color based on project accent (remain the same, with added blue)
+  // Get border color based on project accent
   const getProjectBorderColor = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "border-cyan-500/30";
@@ -258,7 +229,7 @@ const ProjectsSection = () => {
     return "border-blue-500/30";
   };
 
-  // Get text color based on project accent (remain the same, with added blue)
+  // Get text color based on project accent
   const getProjectTextColor = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "text-cyan-400";
@@ -273,6 +244,22 @@ const ProjectsSection = () => {
       className="w-full flex flex-col items-center justify-center py-12 pt-20 bg-gray-900/50 relative"
       ref={sectionRef}
     >
+      {/* Optional: Add a style block here ONLY IF scrollbar-hide is not working
+          This is a fallback for testing and should ideally be in your main CSS. */}
+      <style jsx global>{`
+        /* For Webkit browsers (Chrome, Safari) */
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+          width: 0;
+          height: 0;
+        }
+
+        /* For Firefox */
+        .scrollbar-hide {
+          scrollbar-width: none; /* Firefox */
+        }
+      `}</style>
+
       <div className="sm:w-full px-0 sm:px-2 lg:w-11/12 xl:w-5/6 py-14 border-b-gray-800">
         <motion.div
           variants={headerVariants}
@@ -296,7 +283,8 @@ const ProjectsSection = () => {
             // `overflow-x-scroll` is necessary for the content to be scrollable.
             // `scrollbar-hide` should hide the visual scrollbar.
             // `snap-x snap-mandatory` makes scrolling "snap" to cards.
-            className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-4 snap-x snap-mandatory"
+            // Removed pb-4 if it was causing issues with scrollbar visual space
+            className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-0 snap-x snap-mandatory"
             style={{ width: '100%', height: 'auto' }}
           >
             {projectsData.map((project, index) => {
@@ -350,7 +338,7 @@ const ProjectsSection = () => {
                         transition={{ duration: 0.5 }}
                         style={{
                           backgroundImage: `url(${project.image})`,
-                          backgroundSize: "cover", // To make it fill the space as per image
+                          backgroundSize: "cover",
                           backgroundRepeat: "no-repeat",
                           backgroundPosition: "center",
                         }}

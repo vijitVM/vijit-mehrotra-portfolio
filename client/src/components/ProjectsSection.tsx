@@ -38,6 +38,8 @@ const ProjectsSection = () => {
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
 
+  // Function to calculate scroll amount for one full "page" of cards
+  // Now set to calculate for 4 cards at once on large screens
   const calculatePageScrollAmount = useCallback(() => {
     if (!scrollContainerRef.current) return 0;
 
@@ -46,14 +48,25 @@ const ProjectsSection = () => {
 
     if (firstCard) {
       const cardWidth = firstCard.clientWidth;
-      const gapWidth = 16;
+      const gapWidth = 16; // Tailwind's space-x-4 = 16px
 
-      const newAmount = (cardWidth * 3) + (gapWidth * 2);
-      console.log("Calculated Scroll Page Amount:", { cardWidth, gapWidth, newAmount });
+      let newAmount;
+      // Determine how many cards to scroll by based on current viewport width
+      if (window.innerWidth >= 1024) { // Equivalent to 'lg' breakpoint
+        newAmount = (cardWidth * 4) + (gapWidth * 3); // 4 cards + 3 gaps
+        console.log("Scrolling by 4 cards (lg):", { cardWidth, gapWidth, newAmount });
+      } else if (window.innerWidth >= 768) { // Equivalent to 'md' breakpoint
+        newAmount = (cardWidth * 2) + gapWidth; // 2 cards + 1 gap
+        console.log("Scrolling by 2 cards (md):", { cardWidth, gapWidth, newAmount });
+      } else { // 'sm' or default
+        newAmount = cardWidth; // 1 card
+        console.log("Scrolling by 1 card (sm/default):", { cardWidth, newAmount });
+      }
+
       return newAmount;
     }
     console.log("No .project-card-item found or clientWidth is 0");
-    return container.clientWidth;
+    return container.clientWidth; // Fallback
   }, []);
 
   useEffect(() => {
@@ -164,30 +177,34 @@ const ProjectsSection = () => {
   };
 
   const getProjectAccent = (projectId: number) => {
-    if (projectId % 3 === 0) return "cyan";
-    if (projectId % 3 === 1) return "amber";
-    return "purple";
+    if (projectId % 4 === 0) return "cyan"; // Adjusted for 4 cards
+    if (projectId % 4 === 1) return "amber";
+    if (projectId % 4 === 2) return "purple";
+    return "blue"; // Add a fourth color
   };
 
   const getProjectGradient = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "from-cyan-500/20 to-blue-600/20";
     if (accent === "amber") return "from-amber-500/20 to-orange-600/20";
-    return "from-purple-500/20 to-pink-600/20";
+    if (accent === "purple") return "from-purple-500/20 to-pink-600/20";
+    return "from-blue-500/20 to-indigo-600/20"; // Gradient for new color
   };
 
   const getProjectBorderColor = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "border-cyan-500/30";
     if (accent === "amber") return "border-amber-500/30";
-    return "border-purple-500/30";
+    if (accent === "purple") return "border-purple-500/30";
+    return "border-blue-500/30"; // Border for new color
   };
 
   const getProjectTextColor = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "text-cyan-400";
     if (accent === "amber") return "text-amber-400";
-    return "text-purple-400";
+    if (accent === "purple") return "text-purple-400";
+    return "text-blue-400"; // Text color for new color
   };
 
   return (
@@ -214,7 +231,7 @@ const ProjectsSection = () => {
         <div className="relative w-full overflow-hidden px-4 md:px-0">
           <motion.div
             ref={scrollContainerRef}
-            className="flex overflow-x-hidden scrollbar-hide space-x-4 pb-4"
+            className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-4 snap-x snap-mandatory" // Changed to overflow-x-scroll and added snap properties
             style={{ width: '100%', height: 'auto' }}
           >
             {projectsData.map((project, index) => {
@@ -233,7 +250,8 @@ const ProjectsSection = () => {
                   whileHover="hover"
                   onHoverStart={() => setHoveredProject(project.id)}
                   onHoverEnd={() => setHoveredProject(null)}
-                  className={`flex-shrink-0 project-card-item w-full md:w-[calc(50%-8px)] lg:w-[calc(33.333%-10.666px)] snap-start`}
+                  // Updated calc for 4 cards on lg screens
+                  className={`flex-shrink-0 project-card-item w-full md:w-[calc(50%-8px)] lg:w-[calc(25%-12px)] snap-start`}
                 >
                   <Card
                     className={`w-full p-3 xl:px-4 h-[500px] xl:py-3 rounded-lg flex flex-col bg-gray-800 bg-opacity-70 shadow-lg hover:shadow-xl hover:shadow-${projectAccent}-500/10 transition-all duration-300`}
@@ -253,24 +271,25 @@ const ProjectsSection = () => {
                           ? "from-cyan-500 to-blue-600"
                           : projectAccent === "amber"
                           ? "from-amber-500 to-orange-600"
-                          : "from-purple-500 to-pink-600"
+                          : projectAccent === "purple"
+                          ? "from-purple-500 to-pink-600"
+                          : "from-blue-500 to-indigo-600" // New gradient for fourth color
                       }`}
                     />
 
-                    <div className="h-40 overflow-hidden flex items-center justify-center"> {/* Added flex items-center justify-center */}
+                    <div className="h-40 overflow-hidden flex items-center justify-center bg-gray-700"> {/* Added bg-gray-700 to fill empty space */}
                       <motion.div
-                        className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 relative"
+                        className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 relative" // You can remove this gradient if you want the background of image container to be solid
                         initial={{ scale: 1 }}
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.5 }}
                         style={{
                           backgroundImage: `url(${project.image})`,
-                          backgroundSize: "contain", // Changed from "cover" to "contain"
-                          backgroundRepeat: "no-repeat", // Ensure image isn't repeated
-                          backgroundPosition: "center", // Center the image
+                          backgroundSize: "cover", // Changed back to "cover"
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center",
                         }}
                       >
-                        {/* No changes to overlay content */}
                         <motion.div
                           className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
                           initial={{ opacity: 0 }}

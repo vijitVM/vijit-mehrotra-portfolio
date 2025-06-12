@@ -288,7 +288,10 @@ const ProjectsSection = () => {
             // `snap-x snap-mandatory` makes scrolling "snap" to cards.
             // Removed pb-4 if it was causing issues with scrollbar visual space
             className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-0 snap-x snap-mandatory"
-            style={{ width: '100%', height: 'auto' }}
+            style={{ width: '100%', height: 'auto', marginLeft: 0,
+            marginRight: 0,
+            paddingLeft: 0,
+            paddingRight: 0 }}
           >
             {projectsData.map((project, index) => {
               const projectAccent = getProjectAccent(project.id);

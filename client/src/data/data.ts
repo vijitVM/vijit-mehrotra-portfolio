@@ -253,7 +253,7 @@ export const projectsData = [
     description:
       "Analysis of Lending Club loan data where we had to predict if a borrower will default the loan based on his credit history.",
     image: LendingClubImage,
-    githubUrl: "https://github.com/vijitVM/Lending-Club-",
+    githubUrl: "https://github.com/vijitVM/Lending-Club",
   },
   {
     id: 4,
@@ -279,6 +279,7 @@ export const projectsData = [
       "An Intelligent Financial Management Powerd By AI.",
     image: SalaryWiseImage,
     githubUrl: "https://github.com/vijitVM/salarywise-ai",
+    liveUrl: "https://salarywise-ai.onrender.com/",
   },
 ];
 

@@ -12,6 +12,7 @@ interface Project {
   description: string;
   image: string;
   githubUrl: string;
+  liveUrl: string; // Add this line
 }
 
 const ProjectsSection = () => {
@@ -227,6 +228,21 @@ const ProjectsSection = () => {
                         >
                           <Github size={16} className="text-gray-300" />
                         </motion.button>
+
+                        {/* Live Site Button (conditionally rendered) */}
+                        {project.liveUrl && (
+                          <motion.button
+                            onClick={() => {
+                              window.open(project.liveUrl, "_blank", "noopener,noreferrer");
+                            }}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                            className={`p-2 rounded-full ${projectBorder} hover:bg-gray-700 transition-colors`}
+                          >
+                            <ExternalLink size={16} className="text-gray-300" />
+                          </motion.button>
+                        )}
+                        
                       </div>
                     </div>
                   </div>

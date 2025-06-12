@@ -52,14 +52,19 @@ const ProjectsSection = () => {
     const firstCard = container.querySelector(".project-card-item") as HTMLElement;
 
     if (firstCard) {
-      const cardWidth = firstCard.offsetWidth;
+      const cardWidth = firstCard.offsetWidth; // Use offsetWidth for total width including padding/border
       const gapWidth = 16; // Tailwind's space-x-4 = 16px
 
       let currentVisibleCards = 1;
-      if (window.innerWidth >= 1024) {
+      // Adjust breakpoints for desired card visibility
+      if (window.innerWidth >= 1280) { // xl: 4 cards
         currentVisibleCards = 4;
-      } else if (window.innerWidth >= 768) {
+      } else if (window.innerWidth >= 1024) { // lg: 3 cards
+        currentVisibleCards = 3;
+      } else if (window.innerWidth >= 768) { // md: 2 cards
         currentVisibleCards = 2;
+      } else { // default to 1 card for smaller screens
+        currentVisibleCards = 1;
       }
 
       return { cardsVisible: currentVisibleCards, cardWidth, gapWidth };
@@ -74,19 +79,22 @@ const ProjectsSection = () => {
 
       if (scrollContainerRef.current) {
         const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        // Add a small tolerance (e.g., 5px) for floating point inaccuracies
         setIsAtStart(scrollLeft <= 5);
         setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5);
       }
     };
 
-    updateScrollStates();
+    updateScrollStates(); // Initial calculation on mount
 
+    // Use ResizeObserver for more efficient and accurate re-calculation on container resize
     const resizeObserver = new ResizeObserver(() => {
       updateScrollStates();
     });
     if (scrollContainerRef.current) {
       resizeObserver.observe(scrollContainerRef.current);
     }
+    // Also listen for window resize as `innerWidth` is used in getScrollMetrics
     window.addEventListener("resize", updateScrollStates);
 
     const handleScroll = () => {
@@ -118,8 +126,12 @@ const ProjectsSection = () => {
       if (cards.length === 0) return;
 
       let targetScrollLeft = 0;
+      // Find the card whose right edge is closest to currentScroll and is to the left
+      // This aims to find the "current page" and move back one.
       for (let i = cards.length - 1; i >= 0; i--) {
+        // If the card is fully or mostly visible to the left of current scroll, this is our "current" start
         if (cards[i].offsetLeft < currentScroll + 5) {
+          // Calculate target for the *previous* page based on the current visible card's index
           const targetIndex = Math.max(0, i - visibleCardsCount);
           targetScrollLeft = cards[targetIndex].offsetLeft;
           break;
@@ -138,9 +150,12 @@ const ProjectsSection = () => {
       if (cards.length === 0) return;
 
       const maxScroll = scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth;
-      let targetScrollLeft = maxScroll;
+      let targetScrollLeft = maxScroll; // Default to end
 
+      // Find the first card that is *just* out of view to the right
       for (let i = 0; i < cards.length; i++) {
+        // If the card's start is beyond the current visible area's start + a small buffer
+        // This means it's the first card of the "next page"
         if (cards[i].offsetLeft > currentScroll + 5) {
           targetScrollLeft = cards[i].offsetLeft;
           break;
@@ -237,17 +252,23 @@ const ProjectsSection = () => {
       className="w-full flex flex-col items-center justify-center py-12 pt-20 bg-gray-900/50 relative overflow-x-hidden"
       ref={sectionRef}
     >
+      {/* Optional: Add a style block here ONLY IF scrollbar-hide is not working
+          This is a fallback for testing and should ideally be in your main CSS. */}
       <style jsx global>{`
+        /* For Webkit browsers (Chrome, Safari) */
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
           width: 0;
           height: 0;
         }
+
+        /* For Firefox */
         .scrollbar-hide {
-          scrollbar-width: none;
+          scrollbar-width: none; /* Firefox */
         }
       `}</style>
 
+      {/* This is the main content container for the section, setting max-width and outer padding */}
       <div className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-14 border-b-gray-800">
         <motion.div
           variants={headerVariants}
@@ -263,18 +284,18 @@ const ProjectsSection = () => {
           </motion.h2>
         </motion.div>
 
+        {/* Outer wrapper for the scrollable area.
+            This div's purpose is to manage overflow and position children.
+        */}
         <div className="relative w-full overflow-hidden">
           <motion.div
             ref={scrollContainerRef}
-            className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-0 snap-x snap-mandatory"
-            style={{ 
-              width: '100%', 
-              height: 'auto',
-              marginLeft: 0,
-              marginRight: 0,
-              paddingLeft: '1rem',
-              paddingRight: '1rem'
-            }}
+            // `overflow-x-scroll` is necessary for the content to be scrollable.
+            // `scrollbar-hide` hides the visual scrollbar.
+            // `snap-x snap-mandatory` makes scrolling "snap" to cards.
+            // `px-4` added here to provide consistent padding at the start and end of the scrollable track.
+            className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-0 snap-x snap-mandatory px-4"
+            style={{ width: '100%', height: 'auto' }} // Keep this minimal and let Tailwind handle spacing
           >
             {projectsData.map((project, index) => {
               const projectAccent = getProjectAccent(project.id);
@@ -292,7 +313,10 @@ const ProjectsSection = () => {
                   whileHover="hover"
                   onHoverStart={() => setHoveredProject(project.id)}
                   onHoverEnd={() => setHoveredProject(null)}
-                  className={`flex-shrink-0 project-card-item w-[85vw] sm:w-[calc(50%-1rem)] lg:w-[calc(33%-1rem)] xl:w-[calc(25%-1rem)] snap-start`}
+                  // Adjusted `calc` values to account for `space-x-4` (1rem) between cards.
+                  // The `px-4` on the parent `motion.div` (scroll container) is now handling outer padding.
+                  // The `w-full` for smaller screens makes one card fill the container's content area.
+                  className={`flex-shrink-0 project-card-item w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.666rem)] xl:w-[calc(25%-0.75rem)] snap-start`}
                 >
                   <Card
                     className={`w-full p-3 xl:px-4 h-[500px] xl:py-3 rounded-lg flex flex-col bg-gray-800 bg-opacity-70 shadow-lg hover:shadow-xl hover:shadow-${projectAccent}-500/10 transition-all duration-300`}
@@ -348,7 +372,8 @@ const ProjectsSection = () => {
                               );
                             }}
                           >
-                            View on GitHub <Github size={16} className="ml-2" />
+                            View on GitHub{" "}
+                            <Github size={16} className="ml-2" />
                           </Button>
                         </motion.div>
                       </motion.div>
@@ -418,6 +443,8 @@ const ProjectsSection = () => {
             })}
           </motion.div>
 
+          {/* Navigation Arrows */}
+          {/* Added sm:px-4 to arrows to align with the scrollable content's padding */}
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-4 z-10">
             <Button
               variant="ghost"
@@ -440,6 +467,7 @@ const ProjectsSection = () => {
           </div>
         </div>
 
+        {/* This div seems to be for a bottom border, no changes needed here */}
         <div className="w-full py-20 border-b-[1px] border-b-gray-800"></div>
       </div>
     </section>

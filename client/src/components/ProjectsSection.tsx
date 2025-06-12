@@ -260,6 +260,7 @@ const ProjectsSection = () => {
         }
       `}</style>
 
+      {/* This is the main content container for the section */}
       <div className="sm:w-full px-0 sm:px-2 lg:w-11/12 xl:w-5/6 py-14 border-b-gray-800">
         <motion.div
           variants={headerVariants}
@@ -275,9 +276,11 @@ const ProjectsSection = () => {
           </motion.h2>
         </motion.div>
 
-        {/* Outer wrapper to contain the scrollable area and hide overflow */}
-        {/* Changed px-4 md:px-0 to px-4 for consistent inner padding which might affect alignment */}
-        <div className="relative w-full overflow-hidden px-4">
+        {/* Outer wrapper for the scrollable area.
+            REMOVED 'px-4' from this div to prevent overflow on the main page.
+            The padding for the content area is now handled by the parent div's 'sm:px-2'.
+        */}
+        <div className="relative w-full overflow-hidden">
           <motion.div
             ref={scrollContainerRef}
             // `overflow-x-scroll` is necessary for the content to be scrollable.
@@ -432,6 +435,10 @@ const ProjectsSection = () => {
           </motion.div>
 
           {/* Navigation Arrows */}
+          {/* Note: The px-2 sm:px-0 on this div means arrows will stick to edges on small screens,
+              and have no horizontal padding on larger screens if the parent has it.
+              This is often desired for full-width control buttons.
+          */}
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-0 z-10">
             <Button
               variant="ghost"
@@ -454,6 +461,7 @@ const ProjectsSection = () => {
           </div>
         </div>
 
+        {/* This div seems to be for a bottom border, ensure its padding aligns if needed */}
         <div className="w-full py-20 border-b-[1px] border-b-gray-800 sm:px-2 lgl:px-0"></div>
       </div>
     </section>

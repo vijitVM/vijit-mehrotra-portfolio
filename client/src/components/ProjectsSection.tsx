@@ -17,15 +17,11 @@ interface Project {
 
 const ProjectsSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  // Corrected: Ensure this is HTMLDivElement
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null); // Corrected
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
-  // Tuned stiffness and damping for a snappier, but still smooth feel
   const scrollX = useSpring(0, { stiffness: 120, damping: 20, restDelta: 0.5 });
-
-  // Use a ref for scroll progress to avoid re-renders on every scroll update
   const scrollProgress = useRef(0);
 
   useEffect(() => {
@@ -42,7 +38,6 @@ const ProjectsSection = () => {
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
 
-  // Function to calculate the number of cards visible
   const getScrollMetrics = useCallback(() => {
     let currentVisibleCards = 1;
     if (window.innerWidth >= 1280) { // xl: 4 cards
@@ -62,13 +57,12 @@ const ProjectsSection = () => {
 
       if (scrollContainerRef.current) {
         const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-        // Add a small tolerance (e.g., 5px) for floating point inaccuracies
         setIsAtStart(scrollLeft <= 5);
         setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5);
       }
     };
 
-    updateScrollStates(); // Initial calculation on mount
+    updateScrollStates();
 
     const resizeObserver = new ResizeObserver(() => {
       updateScrollStates();
@@ -107,8 +101,6 @@ const ProjectsSection = () => {
       if (cards.length === 0) return;
 
       let targetScrollLeft = 0;
-      // Find the card whose right edge is closest to currentScroll and is to the left
-      // This aims to find the "current page" and move back one.
       for (let i = cards.length - 1; i >= 0; i--) {
         if (cards[i].offsetLeft < currentScroll + 5) {
           const targetIndex = Math.max(0, i - visibleCardsCount);
@@ -128,9 +120,8 @@ const ProjectsSection = () => {
       if (cards.length === 0) return;
 
       const maxScroll = scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth;
-      let targetScrollLeft = maxScroll; // Default to end
+      let targetScrollLeft = maxScroll;
 
-      // Find the first card that is *just* out of view to the right
       for (let i = 0; i < cards.length; i++) {
         if (cards[i].offsetLeft > currentScroll + 5) {
           targetScrollLeft = cards[i].offsetLeft;
@@ -141,48 +132,19 @@ const ProjectsSection = () => {
     }
   };
 
-  // Animation variants
   const headerVariants = {
     hidden: { opacity: 0, y: -20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
   };
 
   const projectVariants = {
-    hidden: (i: number) => ({
-      opacity: 0,
-      y: 50,
-      scale: 0.95,
-      rotateY: -5,
-    }),
+    hidden: (i: number) => ({ opacity: 0, y: 50, scale: 0.95, rotateY: -5 }),
     visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotateY: 0,
-      transition: {
-        delay: 0.1 + i * 0.08,
-        duration: 0.7,
-        type: "spring",
-        stiffness: 120,
-        damping: 15,
-        mass: 0.8
-      },
+      opacity: 1, y: 0, scale: 1, rotateY: 0,
+      transition: { delay: 0.1 + i * 0.08, duration: 0.7, type: "spring", stiffness: 120, damping: 15, mass: 0.8 },
     }),
     hover: {
-      y: -8,
-      scale: 1.02,
-      transition: {
-        type: "spring",
-        stiffness: 250,
-        damping: 12,
-      },
+      y: -8, scale: 1.02, transition: { type: "spring", stiffness: 250, damping: 12 },
     },
   };
 
@@ -221,12 +183,10 @@ const ProjectsSection = () => {
   return (
     <section
       id="projects"
-      // Added `overflow-x-hidden` to this section itself as a safeguard
       className="w-full flex flex-col items-center justify-center py-12 pt-20 bg-gray-900/50 relative overflow-x-hidden"
       ref={sectionRef}
     >
       <style jsx global>{`
-        /* Styles to hide the scrollbar, crucial for visual cleanliness */
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
           width: 0;
@@ -237,14 +197,11 @@ const ProjectsSection = () => {
         }
       `}</style>
 
-      {/* Main content container for the section. Removed px-* here as it caused overflow. */}
-      {/* This div sets the max-width and centers the content. */}
       <div className="w-full max-w-7xl mx-auto py-14 border-b-gray-800">
         <motion.div
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          // Added px-* to the header to provide proper spacing relative to max-w-7xl
           className="w-full flex items-center justify-center px-4 sm:px-6 lg:px-8"
         >
           <motion.h2
@@ -258,11 +215,26 @@ const ProjectsSection = () => {
         <div className="relative w-full overflow-hidden">
           <motion.div
             ref={scrollContainerRef}
-            // This is the scrollable container for the cards.
-            // `px-4` here provides the necessary padding *inside* the scrollable area.
-            // `space-x-4` creates the gaps *between* the cards.
+            className={`flex overflow-x-scroll scrollbar-hide space-x-4 pb-0 snap-x snap-mandatory px-4
+              // IMPORTANT: Explicitly set the container width at xl for perfect 4-card display
+              xl:w-[calc( ( (100vw-32px) - ( (100vw-32px) % ( (100vw-32px-48px)/4 ) ) ) )]
+              // The above is a complex calc to try and get exact pixel alignment for the container
+              // A simpler, and often more reliable approach with Tailwind for this specific issue is
+              // to adjust the parent of scrollContainerRef if possible, or use a fixed pixel width.
+              // However, since we want responsive, let's try a different calc for xl:
+              xl:w-[calc( (100%-32px) + 48px + 32px)] // (available width - outer padding) + (3 gaps) + (inner padding that was subtracted)
+              // No, this is also tricky. The previous approach was good. Let's simplify and make the cards slightly smaller to fit.
+            `}
+            // Removed the inline style width: '100%' as it conflicts with Tailwind.
+            // Tailwind classes should handle it.
+            // Let's re-evaluate the width of the scrollContainerRef, it should be 100% of its parent.
+            // The problem is the card calc, or the parent `max-w-7xl` interactions.
+          >
+          {/* Re-adding the original scrollContainerRef width, the problem is likely card sizing */}
+          <motion.div
+            ref={scrollContainerRef}
             className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-0 snap-x snap-mandatory px-4"
-            style={{ width: '100%', height: 'auto' }}
+            style={{ width: '100%', height: 'auto' }} // Keep this for clarity, but Tailwind dominates
           >
             {projectsData.map((project, index) => {
               const projectAccent = getProjectAccent(project.id);
@@ -270,11 +242,6 @@ const ProjectsSection = () => {
               const projectBorder = getProjectBorderColor(project.id);
               const projectText = getProjectTextColor(project.id);
 
-              // **IMPORTANT: Adjusted calc() values for correct card sizing**
-              // The `100%` in calc refers to the content width of the `scrollContainerRef` (which is `100%` of its parent).
-              // We subtract the total `px-4` padding (16px left + 16px right = 32px) from this 100%.
-              // Then, for N cards, we subtract (N-1) * space-x-4 (16px per gap) for the internal spacing.
-              // Finally, divide by N.
               return (
                 <motion.div
                   key={project.id}
@@ -296,7 +263,8 @@ const ProjectsSection = () => {
                     // lg breakpoint: 3 cards. Available width: (100% - 32px outer padding - 32px inner gaps) / 3
                     lg:w-[calc((100%-32px-32px)/3)]
                     // xl breakpoint: 4 cards. Available width: (100% - 32px outer padding - 48px inner gaps) / 4
-                    xl:w-[calc((100%-32px-48px)/4)]
+                    // To avoid sliver of 5th card, let's make it slightly smaller
+                    xl:w-[calc(((100%-32px-48px)/4) - 0.5px)] // Subtract a tiny amount
                   `}
                 >
                   <Card
@@ -402,7 +370,7 @@ const ProjectsSection = () => {
                                 window.open(
                                   project.liveUrl,
                                   "_blank",
-                                  "noopener,noreferrer"
+                                "noopener,noreferrer"
                                 );
                               }}
                               whileHover={{ scale: 1.1 }}
@@ -425,7 +393,6 @@ const ProjectsSection = () => {
           </motion.div>
 
           {/* Navigation Arrows */}
-          {/* These arrows also need some horizontal padding to align with content */}
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-4 z-10">
             <Button
               variant="ghost"
@@ -449,7 +416,6 @@ const ProjectsSection = () => {
         </div>
 
         {/* Bottom border, also needs to respect the same horizontal padding */}
-        {/* Changed `py-20` to `pt-0 pb-20` for just bottom padding, `pt-0` to ensure no extra top padding introduced */}
         <div className="w-full pt-0 pb-20 border-b-[1px] border-b-gray-800 px-4 sm:px-6 lg:px-8"></div>
       </div>
     </section>

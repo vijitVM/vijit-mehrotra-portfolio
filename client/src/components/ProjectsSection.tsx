@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { projectsData } from "../data/data";
+import { projectsData } from "../data/data"; // Ensure this path is correct for your project
 import { motion, useSpring } from "framer-motion";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useInView } from "framer-motion";
@@ -17,7 +17,8 @@ interface Project {
 
 const ProjectsSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const scrollContainerRef = useRef<HTMLDivL/div>(null);
+  // Corrected: Ensure this is HTMLDivElement
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
@@ -225,6 +226,7 @@ const ProjectsSection = () => {
       ref={sectionRef}
     >
       <style jsx global>{`
+        /* Styles to hide the scrollbar, crucial for visual cleanliness */
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
           width: 0;
@@ -447,7 +449,7 @@ const ProjectsSection = () => {
         </div>
 
         {/* Bottom border, also needs to respect the same horizontal padding */}
-        {/* Changed `py-20` to `pb-20` for just bottom padding, `pt-0` to ensure no extra top padding introduced */}
+        {/* Changed `py-20` to `pt-0 pb-20` for just bottom padding, `pt-0` to ensure no extra top padding introduced */}
         <div className="w-full pt-0 pb-20 border-b-[1px] border-b-gray-800 px-4 sm:px-6 lg:px-8"></div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 // Import assets
 import NLPImage from "@attached/NLP.jpg";
 import TimeSeriesImage from "@attached/time_series.png";
+import SalaryWiseImage from "@attached/SalaryWise.jpg";
 import LendingClubImage from "@attached/lending_club.png";
 import CNNFilterImage from "@attached/block1_conv1_filter27.png";
 import ChatPDFImage from "@attached/chat_with_PDF.png";
@@ -269,6 +270,15 @@ export const projectsData = [
       "A simple app that uses OpenAI, HuggingFace and Langchain to Chat with PDF's, allowing users to ask questions and get answers from documents.",
     image: ChatPDFImage,
     githubUrl: "https://github.com/vijitVM/Chat-with-PDF",
+  },
+
+  {
+    id: 6,
+    title: "SalaryWise AI",
+    description:
+      "An Intelligent Financial Management Powerd By AI.",
+    image: SalaryWiseImage,
+    githubUrl: "https://github.com/vijitVM/salarywise-ai",
   },
 ];
 

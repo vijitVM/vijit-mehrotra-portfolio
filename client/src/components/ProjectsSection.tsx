@@ -21,25 +21,29 @@ const ProjectsSection = () => {
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
+  // Adjusted stiffness and damping for a smoother, less "springy" feel
+  // Higher damping smooths out oscillations. Lower stiffness makes it 'softer'.
+  const scrollX = useSpring(0, { stiffness: 60, damping: 15 });
+
+  // Use a ref for scroll progress to avoid re-renders on every scroll update
   const scrollProgress = useRef(0);
-  const scrollX = useSpring(0, { stiffness: 100, damping: 20 });
 
   useEffect(() => {
     const unsubscribe = scrollX.on("change", (latest) => {
-      scrollProgress.current = latest;
+      scrollProgress.current = latest; // Keep ref updated
       if (scrollContainerRef.current) {
+        // Explicitly set scrollLeft, letting Framer Motion manage the animation
         scrollContainerRef.current.scrollLeft = latest;
       }
     });
     return () => unsubscribe();
-  }, [scrollX]);
+  }, [scrollX]); // Depend on scrollX motionValue
 
   const [pageScrollAmount, setPageScrollAmount] = useState(0);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
 
   // Function to calculate scroll amount for one full "page" of cards
-  // Now set to calculate for 4 cards at once on large screens
   const calculatePageScrollAmount = useCallback(() => {
     if (!scrollContainerRef.current) return 0;
 
@@ -54,18 +58,18 @@ const ProjectsSection = () => {
       // Determine how many cards to scroll by based on current viewport width
       if (window.innerWidth >= 1024) { // Equivalent to 'lg' breakpoint
         newAmount = (cardWidth * 4) + (gapWidth * 3); // 4 cards + 3 gaps
-        console.log("Scrolling by 4 cards (lg):", { cardWidth, gapWidth, newAmount });
+        // console.log("Scrolling by 4 cards (lg):", { cardWidth, gapWidth, newAmount });
       } else if (window.innerWidth >= 768) { // Equivalent to 'md' breakpoint
         newAmount = (cardWidth * 2) + gapWidth; // 2 cards + 1 gap
-        console.log("Scrolling by 2 cards (md):", { cardWidth, gapWidth, newAmount });
+        // console.log("Scrolling by 2 cards (md):", { cardWidth, gapWidth, newAmount });
       } else { // 'sm' or default
         newAmount = cardWidth; // 1 card
-        console.log("Scrolling by 1 card (sm/default):", { cardWidth, newAmount });
+        // console.log("Scrolling by 1 card (sm/default):", { cardWidth, newAmount });
       }
 
       return newAmount;
     }
-    console.log("No .project-card-item found or clientWidth is 0");
+    // console.log("No .project-card-item found or clientWidth is 0");
     return container.clientWidth; // Fallback
   }, []);
 
@@ -76,12 +80,12 @@ const ProjectsSection = () => {
 
       if (scrollContainerRef.current) {
         const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-        setIsAtStart(scrollLeft <= 5);
-        setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5);
+        setIsAtStart(scrollLeft <= 5); // Small buffer for start
+        setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5); // Small buffer for end
       }
     };
 
-    updateScrollAmountAndCheckPosition();
+    updateScrollAmountAndCheckPosition(); // Calculate on mount
 
     const resizeObserver = new ResizeObserver(() => {
         updateScrollAmountAndCheckPosition();
@@ -91,6 +95,7 @@ const ProjectsSection = () => {
     }
     window.addEventListener("resize", updateScrollAmountAndCheckPosition);
 
+    // Add a scroll listener to update arrow states dynamically
     const handleScroll = () => {
         if (scrollContainerRef.current) {
             const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
@@ -110,29 +115,30 @@ const ProjectsSection = () => {
           scrollContainerRef.current.removeEventListener('scroll', handleScroll);
       }
     };
-  }, [calculatePageScrollAmount]);
+  }, [calculatePageScrollAmount]); // Dependencies of useEffect
 
   const scrollLeft = () => {
     if (scrollContainerRef.current && pageScrollAmount > 0) {
-      const currentScroll = scrollProgress.current;
+      const currentScroll = scrollProgress.current; // Use the ref for current value
       const newScroll = Math.max(0, currentScroll - pageScrollAmount);
-      console.log("Scrolling Left:", { currentScroll, pageScrollAmount, newScroll });
+      // console.log("Scrolling Left:", { currentScroll, pageScrollAmount, newScroll });
       scrollX.set(newScroll);
     }
   };
 
   const scrollRight = () => {
     if (scrollContainerRef.current && pageScrollAmount > 0) {
-      const currentScroll = scrollProgress.current;
+      const currentScroll = scrollProgress.current; // Use the ref for current value
       const maxScroll =
         scrollContainerRef.current.scrollWidth -
         scrollContainerRef.current.clientWidth;
       const newScroll = Math.min(maxScroll, currentScroll + pageScrollAmount);
-      console.log("Scrolling Right:", { currentScroll, pageScrollAmount, maxScroll, newScroll });
+      // console.log("Scrolling Right:", { currentScroll, pageScrollAmount, maxScroll, newScroll });
       scrollX.set(newScroll);
     }
   };
 
+  // Animation variants (remain the same)
   const headerVariants = {
     hidden: { opacity: 0, y: -20 },
     visible: {
@@ -176,35 +182,42 @@ const ProjectsSection = () => {
     },
   };
 
+  // Determine project accent color (adjusted for 4 cards)
   const getProjectAccent = (projectId: number) => {
-    if (projectId % 4 === 0) return "cyan"; // Adjusted for 4 cards
-    if (projectId % 4 === 1) return "amber";
-    if (projectId % 4 === 2) return "purple";
-    return "blue"; // Add a fourth color
+    // Using (projectId - 1) % 4 ensures that project 1 gets the first color, etc.
+    // Assuming projectId starts from 1 based on typical data structures.
+    const effectiveId = (projectId - 1) % 4;
+    if (effectiveId === 0) return "cyan";
+    if (effectiveId === 1) return "amber";
+    if (effectiveId === 2) return "purple";
+    return "blue"; // The fourth color
   };
 
+  // Get gradient based on project accent (remain the same, with added blue)
   const getProjectGradient = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "from-cyan-500/20 to-blue-600/20";
     if (accent === "amber") return "from-amber-500/20 to-orange-600/20";
     if (accent === "purple") return "from-purple-500/20 to-pink-600/20";
-    return "from-blue-500/20 to-indigo-600/20"; // Gradient for new color
+    return "from-blue-500/20 to-indigo-600/20";
   };
 
+  // Get border color based on project accent (remain the same, with added blue)
   const getProjectBorderColor = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "border-cyan-500/30";
     if (accent === "amber") return "border-amber-500/30";
     if (accent === "purple") return "border-purple-500/30";
-    return "border-blue-500/30"; // Border for new color
+    return "border-blue-500/30";
   };
 
+  // Get text color based on project accent (remain the same, with added blue)
   const getProjectTextColor = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "text-cyan-400";
     if (accent === "amber") return "text-amber-400";
     if (accent === "purple") return "text-purple-400";
-    return "text-blue-400"; // Text color for new color
+    return "text-blue-400";
   };
 
   return (
@@ -228,10 +241,14 @@ const ProjectsSection = () => {
           </motion.h2>
         </motion.div>
 
+        {/* Outer wrapper to contain the scrollable area and hide overflow */}
         <div className="relative w-full overflow-hidden px-4 md:px-0">
           <motion.div
             ref={scrollContainerRef}
-            className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-4 snap-x snap-mandatory" // Changed to overflow-x-scroll and added snap properties
+            // `overflow-x-scroll` is necessary for the content to be scrollable.
+            // `scrollbar-hide` should hide the visual scrollbar.
+            // `snap-x snap-mandatory` makes scrolling "snap" to cards.
+            className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-4 snap-x snap-mandatory"
             style={{ width: '100%', height: 'auto' }}
           >
             {projectsData.map((project, index) => {
@@ -273,19 +290,19 @@ const ProjectsSection = () => {
                           ? "from-amber-500 to-orange-600"
                           : projectAccent === "purple"
                           ? "from-purple-500 to-pink-600"
-                          : "from-blue-500 to-indigo-600" // New gradient for fourth color
+                          : "from-blue-500 to-indigo-600"
                       }`}
                     />
 
-                    <div className="h-40 overflow-hidden flex items-center justify-center bg-gray-700"> {/* Added bg-gray-700 to fill empty space */}
+                    <div className="h-40 overflow-hidden flex items-center justify-center bg-gray-700">
                       <motion.div
-                        className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 relative" // You can remove this gradient if you want the background of image container to be solid
+                        className="w-full h-full relative" // Removed gradient from here, now just a container
                         initial={{ scale: 1 }}
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.5 }}
                         style={{
                           backgroundImage: `url(${project.image})`,
-                          backgroundSize: "cover", // Changed back to "cover"
+                          backgroundSize: "cover", // To make it fill the space as per image
                           backgroundRepeat: "no-repeat",
                           backgroundPosition: "center",
                         }}
@@ -378,6 +395,7 @@ const ProjectsSection = () => {
             })}
           </motion.div>
 
+          {/* Navigation Arrows */}
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-0 z-10">
             <Button
               variant="ghost"

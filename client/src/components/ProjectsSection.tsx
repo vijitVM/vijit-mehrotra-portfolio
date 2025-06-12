@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { projectsData } from "../data/data";
 import { motion, useSpring } from "framer-motion";
-import { useState, useRef, useEffect, useCallback } from "react"; // Import useCallback
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useInView } from "framer-motion";
 import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react";
 
@@ -21,6 +21,9 @@ const ProjectsSection = () => {
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
+  // State to store calculated scroll amount for a page
+  const [pageScrollAmount, setPageScrollAmount] = useState(0);
+
   const scrollX = useSpring(0, { stiffness: 100, damping: 20 });
 
   // Sync Framer Motion value with actual scroll position
@@ -29,6 +32,59 @@ const ProjectsSection = () => {
       scrollContainerRef.current.scrollLeft = scrollX.get();
     }
   }, [scrollX]);
+
+  // Function to calculate scroll amount for one full "page" of 3 cards
+  // Use useCallback to memoize and prevent unnecessary re-creation
+  const calculatePageScrollAmount = useCallback(() => {
+    if (!scrollContainerRef.current) return 0;
+
+    const container = scrollContainerRef.current;
+    const firstCard = container.querySelector(".project-card-item");
+
+    if (firstCard) {
+      const cardWidth = firstCard.clientWidth;
+      const gapWidth = 16; // space-x-4 = 16px (0.5rem * 2)
+
+      // Assuming we always want to scroll by 3 cards (a full row)
+      // The total width of 3 cards plus the 2 gaps between them
+      const newAmount = (cardWidth * 3) + (gapWidth * 2);
+      return newAmount;
+    }
+    // Fallback if no card found, use container width or a reasonable default
+    return container.clientWidth; // Fallback to full container width if card not found
+  }, []); // Dependencies of useCallback are empty as ref is stable
+
+  // Effect to recalculate pageScrollAmount on mount and window resize
+  useEffect(() => {
+    const updateScrollAmount = () => {
+      setPageScrollAmount(calculatePageScrollAmount());
+    };
+
+    updateScrollAmount(); // Calculate on mount
+
+    window.addEventListener("resize", updateScrollAmount);
+    return () => window.removeEventListener("resize", updateScrollAmount);
+  }, [calculatePageScrollAmount]);
+
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current && pageScrollAmount > 0) {
+      const currentScroll = scrollX.get();
+      const newScroll = Math.max(0, currentScroll - pageScrollAmount);
+      scrollX.set(newScroll);
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current && pageScrollAmount > 0) {
+      const currentScroll = scrollX.get();
+      const maxScroll =
+        scrollContainerRef.current.scrollWidth -
+        scrollContainerRef.current.clientWidth;
+      const newScroll = Math.min(maxScroll, currentScroll + pageScrollAmount);
+      scrollX.set(newScroll);
+    }
+  };
 
   // Animation variants (remain the same)
   const headerVariants = {
@@ -105,43 +161,6 @@ const ProjectsSection = () => {
     return "text-purple-400";
   };
 
-  // Calculate the scroll amount for one full "page" of 3 cards
-  const getScrollPageAmount = useCallback(() => {
-    if (!scrollContainerRef.current) return 0;
-
-    const container = scrollContainerRef.current;
-    const firstCard = container.querySelector(".project-card-item"); // Use a specific class
-    if (firstCard) {
-      const cardWidth = firstCard.clientWidth;
-      const gapWidth = 16; // space-x-4 = 16px
-      // For 3 cards: 3 * cardWidth + 2 * gapWidth
-      return (cardWidth * 3) + (gapWidth * 2);
-    }
-    // Fallback if no card found, use a reasonable default
-    return container.clientWidth * 0.9; // Roughly 90% of container width
-  }, []); // useCallback to memoize this function
-
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      const currentScroll = scrollX.get();
-      const pageAmount = getScrollPageAmount();
-      const newScroll = Math.max(0, currentScroll - pageAmount);
-      scrollX.set(newScroll);
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      const currentScroll = scrollX.get();
-      const pageAmount = getScrollPageAmount();
-      const maxScroll =
-        scrollContainerRef.current.scrollWidth -
-        scrollContainerRef.current.clientWidth;
-      const newScroll = Math.min(maxScroll, currentScroll + pageAmount);
-      scrollX.set(newScroll);
-    }
-  };
-
   return (
     <section
       id="projects"
@@ -164,11 +183,10 @@ const ProjectsSection = () => {
         </motion.div>
 
         {/* Outer wrapper to contain the scrollable area and hide overflow */}
-        <div className="relative w-full overflow-hidden px-4 md:px-0"> {/* Added px-4 here, removed from scroll container */}
+        <div className="relative w-full overflow-hidden px-4 md:px-0">
           <motion.div
             ref={scrollContainerRef}
-            // Ensure no bottom padding here, or it can cause vertical scroll issues
-            className="flex overflow-x-hidden scrollbar-hide space-x-4 pb-4" // Removed px-4 from here, kept pb-4 if cards have shadows
+            className="flex overflow-x-hidden scrollbar-hide space-x-4 pb-4" // pb-4 allows space for card shadows if they extend below
           >
             {projectsData.map((project, index) => {
               const projectAccent = getProjectAccent(project.id);
@@ -186,14 +204,15 @@ const ProjectsSection = () => {
                   whileHover="hover"
                   onHoverStart={() => setHoveredProject(project.id)}
                   onHoverEnd={() => setHoveredProject(null)}
-                  // Added specific class for targeting in getScrollPageAmount
-                  className="flex-shrink-0 project-card-item w-full md:w-[calc(50%-8px)] lg:w-[calc(33.333%-10.666px)] snap-start"
-                  // Adjusted calc values: 8px = 0.5rem (half of space-x-4's 1rem for 2 cards), 10.666px = (2/3) * 16px (two gaps for 3 cards)
+                  // Use specific class for targeting in calculatePageScrollAmount
+                  className={`flex-shrink-0 project-card-item w-full md:w-[calc(50%-8px)] lg:w-[calc(33.333%-10.666px)] snap-start`}
                 >
                   <Card
+                    // FIX: Ensure className prop uses template literals correctly
                     className={`w-full p-3 xl:px-4 h-[500px] xl:py-3 rounded-lg flex flex-col bg-gray-800 bg-opacity-70 shadow-lg hover:shadow-xl hover:shadow-${projectAccent}-500/10 transition-all duration-300`}
                   >
                     <motion.div
+                      // FIX: Ensure className prop uses template literals correctly
                       className={`absolute inset-0 bg-gradient-to-br ${projectGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
                       initial={{ opacity: 0 }}
                       animate={{
@@ -203,6 +222,7 @@ const ProjectsSection = () => {
                     />
 
                     <div
+                      // FIX: Ensure className prop uses template literals correctly
                       className={`h-1 w-full bg-gradient-to-r ${
                         projectAccent === "cyan"
                           ? "from-cyan-500 to-blue-600"
@@ -218,6 +238,7 @@ const ProjectsSection = () => {
                         initial={{ scale: 1 }}
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.5 }}
+                        // FIX: Ensure style backgroundImage uses template literal correctly
                         style={{
                           backgroundImage: `url(${project.image})`,
                           backgroundSize: "cover",
@@ -250,6 +271,7 @@ const ProjectsSection = () => {
 
                     <div className="p-4 flex-grow flex flex-col">
                       <motion.h3
+                        // FIX: Ensure className prop uses template literals correctly
                         className={`text-lg font-semibold mb-2 ${projectText}`}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -279,6 +301,7 @@ const ProjectsSection = () => {
                             }}
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
+                            // FIX: Ensure className prop uses template literals correctly
                             className={`p-2 rounded-full ${projectBorder} hover:bg-gray-700 transition-colors`}
                           >
                             <Github size={16} className="text-gray-300" />
@@ -295,6 +318,7 @@ const ProjectsSection = () => {
                               }}
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.95 }}
+                              // FIX: Ensure className prop uses template literals correctly
                               className={`p-2 rounded-full ${projectBorder} hover:bg-gray-700 transition-colors`}
                             >
                               <ExternalLink
@@ -314,13 +338,12 @@ const ProjectsSection = () => {
 
           {/* Navigation Arrows */}
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-0 z-10">
-            {" "}
-            {/* Added z-10 to ensure arrows are above cards */}
             <Button
               variant="ghost"
               size="icon"
               className="bg-gray-700/50 hover:bg-gray-600/70 text-white rounded-full p-2"
               onClick={scrollLeft}
+              disabled={scrollX.get() <= 0} // Disable left arrow if at the beginning
             >
               <ArrowLeft size={24} />
             </Button>
@@ -329,6 +352,7 @@ const ProjectsSection = () => {
               size="icon"
               className="bg-gray-700/50 hover:bg-gray-600/70 text-white rounded-full p-2"
               onClick={scrollRight}
+              disabled={scrollX.get() >= (scrollContainerRef.current?.scrollWidth || 0) - (scrollContainerRef.current?.clientWidth || 0) - 10} // Disable right arrow if at the end (with a small buffer)
             >
               <ArrowRight size={24} />
             </Button>

@@ -21,124 +21,170 @@ const ProjectsSection = () => {
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
-  // Adjusted stiffness and damping for a smoother, less "springy" feel
-  // Higher damping smooths out oscillations. Lower stiffness makes it 'softer'.
-  const scrollX = useSpring(0, { stiffness: 60, damping: 15 });
+  // Tuned stiffness and damping for a snappier, but still smooth feel
+  // Higher stiffness makes it faster. Higher damping makes it less bouncy.
+  // restDelta helps it "snap" to the end value faster if it's very close.
+  const scrollX = useSpring(0, { stiffness: 120, damping: 20, restDelta: 0.5 }); // Adjusted values
 
   // Use a ref for scroll progress to avoid re-renders on every scroll update
   const scrollProgress = useRef(0);
 
   useEffect(() => {
     const unsubscribe = scrollX.on("change", (latest) => {
-      scrollProgress.current = latest; // Keep ref updated
+      scrollProgress.current = latest;
       if (scrollContainerRef.current) {
         // Explicitly set scrollLeft, letting Framer Motion manage the animation
         scrollContainerRef.current.scrollLeft = latest;
       }
     });
     return () => unsubscribe();
-  }, [scrollX]); // Depend on scrollX motionValue
+  }, [scrollX]);
 
-  const [pageScrollAmount, setPageScrollAmount] = useState(0);
+  const [visibleCardsCount, setVisibleCardsCount] = useState(1); // Default to 1 card
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
 
-  // Function to calculate scroll amount for one full "page" of cards
-  const calculatePageScrollAmount = useCallback(() => {
-    if (!scrollContainerRef.current) return 0;
+  // Function to calculate the number of cards visible and the scroll distance
+  const getScrollMetrics = useCallback(() => {
+    if (!scrollContainerRef.current) {
+      return { cardsVisible: 1, cardWidth: 0, gapWidth: 0 };
+    }
 
     const container = scrollContainerRef.current;
-    const firstCard = container.querySelector(".project-card-item");
+    const firstCard = container.querySelector(".project-card-item") as HTMLElement;
 
     if (firstCard) {
-      const cardWidth = firstCard.clientWidth;
+      const cardWidth = firstCard.offsetWidth; // Use offsetWidth for total width including padding/border
       const gapWidth = 16; // Tailwind's space-x-4 = 16px
 
-      let newAmount;
-      // Determine how many cards to scroll by based on current viewport width
-      if (window.innerWidth >= 1024) { // Equivalent to 'lg' breakpoint
-        newAmount = (cardWidth * 4) + (gapWidth * 3); // 4 cards + 3 gaps
-        // console.log("Scrolling by 4 cards (lg):", { cardWidth, gapWidth, newAmount });
-      } else if (window.innerWidth >= 768) { // Equivalent to 'md' breakpoint
-        newAmount = (cardWidth * 2) + gapWidth; // 2 cards + 1 gap
-        // console.log("Scrolling by 2 cards (md):", { cardWidth, gapWidth, newAmount });
-      } else { // 'sm' or default
-        newAmount = cardWidth; // 1 card
-        // console.log("Scrolling by 1 card (sm/default):", { cardWidth, newAmount });
+      let currentVisibleCards = 1;
+      if (window.innerWidth >= 1024) {
+        currentVisibleCards = 4;
+      } else if (window.innerWidth >= 768) {
+        currentVisibleCards = 2;
       }
 
-      return newAmount;
+      // Instead of calculating a fixed page scroll amount,
+      // we'll rely on knowing how many cards are visible and
+      // directly target the next set of cards based on their offset.
+      return { cardsVisible: currentVisibleCards, cardWidth, gapWidth };
     }
-    // console.log("No .project-card-item found or clientWidth is 0");
-    return container.clientWidth; // Fallback
+    return { cardsVisible: 1, cardWidth: 0, gapWidth: 0 };
   }, []);
 
   useEffect(() => {
-    const updateScrollAmountAndCheckPosition = () => {
-      const amount = calculatePageScrollAmount();
-      setPageScrollAmount(amount);
+    const updateScrollStates = () => {
+      const { cardsVisible } = getScrollMetrics();
+      setVisibleCardsCount(cardsVisible); // Update state for visible cards
 
       if (scrollContainerRef.current) {
         const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
         setIsAtStart(scrollLeft <= 5); // Small buffer for start
-        setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5); // Small buffer for end
+        // Check if nearly at the end, considering floating point inaccuracies
+        setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5);
       }
     };
 
-    updateScrollAmountAndCheckPosition(); // Calculate on mount
+    updateScrollStates(); // Initial calculation on mount
 
     const resizeObserver = new ResizeObserver(() => {
-        updateScrollAmountAndCheckPosition();
+      updateScrollStates();
     });
     if (scrollContainerRef.current) {
-        resizeObserver.observe(scrollContainerRef.current);
+      resizeObserver.observe(scrollContainerRef.current);
     }
-    window.addEventListener("resize", updateScrollAmountAndCheckPosition);
+    window.addEventListener("resize", updateScrollStates);
 
-    // Add a scroll listener to update arrow states dynamically
     const handleScroll = () => {
-        if (scrollContainerRef.current) {
-            const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-            setIsAtStart(scrollLeft <= 5);
-            setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5);
-        }
+      if (scrollContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        setIsAtStart(scrollLeft <= 5);
+        setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5);
+      }
     };
 
     if (scrollContainerRef.current) {
-        scrollContainerRef.current.addEventListener('scroll', handleScroll);
+      scrollContainerRef.current.addEventListener('scroll', handleScroll);
     }
 
     return () => {
       resizeObserver.disconnect();
-      window.removeEventListener("resize", updateScrollAmountAndCheckPosition);
+      window.removeEventListener("resize", updateScrollStates);
       if (scrollContainerRef.current) {
-          scrollContainerRef.current.removeEventListener('scroll', handleScroll);
+        scrollContainerRef.current.removeEventListener('scroll', handleScroll);
       }
     };
-  }, [calculatePageScrollAmount]); // Dependencies of useEffect
+  }, [getScrollMetrics]);
 
   const scrollLeft = () => {
-    if (scrollContainerRef.current && pageScrollAmount > 0) {
-      const currentScroll = scrollProgress.current; // Use the ref for current value
-      const newScroll = Math.max(0, currentScroll - pageScrollAmount);
-      // console.log("Scrolling Left:", { currentScroll, pageScrollAmount, newScroll });
-      scrollX.set(newScroll);
+    if (scrollContainerRef.current) {
+      const currentScroll = scrollProgress.current;
+      const cards = Array.from(scrollContainerRef.current.querySelectorAll(".project-card-item")) as HTMLElement[];
+
+      if (cards.length === 0) return;
+
+      let targetScrollLeft = 0;
+      let foundTarget = false;
+
+      // Find the first card that is fully visible, then scroll back by `visibleCardsCount`
+      for (let i = 0; i < cards.length; i++) {
+        if (cards[i].offsetLeft >= currentScroll - 10 && cards[i].offsetLeft <= currentScroll + 10) { // Check if current card is near current scroll start
+          // If at the start of a snapped card, calculate new target by moving back by visibleCardsCount
+          const previousPageIndex = Math.max(0, i - visibleCardsCount);
+          targetScrollLeft = cards[previousPageIndex].offsetLeft;
+          foundTarget = true;
+          break;
+        } else if (cards[i].offsetLeft < currentScroll) {
+          // If we've passed the current snapped card, and haven't found a match,
+          // this is the last candidate for the "previous page"
+          targetScrollLeft = cards[i].offsetLeft;
+        }
+      }
+
+      // If no exact snap point found, just move back by a visible amount
+      if (!foundTarget) {
+        targetScrollLeft = Math.max(0, currentScroll - (cards[0].offsetWidth * visibleCardsCount + (visibleCardsCount - 1) * 16));
+      }
+
+
+      scrollX.set(targetScrollLeft);
     }
   };
 
   const scrollRight = () => {
-    if (scrollContainerRef.current && pageScrollAmount > 0) {
-      const currentScroll = scrollProgress.current; // Use the ref for current value
-      const maxScroll =
-        scrollContainerRef.current.scrollWidth -
-        scrollContainerRef.current.clientWidth;
-      const newScroll = Math.min(maxScroll, currentScroll + pageScrollAmount);
-      // console.log("Scrolling Right:", { currentScroll, pageScrollAmount, maxScroll, newScroll });
-      scrollX.set(newScroll);
+    if (scrollContainerRef.current) {
+      const currentScroll = scrollProgress.current;
+      const cards = Array.from(scrollContainerRef.current.querySelectorAll(".project-card-item")) as HTMLElement[];
+
+      if (cards.length === 0) return;
+
+      const maxScroll = scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth;
+
+      let targetScrollLeft = maxScroll; // Default to end
+      let foundTarget = false;
+
+      // Find the first card that is currently partially or fully off-screen to the right
+      for (let i = 0; i < cards.length; i++) {
+        // If the card's start is beyond the current visible area's start + a buffer
+        if (cards[i].offsetLeft > currentScroll + 5) {
+          targetScrollLeft = cards[i].offsetLeft;
+          foundTarget = true;
+          break;
+        }
+      }
+
+      // If we didn't find a clear next snap point (e.g., at the end of the scroll),
+      // just try to scroll by a "page" amount
+      if (!foundTarget) {
+         targetScrollLeft = Math.min(maxScroll, currentScroll + (cards[0].offsetWidth * visibleCardsCount + (visibleCardsCount - 1) * 16));
+      }
+
+
+      scrollX.set(targetScrollLeft);
     }
   };
 
-  // Animation variants (remain the same)
+  // Animation variants (slightly adjusted for spring feel)
   const headerVariants = {
     hidden: { opacity: 0, y: -20 },
     visible: {
@@ -164,11 +210,12 @@ const ProjectsSection = () => {
       scale: 1,
       rotateY: 0,
       transition: {
-        delay: 0.1 + i * 0.1,
-        duration: 0.6,
+        delay: 0.1 + i * 0.08, // Slightly reduced delay for faster reveal
+        duration: 0.7, // Slightly increased duration for a bit more "pop"
         type: "spring",
-        stiffness: 100,
-        damping: 12,
+        stiffness: 120, // Slightly higher stiffness for more immediate feel
+        damping: 15,    // Maintained damping for good balance
+        mass: 0.8       // Added mass for a heavier, more impactful feel
       },
     }),
     hover: {
@@ -176,8 +223,8 @@ const ProjectsSection = () => {
       scale: 1.02,
       transition: {
         type: "spring",
-        stiffness: 200,
-        damping: 10,
+        stiffness: 250, // More reactive on hover
+        damping: 12,
       },
     },
   };
@@ -242,7 +289,8 @@ const ProjectsSection = () => {
         </motion.div>
 
         {/* Outer wrapper to contain the scrollable area and hide overflow */}
-        <div className="relative w-full overflow-hidden px-4 md:px-0">
+        {/* Changed px-4 md:px-0 to px-4 for consistent inner padding which might affect alignment */}
+        <div className="relative w-full overflow-hidden px-4">
           <motion.div
             ref={scrollContainerRef}
             // `overflow-x-scroll` is necessary for the content to be scrollable.

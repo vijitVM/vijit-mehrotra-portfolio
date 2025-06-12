@@ -139,7 +139,7 @@ const ProjectsSection = () => {
                 className="h-full"
               >
                 <Card
-                  className={`w-full p-3 xl:px-4 h-[500px] xl:py-3 rounded-lg flex flex-col bg-gray-800 bg-opacity-70 shadow-lg hover:shadow-xl hover:shadow-${projectAccent}-500/10 transition-all duration-300`}
+                  className={`w-full p-3 xl:px-4 h-[400px] xl:py-3 rounded-lg flex flex-col bg-gray-800 bg-opacity-70 shadow-lg hover:shadow-xl hover:shadow-${projectAccent}-500/10 transition-all duration-300`}
                 >
                   {/* Animated highlight on hover */}
                   <motion.div

@@ -16,33 +16,28 @@ interface Project {
 }
 
 const ProjectsSection = () => {
-  const sectionRef = useRef<HTMLElement>(null); // Explicitly type ref
+  const sectionRef = useRef<HTMLElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
-  // Use a ref for scroll progress to avoid re-renders on every scroll update
-  // while still allowing external access. This is an advanced optimization.
   const scrollProgress = useRef(0);
   const scrollX = useSpring(0, { stiffness: 100, damping: 20 });
 
-  // Update the ref and the actual scroll position
   useEffect(() => {
     const unsubscribe = scrollX.on("change", (latest) => {
-      scrollProgress.current = latest; // Keep ref updated
+      scrollProgress.current = latest;
       if (scrollContainerRef.current) {
         scrollContainerRef.current.scrollLeft = latest;
       }
     });
     return () => unsubscribe();
-  }, [scrollX]); // Depend on scrollX motionValue
+  }, [scrollX]);
 
-  // State to store calculated scroll amount for a page
   const [pageScrollAmount, setPageScrollAmount] = useState(0);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
 
-  // Function to calculate scroll amount for one full "page" of 3 cards
   const calculatePageScrollAmount = useCallback(() => {
     if (!scrollContainerRef.current) return 0;
 
@@ -51,33 +46,29 @@ const ProjectsSection = () => {
 
     if (firstCard) {
       const cardWidth = firstCard.clientWidth;
-      const gapWidth = 16; // Tailwind's space-x-4 = 16px
+      const gapWidth = 16;
 
-      // Calculate for 3 cards plus 2 gaps
       const newAmount = (cardWidth * 3) + (gapWidth * 2);
       console.log("Calculated Scroll Page Amount:", { cardWidth, gapWidth, newAmount });
       return newAmount;
     }
     console.log("No .project-card-item found or clientWidth is 0");
-    return container.clientWidth; // Fallback
+    return container.clientWidth;
   }, []);
 
-  // Effect to recalculate pageScrollAmount on mount and window resize
-  // Also, observe scroll position to update arrow disabled states
   useEffect(() => {
     const updateScrollAmountAndCheckPosition = () => {
       const amount = calculatePageScrollAmount();
       setPageScrollAmount(amount);
 
-      // Also check initial scroll position
       if (scrollContainerRef.current) {
         const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-        setIsAtStart(scrollLeft <= 5); // Small buffer for start
-        setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5); // Small buffer for end
+        setIsAtStart(scrollLeft <= 5);
+        setIsAtEnd(scrollLeft >= scrollWidth - clientWidth - 5);
       }
     };
 
-    updateScrollAmountAndCheckPosition(); // Calculate on mount
+    updateScrollAmountAndCheckPosition();
 
     const resizeObserver = new ResizeObserver(() => {
         updateScrollAmountAndCheckPosition();
@@ -87,7 +78,6 @@ const ProjectsSection = () => {
     }
     window.addEventListener("resize", updateScrollAmountAndCheckPosition);
 
-    // Add a scroll listener to update arrow states dynamically
     const handleScroll = () => {
         if (scrollContainerRef.current) {
             const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
@@ -107,11 +97,11 @@ const ProjectsSection = () => {
           scrollContainerRef.current.removeEventListener('scroll', handleScroll);
       }
     };
-  }, [calculatePageScrollAmount]); // Dependencies of useEffect
+  }, [calculatePageScrollAmount]);
 
   const scrollLeft = () => {
     if (scrollContainerRef.current && pageScrollAmount > 0) {
-      const currentScroll = scrollProgress.current; // Use the ref for current value
+      const currentScroll = scrollProgress.current;
       const newScroll = Math.max(0, currentScroll - pageScrollAmount);
       console.log("Scrolling Left:", { currentScroll, pageScrollAmount, newScroll });
       scrollX.set(newScroll);
@@ -120,7 +110,7 @@ const ProjectsSection = () => {
 
   const scrollRight = () => {
     if (scrollContainerRef.current && pageScrollAmount > 0) {
-      const currentScroll = scrollProgress.current; // Use the ref for current value
+      const currentScroll = scrollProgress.current;
       const maxScroll =
         scrollContainerRef.current.scrollWidth -
         scrollContainerRef.current.clientWidth;
@@ -130,7 +120,6 @@ const ProjectsSection = () => {
     }
   };
 
-  // Animation variants (remain the same)
   const headerVariants = {
     hidden: { opacity: 0, y: -20 },
     visible: {
@@ -174,14 +163,12 @@ const ProjectsSection = () => {
     },
   };
 
-  // Determine project accent color (remain the same)
   const getProjectAccent = (projectId: number) => {
     if (projectId % 3 === 0) return "cyan";
     if (projectId % 3 === 1) return "amber";
     return "purple";
   };
 
-  // Get gradient based on project accent (remain the same)
   const getProjectGradient = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "from-cyan-500/20 to-blue-600/20";
@@ -189,7 +176,6 @@ const ProjectsSection = () => {
     return "from-purple-500/20 to-pink-600/20";
   };
 
-  // Get border color based on project accent (remain the same)
   const getProjectBorderColor = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "border-cyan-500/30";
@@ -197,7 +183,6 @@ const ProjectsSection = () => {
     return "border-purple-500/30";
   };
 
-  // Get text color based on project accent (remain the same)
   const getProjectTextColor = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "text-cyan-400";
@@ -226,16 +211,11 @@ const ProjectsSection = () => {
           </motion.h2>
         </motion.div>
 
-        {/* Outer wrapper to contain the scrollable area and hide overflow */}
         <div className="relative w-full overflow-hidden px-4 md:px-0">
           <motion.div
             ref={scrollContainerRef}
-            // `!important` might be needed if other styles are overriding `overflow-x-hidden`
-            // `overflow-x-hidden !important` or using a more specific selector in CSS.
-            // Consider `pr-4` instead of `pb-4` if vertical scrollbar is due to horizontal content extending too low
-            className="flex overflow-x-hidden scrollbar-hide space-x-4 pb-4" // Removed px-4 from here, kept pb-4 if cards have shadows
-            // Add `w-full` here to ensure it's taking full available width
-            style={{ width: '100%', height: 'auto' }} // Explicitly set width and auto height
+            className="flex overflow-x-hidden scrollbar-hide space-x-4 pb-4"
+            style={{ width: '100%', height: 'auto' }}
           >
             {projectsData.map((project, index) => {
               const projectAccent = getProjectAccent(project.id);
@@ -253,8 +233,6 @@ const ProjectsSection = () => {
                   whileHover="hover"
                   onHoverStart={() => setHoveredProject(project.id)}
                   onHoverEnd={() => setHoveredProject(null)}
-                  // Use specific class for targeting in calculatePageScrollAmount
-                  // Ensure these calc values are precise for your layout!
                   className={`flex-shrink-0 project-card-item w-full md:w-[calc(50%-8px)] lg:w-[calc(33.333%-10.666px)] snap-start`}
                 >
                   <Card
@@ -279,7 +257,7 @@ const ProjectsSection = () => {
                       }`}
                     />
 
-                    <div className="h-40 overflow-hidden">
+                    <div className="h-40 overflow-hidden flex items-center justify-center"> {/* Added flex items-center justify-center */}
                       <motion.div
                         className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 relative"
                         initial={{ scale: 1 }}
@@ -287,10 +265,12 @@ const ProjectsSection = () => {
                         transition={{ duration: 0.5 }}
                         style={{
                           backgroundImage: `url(${project.image})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
+                          backgroundSize: "contain", // Changed from "cover" to "contain"
+                          backgroundRepeat: "no-repeat", // Ensure image isn't repeated
+                          backgroundPosition: "center", // Center the image
                         }}
                       >
+                        {/* No changes to overlay content */}
                         <motion.div
                           className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
                           initial={{ opacity: 0 }}
@@ -379,14 +359,13 @@ const ProjectsSection = () => {
             })}
           </motion.div>
 
-          {/* Navigation Arrows */}
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-0 z-10">
             <Button
               variant="ghost"
               size="icon"
               className="bg-gray-700/50 hover:bg-gray-600/70 text-white rounded-full p-2"
               onClick={scrollLeft}
-              disabled={isAtStart} // Use state for disabled prop
+              disabled={isAtStart}
             >
               <ArrowLeft size={24} />
             </Button>
@@ -395,7 +374,7 @@ const ProjectsSection = () => {
               size="icon"
               className="bg-gray-700/50 hover:bg-gray-600/70 text-white rounded-full p-2"
               onClick={scrollRight}
-              disabled={isAtEnd} // Use state for disabled prop
+              disabled={isAtEnd}
             >
               <ArrowRight size={24} />
             </Button>

@@ -2,9 +2,9 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { projectsData } from "../data/data";
 import { motion, useSpring } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react"; // Import useCallback
 import { useInView } from "framer-motion";
-import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react"; // ArrowUpRight removed from here
+import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react";
 
 interface Project {
   id: number;
@@ -23,12 +23,14 @@ const ProjectsSection = () => {
 
   const scrollX = useSpring(0, { stiffness: 100, damping: 20 });
 
+  // Sync Framer Motion value with actual scroll position
   useEffect(() => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollLeft = scrollX.get();
     }
   }, [scrollX]);
 
+  // Animation variants (remain the same)
   const headerVariants = {
     hidden: { opacity: 0, y: -20 },
     visible: {
@@ -72,12 +74,14 @@ const ProjectsSection = () => {
     },
   };
 
+  // Determine project accent color (remain the same)
   const getProjectAccent = (projectId: number) => {
     if (projectId % 3 === 0) return "cyan";
     if (projectId % 3 === 1) return "amber";
     return "purple";
   };
 
+  // Get gradient based on project accent (remain the same)
   const getProjectGradient = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "from-cyan-500/20 to-blue-600/20";
@@ -85,6 +89,7 @@ const ProjectsSection = () => {
     return "from-purple-500/20 to-pink-600/20";
   };
 
+  // Get border color based on project accent (remain the same)
   const getProjectBorderColor = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "border-cyan-500/30";
@@ -92,6 +97,7 @@ const ProjectsSection = () => {
     return "border-purple-500/30";
   };
 
+  // Get text color based on project accent (remain the same)
   const getProjectTextColor = (projectId: number) => {
     const accent = getProjectAccent(projectId);
     if (accent === "cyan") return "text-cyan-400";
@@ -99,23 +105,27 @@ const ProjectsSection = () => {
     return "text-purple-400";
   };
 
-  const getCardScrollAmount = () => {
+  // Calculate the scroll amount for one full "page" of 3 cards
+  const getScrollPageAmount = useCallback(() => {
     if (!scrollContainerRef.current) return 0;
-    const firstCard = scrollContainerRef.current.querySelector(".snap-start"); // Changed to snap-start
+
+    const container = scrollContainerRef.current;
+    const firstCard = container.querySelector(".project-card-item"); // Use a specific class
     if (firstCard) {
       const cardWidth = firstCard.clientWidth;
-      const computedStyle = window.getComputedStyle(firstCard);
-      const marginRight = parseFloat(computedStyle.marginRight || "0");
-      return cardWidth + marginRight;
+      const gapWidth = 16; // space-x-4 = 16px
+      // For 3 cards: 3 * cardWidth + 2 * gapWidth
+      return (cardWidth * 3) + (gapWidth * 2);
     }
-    return scrollContainerRef.current.offsetWidth / 3;
-  };
+    // Fallback if no card found, use a reasonable default
+    return container.clientWidth * 0.9; // Roughly 90% of container width
+  }, []); // useCallback to memoize this function
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
       const currentScroll = scrollX.get();
-      const cardAmount = getCardScrollAmount();
-      const newScroll = Math.max(0, currentScroll - cardAmount * 3);
+      const pageAmount = getScrollPageAmount();
+      const newScroll = Math.max(0, currentScroll - pageAmount);
       scrollX.set(newScroll);
     }
   };
@@ -123,11 +133,11 @@ const ProjectsSection = () => {
   const scrollRight = () => {
     if (scrollContainerRef.current) {
       const currentScroll = scrollX.get();
-      const cardAmount = getCardScrollAmount();
+      const pageAmount = getScrollPageAmount();
       const maxScroll =
         scrollContainerRef.current.scrollWidth -
         scrollContainerRef.current.clientWidth;
-      const newScroll = Math.min(maxScroll, currentScroll + cardAmount * 3);
+      const newScroll = Math.min(maxScroll, currentScroll + pageAmount);
       scrollX.set(newScroll);
     }
   };
@@ -153,10 +163,12 @@ const ProjectsSection = () => {
           </motion.h2>
         </motion.div>
 
-        <div className="relative w-full overflow-hidden">
+        {/* Outer wrapper to contain the scrollable area and hide overflow */}
+        <div className="relative w-full overflow-hidden px-4 md:px-0"> {/* Added px-4 here, removed from scroll container */}
           <motion.div
             ref={scrollContainerRef}
-            className="flex overflow-x-hidden scrollbar-hide space-x-4 px-4 pb-4 md:px-0 md:pb-0"
+            // Ensure no bottom padding here, or it can cause vertical scroll issues
+            className="flex overflow-x-hidden scrollbar-hide space-x-4 pb-4" // Removed px-4 from here, kept pb-4 if cards have shadows
           >
             {projectsData.map((project, index) => {
               const projectAccent = getProjectAccent(project.id);
@@ -174,7 +186,9 @@ const ProjectsSection = () => {
                   whileHover="hover"
                   onHoverStart={() => setHoveredProject(project.id)}
                   onHoverEnd={() => setHoveredProject(null)}
-                  className="flex-shrink-0 w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.666rem)] snap-start"
+                  // Added specific class for targeting in getScrollPageAmount
+                  className="flex-shrink-0 project-card-item w-full md:w-[calc(50%-8px)] lg:w-[calc(33.333%-10.666px)] snap-start"
+                  // Adjusted calc values: 8px = 0.5rem (half of space-x-4's 1rem for 2 cards), 10.666px = (2/3) * 16px (two gaps for 3 cards)
                 >
                   <Card
                     className={`w-full p-3 xl:px-4 h-[500px] xl:py-3 rounded-lg flex flex-col bg-gray-800 bg-opacity-70 shadow-lg hover:shadow-xl hover:shadow-${projectAccent}-500/10 transition-all duration-300`}
@@ -227,7 +241,8 @@ const ProjectsSection = () => {
                               );
                             }}
                           >
-                            View on GitHub <Github size={16} className="ml-2" /> {/* Changed ArrowUpRight to Github */}
+                            View on GitHub{" "}
+                            <Github size={16} className="ml-2" />
                           </Button>
                         </motion.div>
                       </motion.div>
@@ -297,7 +312,10 @@ const ProjectsSection = () => {
             })}
           </motion.div>
 
-          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-0">
+          {/* Navigation Arrows */}
+          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-0 z-10">
+            {" "}
+            {/* Added z-10 to ensure arrows are above cards */}
             <Button
               variant="ghost"
               size="icon"

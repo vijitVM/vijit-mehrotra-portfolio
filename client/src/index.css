@@ -8,6 +8,16 @@
 @tailwind utilities;
 
 @layer base {
+  /* ADD THESE STYLES HERE */
+  html, body {
+    overflow-x: hidden; /* This is the key fix for the global horizontal scrollbar */
+    width: 100vw;       /* Ensures the root elements are exactly the viewport width */
+    margin: 0;          /* Remove default browser margins */
+    padding: 0;         /* Remove default browser padding */
+    box-sizing: border-box; /* Ensures consistent box model across all elements */
+  }
+  /* END ADDED STYLES */
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;

@@ -212,10 +212,13 @@ const ProjectsSection = () => {
           </motion.h2>
         </motion.div>
 
-        <div className="relative w-full overflow-hidden">
+        {/* This div now includes horizontal padding to create space for arrows */}
+        <div className="relative w-full overflow-hidden px-4"> {/* Added px-4 here */}
           <motion.div
             ref={scrollContainerRef}
-            className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-0 snap-x snap-mandatory px-4"
+            // Removed px-4 here, as padding for scroll area is now on its parent.
+            // The arrows will sit in this new padding.
+            className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-0 snap-x snap-mandatory"
           >
             {projectsData.map((project, index) => {
               const projectAccent = getProjectAccent(project.id);
@@ -235,16 +238,18 @@ const ProjectsSection = () => {
                   onHoverEnd={() => setHoveredProject(null)}
                   className={`flex-shrink-0 project-card-item snap-start
                     // Base case for 1 card (on very small screens before sm breakpoint).
+                    // This calc now needs to subtract the 32px of the parent's px-4 (16px left + 16px right)
                     w-[calc(100%-32px)]
                     // sm breakpoint: 1 card, same logic as above
                     sm:w-[calc(100%-32px)]
                     // md breakpoint: 2 cards. Available width: (100% - 32px outer padding - 16px inner gap) / 2
                     md:w-[calc((100%-32px-16px)/2)]
                     // lg breakpoint: 3 cards. Available width: (100% - 32px outer padding - 32px inner gaps) / 3
-                    lg:w-[calc((100%-32px-32px)/3)]
+                    // Added a small negative adjustment here for clean fit
+                    lg:w-[calc(((100%-32px-32px)/3) - 1.5px)]
                     // xl breakpoint: 4 cards. Available width: (100% - 32px outer padding - 48px inner gaps) / 4
-                    // To avoid sliver of 5th card, subtract a tiny amount (e.g., 0.5px or 1px)
-                    xl:w-[calc(((100%-32px-48px)/4) - 1.5px)] // Increased subtraction to 1.5px
+                    // Keeping the small negative adjustment here for clean fit
+                    xl:w-[calc(((100%-32px-48px)/4) - 1.5px)]
                   `}
                 >
                   <Card
@@ -371,29 +376,28 @@ const ProjectsSection = () => {
               );
             })}
           </motion.div>
-        </div>
-
-        {/* Navigation Arrows: Adjusted placement */}
-        {/* Placed inside the max-w-7xl parent, but directly at its edges */}
-        <div className="absolute top-1/2 -translate-y-1/2 w-full max-w-7xl flex justify-between mx-auto px-4 z-10">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="bg-gray-700/50 hover:bg-gray-600/70 text-white rounded-full p-2"
-            onClick={scrollLeft}
-            disabled={isAtStart}
-          >
-            <ArrowLeft size={24} />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="bg-gray-700/50 hover:bg-gray-600/70 text-white rounded-full p-2"
-            onClick={scrollRight}
-            disabled={isAtEnd}
-          >
-            <ArrowRight size={24} />
-          </Button>
+          {/* Navigation Arrows: Positioned relative to the `overflow-hidden` div,
+              and `left-0 right-0` will put them inside its padding. */}
+          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between z-10">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="bg-gray-700/50 hover:bg-gray-600/70 text-white rounded-full p-2"
+              onClick={scrollLeft}
+              disabled={isAtStart}
+            >
+              <ArrowLeft size={24} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="bg-gray-700/50 hover:bg-gray-600/70 text-white rounded-full p-2"
+              onClick={scrollRight}
+              disabled={isAtEnd}
+            >
+              <ArrowRight size={24} />
+            </Button>
+          </div>
         </div>
 
         {/* Bottom border */}

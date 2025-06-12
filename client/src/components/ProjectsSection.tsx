@@ -17,7 +17,7 @@ interface Project {
 
 const ProjectsSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivL/div>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
@@ -235,12 +235,15 @@ const ProjectsSection = () => {
         }
       `}</style>
 
+      {/* Main content container for the section. Removed px-* here as it caused overflow. */}
+      {/* This div sets the max-width and centers the content. */}
       <div className="w-full max-w-7xl mx-auto py-14 border-b-gray-800">
         <motion.div
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="w-full flex items-center justify-center"
+          // Added px-* to the header to provide proper spacing relative to max-w-7xl
+          className="w-full flex items-center justify-center px-4 sm:px-6 lg:px-8"
         >
           <motion.h2
             className="text-3xl font-bold mb-12 text-cyan-500 uppercase tracking-wider text-center"
@@ -253,9 +256,9 @@ const ProjectsSection = () => {
         <div className="relative w-full overflow-hidden">
           <motion.div
             ref={scrollContainerRef}
-            // The scrollable container now has `px-4` to handle outer padding.
-            // The `space-x-4` handles internal gaps.
-            // Cards will size themselves within this padded content area.
+            // This is the scrollable container for the cards.
+            // `px-4` here provides the necessary padding *inside* the scrollable area.
+            // `space-x-4` creates the gaps *between* the cards.
             className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-0 snap-x snap-mandatory px-4"
             style={{ width: '100%', height: 'auto' }}
           >
@@ -265,6 +268,11 @@ const ProjectsSection = () => {
               const projectBorder = getProjectBorderColor(project.id);
               const projectText = getProjectTextColor(project.id);
 
+              // **IMPORTANT: Adjusted calc() values for correct card sizing**
+              // The `100%` in calc refers to the content width of the `scrollContainerRef` (which is `100%` of its parent).
+              // We subtract the total `px-4` padding (16px left + 16px right = 32px) from this 100%.
+              // Then, for N cards, we subtract (N-1) * space-x-4 (16px per gap) for the internal spacing.
+              // Finally, divide by N.
               return (
                 <motion.div
                   key={project.id}
@@ -275,10 +283,19 @@ const ProjectsSection = () => {
                   whileHover="hover"
                   onHoverStart={() => setHoveredProject(project.id)}
                   onHoverEnd={() => setHoveredProject(null)}
-                  // The `w-full` on smaller screens makes one card fill the container's content area.
-                  // For larger screens, we divide the available space (after gaps) by the number of cards.
-                  // The `space-x-4` handles the gap *between* cards.
-                  className={`flex-shrink-0 project-card-item w-full sm:w-[calc((100%-16px)/2)] lg:w-[calc((100%-32px)/3)] xl:w-[calc((100%-48px)/4)] snap-start`}
+                  className={`flex-shrink-0 project-card-item snap-start
+                    // Base case for 1 card (on very small screens before sm breakpoint).
+                    // It should take the full width minus the 32px from the parent's px-4.
+                    w-[calc(100%-32px)]
+                    // sm breakpoint: 1 card, same logic as above
+                    sm:w-[calc(100%-32px)]
+                    // md breakpoint: 2 cards. Available width: (100% - 32px outer padding - 16px inner gap) / 2
+                    md:w-[calc((100%-32px-16px)/2)]
+                    // lg breakpoint: 3 cards. Available width: (100% - 32px outer padding - 32px inner gaps) / 3
+                    lg:w-[calc((100%-32px-32px)/3)]
+                    // xl breakpoint: 4 cards. Available width: (100% - 32px outer padding - 48px inner gaps) / 4
+                    xl:w-[calc((100%-32px-48px)/4)]
+                  `}
                 >
                   <Card
                     className={`w-full p-3 xl:px-4 h-[500px] xl:py-3 rounded-lg flex flex-col bg-gray-800 bg-opacity-70 shadow-lg hover:shadow-xl hover:shadow-${projectAccent}-500/10 transition-all duration-300`}
@@ -406,6 +423,7 @@ const ProjectsSection = () => {
           </motion.div>
 
           {/* Navigation Arrows */}
+          {/* These arrows also need some horizontal padding to align with content */}
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-4 z-10">
             <Button
               variant="ghost"
@@ -428,7 +446,9 @@ const ProjectsSection = () => {
           </div>
         </div>
 
-        <div className="w-full py-20 border-b-[1px] border-b-gray-800"></div>
+        {/* Bottom border, also needs to respect the same horizontal padding */}
+        {/* Changed `py-20` to `pb-20` for just bottom padding, `pt-0` to ensure no extra top padding introduced */}
+        <div className="w-full pt-0 pb-20 border-b-[1px] border-b-gray-800 px-4 sm:px-6 lg:px-8"></div>
       </div>
     </section>
   );

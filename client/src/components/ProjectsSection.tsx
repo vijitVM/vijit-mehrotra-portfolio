@@ -235,7 +235,7 @@ const ProjectsSection = () => {
         }
       `}</style>
 
-      <div className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-14 border-b-gray-800">
+      <div className="w-full max-w-7xl mx-auto py-14 border-b-gray-800">
         <motion.div
           variants={headerVariants}
           initial="hidden"

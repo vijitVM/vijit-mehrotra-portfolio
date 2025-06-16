@@ -76,10 +76,10 @@ const ProjectsSection = () => {
   return (
     <section
       id="projects"
-      className="w-full flex flex-col items-center justify-center py-12 pt-20 bg-gray-900/50 relative"
+      className="w-full flex flex-col items-center justify-center py-12 pt-20 bg-gray-900/50 relative overflow-x-hidden"
       ref={sectionRef}
     >
-      <div className="w-full px-4 max-w-7xl mx-auto py-14 border-b border-b-gray-800 overflow-hidden">
+      <div className="w-full px-4 max-w-7xl mx-auto py-14 border-b border-gray-800">
         <motion.div
           variants={headerVariants}
           initial="hidden"
@@ -94,7 +94,7 @@ const ProjectsSection = () => {
           </motion.h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full max-w-full overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full">
           {projectsData.map((project, index) => {
             const accent = getProjectAccent(project.id);
             const gradient = getProjectGradient(project.id);
@@ -138,7 +138,7 @@ const ProjectsSection = () => {
                   />
 
                   {/* Image */}
-                  <div className="h-40 overflow-hidden relative">
+                  <div className="h-40 w-full overflow-hidden relative">
                     <motion.div
                       className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900"
                       style={{
@@ -215,9 +215,6 @@ const ProjectsSection = () => {
             );
           })}
         </div>
-
-        {/* Bottom padding with border */}
-        <div className="w-full py-20 border-b border-b-gray-800 sm:px-2 lgl:px-0"></div>
       </div>
     </section>
   );

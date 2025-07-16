@@ -30,7 +30,7 @@ export const skillsData = {
     { name: "LangChain", value: 4.2 },
     { name: "Git", value: 4.1 },
     { name: "Docker", value: 3.6 },
-    { name: "Power BI", value: 3.2 },
+    { name: "Power BI", value: 3.4 },
     { name: "AWS & Azure", value: 3.7 },
     { name: "Llama-Index", value: 4.2 },
   ],

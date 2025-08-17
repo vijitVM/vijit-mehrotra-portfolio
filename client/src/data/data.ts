@@ -15,7 +15,7 @@ export const skillsData = {
   coreSkills: [
     { name: "Generative AI & LLMs", value: 4.5 },
     { name: "Machine Learning", value: 4.1 },
-    { name: "NLP", value: 4.0 },
+    { name: "NLP", value: 4.1 },
     { name: "CI/CD", value: 4.2 },
     { name: "Data Visualization", value: 4.6 },
     { name: "App Development", value: 4.0 },
@@ -26,11 +26,11 @@ export const skillsData = {
   technicalSkills: [
     { name: "Python", value: 4.5 },
     { name: "SQL", value: 4.6 },
-    { name: "TensorFlow", value: 3.8 },
+    { name: "TensorFlow", value: 4.0 },
     { name: "LangChain", value: 4.2 },
     { name: "Git", value: 4.1 },
     { name: "Docker", value: 3.6 },
-    { name: "Power BI", value: 3.4 },
+    { name: "BI Dashboarding", value: 3.5 },
     { name: "AWS & Azure", value: 3.7 },
     { name: "Llama-Index", value: 4.2 },
   ],

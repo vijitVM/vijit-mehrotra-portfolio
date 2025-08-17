@@ -63,8 +63,8 @@ export const experienceData = [
         period: "May 2025 - Present",
         details: [
           {
-            domain: "Automotive Retail",
-            text: "[[Generative AI VOC Complaint Analyzer:]] Developing a Generative AI pipeline with an autonomous agent to analyze automotive customer complaints, classifying them into their respective categories, detecting sentiment, auto-tagging issues, and scoring emotions. The system delivers real-time dashboard insights to accelerate resolution and enhance customer experience (CX). (Technologies: GPT-4o-mini, Power BI, NLP, Sentiment Analysis, Langfuse)",
+            domain: "Automotive",
+            text: "[[VOC Complaint Analyzer:]] Developed a Generative AI pipeline with an autonomous agent to analyze voice of customer complaints in the automotive industry, including classification, sentiment detection, auto-tagging, and emotion scoring. The system delivers real-time dashboard insights to accelerate resolution and enhance customer experience (CX). (Technologies: OpenAI, NLP, Sentiment Analysis, Langfuse, BI Dashboarding Tools)",
           },
         ],
       },

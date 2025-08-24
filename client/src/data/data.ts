@@ -66,6 +66,10 @@ export const experienceData = [
             domain: "Automotive",
             text: "[[VOC Complaint Analyzer:]] Designed and implemented modular Agentic AI pipelines to process automotive Voice of Customer (VOC) complaints, including classification, sentiment detection, auto-tagging, and emotion scoring. Integrated outputs into real-time dashboards, reducing complaint triage time and improving customer experience (CX). (Technologies: OpenAI, NLP, Sentiment Analysis, Langfuse, BI Dashboarding Tools)",
           },
+           {
+            domain: "Manufacturing",
+            text: "[[Data and Email Processing Automation:]] Developed Python and Java scripts to extract and process purchase orders and invoices from PDFs and Excel reports received via email. Scheduled workflows using Windows Task Scheduler and loaded structured data into a central database with dashboards for analytics, improving accuracy by 95% and reducing manual effort. (Technologies: Python, Java, Windoes Task Scheduler, PDF/Excel Processing, SQL Database, Outlook Email Automation)",
+          },
         ],
       },
       {

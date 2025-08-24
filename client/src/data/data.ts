@@ -68,7 +68,7 @@ export const experienceData = [
           },
            {
             domain: "Manufacturing",
-            text: "[[Data and Email Processing Automation:]] Developed Python and Java scripts to extract and process purchase orders and invoices from PDFs and Excel reports received via email. Scheduled workflows using Windows Task Scheduler and loaded structured data into a central database with dashboards for analytics, improving accuracy by 95% and reducing manual effort. (Technologies: Python, Java, Windoes Task Scheduler, PDF/Excel Processing, SQL Database, Outlook Email Automation)",
+            text: "[[Data and Email Processing Automation:]] Developed Python and Java scripts to extract and process purchase orders and invoices from PDFs and Excel reports received via email. Scheduled workflows using Windows Task Scheduler and loaded structured data into a central database with dashboards for analytics, improving accuracy by 95% and reducing manual effort. (Technologies: Python, Java, Windows Task Scheduler, PDF/Excel Processing, SQL Database, Outlook Email Automation)",
           },
         ],
       },

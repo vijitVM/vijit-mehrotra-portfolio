@@ -266,12 +266,12 @@ const HeroSection = () => {
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                    Senior Data Scientist & AI Engineer with 4 years of experience 
+                    Senior Data Scientist & AI Engineer with 4+ years of experience 
                     delivering impactful end-to-end analytics and AI solutions that streamline 
                     operations and drive business growth. At Quation Solutions, 
                     I lead the development of intelligent systems that enhance decision-making, 
                     automate workflows, and solve complex challenges across industries including Healthcare, 
-                    FMCG, Technology.
+                    FMCG, Technology, and beyond.
                   </motion.p>
 
                   <motion.p

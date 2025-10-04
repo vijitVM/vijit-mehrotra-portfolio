@@ -25,12 +25,12 @@ const renderFormattedPitch = (text: string) => {
         if (line.startsWith('- ') || line.startsWith('* ')) {
             const content = line.substring(2);
             // Handle bolding within the list item
-            const parts = content.split(/(\\\*\\\*.*?\\\*\\\*)/g);
+            const parts = content.split(/(\\*\\*.*?\\*\\*)/g);
             return (
                 <li key={index} className="ml-5 list-disc list-outside text-gray-300 leading-relaxed">
                      {parts.map((part, partIndex) => {
                         if (part.startsWith('**') && part.endsWith('**')) {
-                            return <strong key={partIndex} className="text-white font-semibold">{part.replace(/\\\*\\\*/g, '')}</strong>;
+                            return <strong key={partIndex} className="text-white font-semibold">{part.replace(/\\*\\*/g, '')}</strong>;
                         }
                         return part;
                      })}
@@ -39,12 +39,12 @@ const renderFormattedPitch = (text: string) => {
         }
         
         // Handle bold text within paragraphs
-        const p_parts = line.split(/(\\\*\\\*.*?\\\*\\\*)/g);
+        const p_parts = line.split(/(\\*\\*.*?\\*\\*)/g);
         return (
             <p key={index} className="text-gray-300 leading-relaxed my-2">
                 {p_parts.map((part, partIndex) => {
                     if (part.startsWith('**') && part.endsWith('**')) {
-                         return <strong key={partIndex} className="text-white font-semibold">{part.replace(/\\\*\\\*/g, '')}</strong>
+                         return <strong key={partIndex} className="text-white font-semibold">{part.replace(/\\*\\*/g, '')}</strong>
                     }
                     return part;
                 })}
@@ -89,20 +89,20 @@ export const ProjectPitchGenerator = () => {
     setError("");
 
     try {
-      const response = await fetch('/api/generate', { // Correct API endpoint
+      const response = await fetch('/api/generate-pitch', { // Correct API endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ businessProblem }),
+        body: JSON.stringify({ problem: businessProblem }), // Use 'problem' to match backend
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const err = await response.json();
-        throw new Error(err.error || "An unknown error occurred while fetching the pitch.");
+        throw new Error(data.message || "An unknown error occurred while fetching the pitch.");
       }
 
-      const data = await response.json();
       setProjectPitch(data.pitch);
 
     } catch (error: any) {

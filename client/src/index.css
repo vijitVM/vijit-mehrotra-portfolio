@@ -14,20 +14,6 @@
     border-color: hsl(var(--border));
   }
 
-  /* Prevent horizontal scroll without breaking header */
-  html, body {
-    overflow-x: hidden; /* ✅ removes horizontal scrollbar */
-    margin: 0;          /* remove default browser margin */
-    padding: 0;         /* remove default browser padding */
-    box-sizing: border-box;
-  }
-
-  /* Make images, videos, SVGs responsive to prevent overflow */
-  img, video, svg {
-    max-width: 100%;
-    height: auto;
-  }
-
   /* --- THEME VARIABLES --- */
   :root {
     --background: 0 0% 100%;

@@ -17,6 +17,8 @@
   /* Add this inside your @layer base or globally */
   html, body {
     overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-y: auto;   /* Keep vertical scroll */
+    min-height: 100vh;  /* Ensure sticky headers work */
   }
 
   /* --- THEME VARIABLES --- */

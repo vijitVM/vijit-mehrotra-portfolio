@@ -83,17 +83,30 @@
     --ring: 216 34% 17%;
   }
 
+  /* Apply borders and base styling */
   * {
     @apply border-border;
   }
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    overflow-x: visible; /* allow sticky header and full scroll */
   }
 
-  /* --- PREVENT HORIZONTAL SCROLL SAFELY --- */
-  #root, #__next, main, .timeline-content {
-    overflow-x: hidden; /* Only apply to main wrappers / wide sections */
+  /* --- PREVENT HORIZONTAL SCROLL ON SPECIFIC SECTIONS ONLY --- */
+  main,
+  .timeline-content,
+  .hero-wrapper,
+  .projects-wrapper {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  /* Sticky header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
   }
 }
 
@@ -169,6 +182,6 @@
 
   .timeline-content {
     @apply ml-8 md:ml-0 md:w-1/2 md:pr-10 md:odd:ml-auto md:odd:pr-0 md:odd:pl-10;
-    max-width: 100%; /* ✅ prevent overflow horizontally */
+    max-width: 100%; /* prevent overflow horizontally */
   }
 }

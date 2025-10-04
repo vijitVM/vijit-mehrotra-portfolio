@@ -74,14 +74,6 @@ app.use(helmet({
   hidePoweredBy: true,
 }));
 
-// Generate a random string for security tokens
-const generateSecurityToken = () => {
-  return crypto.randomBytes(32).toString('hex');
-};
-
-// Create a secure API token for API requests
-const API_SECRET = generateSecurityToken();
-
 // Add rate limiting for all requests
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -128,25 +120,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   // Handle OPTIONS requests for CORS preflight
   if (req.method === 'OPTIONS') {
     return res.status(204).end();
-  }
-  
-  // Add API token to response headers for non-public routes, but with relaxed security
-  if (req.path.startsWith('/api/') && !req.path.startsWith('/api/public/')) {
-    // Generate a new token for each response
-    const newToken = generateSecurityToken();
-    res.setHeader('X-API-Token', newToken);
-    
-    // Only validate tokens for write operations and non-public routes
-    if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(req.method) && 
-        !req.path.includes('/public/')) {
-      const requestToken = req.headers['x-api-token'] as string;
-      
-      // For the portfolio site, make this optional to prevent access issues
-      if (!requestToken && process.env.NODE_ENV === 'production') {
-        // In production, still require token
-        return res.status(403).json({ message: 'API token required' });
-      }
-    }
   }
   
   next();

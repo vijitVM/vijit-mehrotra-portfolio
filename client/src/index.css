@@ -8,26 +8,27 @@
 @tailwind utilities;
 
 @layer base {
-  /* --- FIX FOR HORIZONTAL SCROLLBAR --- */
+  /* --- GLOBAL FIXES --- */
   *, *::before, *::after {
     box-sizing: border-box;
     border-color: hsl(var(--border));
   }
 
-   html, body {
-    overflow-x: hidden; /* This is the key fix for the global horizontal scrollbar */
-    width: 100%;       /* Ensures the root elements are exactly the viewport width */
-    margin: 0;          /* Remove default browser margins */
-    padding: 0;         /* Remove default browser padding */
-    box-sizing: border-box; /* Ensures consistent box model across all elements */
+  /* Prevent horizontal scroll without breaking header */
+  html, body {
+    overflow-x: hidden; /* ✅ removes horizontal scrollbar */
+    margin: 0;          /* remove default browser margin */
+    padding: 0;         /* remove default browser padding */
+    box-sizing: border-box;
   }
 
+  /* Make images, videos, SVGs responsive to prevent overflow */
   img, video, svg {
-    max-width: 100%; /* ✅ prevent overflowing */
+    max-width: 100%;
     height: auto;
   }
 
-  /* ------------------------------------ */
+  /* --- THEME VARIABLES --- */
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -94,6 +95,10 @@
     --destructive-foreground: 210 40% 98%;
 
     --ring: 216 34% 17%;
+  }
+
+  * {
+    @apply border-border;
   }
 
   body {
@@ -173,6 +178,6 @@
 
   .timeline-content {
     @apply ml-8 md:ml-0 md:w-1/2 md:pr-10 md:odd:ml-auto md:odd:pr-0 md:odd:pl-10;
-    max-width: 100%; /* ✅ prevent overflow */
+    max-width: 100%; /* ✅ prevent overflow horizontally */
   }
 }

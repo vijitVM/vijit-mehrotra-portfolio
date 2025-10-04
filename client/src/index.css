@@ -12,159 +12,153 @@
   /* This ensures padding and borders are included INSIDE the element's defined width (e.g., w-full) */
   *, *::before, *::after {
     box-sizing: border-box;
-    /* You can also keep the @apply border-border here for clarity, though it might be redundant */
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
   /* ------------------------------------ */
-  
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+  
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
 
-    --primary: 210 100% 50%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-    --ring: 215 20.2% 65.1%;
+    --ring: 215 20.2% 65.1%;
 
-    --chart-1: 210 100% 50%;
-    --chart-2: 25 95% 57%;
-    --chart-3: 270 80% 85%;
-    --chart-4: 180 100% 50%;
-    --chart-5: 340 100% 50%;
-  }
+    --chart-1: 210 100% 50%;
+    --chart-2: 25 95% 57%;
+    --chart-3: 270 80% 85%;
+    --chart-4: 180 100% 50%;
+    --chart-5: 340 100% 50%;
+  }
 
-  .dark {
-    --background: 222.2 47.4% 11.2%;
-    --foreground: 0 0% 100%;
+  .dark {
+    --background: 222.2 47.4% 11.2%;
+    --foreground: 0 0% 100%;
 
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
 
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
 
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
 
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
 
-    --primary: 210 100% 50%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 222.2 47.4% 15.2%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 222.2 47.4% 15.2%;
+    --secondary-foreground: 210 40% 98%;
 
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
 
-    --ring: 216 34% 17%;
-  }
+    --ring: 216 34% 17%;
+  }
 
-  /* Removed redundant * selector, as the box-sizing one handles the border property too */
-  /* * {
-    @apply border-border;
-  } */
-
-  body {
-    @apply bg-background text-foreground font-sans antialiased;
-  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
 }
 
 @layer components {
-  .bg-dark {
-    @apply bg-[#0B0F19];
-  }
-  
-  .bg-dark-lighter {
-    @apply bg-[#151A29];
-  }
-  
-  .text-blueAccent {
-    @apply text-[#3182CE];
-  }
-  
-  .text-orangeAccent {
-    @apply text-[#ED8936];
-  }
-  
-  .text-purpleAccent {
-    @apply text-[#9F7AEA];
-  }
-  
-  .bg-blueAccent {
-    @apply bg-[#3182CE];
-  }
-  
-  .bg-orangeAccent {
-    @apply bg-[#ED8936];
-  }
-  
-  .bg-purpleAccent {
-    @apply bg-[#9F7AEA];
-  }
-  
-  .hover\:bg-blueAccent:hover {
-    @apply hover:bg-[#3182CE];
-  }
-  
-  .hover\:bg-orangeAccent:hover {
-    @apply hover:bg-[#ED8936];
-  }
-  
-  .hover\:bg-purpleAccent:hover {
-    @apply hover:bg-[#9F7AEA];
-  }
-  
-  .hover\:text-blueAccent:hover {
-    @apply hover:text-[#3182CE];
-  }
+  .bg-dark {
+    @apply bg-[#0B0F19];
+  }
+  
+  .bg-dark-lighter {
+    @apply bg-[#151A29];
+  }
+  
+  .text-blueAccent {
+    @apply text-[#3182CE];
+  }
+  
+  .text-orangeAccent {
+    @apply text-[#ED8936];
+  }
+  
+  .text-purpleAccent {
+    @apply text-[#9F7AEA];
+  }
+  
+  .bg-blueAccent {
+    @apply bg-[#3182CE];
+  }
+  
+  .bg-orangeAccent {
+    @apply bg-[#ED8936];
+  }
+  
+  .bg-purpleAccent {
+    @apply bg-[#9F7AEA];
+  }
+  
+  .hover\:bg-blueAccent:hover {
+    @apply hover:bg-[#3182CE];
+  }
+  
+  .hover\:bg-orangeAccent:hover {
+    @apply hover:bg-[#ED8936];
+  }
+  
+  .hover\:bg-purpleAccent:hover {
+    @apply hover:bg-[#9F7AEA];
+  }
+  
+  .hover\:text-blueAccent:hover {
+    @apply hover:text-[#3182CE];
+  }
 
-  .from-blueAccent {
-    @apply from-[#3182CE];
-  }
-  
-  .to-purpleAccent {
-    @apply to-[#9F7AEA];
-  }
-  
-  .from-red-400 {
-    @apply from-[#FC8181];
-  }
-  
-  .to-red-700 {
-    @apply to-[#C53030];
-  }
-  
-  .timeline-dot {
-    @apply absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-5 h-5 rounded-full;
-  }
-  
-  .timeline-content {
-    @apply ml-8 md:ml-0 md:w-1/2 md:pr-10 md:odd:ml-auto md:odd:pr-0 md:odd:pl-10;
-  }
+  .from-blueAccent {
+    @apply from-[#3182CE];
+  }
+  
+  .to-purpleAccent {
+    @apply to-[#9F7AEA];
+  }
+  
+  .from-red-400 {
+    @apply from-[#FC8181];
+  }
+  
+  .to-red-700 {
+    @apply to-[#C53030];
+  }
+  
+  .timeline-dot {
+    @apply absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-5 h-5 rounded-full;
+  }
+  
+  .timeline-content {
+    @apply ml-8 md:ml-0 md:w-1/2 md:pr-10 md:odd:ml-auto md:odd:pr-0 md:odd:pl-10;
+  }
 }

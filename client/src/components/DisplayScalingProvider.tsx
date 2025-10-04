@@ -61,24 +61,25 @@ export const DisplayScalingProvider: React.FC<DisplayScalingProviderProps> = ({ 
     // Function to detect display characteristics
     const detectDisplayCharacteristics = () => {
       const dpr = window.devicePixelRatio || 1;
-      const screenWidth = window.screen.width;
-      const screenHeight = window.screen.height;
+      // --- CHANGE: Use viewport size (innerWidth/innerHeight) instead of screen size ---
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
       const aspectRatio = screenWidth / screenHeight;
       
       // Determine if this is likely a high density display
       const isHighDensity = dpr > 1.5;
       
-      // Check for common external monitor resolutions
+      // Check for common external monitor resolutions/sizes using viewport dimensions
+      // This is a heuristic that works well for large desktop windows
       const isLikelyExternal = 
-        (screenWidth >= 1920 && screenHeight >= 1080 && dpr <= 1.5) || // Common external monitor
+        (screenWidth >= 1920 && screenHeight >= 1080 && dpr <= 1.5) || // Common desktop monitor
         (screenWidth === 2560 && screenHeight === 1440) || // QHD
         (screenWidth === 3840 && screenHeight === 2160); // 4K
 
       // Specific detection for Acer monitor patterns
-      // This targets 24" monitors like Acer with standard resolutions
       const isAcerMonitor = 
         (screenWidth === 1920 && screenHeight === 1080 && dpr === 1 && 
-         Math.abs(aspectRatio - 1.77) < 0.1); // 16:9 aspect ratio (1.77...)
+         Math.abs(aspectRatio - (16/9)) < 0.01); // Use exact 16/9 ratio check
       
       setDisplayDensity({
         dpr,
@@ -91,7 +92,7 @@ export const DisplayScalingProvider: React.FC<DisplayScalingProviderProps> = ({ 
       });
       
       // Log for debugging
-      console.log('Display scaling detected:', {
+      console.log('Display scaling detected (using viewport size):', {
         dpr,
         isHighDensity,
         isExternalMonitor: isLikelyExternal,
@@ -112,24 +113,20 @@ export const DisplayScalingProvider: React.FC<DisplayScalingProviderProps> = ({ 
     return () => {
       window.removeEventListener('resize', detectDisplayCharacteristics);
     };
-  }, []);
+  }, []); // Empty dependency array means this runs only on mount/unmount
 
   // Function to calculate the appropriate text size based on display characteristics
   const applyTextScaling = (baseSize: number): string => {
-    const { dpr, isHighDensity, isExternalMonitor, isAcerMonitor, screenWidth } = displayDensity;
+    const { isHighDensity, isExternalMonitor, isAcerMonitor, screenWidth } = displayDensity;
     
-    // Use different scaling strategy for different display types
-    // Default scale factor - unchanged for laptop/mobile views
     let scaleFactor = 1;
     
     if (isHighDensity) {
-      // High DPI displays (like Macbook Retina) - slight adjustment
       scaleFactor = 0.95;
     } else if (isExternalMonitor) {
-      // External monitor adjustments
       if (isAcerMonitor) {
-        // Specific adjustment for Acer monitors - slightly larger text
-        scaleFactor = 0.92; // This reduces the text size to fix the scaling issue on Acer
+        // Specific adjustment for Acer monitors - slightly smaller text
+        scaleFactor = 0.92;
       } else if (screenWidth >= 2560) {
         // Larger monitors (1440p+)
         scaleFactor = 1.08;

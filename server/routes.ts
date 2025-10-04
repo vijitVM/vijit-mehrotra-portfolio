@@ -1,16 +1,16 @@
+
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import rateLimit from "express-rate-limit";
 import fs from "fs/promises";
 import path from "path";
-import OpenAI from "openai";
+import { HfInference } from "@huggingface/inference";
 import dotenv from "dotenv";
 
 dotenv.config({ path: path.resolve(process.cwd(), 'server/.env') });
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Initialize the Hugging Face Inference client
+const hf = new HfInference(process.env.HUGGING_FACE_API_KEY);
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, 
@@ -45,7 +45,7 @@ const getPortfolioContext = async () => {
 export async function registerRoutes(app: Express): Promise<Server> {
   app.use("/api", apiLimiter);
 
-  // New endpoint for Job Fit Analysis
+  // New endpoint for Job Fit Analysis - Now uses Hugging Face
   app.post("/api/analyze-job-fit", async (req: Request, res: Response) => {
     const { jobDescription } = req.body;
 
@@ -76,8 +76,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ${portfolioContext}
       `;
 
-      const stream = await openai.chat.completions.create({
-        model: "gpt-4.1",
+      const stream = hf.chatCompletionStream({
+        model: "mistralai/Mistral-7B-Instruct-v0.2",
         messages: [
           {
             role: "system",
@@ -94,7 +94,6 @@ ${jobDescription}`,
         ],
         max_tokens: 2048, 
         temperature: 0.4,
-        stream: true,
       });
 
       res.setHeader('Content-Type', 'text/event-stream');
@@ -124,6 +123,7 @@ ${jobDescription}`,
     });
   });
 
+  // Project Pitch Generator - Now uses Hugging Face
   app.post("/api/generate-pitch", async (req: Request, res: Response) => {
     const { problem } = req.body;
 
@@ -150,8 +150,8 @@ ${jobDescription}`,
         ${portfolioContext}
       `;
 
-      const stream = await openai.chat.completions.create({
-        model: "gpt-4.1-mini",
+      const stream = hf.chatCompletionStream({
+        model: "mistralai/Mistral-7B-Instruct-v0.2",
         messages: [
           {
             role: "system",
@@ -164,7 +164,6 @@ ${jobDescription}`,
         ],
         max_tokens: 800,
         temperature: 0.7,
-        stream: true,
       });
 
       res.setHeader('Content-Type', 'text/event-stream');
@@ -186,6 +185,7 @@ ${jobDescription}`,
     }
   });
 
+  // Main Q&A Assistant - Now uses Hugging Face
   app.post("/api/ask-assistant", async (req: Request, res: Response) => {
     const { question, history } = req.body;
 
@@ -212,7 +212,7 @@ ${jobDescription}`,
         ${portfolioContext}
       `;
 
-      const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+      const messages: { role: string; content: string }[] = [
         {
           role: "system",
           content: systemPrompt,
@@ -224,13 +224,11 @@ ${jobDescription}`,
         },
       ];
 
-
-      const stream = await openai.chat.completions.create({
-        model: "gpt-4o",
+      const stream = hf.chatCompletionStream({
+        model: "mistralai/Mistral-7B-Instruct-v0.2",
         messages: messages,
         max_tokens: 500,
         temperature: 0.5,
-        stream: true,
       });
 
       res.setHeader('Content-Type', 'text/event-stream');

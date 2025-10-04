@@ -63,9 +63,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         **Report Structure:**
         1.  **Overall Match Score:** Start with a percentage score reflecting alignment.
         2.  **Critical Requirements Deconstruction:** Identify and list the top 5-7 core requirements from the JD.
-        3.  **Evidence-Based Mapping:** For each requirement, map it to specific evidence from Vijit's portfolio. You MUST cite projects using the "[[Project Name]]" format.
+        3.  **Evidence-Based Mapping:** For each requirement, map it to specific evidence from Vijit\'s portfolio. You MUST cite projects using the "[[Project Name]]" format.
         4.  **Growth Opportunities / Gap Analysis:** Identify requirements not directly met and frame them as growth opportunities, suggesting how his existing skills can bridge these gaps.
-        5.  **Tailored Interview Questions:** Create 2-3 insightful questions for the recruiter based on the JD and Vijit's projects.
+        5.  **Tailored Interview Questions:** Create 2-3 insightful questions for the recruiter based on the JD and Vijit\'s projects.
 
         **Instructions:**
         - Be evidence-based and professional.
@@ -85,11 +85,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           },
           {
             role: "user",
-            content: `Here is the Job Description to analyze: 
-
----
-
-${jobDescription}`,
+            content: `Here is the Job Description to analyze: \n\n---\n\n${jobDescription}`,
           },
         ],
         max_tokens: 2048, 
@@ -135,14 +131,14 @@ ${jobDescription}`,
       const portfolioContext = await getPortfolioContext();
 
       const systemPrompt = `
-        You are an expert AI and Data Science consultant acting as a "Project Pitch Generator" for a professional's portfolio website.
+        You are an expert AI and Data Science consultant acting as a "Project Pitch Generator" for a professional\'s portfolio website.
         Your task is to analyze a business problem submitted by a potential client or recruiter and generate a concise, compelling project proposal.
 
         **CRITICAL INSTRUCTIONS:**
-        1.  **Analyze the User's Problem:** Understand the core business need described by the user.
+        1.  **Analyze the User\'s Problem:** Understand the core business need described by the user.
         2.  **Propose a Concrete Solution:** Devise a specific, actionable AI, Data Science, or Automation solution. Be creative but realistic.
-        3.  **Leverage the Portfolio:** You MUST connect your proposed solution directly to the professional's skills, technologies, and, most importantly, their past project experience. **Reference one or more specific projects by name (e.g., "[[VOC Complaint Analyzer]]")** from their resume.
-        4.  **Recommend Technologies:** List a relevant tech stack for the solution, ensuring it aligns with the professional's expertise shown in the portfolio data.
+        3.  **Leverage the Portfolio:** You MUST connect your proposed solution directly to the professional\'s skills, technologies, and, most importantly, their past project experience. **Reference one or more specific projects by name (e.g., "[[VOC Complaint Analyzer]]")** from their resume.
+        4.  **Recommend Technologies:** List a relevant tech stack for the solution, ensuring it aligns with the professional\'s expertise shown in the portfolio data.
         5.  **Maintain a Professional Tone:** Write in a clear, confident, and consultative voice.
         6.  **Format with Markdown:** Use markdown for headings, bold text, and lists to structure the output clearly. Do not wrap the entire response in a code block.
 
@@ -185,7 +181,7 @@ ${jobDescription}`,
     }
   });
 
-  // Main Q&A Assistant - Now uses Hugging Face
+  // Main Q&A Assistant - Now uses Hugging Face with improved formatting and anti-hallucination measures
   app.post("/api/ask-assistant", async (req: Request, res: Response) => {
     const { question, history } = req.body;
 
@@ -197,16 +193,19 @@ ${jobDescription}`,
       const portfolioContext = await getPortfolioContext();
 
       const systemPrompt = `
-        You are a helpful and friendly AI assistant for a professional's portfolio website.
+        You are a helpful and friendly AI assistant for a professional\'s portfolio website.
         Your name is "Portfolio Assistant".
-        Your ONLY purpose is to answer questions about the professional's work experience, projects, and skills, based exclusively on the context provided below.
+        Your ONLY purpose is to answer questions about the professional\'s work experience, projects, and skills, based exclusively on the context provided below.
 
         **CRITICAL INSTRUCTIONS:**
-        1.  **Strictly Ground Your Answers:** Base all your answers STRICTLY on the provided portfolio data. DO NOT invent, hallucinate, or infer any information not present in the context.
+        1.  **ABSOLUTE FACTUALITY:** You MUST base all your answers STRICTLY and SOLELY on the provided portfolio data. DO NOT invent, hallucinate, or infer any information not present in the context. If you cannot find the answer in the data, you MUST state that the information is not available.
         2.  **Be Conversational:** Answer in a natural, conversational, and helpful tone.
-        3.  **Politely Decline Off-Topic Questions:** If the user asks a question that is not related to the professional's portfolio (e.g., "What is the weather like?", "Can you write a poem?", "Who are you?"), you MUST politely decline. A good response would be: "I'm sorry, I can only answer questions about the projects, skills, and experience detailed in this portfolio. How can I help you with that?"
-        4.  **Keep It Concise:** Provide clear and concise answers.
-        5.  **Refer to the Professional:** Refer to the owner of the portfolio as "the professional" or by his name, "Vijit Mehrotra".
+        3.  **Use Markdown for Formatting:**
+            - Use **bold text** to highlight key terms, such as project names (e.g., "**[[VOC Complaint Analyzer]]**"), technologies (e.g., "**Python**"), and job titles.
+            - Use bullet points (\`-\`) to list skills, project features, or other enumerated information for better readability.
+        4.  **Politely Decline Off-Topic Questions:** If the user asks a question that is not related to the professional\'s portfolio (e.g., "What is the weather like?", "Can you write a poem?", "Who are you?"), you MUST politely decline. A good response would be: "I\'m sorry, I can only answer questions about the projects, skills, and experience detailed in this portfolio. How can I help you with that?"
+        5.  **Keep It Concise:** Provide clear and concise answers.
+        6.  **Refer to the Professional:** Refer to the owner of the portfolio as "the professional" or by his name, "Vijit Mehrotra".
 
         **PORTFOLIO CONTEXT:**
         ${portfolioContext}
@@ -228,7 +227,7 @@ ${jobDescription}`,
         model: "mistralai/Mistral-7B-Instruct-v0.2",
         messages: messages,
         max_tokens: 500,
-        temperature: 0.5,
+        temperature: 0.2, // Lowered temperature to reduce hallucinations
       });
 
       res.setHeader('Content-Type', 'text/event-stream');
@@ -262,7 +261,7 @@ ${jobDescription}`,
     console.log("Contact form submission:", { name, email, message });
     return res.status(200).json({
       success: true,
-      message: "Thank you for your message. I'll get back to you soon!"
+      message: "Thank you for your message. I\'ll get back to you soon!"
     });
   });
 

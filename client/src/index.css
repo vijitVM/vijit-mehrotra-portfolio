@@ -9,13 +9,21 @@
 
 @layer base {
   /* --- FIX FOR HORIZONTAL SCROLLBAR --- */
-  /* This ensures padding and borders are included INSIDE the element's defined width (e.g., w-full) */
   *, *::before, *::after {
     box-sizing: border-box;
     border-color: hsl(var(--border));
   }
+
+  html, body {
+    overflow-x: hidden; /* ✅ prevent horizontal scroll */
+  }
+
+  img, video, svg {
+    max-width: 100%; /* ✅ prevent overflowing */
+    height: auto;
+  }
+
   /* ------------------------------------ */
-  
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -93,47 +101,47 @@
   .bg-dark {
     @apply bg-[#0B0F19];
   }
-  
+
   .bg-dark-lighter {
     @apply bg-[#151A29];
   }
-  
+
   .text-blueAccent {
     @apply text-[#3182CE];
   }
-  
+
   .text-orangeAccent {
     @apply text-[#ED8936];
   }
-  
+
   .text-purpleAccent {
     @apply text-[#9F7AEA];
   }
-  
+
   .bg-blueAccent {
     @apply bg-[#3182CE];
   }
-  
+
   .bg-orangeAccent {
     @apply bg-[#ED8936];
   }
-  
+
   .bg-purpleAccent {
     @apply bg-[#9F7AEA];
   }
-  
+
   .hover\:bg-blueAccent:hover {
     @apply hover:bg-[#3182CE];
   }
-  
+
   .hover\:bg-orangeAccent:hover {
     @apply hover:bg-[#ED8936];
   }
-  
+
   .hover\:bg-purpleAccent:hover {
     @apply hover:bg-[#9F7AEA];
   }
-  
+
   .hover\:text-blueAccent:hover {
     @apply hover:text-[#3182CE];
   }
@@ -141,24 +149,26 @@
   .from-blueAccent {
     @apply from-[#3182CE];
   }
-  
+
   .to-purpleAccent {
     @apply to-[#9F7AEA];
   }
-  
+
   .from-red-400 {
     @apply from-[#FC8181];
   }
-  
+
   .to-red-700 {
     @apply to-[#C53030];
   }
-  
+
+  /* ✅ FIXED TIMELINE DOT */
   .timeline-dot {
-    @apply absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-5 h-5 rounded-full;
+    @apply absolute left-1/2 -translate-x-1/2 w-5 h-5 rounded-full;
   }
-  
+
   .timeline-content {
     @apply ml-8 md:ml-0 md:w-1/2 md:pr-10 md:odd:ml-auto md:odd:pr-0 md:odd:pl-10;
+    max-width: 100%; /* ✅ prevent overflow */
   }
 }

@@ -14,13 +14,6 @@
     border-color: hsl(var(--border));
   }
 
-  /* Add this inside your @layer base or globally */
-  html, body {
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    overflow-y: auto;   /* Keep vertical scroll */
-    min-height: 100vh;  /* Ensure sticky headers work */
-  }
-
   /* --- THEME VARIABLES --- */
   :root {
     --background: 0 0% 100%;
@@ -96,6 +89,11 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* --- PREVENT HORIZONTAL SCROLL SAFELY --- */
+  #root, #__next, main, .timeline-content {
+    overflow-x: hidden; /* Only apply to main wrappers / wide sections */
   }
 }
 

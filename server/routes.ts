@@ -28,9 +28,8 @@ const getPortfolioContext = async () => {
             .replace(/import .* from .*/g, '');
 
         const context = `
-        Here is the portfolio data of the professional you are representing.
-        Use this information to ground your response and connect the proposed solution
-        to their actual skills and experience.
+        Here is the portfolio data of the professional you are representing, Vijit Mehrotra.
+        Use this information as the absolute source of truth for his skills and experience.
 
         --- START PORTFOLIO DATA ---
         ${dataContent}
@@ -46,6 +45,96 @@ const getPortfolioContext = async () => {
 export async function registerRoutes(app: Express): Promise<Server> {
   app.use("/api", apiLimiter);
 
+  // New endpoint for Job Fit Analysis
+  app.post("/api/analyze-job-fit", async (req: Request, res: Response) => {
+    const { jobDescription } = req.body;
+
+    if (!jobDescription || typeof jobDescription !== 'string' || jobDescription.length < 50) {
+      return res.status(400).json({ success: false, message: "A detailed job description is required (minimum 50 characters)." });
+    }
+
+    try {
+      const portfolioContext = await getPortfolioContext();
+
+      const systemPrompt = `
+        You are an elite AI-powered recruitment analyst. Your sole purpose is to conduct a detailed "Candidate Fit Report" by analyzing a provided job description against the portfolio of the candidate, Vijit Mehrotra.
+
+        **YOUR GOAL:** To provide a clear, evidence-based, and persuasive analysis of why Vijit is an excellent fit for the role, while also being honest about areas that are growth opportunities.
+
+        **CRITICAL INSTRUCTIONS - FOLLOW THIS STEP-BY-STEP PROCESS:**
+
+        **Step 1: Deconstruct the Job Description (JD).**
+        - Read the user-provided JD carefully.
+        - Internally identify the top 5-7 most critical requirements. These include specific technologies (e.g., Python, LangChain), methodologies (e.g., Agentic AI, RAG), and responsibilities (e.g., building ETL pipelines, deploying models).
+
+        **Step 2: Perform Evidence-Based Mapping.**
+        - For each critical requirement you identified, systematically scan Vijit's portfolio data (core skills, technical skills, and project descriptions).
+        - Create a direct mapping between the JD requirement and the evidence from the portfolio.
+        - When citing evidence, you MUST refer to specific projects by name using the "[[Project Name]]" format found in the data (e.g., "[[VOC Complaint Analyzer]]", "[[Data Analysis Assistant]]").
+
+        **Step 3: Calculate a "Match Score".**
+        - Based on your analysis, calculate an overall percentage match score.
+        - This score should reflect the degree of alignment between the JD's core requirements and Vijit's documented experience and skills. A role asking for everything he has done would be ~95%. A role where he has most, but not all, key skills would be lower. Be realistic.
+
+        **Step 4: Identify and Bridge Gaps.**
+        - Identify any key requirements from the JD that are NOT directly mentioned in Vijit's portfolio.
+        - Frame these as "Growth Opportunities" or "Analogous Experience".
+        - Proactively bridge these gaps by connecting them to related skills or projects. For example, if the JD requires "e-commerce experience" and the portfolio has "FMCG", highlight the shared skills in customer analytics and marketing mix modeling. This shows insightful analysis.
+
+        **Step 5: Generate Tailored Interview Questions.**
+        - Create 2-3 insightful, open-ended interview questions that the recruiter could ask Vijit.
+        - These questions should be based on the intersection of the JD requirements and Vijit's specific projects. Example: "Based on your experience with the [[GenAI-Powered Code Reviewer]], how would you approach the challenge of ensuring model factuality for the code analysis tasks in our context?"
+
+        **Step 6: Assemble the Final Report.**
+        - Structure the entire output as a single, well-formatted markdown document.
+        - Use headings (#, ##), bold text, and bullet points to create a clear, readable report.
+        - **DO NOT** use a conversational tone. Present this as a professional, analytical report.
+        - Start with the Match Score as the headline.
+
+        **PORTFOLIO CONTEXT FOR ANALYSIS:**
+        ${portfolioContext}
+      `;
+
+      const stream = await openai.chat.completions.create({
+        model: "gpt-4.1",
+        messages: [
+          {
+            role: "system",
+            content: systemPrompt,
+          },
+          {
+            role: "user",
+            content: `Here is the Job Description to analyze: 
+
+---
+
+${jobDescription}`,
+          },
+        ],
+        max_tokens: 1200,
+        temperature: 0.4, // Lower temperature for more factual, less creative output
+        stream: true,
+      });
+
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+
+      for await (const chunk of stream) {
+        const content = chunk.choices[0]?.delta?.content || "";
+        if (content) {
+            res.write(`data: ${JSON.stringify({ content })}\n\n`);
+        }
+      }
+
+      res.end();
+
+    } catch (error: any) {
+      console.error("Error in /api/analyze-job-fit:", error);
+      res.status(500).json({ success: false, message: "An internal server error occurred while analyzing the job description." });
+    }
+  });
+  
   app.get("/api/user-data", (req: Request, res: Response) => {
     res.json({
       name: "Vijit Mehrotra",
@@ -81,7 +170,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       `;
 
       const stream = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-4.1-mini",
         messages: [
           {
             role: "system",

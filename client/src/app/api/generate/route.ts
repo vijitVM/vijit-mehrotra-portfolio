@@ -1,21 +1,18 @@
 import OpenAI from 'openai';
+import { NextRequest, NextResponse } from 'next/server';
 
 // Initialize the OpenAI client, which will automatically use the
 // OPENAI_API_KEY from your environment variables.
 const openai = new OpenAI();
 
-export default async function handler(req: any, res: any) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
-  }
-
-  const { businessProblem } = req.body;
-
-  if (!businessProblem) {
-    return res.status(400).json({ error: 'Business problem is required' });
-  }
-
+export async function POST(req: NextRequest) {
   try {
+    const { businessProblem } = await req.json();
+
+    if (!businessProblem) {
+      return NextResponse.json({ error: 'Business problem is required' }, { status: 400 });
+    }
+
     const systemPrompt = `
       As an expert project manager and technology consultant, create a detailed, professional project proposal based on the following business problem.
       The proposal should be well-structured, clear, and impressive to a potential client. Your name is Gemini, an AI assistant.
@@ -33,7 +30,7 @@ export default async function handler(req: any, res: any) {
     `;
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4.1-mini",
+      model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: `Here is the business problem: "${businessProblem}"` },
@@ -45,15 +42,14 @@ export default async function handler(req: any, res: any) {
     const pitch = completion.choices[0]?.message?.content?.trim();
 
     if (!pitch) {
-        throw new Error("The AI model did not return a valid response.");
+      return NextResponse.json({ error: 'The AI model did not return a valid response.' }, { status: 500 });
     }
 
-    res.status(200).json({ pitch });
+    return NextResponse.json({ pitch });
 
   } catch (error: any) {
     console.error("AI generation failed:", error);
-    // Provide a more specific error message if available
     const errorMessage = error.response ? error.response.data.error.message : error.message;
-    res.status(500).json({ error: `Failed to generate AI pitch: ${errorMessage}` });
+    return NextResponse.json({ error: `Failed to generate AI pitch: ${errorMessage}` }, { status: 500 });
   }
 }

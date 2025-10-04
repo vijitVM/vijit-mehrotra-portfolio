@@ -7,6 +7,10 @@ import rateLimit from "express-rate-limit";
 
 const app = express();
 
+// Trust the first proxy in front of the app. This is necessary for express-rate-limit
+// to work correctly when deployed behind a proxy.
+app.set('trust proxy', 1);
+
 // Enhanced security middleware to address HTTP Observatory issues
 app.use(helmet({
   contentSecurityPolicy: {

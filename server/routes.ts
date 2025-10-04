@@ -1,4 +1,3 @@
-
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import rateLimit from "express-rate-limit";
@@ -7,17 +6,15 @@ import path from "path";
 import OpenAI from "openai";
 import dotenv from "dotenv";
 
-// Load environment variables from .env file in the server directory
 dotenv.config({ path: path.resolve(process.cwd(), 'server/.env') });
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Configure rate limiting middleware
 const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 20, // Limit each IP to 20 requests per windowMs
+  windowMs: 15 * 60 * 1000, 
+  max: 20, 
   standardHeaders: true,
   legacyHeaders: false,
   message: "Too many requests from this IP, please try again later."
@@ -26,7 +23,6 @@ const apiLimiter = rateLimit({
 const getPortfolioContext = async () => {
     try {
         const dataPath = path.resolve(process.cwd(), 'client/src/data/data.ts');
-        // Read the file, remove exports and imports to clean it up for the LLM
         const dataContent = (await fs.readFile(dataPath, 'utf-8'))
             .replace(/export const /g, 'const ')
             .replace(/import .* from .*/g, '');
@@ -84,7 +80,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ${portfolioContext}
       `;
 
-      const completion = await openai.chat.completions.create({
+      const stream = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
           {
@@ -98,18 +94,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ],
         max_tokens: 800,
         temperature: 0.7,
+        stream: true,
       });
-      
-      const pitch = completion.choices[0].message.content;
 
-      res.status(200).json({ success: true, pitch: pitch });
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+
+      for await (const chunk of stream) {
+        const content = chunk.choices[0]?.delta?.content || "";
+        if (content) {
+            res.write(`data: ${JSON.stringify({ content })}\n\n`);
+        }
+      }
+
+      res.end();
 
     } catch (error: any) {
       console.error("Error in /api/generate-pitch:", error);
-      if (error.response) {
-          console.error(error.response.status, error.response.data);
-          return res.status(500).json({ success: false, message: "An error occurred while communicating with the AI service." });
-      }
       res.status(500).json({ success: false, message: "An internal server error occurred." });
     }
   });

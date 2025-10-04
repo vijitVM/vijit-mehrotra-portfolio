@@ -48,7 +48,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/user-data", (req: Request, res: Response) => {
     res.json({
-      name: "Mohammed Aamir Shuaib",
+      name: "Vijit Mehrotra",
       title: "Generative AI Specialist",
       experience: "4+ years"
     });
@@ -136,7 +136,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         2.  **Be Conversational:** Answer in a natural, conversational, and helpful tone.
         3.  **Politely Decline Off-Topic Questions:** If the user asks a question that is not related to the professional's portfolio (e.g., "What is the weather like?", "Can you write a poem?", "Who are you?"), you MUST politely decline. A good response would be: "I'm sorry, I can only answer questions about the projects, skills, and experience detailed in this portfolio. How can I help you with that?"
         4.  **Keep It Concise:** Provide clear and concise answers.
-        5.  **Refer to the Professional:** Refer to the owner of the portfolio as "the professional" or by his name, "Mohammed Aamir Shuaib".
+        5.  **Refer to the Professional:** Refer to the owner of the portfolio as "the professional" or by his name, "Vijit Mehrotra".
 
         **PORTFOLIO CONTEXT:**
         ${portfolioContext}

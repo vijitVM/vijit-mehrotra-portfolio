@@ -99,7 +99,7 @@ const AiAssistant: React.FC = () => {
               </div>
             ))}
              {messages.length === 0 && (
-              <div className="text-center text-gray-500 my-4">I can answer questions about Mohammed Aamir Shuaib's portfolio.</div>
+              <div className="text-center text-gray-500 my-4">I can answer questions about Vijit Mehrotra's portfolio.</div>
             )}
           </div>
           <div className="p-4 border-t">

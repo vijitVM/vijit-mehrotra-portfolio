@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useState, useRef } from "react";
 import { useInView } from "framer-motion";
 import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
+import { ProjectPitchGenerator } from "./ProjectPitchGenerator";
 
 const ProjectsSection = () => {
   const sectionRef = useRef(null);
@@ -215,6 +216,7 @@ const ProjectsSection = () => {
             );
           })}
         </div>
+        <ProjectPitchGenerator />
       </div>
     </section>
   );

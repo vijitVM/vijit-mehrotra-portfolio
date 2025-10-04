@@ -28,6 +28,7 @@ export const skillsData = {
     { name: "SQL", value: 4.6 },
     { name: "TensorFlow", value: 4.0 },
     { name: "LangChain", value: 4.2 },
+    {name: "Hugging Face", value: 3.8},
     { name: "Git", value: 4.1 },
     { name: "Docker", value: 3.7 },
     {name: "Apahce Airflow", value:3.4},

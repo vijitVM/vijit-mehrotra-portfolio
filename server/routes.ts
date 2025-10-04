@@ -116,6 +116,72 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/ask-assistant", async (req: Request, res: Response) => {
+    const { question, history } = req.body;
+
+    if (!question || typeof question !== 'string') {
+      return res.status(400).json({ success: false, message: "A question is required." });
+    }
+
+    try {
+      const portfolioContext = await getPortfolioContext();
+
+      const systemPrompt = `
+        You are a helpful and friendly AI assistant for a professional's portfolio website.
+        Your name is "Portfolio Assistant".
+        Your ONLY purpose is to answer questions about the professional's work experience, projects, and skills, based exclusively on the context provided below.
+
+        **CRITICAL INSTRUCTIONS:**
+        1.  **Strictly Ground Your Answers:** Base all your answers STRICTLY on the provided portfolio data. DO NOT invent, hallucinate, or infer any information not present in the context.
+        2.  **Be Conversational:** Answer in a natural, conversational, and helpful tone.
+        3.  **Politely Decline Off-Topic Questions:** If the user asks a question that is not related to the professional's portfolio (e.g., "What is the weather like?", "Can you write a poem?", "Who are you?"), you MUST politely decline. A good response would be: "I'm sorry, I can only answer questions about the projects, skills, and experience detailed in this portfolio. How can I help you with that?"
+        4.  **Keep It Concise:** Provide clear and concise answers.
+        5.  **Refer to the Professional:** Refer to the owner of the portfolio as "the professional" or by his name, "Mohammed Aamir Shuaib".
+
+        **PORTFOLIO CONTEXT:**
+        ${portfolioContext}
+      `;
+
+      const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+        {
+          role: "system",
+          content: systemPrompt,
+        },
+        ...(history || []).map((msg: { role: string; content: string }) => ({ role: msg.role, content: msg.content })),
+        {
+          role: "user",
+          content: question,
+        },
+      ];
+
+
+      const stream = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: messages,
+        max_tokens: 500,
+        temperature: 0.5,
+        stream: true,
+      });
+
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+
+      for await (const chunk of stream) {
+        const content = chunk.choices[0]?.delta?.content || "";
+        if (content) {
+            res.write(`data: ${JSON.stringify({ content })}\n\n`);
+        }
+      }
+
+      res.end();
+
+    } catch (error: any) {
+      console.error("Error in /api/ask-assistant:", error);
+      res.status(500).json({ success: false, message: "An internal server error occurred." });
+    }
+  });
+
   app.post("/api/contact", (req: Request, res: Response) => {
     const { name, email, message } = req.body;
     if (!name || !email || !message) {

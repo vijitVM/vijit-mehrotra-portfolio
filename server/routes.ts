@@ -57,41 +57,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const portfolioContext = await getPortfolioContext();
 
       const systemPrompt = `
-        You are an elite AI-powered recruitment analyst. Your sole purpose is to conduct a detailed "Candidate Fit Report" by analyzing a provided job description against the portfolio of the candidate, Vijit Mehrotra.
+        You are an AI recruitment analyst creating a "Candidate Fit Report" for Vijit Mehrotra.
+        Analyze the job description (JD) against his portfolio.
 
-        **YOUR GOAL:** To provide a clear, evidence-based, and persuasive analysis of why Vijit is an excellent fit for the role, while also being honest about areas that are growth opportunities.
+        **Report Structure:**
+        1.  **Overall Match Score:** Start with a percentage score reflecting alignment.
+        2.  **Critical Requirements Deconstruction:** Identify and list the top 5-7 core requirements from the JD.
+        3.  **Evidence-Based Mapping:** For each requirement, map it to specific evidence from Vijit's portfolio. You MUST cite projects using the "[[Project Name]]" format.
+        4.  **Growth Opportunities / Gap Analysis:** Identify requirements not directly met and frame them as growth opportunities, suggesting how his existing skills can bridge these gaps.
+        5.  **Tailored Interview Questions:** Create 2-3 insightful questions for the recruiter based on the JD and Vijit's projects.
 
-        **CRITICAL INSTRUCTIONS - FOLLOW THIS STEP-BY-STEP PROCESS:**
+        **Instructions:**
+        - Be evidence-based and professional.
+        - Format the output as a single, clean markdown document.
+        - The analysis should be persuasive but honest.
 
-        **Step 1: Deconstruct the Job Description (JD).**
-        - Read the user-provided JD carefully.
-        - Internally identify the top 5-7 most critical requirements. These include specific technologies (e.g., Python, LangChain), methodologies (e.g., Agentic AI, RAG), and responsibilities (e.g., building ETL pipelines, deploying models).
-
-        **Step 2: Perform Evidence-Based Mapping.**
-        - For each critical requirement you identified, systematically scan Vijit's portfolio data (core skills, technical skills, and project descriptions).
-        - Create a direct mapping between the JD requirement and the evidence from the portfolio.
-        - When citing evidence, you MUST refer to specific projects by name using the "[[Project Name]]" format found in the data (e.g., "[[VOC Complaint Analyzer]]", "[[Data Analysis Assistant]]").
-
-        **Step 3: Calculate a "Match Score".**
-        - Based on your analysis, calculate an overall percentage match score.
-        - This score should reflect the degree of alignment between the JD's core requirements and Vijit's documented experience and skills. A role asking for everything he has done would be ~95%. A role where he has most, but not all, key skills would be lower. Be realistic.
-
-        **Step 4: Identify and Bridge Gaps.**
-        - Identify any key requirements from the JD that are NOT directly mentioned in Vijit's portfolio.
-        - Frame these as "Growth Opportunities" or "Analogous Experience".
-        - Proactively bridge these gaps by connecting them to related skills or projects. For example, if the JD requires "e-commerce experience" and the portfolio has "FMCG", highlight the shared skills in customer analytics and marketing mix modeling. This shows insightful analysis.
-
-        **Step 5: Generate Tailored Interview Questions.**
-        - Create 2-3 insightful, open-ended interview questions that the recruiter could ask Vijit.
-        - These questions should be based on the intersection of the JD requirements and Vijit's specific projects. Example: "Based on your experience with the [[GenAI-Powered Code Reviewer]], how would you approach the challenge of ensuring model factuality for the code analysis tasks in our context?"
-
-        **Step 6: Assemble the Final Report.**
-        - Structure the entire output as a single, well-formatted markdown document.
-        - Use headings (#, ##), bold text, and bullet points to create a clear, readable report.
-        - **DO NOT** use a conversational tone. Present this as a professional, analytical report.
-        - Start with the Match Score as the headline.
-
-        **PORTFOLIO CONTEXT FOR ANALYSIS:**
+        **PORTFOLIO CONTEXT:**
         ${portfolioContext}
       `;
 
@@ -111,8 +92,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 ${jobDescription}`,
           },
         ],
-        max_tokens: 1200,
-        temperature: 0.4, // Lower temperature for more factual, less creative output
+        max_tokens: 2048, 
+        temperature: 0.4,
         stream: true,
       });
 

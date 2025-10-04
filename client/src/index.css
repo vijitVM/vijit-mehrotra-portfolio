@@ -15,20 +15,9 @@
   }
 
   /* Add this inside your @layer base or globally */
-html, body {
-  overflow-x: hidden; /* Prevent horizontal scroll */
-}
-
-header {
-  overflow-x: hidden; /* Make sure sticky header does not overflow */
-  width: 100%;
-  max-width: 100%;
-}
-
-header > div {
-  max-width: 100%;
-  overflow-x: hidden;
-}
+  html, body {
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
 
   /* --- THEME VARIABLES --- */
   :root {

@@ -1,77 +1,60 @@
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Wand2, Loader } from "lucide-react";
 
+// More robust parser for the AI's markdown response
 const renderFormattedPitch = (text: string) => {
-    const lines = text.split('\n').filter(line => line.trim() !== '');
 
-    const elements = lines.map((line, index) => {
+    // Function to parse a single line for bold text
+    const parseInlineFormatting = (line: string): ReactNode[] => {
+        // Split the line by the bold markdown `**text**`
+        const parts = line.split(/(\*\*.*?\*\*)/g);
+
+        return parts.map((part, index) => {
+            // Check if the part is bolded text
+            if (part.startsWith('**') && part.endsWith('**')) {
+                // Return a <strong> element, removing the asterisks
+                return <strong key={index} className="text-white font-semibold">{part.substring(2, part.length - 2)}</strong>;
+            }
+            // Otherwise, return the text part as is
+            return part;
+        });
+    };
+
+    const lines = text.split('\n').filter(line => line.trim() !== '');
+    const elements: ReactNode[] = [];
+    let listItems: ReactNode[] = [];
+
+    lines.forEach((line, index) => {
         line = line.trim();
 
-        // Headings (###, ##, #)
-        if (line.startsWith('# ')) {
-            return <h2 key={index} className="text-2xl font-bold text-cyan-300 mt-8 mb-4 border-b border-gray-700 pb-2">{line.substring(2)}</h2>;
-        }
-        if (line.startsWith('## ')) {
-            return <h3 key={index} className="text-xl font-semibold text-cyan-400 mt-6 mb-3">{line.substring(3)}</h3>;
-        }
-        if (line.startsWith('### ')) {
-            return <h4 key={index} className="text-lg font-semibold text-white mt-4 mb-2">{line.substring(4)}</h4>;
+        // Flush list items if the current line is not a list item
+        if (!line.startsWith('- ') && !line.startsWith('* ') && listItems.length > 0) {
+            elements.push(<ul key={`ul-${index}`} className="space-y-2 mt-2 mb-4 pl-5 list-disc list-outside">{listItems}</ul>);
+            listItems = [];
         }
 
-        // Bullet points (-, *)
-        if (line.startsWith('- ') || line.startsWith('* ')) {
-            const content = line.substring(2);
-            // Handle bolding within the list item
-            const parts = content.split(/(\\*\\*.*?\\*\\*)/g);
-            return (
-                <li key={index} className="ml-5 list-disc list-outside text-gray-300 leading-relaxed">
-                     {parts.map((part, partIndex) => {
-                        if (part.startsWith('**') && part.endsWith('**')) {
-                            return <strong key={partIndex} className="text-white font-semibold">{part.replace(/\\*\\*/g, '')}</strong>;
-                        }
-                        return part;
-                     })}
-                </li>
-            );
+        if (line.startsWith('# ')) {
+            elements.push(<h2 key={index} className="text-2xl font-bold text-cyan-300 mt-8 mb-4 border-b border-gray-700 pb-2">{parseInlineFormatting(line.substring(2))}</h2>);
+        } else if (line.startsWith('## ')) {
+            elements.push(<h3 key={index} className="text-xl font-semibold text-cyan-400 mt-6 mb-3">{parseInlineFormatting(line.substring(3))}</h3>);
+        } else if (line.startsWith('### ')) {
+            elements.push(<h4 key={index} className="text-lg font-semibold text-white mt-4 mb-2">{parseInlineFormatting(line.substring(4))}</h4>);
+        } else if (line.startsWith('- ') || line.startsWith('* ')) {
+            listItems.push(<li key={index} className="text-gray-300 leading-relaxed">{parseInlineFormatting(line.substring(2))}</li>);
+        } else {
+            elements.push(<p key={index} className="text-gray-300 leading-relaxed my-2">{parseInlineFormatting(line)}</p>);
         }
-        
-        // Handle bold text within paragraphs
-        const p_parts = line.split(/(\\*\\*.*?\\*\\*)/g);
-        return (
-            <p key={index} className="text-gray-300 leading-relaxed my-2">
-                {p_parts.map((part, partIndex) => {
-                    if (part.startsWith('**') && part.endsWith('**')) {
-                         return <strong key={partIndex} className="text-white font-semibold">{part.replace(/\\*\\*/g, '')}</strong>
-                    }
-                    return part;
-                })}
-            </p>
-        )
     });
 
-    // Group consecutive list items into a single <ul>
-    const groupedElements: JSX.Element[] = [];
-    let currentList: JSX.Element[] = [];
-
-    for (const el of elements) {
-        if (el.type === 'li') {
-            currentList.push(el);
-        } else {
-            if (currentList.length > 0) {
-                groupedElements.push(<ul key={groupedElements.length} className="space-y-2 mt-2 mb-4">{currentList}</ul>);
-                currentList = [];
-            }
-            groupedElements.push(el);
-        }
-    }
-    if (currentList.length > 0) {
-        groupedElements.push(<ul key={groupedElements.length} className="space-y-2 mt-2 mb-4">{currentList}</ul>);
+    // After the loop, flush any remaining list items
+    if (listItems.length > 0) {
+        elements.push(<ul key="ul-final" className="space-y-2 mt-2 mb-4 pl-5 list-disc list-outside">{listItems}</ul>);
     }
 
-    return groupedElements;
+    return elements;
 };
 
 
@@ -89,12 +72,12 @@ export const ProjectPitchGenerator = () => {
     setError("");
 
     try {
-      const response = await fetch('/api/generate-pitch', { // Correct API endpoint
+      const response = await fetch('/api/generate-pitch', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ problem: businessProblem }), // Use 'problem' to match backend
+        body: JSON.stringify({ problem: businessProblem }),
       });
 
       const data = await response.json();
@@ -114,15 +97,8 @@ export const ProjectPitchGenerator = () => {
   };
 
   return (
+    // Removed the redundant h3 and p tags from here
     <div className="p-4 bg-gray-900/50 rounded-lg w-full max-w-3xl mx-auto">
-      <h3 className="text-xl font-bold text-white mb-2">
-        Automated Project Pitch Generator
-      </h3>
-      <p className="text-sm text-gray-400 mb-4">
-        Have a business problem? Describe it below, and my AI assistant will
-        generate a project proposal outlining how I could help.
-      </p>
-
       <div className="mb-4">
         <Textarea
           placeholder="e.g., We're an e-commerce store with high cart abandonment. We need a way to offer a discount to users before they leave."
@@ -164,7 +140,7 @@ export const ProjectPitchGenerator = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-6 p-5 bg-gray-800/70 rounded-lg border border-gray-700"
         >
-          <div className="w-full">
+          <div className="w-full prose prose-invert">
              {renderFormattedPitch(projectPitch)}
           </div>
         </motion.div>

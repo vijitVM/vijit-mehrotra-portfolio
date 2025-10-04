@@ -16,7 +16,7 @@
 
    html, body {
     overflow-x: hidden; /* This is the key fix for the global horizontal scrollbar */
-    width: 100vw;       /* Ensures the root elements are exactly the viewport width */
+    width: 100%;       /* Ensures the root elements are exactly the viewport width */
     margin: 0;          /* Remove default browser margins */
     padding: 0;         /* Remove default browser padding */
     box-sizing: border-box; /* Ensures consistent box model across all elements */

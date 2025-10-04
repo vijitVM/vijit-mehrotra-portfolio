@@ -178,10 +178,14 @@ const AiAssistant: React.FC = () => {
     }
   };
 
+  const handleNewConversation = () => {
+    setMessages([]);
+  };
+
   const InitialView = () => (
     <div className="text-center text-gray-500 dark:text-gray-400 p-4">
       <h4 className="font-semibold text-gray-700 dark:text-gray-200 mb-3">Welcome! How can I help?</h4>
-      <p className="text-sm mb-4">I can answer questions about Vijit's portfolio or analyze a job description for you.</p>
+      <p className="text-sm mb-4">I can answer questions about Vijit\'s portfolio or analyze a job description for you.</p>
       <div className="flex flex-col gap-2 text-sm">
         <button onClick={() => handleSendMessage('What are his key technical skills?')} className="p-2 bg-gray-200 dark:bg-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
           What are his key technical skills?
@@ -230,7 +234,15 @@ const AiAssistant: React.FC = () => {
         <div className="absolute bottom-20 right-0 w-80 sm:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-2xl flex flex-col" style={{ height: '32rem' }}>
            {analysisMode ? <AnalysisView /> : (
             <>
-              <div className="p-4 bg-gray-100 dark:bg-gray-900 rounded-t-lg"><h3 className="font-bold text-lg text-gray-800 dark:text-gray-200">Portfolio Assistant</h3><p className="text-sm text-gray-600 dark:text-gray-400">Q&A and Candidate Fit Analysis</p></div>
+              <div className="p-4 bg-gray-100 dark:bg-gray-900 rounded-t-lg flex justify-between items-center">
+                <div>
+                  <h3 className="font-bold text-lg text-gray-800 dark:text-gray-200">Portfolio Assistant</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Q&A and Candidate Fit Analysis</p>
+                </div>
+                <button onClick={handleNewConversation} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="New Conversation">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                </button>
+              </div>
               <div ref={chatBoxRef} className="flex-1 p-4 overflow-y-auto space-y-4">
                 {messages.length === 0 && <InitialView />}
                 {messages.map((msg, index) => (

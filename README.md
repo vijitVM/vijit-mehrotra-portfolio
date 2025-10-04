@@ -10,6 +10,7 @@ A professional portfolio website showcasing technical skills and experience thro
 
 - **Interactive UI** - Smooth animations and transitions using Framer Motion
 - **3D Visualization** - Three.js-powered 3D elements for skills visualization
+- **AI-Powered Assistant** - An integrated Q&A bot that can answer questions about the portfolio and analyze job descriptions for candidate fit.
 - **Mouse-Follow Effects** - Subtle cursor tracking elements in the hero section
 - **Theme Toggle** - Dark/light mode with smooth transitions and localStorage persistence
 - **Responsive Design** - Mobile-first approach with tailored experiences across all devices

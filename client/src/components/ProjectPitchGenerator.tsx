@@ -79,50 +79,39 @@ export const ProjectPitchGenerator = () => {
   const [businessProblem, setBusinessProblem] = useState("");
   const [projectPitch, setProjectPitch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleGeneratePitch = async () => {
     if (!businessProblem) return;
 
     setIsLoading(true);
-    setProjectPitch(""); // Clear previous pitch
+    setProjectPitch("");
+    setError("");
 
     try {
-      // This is a placeholder for the actual API call. The response is formatted with Markdown.
-      const response = await new Promise<string>((resolve) =>
-        setTimeout(() => {
-          const generatedPitch = `
-# Project Proposal: Enhancing E-Commerce Conversion Rates
+      const response = await fetch('/api/generate', { // Correct API endpoint
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ businessProblem }),
+      });
 
-## 1. Business Problem Analysis
-Your online store is experiencing a common but critical issue: **high traffic with low conversion rates**. This indicates that while your marketing is effective at attracting visitors, potential customers are hesitating or abandoning their carts before completing a purchase. Our analysis suggests that a targeted, real-time intervention is needed to convert this interest into revenue.
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || "An unknown error occurred while fetching the pitch.");
+      }
 
-## 2. Proposed Solution
-I propose the development of a **Behavioral Analysis and Smart Discount System**. This intelligent system will leverage machine learning to predict user intent and deliver a compelling offer to at-risk customers just before they leave your site.
+      const data = await response.json();
+      setProjectPitch(data.pitch);
 
-### Key Features:
-- **Real-Time Data Collection:** The system will utilize user behavior data, including page visit history, time spent on each page, mouse movement, and cart contents.
-- **Predictive Behavioral Analysis:** We will implement a lightweight machine learning model that runs in the browser to identify patterns associated with cart abandonment. This includes rapid mouse movements towards the exit button or extended periods of inactivity.
-- **Intelligent Pop-Up Trigger Logic:** A script will be developed to trigger a pop-up modal only when a user exhibits behavior indicating they are about to leave. This avoids disrupting engaged shoppers.
-- **Dynamic & Personalized Offers:** The pop-up will present a dynamic discount (e.g., 10-15%) specifically for the items in the user's cart, creating a powerful and personalized incentive to complete the purchase.
-
-## 3. Expected Impact & ROI
-- **Increased Conversion Rate:** We project a **15-25% increase** in conversions from users who would have otherwise abandoned their carts.
-- **Higher Customer Lifetime Value:** By converting hesitant shoppers, we not only save the sale but also create a positive brand interaction that encourages future purchases.
-- **Actionable Customer Insights:** The system will provide valuable data on which products are most frequently abandoned and at what point in the customer journey, informing future marketing and pricing strategies.
-`;
-          resolve(generatedPitch.trim());
-        }, 1500)
-      );
-
-      setProjectPitch(response);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error generating project pitch:", error);
-      setProjectPitch("Sorry, I encountered an error while generating the pitch. Please try again.");
+      setError(error.message || "Sorry, I encountered an error. Please check the console for details.");
     } finally {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <div className="p-4 bg-gray-900/50 rounded-lg w-full max-w-3xl mx-auto">
@@ -156,6 +145,17 @@ I propose the development of a **Behavioral Analysis and Smart Discount System**
         )}
         {isLoading ? "Generating..." : "Generate Project Pitch"}
       </Button>
+
+      {error && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-4 p-3 bg-red-900/40 text-red-300 border border-red-700 rounded-lg"
+        >
+          <p className="font-semibold">An Error Occurred</p>
+          <p className="text-sm">{error}</p>
+        </motion.div>
+      )}
 
       {projectPitch && (
         <motion.div

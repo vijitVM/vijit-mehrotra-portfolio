@@ -76,7 +76,7 @@ export const experienceData = [
               "Integrated Nomic embeddings with PGVector (HNSW) for semantic deduplication and similarity search, resulting in a 23% reduction in redundant content and a 30% improvement in overall data quality. Combined architectural and model optimizations enabled scaling from 7,500 to 15,000 tweets/day, a 60% reduction in processing time, 20–25% more actionable growth signals, and an improvement in classification accuracy from ~80% to ~90% using DSPy (SIMBA).\n\n" +
             
               "(Technologies: Python, LangGraph, DSPy (SIMBA Optimizer and CoT Module), Open-source OpenAI models (gpt-oss-20b / gpt-oss-120b), Mistral, LLaMA, Nomic Embeddings, PGVector, HNSW, SQL, Langfuse)"
-          }
+          },
           {
             domain: "Automotive",
             text: "[[VOC Complaint Analyzer:]] Designed and implemented modular Agentic AI pipelines to process automotive Voice of Customer (VOC) complaints, including classification, sentiment detection, auto-tagging, and emotion scoring. Integrated outputs into real-time dashboards, reducing complaint triage time and improving customer experience (CX). (Technologies: OpenAI, NLP, Sentiment Analysis, Langfuse, BI Dashboarding Tools)",

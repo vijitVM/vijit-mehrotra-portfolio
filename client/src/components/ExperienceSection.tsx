@@ -493,9 +493,9 @@ const ExperienceSection = () => {
                                                           duration: 0.3,
                                                         }}
                                                       >
-                                                        {parseFormattedText(
-                                                          detail.text,
-                                                        )}
+                                                      <div className="whitespace-pre-line leading-relaxed">
+                                                        {parseFormattedText(detail.text)}
+                                                      </div>
                                                       </motion.li>
                                                     </ul>
                                                   </motion.div>

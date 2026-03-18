@@ -6,14 +6,13 @@ export interface BuildingItem {
   export const buildingData: BuildingItem[] = [
     {
       type: "building",
-      content: "LLM Powered OCR Extraction" // Your current project
+      content: "Self-healing AI agents" // Your current project
     },
     {
       type: "exploring",
-      content: "OpenAI, Langchain, OpenCV" // Technology you're exploring
+      content: "OpenAI, Langchain and Langgraph for building AI agents" // Technology you're exploring
     },
     {
       type: "learning",
-      content: "Exploring how LLMs enhance OCR text extraction" // Learning goal
-    }
+      content: "Exploring how self-healging AI Agents work" 
   ];

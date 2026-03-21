@@ -15,4 +15,5 @@ export interface BuildingItem {
     {
       type: "learning",
       content: "Exploring how self-healging AI Agents work" 
-  ];
+    }
+      ];

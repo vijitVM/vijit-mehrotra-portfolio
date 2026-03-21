@@ -1,51 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-// Enhanced markdown component to handle headings, bold text, and lists
-const EnhancedMarkdown: React.FC<{ content: string }> = ({ content }) => {
-  const lines = content.split('\n');
-  const elements: JSX.Element[] = [];
-  let inList = false;
-  let listType: 'ul' | 'ol' | null = null;
-
-  lines.forEach((line, index) => {
-    const isListItem = line.trim().startsWith('* ') || line.trim().startsWith('- ') || /^\d+\. /.test(line.trim());
-
-    if (!isListItem) {
-      inList = false;
-      listType = null;
-    }
-
-    if (line.startsWith('# ')) {
-      elements.push(<h1 key={index} className="text-xl font-bold mt-4 mb-2 dark:text-gray-200">{line.substring(2)}</h1>);
-    } else if (line.startsWith('## ')) {
-      elements.push(<h2 key={index} className="text-lg font-semibold mt-3 mb-1 dark:text-gray-300">{line.substring(3)}</h2>);
-    } else if (line.startsWith('### ')) {
-      elements.push(<h3 key={index} className="text-md font-semibold mt-2 dark:text-gray-400">{line.substring(4)}</h3>);
-    } else if (isListItem) {
-      const currentListType = /^\d+\. /.test(line.trim()) ? 'ol' : 'ul';
-      const itemContent = line.replace(/^(\* |\- |\d+\. )/, '');
-      const processedContent = itemContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      
-      const listItem = <li key={index} dangerouslySetInnerHTML={{ __html: processedContent }} />;
-
-      if (!inList || currentListType !== listType) {
-        listType = currentListType;
-        elements.push(React.createElement(listType, { key: `list-${index}`, className: `${listType === 'ul' ? 'list-disc' : 'list-decimal'} list-inside` }, [listItem]));
-        inList = true;
-      } else {
-        const lastElement = elements[elements.length - 1];
-        if (React.isValidElement(lastElement) && lastElement.type === listType) {
-           lastElement.props.children.push(listItem);
-        }
-      }
-    } else {
-      const processedContent = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      elements.push(<p key={index} dangerouslySetInnerHTML={{ __html: processedContent }} />);
-    }
-  });
-
-  return <div className="prose prose-sm max-w-none text-left dark:text-gray-300">{elements}</div>;
-};
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 
 const AiAssistant: React.FC = () => {
@@ -253,7 +209,13 @@ const AiAssistant: React.FC = () => {
                       </div>
                     )}
                     <div className={`p-3 rounded-xl max-w-xs md:max-w-md break-words ${msg.role === 'user' ? 'bg-blue-500 text-white rounded-br-none' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none'}`}>
-                      {msg.role === 'assistant' ? <EnhancedMarkdown content={msg.content} /> : <p className="whitespace-pre-wrap">{msg.content}</p>}
+                      {msg.role === 'assistant' ? (
+                        <div className="prose prose-sm max-w-none text-left dark:text-gray-300 dark:prose-invert">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
+                        </div>
+                      ) : (
+                        <p className="whitespace-pre-wrap">{msg.content}</p>
+                      )}
                       {isLoading && msg.role === 'assistant' && messages.indexOf(msg) === messages.length - 1 && <div className="typing-indicator"><span/><span/><span/></div>}
                     </div>
                   </div>

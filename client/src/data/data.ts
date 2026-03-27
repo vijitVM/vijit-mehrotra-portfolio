@@ -14,27 +14,32 @@ import quationlogo from "@asset/quation.jpeg?url";
 export const skillsData = {
   coreSkills: [
     { name: "Generative AI & LLMs", value: 4.4 },
+    { name: "RAG Systems", value: 4.3 },
+    { name: "LLM Evaluation", value: 4.2 },
+    { name: "Agentic AI Systems", value: 4.2 },
     { name: "Machine Learning", value: 3.8 },
-    { name: "NLP", value: 4.2 },
-    { name: "CI/CD", value: 4.2 },
-    { name: "Data Visualization", value: 4.6 },
-    { name: "App Development", value: 4.0 },
-    { name: "EDA", value: 4.0 },
-    { name: "ML Ops", value: 3.6 },
+    { name: "MLOps & LLMOps", value: 3.8 },
     { name: "ETL Pipelines", value: 4.0 },
+    { name: "AI Application Development", value: 4.0 },
+    { name: "Data Visualization", value: 4.6 }
   ],
   technicalSkills: [
     { name: "Python", value: 4.5 },
     { name: "SQL", value: 4.6 },
-    { name: "TensorFlow", value: 4.0 },
     { name: "LangChain", value: 4.2 },
-    {name: "Hugging Face", value: 4.0},
+    { name: "LangGraph", value: 4.2 },
+    { name: "LlamaIndex", value: 4.2 },
+    { name: "DSPy", value: 4.0 },
+    { name: "Hugging Face", value: 4.0 },
+    { name: "Vector Databases", value: 4.3 },
+    { name: "Prompt Engineering", value: 4.4 },
     { name: "Git", value: 4.2 },
     { name: "Docker", value: 4.0 },
-    {name: "Apahce Airflow", value:3.4},
-    { name: "BI Dashboarding", value: 3.4 },
-    { name: "AWS & Azure", value: 3.6 },
-    { name: "Llama-Index", value: 4.2 },
+    { name: "Apache Airflow", value: 3.8 },
+    { name: "MLflow", value: 3.6 },
+    { name: "Kubernetes", value: 3.8 },
+    { name: "API Testing (Postman)", value: 4.0 },
+    { name: "AWS & Azure", value: 3.6 }
   ],
   softSkills: [
     { name: "Conflict Management", value: 4.0 },
@@ -43,7 +48,7 @@ export const skillsData = {
     { name: "Communication", value: 4.5 },
     { name: "Project Management", value: 4.2 },
     { name: "Problem Solving", value: 4.6 },
-    { name: "Collaboration", value: 4.4 },
+    { name: "Collaboration", value: 4.4 }
   ],
 };
 

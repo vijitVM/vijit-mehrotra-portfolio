@@ -234,22 +234,22 @@ const ExperienceSection = () => {
           {experienceInfo.timePeriod}
         </motion.p>
 
-        {/* Timeline */}
+        {/* Animated Glowing Timeline */}
         <div className="relative max-w-5xl mx-auto py-8">
           {/* Base Dim Line */}
-          <div className="absolute left-[30px] md:left-1/2 md:-translate-x-1/2 h-full w-1 bg-gray-800 rounded-full" />
-          {/* Vertical Timeline Line */}
+          <div className="absolute left-[30px] md:left-[80px] transform -translate-x-1/2 h-full w-1 bg-gray-800 rounded-full" />
+          
+          {/* Active Glowing Scroll Line */}
           <motion.div
-            className="absolute left-[30px] md:left-1/2 md:-translate-x-1/2 h-full w-1 bg-gradient-to-b from-cyan-400 to-purple-500 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.6)] origin-top z-0"
+            className="absolute left-[30px] md:left-[80px] transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-cyan-400 to-purple-500 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.6)] origin-top z-0"
             style={{ scaleY }}
           />
 
           {(experienceData as CompanyExperience[]).map((company, index) => {
-            const isLeft = index % 2 === 0; // Even items on left, odd on right for desktop
             return (
               <motion.div
                 key={company.id}
-                className={`relative mb-12 md:mb-24 flex flex-col md:flex-row items-center w-full pr-4 md:pr-0 ${isLeft ? 'md:justify-start' : 'md:justify-end'}`}
+                className="relative mb-12 md:mb-16 flex flex-col items-start w-full pr-4 md:pr-8"
                 variants={cardVariants}
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
@@ -257,7 +257,7 @@ const ExperienceSection = () => {
               >
                 {/* Glowing Node */}
                 <motion.div
-                  className="absolute left-[30px] md:left-1/2 transform -translate-x-1/2 h-5 w-5 sm:h-6 sm:w-6 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.8)] z-10 border-4 border-[#0D1117] bg-cyan-400"
+                  className="absolute left-[30px] md:left-[80px] transform -translate-x-1/2 h-5 w-5 sm:h-6 sm:w-6 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.8)] z-10 border-4 border-[#0D1117] bg-cyan-400"
                   style={{
                     top: "35px",
                   }}
@@ -270,7 +270,7 @@ const ExperienceSection = () => {
 
                 {/* Company Card */}
                 <motion.div
-                  className={`w-full md:w-5/12 ml-[65px] md:ml-0 ${isLeft ? 'md:pr-12' : 'md:pl-12'}`}
+                  className="w-[calc(100%-65px)] md:w-[calc(100%-140px)] ml-[65px] md:ml-[140px]"
                   whileHover={{ y: -5 }}
                   transition={{ duration: 0.3 }}
                 >

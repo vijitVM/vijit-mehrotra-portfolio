@@ -257,47 +257,56 @@ const SkillsSection = () => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Skills List */}
+        {/* Skills Infinite Marquee */}
         <motion.div 
-          className="w-full max-w-4xl mx-auto mt-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 sm:gap-2"
+          className="w-full max-w-6xl mx-auto mt-6 overflow-hidden relative"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 30 }}
           transition={{ delay: 0.6, duration: 0.7 }}
         >
-          {selectedCategory.data.map((skill, index) => (
-            <motion.div 
-              key={skill.name} 
-              className={`p-1.5 sm:p-2 ${theme === 'dark' ? 'bg-gray-800/60' : 'bg-gray-100/80'} rounded-lg ${selectedCategory.borderColor2} border`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * index + 0.7 }}
-              whileHover={{ 
-                y: -5, 
-                boxShadow: `0 8px 16px -2px ${selectedCategory.backgroundColor}`,
-                transition: { duration: 0.2 } 
+          {/* Gradient Edges for seamless fade */}
+          <div className={`absolute left-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-r ${theme === 'dark' ? 'from-gray-900/80' : 'from-white'} to-transparent z-10 pointer-events-none`}></div>
+          <div className={`absolute right-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-l ${theme === 'dark' ? 'from-gray-900/80' : 'from-white'} to-transparent z-10 pointer-events-none`}></div>
+          
+          <div className="flex w-full group pb-4 pt-2">
+            <motion.div
+              className="flex space-x-4 min-w-max pl-4"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{
+                x: {
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: 35,
+                  ease: "linear",
+                },
               }}
             >
-              <div className="flex justify-between items-center gap-1.5">
-                <span className="font-medium text-xs sm:text-sm truncate">{skill.name}</span>
-                <span className={`px-1.5 py-0.75 rounded-md text-[10px] sm:text-xs whitespace-nowrap ${selectedCategory.highlight} text-white`}>
-                  {skill.value.toFixed(1)}
-                </span>
-              </div>
-              <div className="w-full h-2 bg-gray-700/50 rounded-full mt-2 overflow-hidden">
-                <motion.div 
-                  className={`h-full bg-gradient-to-r ${selectedCategory.gradient}`}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${(skill.value / 5) * 100}%` }}
-                  transition={{ delay: 0.1 * index + 0.9, duration: 0.8, ease: "easeOut" }}
-                />
-              </div>
+              {/* Double the array for seamless infinity loop */}
+              {[...selectedCategory.data, ...selectedCategory.data].map((skill, index) => (
+                <div
+                  key={`${skill.name}-${index}`}
+                  className={`w-44 sm:w-56 p-3 sm:p-4 ${theme === 'dark' ? 'bg-gray-800/80 backdrop-blur-sm' : 'bg-gray-100/90'} rounded-xl ${selectedCategory.borderColor2} border hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all duration-300 shadow-lg shrink-0`}
+                >
+                  <div className="flex justify-between items-center gap-2 mb-3">
+                    <span className={`font-semibold text-sm sm:text-base truncate ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>{skill.name}</span>
+                    <span className={`px-2 py-0.5 rounded-md text-xs whitespace-nowrap ${selectedCategory.highlight} ${theme === 'dark' ? 'text-white' : 'text-gray-800'} font-medium`}>
+                      {skill.value.toFixed(1)}
+                    </span>
+                  </div>
+                  <div className="w-full h-1.5 bg-gray-700/30 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full bg-gradient-to-r ${selectedCategory.gradient}`}
+                      style={{ width: `${(skill.value / 5) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
             </motion.div>
-          ))}
+          </div>
         </motion.div>
         <div className="w-full py-20 border-b-[1px] border-b-gray-800 sm:px-2 lgl:px-0"></div>
       </div>
     </section>
   );
 };
-
 export default SkillsSection;

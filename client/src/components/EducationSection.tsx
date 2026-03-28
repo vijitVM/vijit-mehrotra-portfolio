@@ -56,9 +56,9 @@ const EducationSection = () => {
           EDUCATION
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+        <div className="flex flex-col gap-16 max-w-7xl mx-auto w-full">
           {/* Formal Education */}
-          <div>
+          <div className="w-full max-w-5xl mx-auto">
             <motion.h3
               className="text-xl font-semibold mb-6 text-center"
               variants={headerVariants}
@@ -68,7 +68,7 @@ const EducationSection = () => {
               Formal Education
             </motion.h3>
 
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {educationData.formal.map((education, index) => (
                 <motion.div
                   key={education.id}
@@ -76,8 +76,9 @@ const EducationSection = () => {
                   variants={cardVariants}
                   initial="hidden"
                   animate={isInView ? "visible" : "hidden"}
+                  className="h-full flex"
                 >
-                  <Card className="bg-gray-800/70 backdrop-blur-sm border border-gray-700 hover:border-cyan-500/50 transition-all duration-300 shadow-xl">
+                  <Card className="bg-gray-800/70 backdrop-blur-sm border border-gray-700 hover:border-cyan-500/50 transition-all duration-300 shadow-xl h-full w-full flex flex-col justify-between">
                     <CardContent className="p-6">
                       <div className="flex flex-col">
                         <div className="flex justify-between items-center mb-2">
@@ -97,27 +98,27 @@ const EducationSection = () => {
           </div>
 
           {/* Certifications */}
-          <div>
+          <div className="w-full">
             <motion.h3
-              className="text-xl font-semibold mb-6 text-center"
+              className="text-2xl font-semibold mb-8 text-center text-cyan-500/80"
               variants={headerVariants}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
             >
-              Certifications
+              Certifications & Achievements
             </motion.h3>
 
-            <div className="w-full px-6 sm:px-10 mt-2">
+            <div className="w-full px-6 sm:px-12 mt-2">
               <Carousel
                 opts={{
                   align: "start",
                   loop: true,
                 }}
-                className="w-full max-w-sm mx-auto sm:max-w-none"
+                className="w-full"
               >
                 <CarouselContent className="-ml-2 md:-ml-4">
                   {educationData.certifications.map((certification, index) => (
-                    <CarouselItem key={certification.id} className="pl-2 md:pl-4 basis-full">
+                    <CarouselItem key={certification.id} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
                       <motion.div
                         custom={index}
                         variants={cardVariants}

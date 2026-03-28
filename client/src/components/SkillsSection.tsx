@@ -114,7 +114,7 @@ const SkillsSection = () => {
   return (
     <section
       id="skills"
-      className="w-full mx-auto items-center justify-center py-12 pt-20 bg-gray-900/50 relative"
+      className="w-full mx-auto items-center justify-center py-8 pt-20 bg-gray-900/50 relative"
       ref={sectionRef}
     >
       <motion.div
@@ -126,7 +126,7 @@ const SkillsSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.h2
-          className="text-3xl font-bold mb-10 text-center text-cyan-500 uppercase tracking-wider"
+          className="text-3xl font-bold mb-8 text-center text-cyan-500 uppercase tracking-wider"
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -159,7 +159,7 @@ const SkillsSection = () => {
             onValueChange={setSelectedSkillCategory}
             className="w-full"
           >
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-6">
+            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-4">
               {skillCategories.map(category => (
                 <TabsTrigger 
                   key={category.id} 
@@ -208,7 +208,7 @@ const SkillsSection = () => {
                     {selectedCategory.title}
                   </motion.h3>
                   <motion.div
-                    className="w-full h-64 sm:h-80 md:h-96 relative pt-2 sm:pt-4 pb-6"
+                    className="w-full h-56 sm:h-864 md:h-72 relative pt-2 sm:pt-4 pb-6"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{
                       opacity: 1,
@@ -259,7 +259,7 @@ const SkillsSection = () => {
 
         {/* Skills List */}
         <motion.div 
-          className="w-full max-w-4xl mx-auto mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1.5 sm:gap-2"
+          className="w-full max-w-4xl mx-auto mt-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 sm:gap-2"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 30 }}
           transition={{ delay: 0.6, duration: 0.7 }}
@@ -277,9 +277,9 @@ const SkillsSection = () => {
                 transition: { duration: 0.2 } 
               }}
             >
-              <div className="flex justify-between items-center gap-2">
-                <span className="font-medium text-sm sm:text-base truncate">{skill.name}</span>
-                <span className={`px-2 py-1 rounded-md text-xs whitespace-nowrap ${selectedCategory.highlight} text-white`}>
+              <div className="flex justify-between items-center gap-1.5">
+                <span className="font-medium text-xs sm:text-sm truncate">{skill.name}</span>
+                <span className={`px-1.5 py-0.75 rounded-md text-[10px] sm:text-xs whitespace-nowrap ${selectedCategory.highlight} text-white`}>
                   {skill.value.toFixed(1)}
                 </span>
               </div>

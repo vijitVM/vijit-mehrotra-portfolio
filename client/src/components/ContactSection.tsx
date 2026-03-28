@@ -1,6 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, Linkedin, Github } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
@@ -9,6 +16,7 @@ import profilePic from "../attached_assets/Vijit_github_profile_pic.jpg";
 const ContactSection = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+  const { toast } = useToast();
 
   // Animation variants
   const containerVariants = {
@@ -193,90 +201,124 @@ const ContactSection = () => {
                         className="w-full"
                       >
                         <Button 
-                          className="bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-medium py-2 px-6 rounded-md transition-all duration-300 shadow-lg shadow-cyan-500/20 flex items-center justify-center w-full"
-                          onClick={() => {
-                            // Safer way than using mailto links directly
-                            navigator.clipboard.writeText("vijitmehrotra95@gmail.com").then(() => {
-                              alert("Email copied to clipboard: vijitmehrotra95@gmail.com");
-                            });
-                          }}
+                          className="bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-medium transition-all duration-300 shadow-lg shadow-cyan-500/20 w-full"
+                          asChild
                         >
-                          CONTACT
+                          <a href="mailto:vijitmehrotra95@gmail.com" className="flex items-center justify-center w-full h-full py-2 px-6">
+                            EMAIL ME
+                          </a>
                         </Button>
                       </motion.div>
                     </motion.div>
 
                     {/* Social Media Icons */}
-                    <div className="flex space-x-4">
-                      <motion.button
-                        onClick={() => {
-                          // Phone number can be a security concern, using a button 
-                          // with onClick handler instead of direct tel: link
-                          navigator.clipboard.writeText("+919620833271").then(() => {
-                            alert("Phone number copied to clipboard: +91 9620833271");
-                          });
-                        }}
-                        className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-cyan-500 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20"
-                        custom={0}
-                        variants={iconVariants}
-                        whileHover={{ y: -5 }}
-                        title="+91 9620833271"
-                        aria-label="Phone: +91 9620833271"
-                      >
-                        <Phone className="w-5 h-5 text-white" />
-                      </motion.button>
-                      <motion.button
-                        onClick={() => {
-                          // Email can be a security concern, using a button 
-                          // with onClick handler instead of direct mailto: link
-                          navigator.clipboard.writeText("vijitmehrotra95@gmail.com").then(() => {
-                            alert("Email copied to clipboard: vijitmehrotra95@gmail.com");
-                          });
-                        }}
-                        className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-cyan-500 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20"
-                        custom={1}
-                        variants={iconVariants}
-                        whileHover={{ y: -5 }}
-                        title="vijitmehrotra95@gmail.com"
-                        aria-label="Email: vijitmehrotra95@gmail.com"
-                      >
-                        <Mail className="w-5 h-5 text-white" />
-                      </motion.button>
-                      <motion.button
-                        onClick={() => {
-                          window.open(
-                            "https://www.linkedin.com/in/vijit-mehrotra-018988130/",
-                            "_blank",
-                            "noopener,noreferrer"
-                          );
-                        }}
-                        className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-cyan-500 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20"
-                        custom={2}
-                        variants={iconVariants}
-                        whileHover={{ y: -5 }}
-                        title="LinkedIn Profile"
-                        aria-label="LinkedIn Profile"
-                      >
-                        <Linkedin className="w-5 h-5 text-white" />
-                      </motion.button>
-                      <motion.button
-                        onClick={() => {
-                          window.open(
-                            "https://github.com/vijitVM",
-                            "_blank",
-                            "noopener,noreferrer"
-                          );
-                        }}
-                        className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-cyan-500 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20"
-                        custom={3}
-                        variants={iconVariants}
-                        whileHover={{ y: -5 }}
-                        title="GitHub Profile"
-                        aria-label="GitHub Profile"
-                      >
-                        <Github className="w-5 h-5 text-white" />
-                      </motion.button>
-                    </div>
+                    <TooltipProvider delayDuration={200}>
+                      <div className="flex space-x-4">
+                        {/* Phone */}
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <motion.button
+                              onClick={() => {
+                                navigator.clipboard.writeText("+919620833271").then(() => {
+                                  toast({
+                                    title: "Phone Number Copied",
+                                    description: "Ready to paste! (+91 9620833271)",
+                                    duration: 3000,
+                                  });
+                                });
+                              }}
+                              className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-cyan-500 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20"
+                              custom={0}
+                              variants={iconVariants}
+                              whileHover={{ y: -5 }}
+                              aria-label="Phone: +91 9620833271"
+                            >
+                              <Phone className="w-5 h-5 text-white" />
+                            </motion.button>
+                          </TooltipTrigger>
+                          <TooltipContent className="bg-gray-800 border-gray-700 text-cyan-400">
+                            <p>Copy Phone Number</p>
+                          </TooltipContent>
+                        </Tooltip>
+
+                        {/* Email */}
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <motion.button
+                              onClick={() => {
+                                navigator.clipboard.writeText("vijitmehrotra95@gmail.com").then(() => {
+                                  toast({
+                                    title: "Email Address Copied",
+                                    description: "Ready to paste! (vijitmehrotra95@gmail.com)",
+                                    duration: 3000,
+                                  });
+                                });
+                              }}
+                              className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-cyan-500 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20"
+                              custom={1}
+                              variants={iconVariants}
+                              whileHover={{ y: -5 }}
+                              aria-label="Email: vijitmehrotra95@gmail.com"
+                            >
+                              <Mail className="w-5 h-5 text-white" />
+                            </motion.button>
+                          </TooltipTrigger>
+                          <TooltipContent className="bg-gray-800 border-gray-700 text-cyan-400">
+                            <p>Copy Email Address</p>
+                          </TooltipContent>
+                        </Tooltip>
+
+                        {/* LinkedIn */}
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <motion.button
+                              onClick={() => {
+                                window.open(
+                                  "https://www.linkedin.com/in/vijit-mehrotra-018988130/",
+                                  "_blank",
+                                  "noopener,noreferrer"
+                                );
+                              }}
+                              className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-cyan-500 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20"
+                              custom={2}
+                              variants={iconVariants}
+                              whileHover={{ y: -5 }}
+                              aria-label="LinkedIn Profile"
+                            >
+                              <Linkedin className="w-5 h-5 text-white" />
+                            </motion.button>
+                          </TooltipTrigger>
+                          <TooltipContent className="bg-gray-800 border-gray-700 text-cyan-400">
+                            <p>Visit LinkedIn Profile</p>
+                          </TooltipContent>
+                        </Tooltip>
+
+                        {/* GitHub */}
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <motion.button
+                              onClick={() => {
+                                window.open(
+                                  "https://github.com/vijitVM",
+                                  "_blank",
+                                  "noopener,noreferrer"
+                                );
+                              }}
+                              className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-cyan-500 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20"
+                              custom={3}
+                              variants={iconVariants}
+                              whileHover={{ y: -5 }}
+                              aria-label="GitHub Profile"
+                            >
+                              <Github className="w-5 h-5 text-white" />
+                            </motion.button>
+                          </TooltipTrigger>
+                          <TooltipContent className="bg-gray-800 border-gray-700 text-cyan-400">
+                            <p>Visit GitHub Profile</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                    </TooltipProvider>
                   </motion.div>
                 </div>
               </CardContent>

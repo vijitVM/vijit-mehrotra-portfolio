@@ -101,27 +101,28 @@ const CurrentlyBuildingSection = () => {
   };
 
   return (
-    <div ref={sectionRef}>
+    <div ref={sectionRef} className="w-full flex justify-center my-6">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.6 }}
-        className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-md px-2 py-2 w-full max-w-lg mx-auto shadow-lg"
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="bg-[#0D1117] border border-gray-800 rounded-xl overflow-hidden w-full max-w-2xl shadow-2xl shadow-cyan-900/20"
       >
-        {/* Terminal header */}
-        <div className="flex items-center pb-1 border-b border-gray-700 mb-1">
-          <div className="flex space-x-1.5 mr-2">
-            <div className="h-2 w-2 rounded-full bg-red-500"></div>
-            <div className="h-2 w-2 rounded-full bg-yellow-500"></div>
-            <div className="h-2 w-2 rounded-full bg-green-500"></div>
+        {/* MacOS Style Terminal Header */}
+        <div className="flex items-center px-4 py-3 bg-gray-900/80 border-b border-gray-800">
+          <div className="flex space-x-2 mr-4">
+            <div className="h-3 w-3 rounded-full bg-[#FF5F56] shadow-sm"></div>
+            <div className="h-3 w-3 rounded-full bg-[#FFBD2E] shadow-sm"></div>
+            <div className="h-3 w-3 rounded-full bg-[#27C93F] shadow-sm"></div>
           </div>
-          <div className="text-xs font-mono text-[10px]">
-            ~/dev/currently-working-on
+          <div className="flex-1 text-center text-gray-400 font-mono text-xs tracking-wider opacity-80">
+            vijit@portfolio: ~/ai-lab/active-projects
           </div>
+          <div className="w-10"></div> {/* Spacer to keep title centered */}
         </div>
 
-        {/* Terminal content */}
-        <div className="font-mono text-xs space-y-0.5">
+        {/* Terminal Window Content */}
+        <div className="p-5 sm:p-6 font-mono text-sm sm:text-base space-y-3 bg-[#0D1117]">
           {buildingData.map((item: BuildingItem, i: number) => (
             <motion.div
               key={i}
@@ -132,20 +133,42 @@ const CurrentlyBuildingSection = () => {
                   : { opacity: 0, x: -10 }
               }
               transition={{ duration: 0.3, delay: i * 0.1 }}
-              className="flex items-start"
+              className="flex flex-col sm:flex-row sm:items-start tracking-tight"
             >
-              <div className="flex items-center min-w-[100px] text-xs">
-                <span className="mr-1">{getIcon(item.type)}</span>
-                <span>{getLabel(item.type)}</span>
+              {/* Bash Prompt */}
+              <div className="flex items-center text-green-400 mr-3 mb-1 sm:mb-0 shrink-0 select-none">
+                <span className="text-cyan-500 font-bold mr-2">➜</span>
+                <span className="flex items-center opacity-80 text-xs sm:text-sm">
+                   <span className="mr-1.5">{getIcon(item.type)}</span>
+                   {getLabel(item.type)}
+                </span>
               </div>
-              <div className={`${getColor(item.type)} flex-1 text-xs`}>
+
+              {/* Typed Content */}
+              <div className={`${getColor(item.type)} flex-1 leading-relaxed`}>
                 {typedTexts[i]}
                 {i === currentItemIndex && cursorVisible && (
-                  <span className="text-white">|</span>
+                  <span className="inline-block w-2 sm:w-2.5 h-4 sm:h-5 bg-cyan-400 ml-1 animate-pulse align-middle shadow-[0_0_8px_rgba(34,211,238,0.6)]"></span>
                 )}
               </div>
             </motion.div>
           ))}
+          
+          {/* Waiting Terminal Line After Typing Finances */}
+          {currentItemIndex >= buildingData.length - 1 && typedTexts[buildingData.length - 1].length === buildingData[buildingData.length - 1].content.length && (
+            <motion.div 
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               transition={{ delay: 0.5 }}
+               className="flex items-center text-green-400 pt-2 shrink-0 select-none"
+            >
+                <span className="text-cyan-500 font-bold mr-3">➜</span>
+                <span className="text-gray-500 text-xs sm:text-sm">~/ai-lab/active-projects</span>
+                {cursorVisible && (
+                  <span className="inline-block w-2 sm:w-2.5 h-4 sm:h-5 bg-cyan-400 ml-2 animate-pulse align-middle shadow-[0_0_8px_rgba(34,211,238,0.6)]"></span>
+                )}
+            </motion.div>
+          )}
         </div>
       </motion.div>
     </div>

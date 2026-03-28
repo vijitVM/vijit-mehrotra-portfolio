@@ -10,11 +10,23 @@ interface DetailItem {
   text: string;
 }
 
+interface ProjectSection {
+  title: string;
+  points: string[];
+}
+
+interface ProjectItem {
+  title: string;
+  sections: ProjectSection[];
+  techStack: string;
+}
+
 interface Position {
   id: number;
   role: string;
   period: string;
   details: (string | DetailItem)[];
+  projects?: ProjectItem[];
 }
 
 interface CompanyExperience {
@@ -221,7 +233,7 @@ const ExperienceSection = () => {
             style={{ top: 0, bottom: 0, zIndex: 0 }}
           />
 
-          {experienceData.map((company, index) => (
+          {(experienceData as CompanyExperience[]).map((company, index) => (
             <motion.div
               key={company.id}
               className="relative mb-2"
@@ -372,12 +384,12 @@ const ExperienceSection = () => {
                                   </p>
                                 </div>
 
-                                {/* Only show toggle if position has details */}
-                                {position.details &&
-                                  position.details.length > 0 && (
+                                {/* Only show toggle if position has projects */}
+                                {position.projects &&
+                                  position.projects.length > 0 && (
                                     <Button
                                       variant="link"
-                                      className="text-cyan-400/80 hover:text-cyan-400 focus:outline-none text-xs p-0 h-auto flex items-center"
+                                      className="text-cyan-400/80 hover:text-cyan-400 focus:outline-none text-xs p-0 h-auto flex items-center font-medium"
                                       onClick={() =>
                                         togglePosition(position.id)
                                       }
@@ -386,31 +398,22 @@ const ExperienceSection = () => {
                                         position.id,
                                       ) ? (
                                         <>
-                                          Hide <span className="ml-1">▴</span>
+                                          Hide Details <span className="ml-1">▴</span>
                                         </>
                                       ) : (
                                         <>
-                                          Show <span className="ml-1">▾</span>
+                                          View Details <span className="ml-1">▾</span>
                                         </>
                                       )}
                                     </Button>
                                   )}
                               </div>
 
-                              {/* Position Details */}
-                              <AnimatePresence>
-                                {expandedPositions.includes(position.id) &&
-                                  position.details &&
-                                  position.details.length > 0 && (
-                                    <motion.div
-                                      initial={{ opacity: 0, height: 0 }}
-                                      animate={{ opacity: 1, height: "auto" }}
-                                      exit={{ opacity: 0, height: 0 }}
-                                      transition={{ duration: 0.3 }}
-                                      className="px-3 sm:px-5 pb-4"
-                                    >
-                                      <div className="space-y-4">
-                                        {/* Process details and group by domain */}
+                              {/* Position Summary (Always Visible) */}
+                              {position.details && position.details.length > 0 && (
+                                <div className="px-3 sm:px-5 pb-3 mt-1">
+                                  <div className="space-y-2">
+                                    {/* Process details and group by domain */}
                                         {(() => {
                                           let currentDomain = "";
 
@@ -504,6 +507,52 @@ const ExperienceSection = () => {
                                             },
                                           );
                                         })()}
+                                      </div>
+                                </div>
+                              )}
+
+                              {/* Expandable Project Details */}
+                              <AnimatePresence>
+                                {expandedPositions.includes(position.id) &&
+                                  position.projects &&
+                                  position.projects.length > 0 && (
+                                    <motion.div
+                                      initial={{ opacity: 0, height: 0 }}
+                                      animate={{ opacity: 1, height: "auto" }}
+                                      exit={{ opacity: 0, height: 0 }}
+                                      transition={{ duration: 0.3 }}
+                                      className="px-3 sm:px-5 pb-4 overflow-hidden"
+                                    >
+                                      <div className="pt-4 border-t border-gray-700/50 space-y-6">
+                                        {position.projects.map((project, pIdx) => (
+                                          <div key={`proj-${pIdx}`} className="space-y-3">
+                                            <h5 className="font-semibold text-cyan-400 text-sm sm:text-base border-l-2 border-cyan-500 pl-3">
+                                              {project.title}
+                                            </h5>
+                                            
+                                            <div className="space-y-3 pl-4">
+                                              {project.sections.map((section, sIdx) => (
+                                                <div key={`sec-${sIdx}`} className="space-y-1">
+                                                  <h6 className="text-xs sm:text-sm font-medium text-gray-300">
+                                                    {section.title}:
+                                                  </h6>
+                                                  <ul className="list-disc pl-5 text-xs sm:text-sm text-gray-400">
+                                                    {section.points.map((point, ptIdx) => (
+                                                      <li key={`pt-${ptIdx}`}>{point}</li>
+                                                    ))}
+                                                  </ul>
+                                                </div>
+                                              ))}
+                                              
+                                              {project.techStack && (
+                                                <div className="pt-2 mt-2 border-t border-gray-700/30">
+                                                  <span className="text-xs sm:text-sm font-semibold text-gray-300">Tech Stack: </span>
+                                                  <span className="text-xs sm:text-sm text-cyan-400/80">{project.techStack}</span>
+                                                </div>
+                                              )}
+                                            </div>
+                                          </div>
+                                        ))}
                                       </div>
                                     </motion.div>
                                   )}

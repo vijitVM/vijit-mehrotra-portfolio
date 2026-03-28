@@ -69,82 +69,120 @@ export const experienceData = [
         role: "Senior Consultant, Data Science",
         period: "May 2025 - Present",
         details: [
-          {
-            domain: "Technology",
-            text:
-              "[[Social Listening & Growth Intelligence:]] Built and scaled an agentic social listening platform to identify growth and competitive signals from Twitter data at scale, including funding announcements, hiring trends, product launches, research activity, partnerships, and market expansion indicators.\n\n" +
-            
-              "The system processes social media data through a multi-stage, multi-agent pipeline including ingestion, semantic deduplication, entity extraction, classification, and signal generation, and evolved from a linear workflow to an agentic LangGraph-based architecture enabling stateful execution and improved control over multi-step reasoning.\n\n" +
-            
-              "For signal classification, the DSPy-based framework was migrated from Mistral to open-source OpenAI models (gpt-oss-20b / gpt-oss-120b), while other agents continued to use Mistral for tool-calling and LLaMA for generation tasks.\n\n" +
-            
-              "Integrated Nomic embeddings with PGVector (HNSW) for semantic deduplication and similarity search, resulting in a 23% reduction in redundant content and a 30% improvement in overall data quality. Combined architectural and model optimizations enabled scaling from 7,500 to 15,000 tweets/day, a 60% reduction in processing time, 20–25% more actionable growth signals, and an improvement in classification accuracy from ~80% to ~90% using DSPy (SIMBA).\n\n" +
-            
-              "(Technologies: Python, LangGraph, DSPy (SIMBA Optimizer and CoT Module), Open-source OpenAI models (gpt-oss-20b / gpt-oss-120b), Mistral, LLaMA, Nomic Embeddings, PGVector, HNSW, SQL, Langfuse)"
-          },
-          {
-            domain: "Automotive",
-            text: "[[VOC Complaint Analyzer:]] Designed and implemented modular Agentic AI pipelines to process automotive Voice of Customer (VOC) complaints, including classification, sentiment detection, auto-tagging, and emotion scoring. Integrated outputs into real-time dashboards, reducing complaint triage time and improving customer experience (CX). (Technologies: OpenAI, NLP, Sentiment Analysis, Langfuse, BI Dashboarding Tools)",
-          },
-           {
-            domain: "Manufacturing",
-            text: "[[Data and Email Processing Automation:]] Developed Python and Java scripts to extract and process purchase orders and invoices from PDFs and Excel reports received via email. Scheduled workflows using Windows Task Scheduler and loaded structured data into a central database with dashboards for analytics, improving accuracy by 95% and reducing manual effort. (Technologies: Python, Java, Windows Task Scheduler, PDF/Excel Processing, SQL Database, Outlook Email Automation)",
-          },
+          "Leading development of agentic AI systems across industries",
+          "Built a social intelligence platform scaling 7.5K → 15K records/day (~90% accuracy)",
+          "Designed multi-agent pipelines for automation and insights",
+          "Reduced processing time by 60%+ and improved data quality by 30%+"
         ],
+        projects: [
+          {
+            title: "Agentic Social Listening & Growth Intelligence Platform",
+            sections: [
+              { title: "Overview", points: ["Built and scaled an agentic social listening system to identify growth and competitive signals from large-scale Twitter data"] },
+              { title: "Architecture & System Design", points: ["Multi-agent pipeline (LangGraph) for ingestion → deduplication → entity extraction → classification → signal generation", "Transitioned from linear workflow to stateful agentic architecture"] },
+              { title: "Modeling & Optimization", points: ["DSPy (SIMBA + CoT) for classification optimization", "Hybrid model usage (GPT-OSS, Mistral, LLaMA)"] },
+              { title: "Data Engineering", points: ["Semantic deduplication using embeddings + vector search (PGVector with HNSW)"] },
+              { title: "Impact", points: ["Scaled from 7.5K → 15K records/day", "Reduced processing time by 60%", "Improved accuracy from ~80% → ~90%", "Increased actionable insights by 20–25%"] }
+            ],
+            techStack: "Python, LangGraph, DSPy (SIMBA, CoT), GPT-OSS (20B/120B), Mistral, LLaMA, Nomic Embeddings, PGVector (HNSW), SQL, Langfuse"
+          },
+          {
+            title: "VOC Complaint Intelligence System",
+            sections: [
+              { title: "Overview", points: ["Built agentic pipelines for analyzing customer complaints in automotive domain"] },
+              { title: "Capabilities", points: ["Classification, sentiment analysis, auto-tagging, emotion detection"] },
+              { title: "Integration", points: ["Real-time dashboards for CX monitoring"] },
+              { title: "Impact", points: ["Reduced manual triage effort", "Improved response time"] }
+            ],
+            techStack: "Python, OpenAI APIs, NLP, Sentiment Analysis, Langfuse, BI Dashboarding Tools"
+          },
+          {
+            title: "Data & Email Processing Automation",
+            sections: [
+              { title: "Overview", points: ["Automated extraction and processing of purchase orders and invoices from emails"] },
+              { title: "System Design", points: ["Handled PDFs, Excel files, and email attachments"] },
+              { title: "Automation", points: ["Scheduled workflows for continuous processing"] },
+              { title: "Impact", points: ["~95% accuracy", "Reduced manual effort significantly"] }
+            ],
+            techStack: "Python, Java, Windows Task Scheduler, PDF Processing, Excel Processing, SQL Database, Outlook Email Automation"
+          }
+        ]
       },
       {
         id: 102,
         role: "Consultant, Data Science",
         period: "May 2024 - April 2025",
         details: [
-          {
-            domain: "Fast Moving Consumer Goods (FMCG)",
-            text: "[[Data Analysis Assistant:]] Engineered a RAG-based GenAI chatbot utilizing LLMs and vector databases to process Marketing Mix Modeling data, enabling natural language queries and automated SQL generation. It resulted in a 40% faster time-to-insight and a 60% reduction in ad hoc SQL requests. (Technologies: gpt-4o-mini, gpt-4o, PostgreSQL, Custom GenAI, Langfuse)",
-          },
-          {
-            domain: "Healthcare",
-            text: "[[AI-Powered Web Scraping & Compliance Assistant:]]  Built an LLM-powered GenAI agent to automate web data extraction and link analysis, streamlining regulatory workflows, reducing manual effort by 50%, and potentially improving data accuracy and consistency. (Technologies: gpt-4o-mini, gpt-4o, Custom GenAI, Langfuse, Playwright)",
-          },
-          {
-            domain: "",
-            text: "[[Task Automation Bot:]] Created a GenAI bot to automate agile processes in Jira (story creation, estimation, planning), improving team efficiency and reducing manual effort by 30%. (Technolgies: gpt-4o-mini, gpt-4o, Custom GenAI, Langfuse, Jira API, Milvus DB)",
-          },
-          {
-            domain: "",
-            text: "[[GenAI-Powered Code Reviewer:]]  Developed an LLM / LLMOps AI code review tool integrated with GitLab, automating analysis, code cleaning and vulnerability detection, boosting development speed by 30%. (Technologies: OpenAI o3-mini, Custom GenAI, Langfuse, GitLab API, GitLab CI/CD)",
-          },
-          {
-            domain: "",
-            text: "[[Data Catalog Chatbot Assistant:]] Data Catalog Assistant: Built a multi-agent RAG GenAI chatbot for querying structured (SQL) and unstructured data (PDFs, Excel); integrated with Google AI for real-time, secure access, cutting retrieval time by 70% and boosting cross-team collaboration in healthcare. (Technologies: gpt-4o, Milvus DB, Langfuse, SQL, Google AI, Langchain, Neo4j, FlashRank, Custom GenAI)",
-          },
+          "Built RAG-based GenAI systems for data querying and automation",
+          "Reduced manual effort by 30–70% across workflows",
+          "Developed AI tools for code review, compliance, and analytics",
         ],
+        projects: [
+          {
+            title: "RAG-Based Data Analysis Assistant",
+            sections: [
+              { title: "Overview", points: ["Built GenAI chatbot for querying Marketing Mix Modeling data"] },
+              { title: "Capabilities", points: ["Natural language queries → SQL generation", "Retrieval over structured and unstructured data"] },
+              { title: "Impact", points: ["40% faster insights", "60% reduction in SQL requests"] }
+            ],
+            techStack: "gpt-4o, gpt-4o-mini, PostgreSQL, Vector Database, Langfuse, Custom RAG Pipeline"
+          },
+          {
+            title: "AI-Powered Web Scraping & Compliance Assistant",
+            sections: [
+              { title: "Overview", points: ["Built LLM-powered agent for automated web data extraction"] },
+              { title: "Capabilities", points: ["Link analysis and compliance workflows"] },
+              { title: "Impact", points: ["50% reduction in manual effort"] }
+            ],
+            techStack: "gpt-4o, gpt-4o-mini, Playwright, Langfuse, Custom GenAI Pipelines"
+          },
+          {
+            title: "GenAI Workflow Automation Bot (Jira)",
+            sections: [
+              { title: "Overview", points: ["Automated agile workflows including story creation and planning"] },
+              { title: "Impact", points: ["30% improvement in team efficiency"] }
+            ],
+            techStack: "gpt-4o, gpt-4o-mini, Jira API, Langfuse, Milvus DB"
+          },
+          {
+            title: "GenAI Code Review System",
+            sections: [
+              { title: "Overview", points: ["Automated code review, cleaning, and vulnerability detection"] },
+              { title: "Impact", points: ["Improved development speed by ~30%"] }
+            ],
+            techStack: "OpenAI o3-mini, GitLab API, GitLab CI/CD, Langfuse, Custom LLMOps Pipelines"
+          },
+          {
+            title: "Data Catalog Intelligence Assistant",
+            sections: [
+              { title: "Overview", points: ["Multi-agent RAG system for querying enterprise data"] },
+              { title: "Capabilities", points: ["Query SQL + PDFs + Excel in natural language"] },
+              { title: "Impact", points: ["Reduced data retrieval time by ~70%"] }
+            ],
+            techStack: "gpt-4o, Milvus DB, Langchain, Neo4j, FlashRank, SQL, Langfuse, Google AI"
+          }
+        ]
       },
       {
         id: 103,
         role: "Consultant, Data Analyst / Data Engineer",
         period: "May 2023 - Apr 2024",
         details: [
-          {
-            domain: "Technology",
-            text: "Automated lead generation process by designing robust ETL pipelines in PostgreSQL/Python, seamlessly integrating quarterly and weekly Excel account lists into production database tables for real-time access.",
-          },
-          {
-            domain: "",
-            text: "Accelerated data retrieval by 60% and optimized database schema by 30%, ensuring swift delivery of accurate insights for timely decision-making.",
-          },
-          {
-            domain: "",
-            text: "Uncovered strategic opportunities through comprehensive quarterly buyer analysis on account target list, revealing priority coverage percentages for key marketing strategies (buy more, cross-sell, acquisition) with exceptional accuracy of 97-100%.",
-          },
-          {
-            domain: "",
-            text: "Empowered client analysis by creating a dedicated Channel Lead Table in the database, facilitating direct exploration of buyer lever priorities.",
-          },
-          {
-            domain: "",
-            text: "Fuelled targeted marketing campaigns by crafting precise, data-driven messages that resonated with specific audience segments, business lines, and account attributes, ultimately boosting purchases, cross-selling, and customer acquisition.",
-          },
+          "Built ETL pipelines improving data retrieval speed by 60%",
+          "Delivered analytics with 97–100% accuracy for decision-making",
+          "Enabled targeted marketing through data-driven segmentation",
         ],
+        projects: [
+          {
+            title: "Lead Generation & Marketing Data Platform",
+            sections: [
+              { title: "Overview", points: ["Built ETL pipelines and analytics systems for marketing data"] },
+              { title: "Performance", points: ["Improved data retrieval speed by ~60%", "Optimized database schema by ~30%"] },
+              { title: "Impact", points: ["Enabled targeted campaigns and segmentation"] }
+            ],
+            techStack: "Python, PostgreSQL, SQL, Excel, Data Pipelines"
+          }
+        ]
       },
     ],
     awards: [],
@@ -164,30 +202,9 @@ export const experienceData = [
         role: "Business Consultant",
         period: "May 2022 - May 2023",
         details: [
-          {
-            domain: "Technology",
-            text: "Substantiated model credibility through meticulous A/B and hypothesis testing across diverse segments and business lines.",
-          },
-          {
-            domain: "",
-            text: "Slashed data processing time by 50% by implementing automated ETL pipelines, ensuring timely data availability for critical decisions.",
-          },
-          {
-            domain: "",
-            text: "Fueled marketing campaign performance by providing data-driven insights and analyzing retention patterns for optimized customer sales.",
-          },
-          {
-            domain: "",
-            text: "Forged collaborative client partnerships for weekly, monthly, and quarterly account targeting campaigns through seamless cooperation with internal teams.",
-          },
-          {
-            domain: "",
-            text: "Transformed data into compelling narratives using impactful visualizations created in Excel and Python, promoting clear communication and understanding.",
-          },
-          {
-            domain: "",
-            text: "Leveraged Agile Analysis principles to deliver informative reports that empowered strategic decision-making across the organization.",
-          },
+          "Reduced data processing time by 50% through automation",
+          "Delivered insights for marketing and retention strategies",
+          "Conducted A/B testing and hypothesis-driven analysis",
         ],
       },
       {
@@ -195,10 +212,9 @@ export const experienceData = [
         role: "Intern",
         period: "Jan 2022 - Apr 2022",
         details: [
-          {
-            domain: "Technology",
-            text: "Supported marketing and sales analytics projects by cleaning, transforming, and analyzing large datasets using Excel, SQL and Python, contributing to actionable business insights.",
-          },
+          "Supported data cleaning, transformation, and analysis using SQL, Excel, and Python",
+          "Contributed to marketing and sales analytics workflows",
+          "Assisted in generating actionable insights from large datasets",
         ],
       },
     ],
@@ -219,10 +235,8 @@ export const experienceData = [
         role: "Junior Consultant",
         period: "Sep 2021 - Oct 2021",
         details: [
-          {
-            domain: "Technology",
-            text: " Improved operational efficiency by 15% by contributing to the development of an internal Mendix application and actively participating in training initiatives.",
-          },
+          "Contributed to internal application development and implementation initiatives",
+          "Improved operational efficiency by ~15%",
         ],
       },
     ],
@@ -243,10 +257,8 @@ export const experienceData = [
         role: "Graduate Trainee",
         period: "Jun 2017 - Aug 2017",
         details: [
-          {
-            domain: "Financial Services",
-            text: "Responsible for providing transaction and analytics services to the UK office within the Real Estate and Mortgage Industry through Data Mining.",
-          },
+          "Supported transaction and analytics services for real estate and mortgage datasets",
+          "Performed data mining and analysis for business operations",
         ],
       },
     ],

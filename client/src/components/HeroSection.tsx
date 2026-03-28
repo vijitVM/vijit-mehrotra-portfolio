@@ -267,22 +267,20 @@ const HeroSection = () => {
                     variants={itemVariants}
                   >
                     Senior Data Scientist & AI Engineer with 4+ years of experience 
-                    delivering impactful end-to-end analytics and AI solutions that streamline 
-                    operations and drive business growth. At Quation Solutions, 
-                    I lead the development of intelligent systems that enhance decision-making, 
-                    automate workflows, and solve complex challenges across industries including Healthcare, 
-                    FMCG, Technology, and beyond.
+                    building end-to-end analytics and GenAI systems that drive real business outcomes. 
+                    At Quation Solutions, I lead the development of intelligent solutions that automate workflows, 
+                    enhance decision-making, and solve complex problems across industries including Healthcare, 
+                    FMCG, and Technology.
                   </motion.p>
 
                   <motion.p
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                  I specialize in designing and deploying scalable AI tools—ranging from 
-                  robust ETL pipelines and predictive model validation to proof-of-concepts 
-                  for generative AI, knowledge systems, and business automation. My work integrates 
-                  both traditional analytics and cutting-edge GenAI, enabling organizations to uncover 
-                  actionable insights, optimize processes, and accelerate lead generation through intelligent, data-driven strategies.
+                    I specialize in designing scalable data pipelines, deploying predictive models, 
+                    and building GenAI-powered systems such as knowledge assistants, agentic workflows, 
+                    and business automation tools. My work bridges strong data foundations with cutting-edge AI 
+                    to deliver production-ready solutions that unlock insights, optimize operations, and accelerate growth.
                   </motion.p>
 
                   <motion.div

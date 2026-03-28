@@ -54,7 +54,7 @@ const ExperienceSection = () => {
     return {
       years: 3,
       timePeriod: "(2017 - Present)",
-      experienceText: "4 Years 6 Months of Experience",
+      experienceText: "4 Years 8 Months Experience",
     };
   }, []);
 

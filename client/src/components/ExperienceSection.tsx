@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { experienceData } from "../data/data";
 import { motion, AnimatePresence, useInView, useScroll, useSpring, useTransform } from "framer-motion";
-
+import { calculateTotalExperience } from "../lib/experienceCalculator";
 // Define types for the updated data structure
 interface DetailItem {
   domain: string;
@@ -62,12 +62,8 @@ const ExperienceSection = () => {
   });
 
   // Use a static value for experience as requested
-  const experienceInfo = useMemo(() => {
-    return {
-      years: 3,
-      timePeriod: "(2017 - Present)",
-      experienceText: "4 Years 8 Months Experience",
-    };
+   const experienceInfo = useMemo(() => {
+    return calculateTotalExperience();
   }, []);
 
   const toggleCompany = (id: number) => {

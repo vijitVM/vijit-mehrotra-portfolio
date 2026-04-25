@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import profilePic from "../attached_assets/Vijit_github_profile_pic.jpg";
 
@@ -17,6 +17,47 @@ const ContactSection = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   const { toast } = useToast();
+
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service_id: 'service_04u7p7o',
+          template_id: 'template_5ho84in',
+          user_id: 'hlRl3biui9VIyL2Us',
+          template_params: {
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            time: new Date().toLocaleString()
+          }
+        })
+      });
+
+      if (response.ok) {
+        toast({ title: "Message Sent Successfully!", description: "I will review this and get back to you shortly.", duration: 4000 });
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        toast({ title: "Error", description: "Something went wrong sending the message.", variant: "destructive" });
+      }
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to reach the mail server.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   // Animation variants
   const containerVariants = {
@@ -172,6 +213,14 @@ const ContactSection = () => {
                         />
                       </motion.div>
                       <div>
+                        {/* Live Status indicator */}
+                        <div className="flex items-center space-x-2 mb-1">
+                          <span className="relative flex h-3 w-3">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                          </span>
+                          <span className="text-xs text-green-400 font-medium uppercase tracking-wider">Available for roles</span>
+                        </div>
                         <h3 className="text-xl font-semibold">
                           Vijit Mehrotra
                         </h3>
@@ -181,35 +230,61 @@ const ContactSection = () => {
                       </div>
                     </div>
 
-                    <motion.p
-                      className="text-gray-300 mb-6"
+                    <motion.form 
+                      onSubmit={handleFormSubmit}
+                      className="space-y-4 mb-6 mt-4"
                       variants={itemVariants}
                     >
-                      If you have any questions or inquiries, please don't
-                      hesitate to reach out. For hiring inquiries, feel free to
-                      contact me via email or phone.
-                    </motion.p>
-
-                    <motion.div
-                      className="flex space-x-4 mb-6"
-                      variants={itemVariants}
-                    >
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                        className="w-full"
+                      <div className="space-y-1">
+                        <input
+                          required
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          type="text"
+                          placeholder="Your Name"
+                          className="w-full bg-gray-900/50 border border-gray-700 rounded-md px-4 py-2 text-white outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder:text-gray-500"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <input
+                          required
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          type="email"
+                          placeholder="Your Work Email"
+                          className="w-full bg-gray-900/50 border border-gray-700 rounded-md px-4 py-2 text-white outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder:text-gray-500"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <textarea
+                          required
+                          name="message"
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          placeholder="How can I help you?"
+                          rows={3}
+                          className="w-full bg-gray-900/50 border border-gray-700 rounded-md px-4 py-2 text-white outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder:text-gray-500 resize-none"
+                        />
+                      </div>
+                      
+                      <Button 
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-medium transition-all duration-300 shadow-lg shadow-cyan-500/20 w-full"
                       >
-                        <Button 
-                          className="bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-medium transition-all duration-300 shadow-lg shadow-cyan-500/20 w-full"
-                          asChild
-                        >
-                          <a href="mailto:vijitmehrotra95@gmail.com" className="flex items-center justify-center w-full h-full py-2 px-6">
-                            EMAIL ME
-                          </a>
-                        </Button>
-                      </motion.div>
-                    </motion.div>
+                        {isSubmitting ? (
+                          <span className="flex items-center">
+                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Sending...
+                          </span>
+                        ) : "Send Secure Message"}
+                      </Button>
+                    </motion.form>
 
                     {/* Social Media Icons */}
                     <TooltipProvider delayDuration={200}>

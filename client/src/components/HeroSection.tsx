@@ -16,10 +16,10 @@ import CurrentlyBuildingSection from "./CurrentlyBuildingSection";
 const HeroSection = () => {
   const { theme } = useTheme();
   const titles = [
-    "Senior Data Science Consultant",
-    "Generative AI Specialist",
-    "AI Engineer",
-     "Team Player",
+    "GenAI & LLM Engineer",
+    "RAG & Agentic AI Builder",
+    "AI Systems Engineer",
+    "Applied AI Consultant"
   ];
   const [typedText, setTypedText] = useState("");
   const [titleIndex, setTitleIndex] = useState(0);
@@ -266,21 +266,19 @@ const HeroSection = () => {
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                    Senior Data Scientist & AI Engineer with 4+ years of experience 
-                    building end-to-end analytics and GenAI systems that drive real business outcomes. 
-                    At Quation Solutions, I lead the development of intelligent solutions that automate workflows, 
-                    enhance decision-making, and solve complex problems across industries including Healthcare, 
-                    FMCG, and Technology.
+                    GenAI Engineer with ~5 years of experience building scalable AI systems across data science 
+                    and machine learning, specializing in LLM applications, RAG pipelines, and agentic AI workflows.
+                    At Quation Solutions, I lead the development of production-grade GenAI systems that automate workflows, 
+                    enhance decision-making, and deliver measurable business impact across industries including Healthcare, FMCG, and Technology.
                   </motion.p>
 
                   <motion.p
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                    I specialize in designing scalable data pipelines, deploying predictive models, 
-                    and building GenAI-powered systems such as knowledge assistants, agentic workflows, 
-                    and business automation tools. My work bridges strong data foundations with cutting-edge AI 
-                    to deliver production-ready solutions that unlock insights, optimize operations, and accelerate growth.
+                    I specialize in designing end-to-end AI solutions—from data pipelines and machine learning models 
+                    to LLM-powered applications such as knowledge assistants, multi-agent systems, and automation platforms. 
+                    My work focuses on combining strong data foundations with modern AI to build scalable, reliable systems that improve efficiency, unlock insights, and drive growth.
                   </motion.p>
 
                   <motion.div

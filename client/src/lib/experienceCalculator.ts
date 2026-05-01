@@ -5,17 +5,42 @@ interface Interval {
   end: Date;
 }
 
-// Helper function to safely parse the MMM YYYY string into a Date
+// Cross-browser month name lookup (new Date("May 2025") fails on mobile Safari/WebKit)
+const MONTH_MAP: Record<string, number> = {
+  jan: 0, january: 0,
+  feb: 1, february: 1,
+  mar: 2, march: 2,
+  apr: 3, april: 3,
+  may: 4,
+  jun: 5, june: 5,
+  jul: 6, july: 6,
+  aug: 7, august: 7,
+  sep: 8, september: 8,
+  oct: 9, october: 9,
+  nov: 10, november: 10,
+  dec: 11, december: 11,
+};
+
+// Helper function to safely parse "MMM YYYY" into a Date (cross-browser safe)
 function parseDateStr(dateStr: string): Date {
   const cleanStr = dateStr.trim().toLowerCase();
   if (cleanStr === "present") {
     return new Date();
   }
-  
-  // Date handles "May 2023" perfectly, defaults to 1st of month.
+
+  // Explicitly parse "May 2025", "April 2024", etc.
+  const parts = cleanStr.split(/\s+/);
+  if (parts.length === 2) {
+    const monthIdx = MONTH_MAP[parts[0]];
+    const year = parseInt(parts[1], 10);
+    if (monthIdx !== undefined && !isNaN(year)) {
+      return new Date(year, monthIdx, 1);
+    }
+  }
+
+  // Fallback: try native parsing, then default to now
   const parsed = new Date(dateStr.trim());
   if (isNaN(parsed.getTime())) {
-    // Fallback if formatting breaks
     return new Date();
   }
   return parsed;

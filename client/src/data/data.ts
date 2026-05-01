@@ -14,31 +14,31 @@ import quationlogo from "@asset/quation.jpeg?url";
 export const skillsData = {
   coreSkills: [
     { name: "Generative AI & LLMs", value: 4.4 },
-    { name: "RAG Systems", value: 4.3 },
+    { name: "RAG Systems", value: 4.4 },
     { name: "LLM Evaluation", value: 4.2 },
     { name: "Agentic AI Systems", value: 4.2 },
     { name: "Machine Learning", value: 3.8 },
     { name: "MLOps & LLMOps", value: 3.8 },
     { name: "ETL Pipelines", value: 4.0 },
     { name: "AI Application Development", value: 4.0 },
-    { name: "Data Visualization", value: 4.6 }
+    { name: "Data Visualization", value: 4.3 }
   ],
   technicalSkills: [
     { name: "Python", value: 4.5 },
-    { name: "SQL", value: 4.6 },
-    { name: "LangChain", value: 4.2 },
-    { name: "LangGraph", value: 4.2 },
-    { name: "LlamaIndex", value: 4.2 },
+    { name: "SQL", value: 4.2 },
+    { name: "LangChain", value: 4.4 },
+    { name: "LangGraph", value: 4.0 },
+    { name: "LlamaIndex", value: 4.0 },
     { name: "DSPy", value: 4.0 },
     { name: "Prompt Engineering", value: 4.4 },
-    { name: "Vector Databases", value: 4.3 },
+    { name: "Vector Databases", value: 4.4 },
     { name: "Hugging Face", value: 4.0 },
-    { name: "Git", value: 4.2 },
+    { name: "Git", value: 4.1 },
     { name: "Docker", value: 4.0 },
     { name: "Apache Airflow", value: 3.8 },
-    { name: "MLflow", value: 3.6 },
+    { name: "MLflow / Langfuse", value: 3.8 },
     { name: "Kubernetes", value: 3.8 },
-    { name: "API Testing (Postman)", value: 4.0 },
+    { name: "API Testing (Postman)", value: 3.8 },
     { name: "AWS & Azure", value: 3.6 }
   ],
   softSkills: [
@@ -69,12 +69,62 @@ export const experienceData = [
         role: "Senior Consultant, Data Science",
         period: "May 2025 - Present",
         details: [
-          "Leading development of agentic AI systems across industries",
+          "Leading development of agentic AI systems across industries including Healthcare",
           "Built a social intelligence platform scaling 7.5K → 15K records/day (~90% accuracy)",
           "Designed multi-agent pipelines for automation and insights",
           "Reduced processing time by 60%+ and improved data quality by 30%+"
         ],
         projects: [
+          {
+            title: "Healthcare Field Intelligence GenAI Assistant",
+            sections: [
+              { 
+                title: "Overview", 
+                points: [
+                  "Built a multi-persona GenAI assistant enabling contextual Q&A and semantic search over healthcare datasets for field intelligence workflows"
+                ] 
+              },
+              { 
+                title: "Architecture & System Design", 
+                points: [
+                  "Designed multi-persona system supporting District Managers, Sales Representatives, and HCP workflows",
+                  "Implemented RAG pipelines using LangChain and ChromaDB",
+                  "Integrated structured data from Amazon Redshift and Cube.js for business-context-aware querying"
+                ] 
+              },
+              { 
+                title: "Modeling & Optimization", 
+                points: [
+                  "Optimized multi-step LLM workflows and prompt strategies",
+                  "Reduced response latency from ~30–35s to <10s"
+                ] 
+              },
+              { 
+                title: "Data Engineering", 
+                points: [
+                  "Combined structured and unstructured healthcare data for contextual retrieval",
+                  "Enabled semantic search and efficient information access"
+                ] 
+              },
+              { 
+                title: "Deployment & Observability", 
+                points: [
+                  "Deployed production-grade services using Azure OpenAI on AWS",
+                  "Integrated backend/frontend systems",
+                  "Implemented observability using Langfuse"
+                ] 
+              },
+              { 
+                title: "Impact", 
+                points: [
+                  "Improved response accuracy by ~30%",
+                  "Reduced manual lookup effort by 60–70%",
+                  "Enabled faster, role-based decision-making"
+                ] 
+              }
+            ],
+            techStack: "Python, LangChain, ChromaDB, Azure OpenAI, AWS, Amazon Redshift, Cube.js, Langfuse"
+          },
           {
             title: "Agentic Social Listening & Growth Intelligence Platform",
             sections: [

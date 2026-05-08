@@ -266,19 +266,18 @@ const HeroSection = () => {
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                    GenAI Engineer with 5 years of experience across Data Engineering, Analytics, Machine Learning and Genrative AI,
-                     including 2+ years of experience building production-grade LLM applications, RAG pipelines, and agentic AI workflows.
-                    At Quation Solutions, I lead the development of production-grade GenAI systems that automate workflows, 
-                    enhance decision-making, and deliver measurable business impact across industries including Healthcare, FMCG, and Technology.
+                    GenAI Engineer with 5+ years of experience building production‑grade AI systems across Data Engineering, Analytics, Machine Learning, and Generative AI. 
+                    I have 2+ years of hands‑on experience developing LLM applications, RAG pipelines, and agentic AI workflows. At Quation Solutions, I lead the development of scalable GenAI systems 
+                    that automate workflows, enhance decision‑making, and deliver measurable business impact across Healthcare, FMCG, and Technology.
                   </motion.p>
 
                   <motion.p
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                     I specialize in designing end-to-end AI systems spanning data pipelines, retrieval architectures, multi-agent workflows, and LLM-powered applications. My experience includes building AI assistants, 
-                     intelligent automation platforms, real-time AI pipelines, and enterprise search systems using technologies such as LangChain, LangGraph, DSPy, vector databases, and cloud-native AI architectures.
-                     My work focuses on combining strong data and engineering foundations with modern AI to build scalable, reliable systems that improve operational efficiency, accelerate decision-making, and enable intelligent business workflows.
+                    I specialize in designing end‑to‑end AI systems, including data pipelines, retrieval architectures, multi‑agent workflows, and LLM‑powered applications. My experience spans AI assistants, 
+                    intelligent automation platforms, real‑time AI pipelines, and enterprise search systems built using LangChain, LangGraph, DSPy, vector databases, and cloud‑native AI architectures, with a focus on building scalable, 
+                    reliable systems that improve operational efficiency and enable intelligent business workflows.
                   </motion.p>
 
                   <motion.div

@@ -4,13 +4,13 @@ import { createServer, type Server } from "http";
 import rateLimit from "express-rate-limit";
 import fs from "fs/promises";
 import path from "path";
-import { HfInference } from "@huggingface/inference";
+import { InferenceClient } from "@huggingface/inference";
 import dotenv from "dotenv";
 
 dotenv.config({ path: path.resolve(process.cwd(), 'server/.env') });
 
 // Initialize the Hugging Face Inference client
-const hf = new HfInference(process.env.HUGGING_FACE_API_KEY);
+const hf = new InferenceClient(process.env.HUGGING_FACE_API_KEY);
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, 

@@ -159,7 +159,7 @@ const SkillsSection = () => {
             onValueChange={setSelectedSkillCategory}
             className="w-full"
           >
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-4">
+            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-4 overflow-visible">
               {skillCategories.map(category => (
                 <TabsTrigger 
                   key={category.id} 

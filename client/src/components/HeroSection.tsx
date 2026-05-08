@@ -266,7 +266,7 @@ const HeroSection = () => {
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                    GenAI Engineer with 5+ years of experience building production‑grade AI systems across Data Engineering, Analytics, Machine Learning, and Generative AI. 
+                    GenAI Engineer with 5 years of experience building production‑grade AI systems across Data Engineering, Analytics, Machine Learning, and Generative AI. 
                     I have 2+ years of hands‑on experience developing LLM applications, RAG pipelines, and agentic AI workflows. At Quation Solutions, I lead the development of scalable GenAI systems 
                     that automate workflows, enhance decision‑making, and deliver measurable business impact across Healthcare, FMCG, and Technology.
                   </motion.p>

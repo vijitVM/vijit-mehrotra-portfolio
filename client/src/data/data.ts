@@ -66,7 +66,7 @@ export const experienceData = [
     positions: [
       {
         id: 101,
-        role: "Senior Consultant, Data Science",
+        role: "Senior Consultant,GenAI / LLM Engineer",
         period: "May 2025 - Present",
         details: [
           "Leading development of agentic AI systems across industries including Healthcare",
@@ -160,7 +160,7 @@ export const experienceData = [
       },
       {
         id: 102,
-        role: "Consultant, Data Science",
+        role: "Consultant, Data Science - GenAI / LLM Systems",
         period: "May 2024 - April 2025",
         details: [
           "Built RAG-based GenAI systems for data querying and automation",

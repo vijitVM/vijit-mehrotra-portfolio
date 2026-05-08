@@ -77,7 +77,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       `;
 
       const stream = hf.chatCompletionStream({
-        model: "mistralai/Mistral-7B-Instruct-v0.2",
+        model: "google/gemma-4-31B-it:together",
         messages: [
           {
             role: "system",
@@ -147,7 +147,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       `;
 
       const stream = hf.chatCompletionStream({
-        model: "mistralai/Mistral-7B-Instruct-v0.2",
+        model: "google/gemma-4-31B-it:together",
         messages: [
           {
             role: "system",
@@ -224,7 +224,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       ];
 
       const stream = hf.chatCompletionStream({
-        model: "mistralai/Mistral-7B-Instruct-v0.2",
+        model: "google/gemma-4-31B-it:together",
         messages: messages,
         max_tokens: 500,
         temperature: 0.2, // Lowered temperature to reduce hallucinations

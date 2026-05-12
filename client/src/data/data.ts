@@ -24,31 +24,31 @@ export const skillsData = {
     { name: "Data Visualization", value: 4.3 }
   ],
   technicalSkills: [
-    { name: "Python", value: 4.5 },
+    { name: "Python", value: 4.4 },
     { name: "SQL", value: 4.2 },
     { name: "LangChain", value: 4.4 },
     { name: "LangGraph", value: 4.0 },
     { name: "LlamaIndex", value: 4.0 },
     { name: "DSPy", value: 4.0 },
-    { name: "Prompt Engineering", value: 4.4 },
-    { name: "Vector Databases", value: 4.4 },
-    { name: "Git", value: 4.1 },
+    { name: "Prompt Engineering", value: 4.3 },
+    { name: "Vector Databases", value: 4.3 },
+    { name: "Git", value: 4.0 },
     { name: "Hugging Face", value: 4.0 },
     { name: "Docker", value: 4.0 },
     { name: "Apache Airflow", value: 3.8 },
     { name: "MLflow / Langfuse", value: 3.8 },
     { name: "Kubernetes", value: 3.8 },
-    { name: "API Testing (Postman)", value: 3.8 },
+    { name: "API Testing (Postman)", value: 3.6 },
     { name: "AWS & Azure", value: 3.6 }
   ],
   softSkills: [
     { name: "Conflict Management", value: 4.0 },
-    { name: "Analytical Thinking", value: 4.5 },
+    { name: "Analytical Thinking", value: 4.4 },
     { name: "Leadership", value: 4.0 },
-    { name: "Communication", value: 4.5 },
+    { name: "Communication", value: 4.1 },
     { name: "Project Management", value: 4.2 },
-    { name: "Problem Solving", value: 4.6 },
-    { name: "Collaboration", value: 4.4 }
+    { name: "Problem Solving", value: 4.2 },
+    { name: "Collaboration", value: 4.2 }
   ],
 };
 

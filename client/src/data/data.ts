@@ -38,7 +38,7 @@ export const skillsData = {
     { name: "Apache Airflow", value: 3.8 },
     { name: "MLflow / Langfuse", value: 3.8 },
     { name: "Kubernetes", value: 3.8 },
-    { name: "API Testing (Postman)", value: 3.6 },
+    { name: "API Testing (Postman)", value: 3.8 },
     { name: "AWS & Azure", value: 3.6 }
   ],
   softSkills: [
@@ -66,75 +66,45 @@ export const experienceData = [
     positions: [
       {
         id: 101,
-        role: "Senior Consultant, GenAI / LLM Engineer",
+        role: "Senior Consultant, GenAI / AI Systems Engineer",
         period: "May 2025 - Present",
         details: [
-          "Leading development of agentic AI systems across industries including Healthcare",
-          "Built a social intelligence platform scaling 7.5K → 15K records/day (~90% accuracy)",
-          "Designed multi-agent pipelines for automation and insights",
-          "Reduced processing time by 60%+ and improved data quality by 30%+"
+          "Architecting agentic AI systems for enterprise automation in Healthcare and FMCG",
+          "Spearheaded a social intelligence platform scaling to 15K records/day at 90% accuracy",
+          "Orchestrating multi-agent pipelines to turn complex data into actionable business intelligence"
         ],
         projects: [
           {
             title: "Healthcare Field Intelligence GenAI Assistant",
             sections: [
-              { 
-                title: "Overview", 
-                points: [
-                  "Built a multi-persona GenAI assistant enabling contextual Q&A and semantic search over healthcare datasets for field intelligence workflows"
-                ] 
-              },
-              { 
-                title: "Architecture & System Design", 
-                points: [
-                  "Designed multi-persona system supporting District Managers, Sales Representatives, and HCP workflows",
-                  "Implemented RAG pipelines using LangChain and ChromaDB",
-                  "Integrated structured data from Amazon Redshift and Cube.js for business-context-aware querying"
-                ] 
-              },
-              { 
-                title: "Modeling & Optimization", 
-                points: [
-                  "Optimized multi-step LLM workflows and prompt strategies",
-                  "Reduced response latency from ~30–35s to <10s"
-                ] 
-              },
-              { 
-                title: "Data Engineering", 
-                points: [
-                  "Combined structured and unstructured healthcare data for contextual retrieval",
-                  "Enabled semantic search and efficient information access"
-                ] 
-              },
-              { 
-                title: "Deployment & Observability", 
-                points: [
-                  "Deployed production-grade services using Azure OpenAI on AWS",
-                  "Integrated backend/frontend systems",
-                  "Implemented observability using Langfuse"
-                ] 
-              },
-              { 
-                title: "Impact", 
-                points: [
-                  "Improved response accuracy by ~30%",
-                  "Reduced manual lookup effort by 60–70%",
-                  "Enabled faster, role-based decision-making"
-                ] 
-              }
+              { title: "Overview", points: ["Built a multi-persona GenAI assistant enabling contextual Q&A and semantic search over healthcare datasets for field intelligence workflows"] },
+              { title: "Architecture & System Design", points: ["Designed multi-persona system supporting District Managers, Sales Representatives, and HCP workflows", "Implemented RAG pipelines using LangChain and ChromaDB", "Integrated structured data from Amazon Redshift and Cube.js for business-context-aware querying"] },
+              { title: "Modeling & Optimization", points: ["Optimized multi-step LLM workflows and prompt strategies", "Reduced response latency from ~30–35s to <10s"] },
+              { title: "Data Engineering", points: ["Combined structured and unstructured healthcare data for contextual retrieval", "Enabled semantic search and efficient information access"] },
+              { title: "Deployment & Observability", points: ["Deployed production-grade services using Azure OpenAI on AWS", "Integrated backend/frontend systems", "Implemented observability using Langfuse"] },
+              { title: "Impact", points: ["Improved response accuracy by ~30%", "Reduced manual lookup effort by 60–70%", "Enabled faster, role-based decision-making"] }
             ],
             techStack: "Python, LangChain, ChromaDB, Azure OpenAI, AWS, Amazon Redshift, Cube.js, Langfuse"
           },
           {
-            title: "Agentic Social Listening & Growth Intelligence Platform",
+            title: "Agentic Social Listening System",
             sections: [
-              { title: "Overview", points: ["Built and scaled an agentic social listening system to identify growth and competitive signals from large-scale Twitter data"] },
+              { title: "Overview", points: ["Built and scaled an agentic social listening system to identify competitive signals from large-scale Twitter data."] },
               { title: "Architecture & System Design", points: ["Multi-agent pipeline (LangGraph) for ingestion → deduplication → entity extraction → classification → signal generation", "Transitioned from linear workflow to stateful agentic architecture"] },
               { title: "Modeling & Optimization", points: ["DSPy (SIMBA + CoT) for classification optimization", "Hybrid model usage (GPT-OSS, Mistral, LLaMA)"] },
               { title: "Data Engineering", points: ["Semantic deduplication using embeddings + vector search (PGVector with HNSW)"] },
-              { title: "Impact", points: ["Scaled from 7.5K → 15K records/day", "Reduced processing time by 60%", "Improved accuracy from ~80% → ~90%", "Increased actionable insights by 20–25%"] }
+              { title: "Impact", points: ["Scaled from 7.5K → 15K records/day", "Improved accuracy from ~80% → ~90%"] }
             ],
-            techStack: "Python, LangGraph, DSPy (SIMBA, CoT), GPT-OSS (20B/120B), Mistral, LLaMA, Nomic Embeddings, PGVector (HNSW), SQL, Langfuse"
+            techStack: "Python, LangGraph, DSPy (SIMBA, CoT), GPT-OSS, Mistral, LLaMA, Nomic Embeddings, PGVector (HNSW), SQL, Langfuse"
+          },
+          {
+            title: "Growth Bets: Batch Intelligence Platform",
+            sections: [
+              { title: "Overview", points: ["Architected a specialized platform using orchestrated agent crews to validate high-potential 'Growth Bets' via batch-processed analysis."] },
+              { title: "Architecture & System Design", points: ["Orchestrated autonomous agent crews using CrewAI for signal validation", "Implemented high-throughput batch processing workflows for strategic signal discovery"] },
+              { title: "Impact", points: ["Reduced batch processing time by 60%", "Increased delivery of validated strategic 'Growth Bets' by 20–25%"] }
+            ],
+            techStack: "Python, CrewAI, SQL, Batch Processing Pipelines, LLaMA, Langfuse"
           },
           {
             title: "VOC Complaint Intelligence System",
@@ -165,7 +135,7 @@ export const experienceData = [
         details: [
           "Built RAG-based GenAI systems for data querying and automation",
           "Reduced manual effort by 30–70% across workflows",
-          "Developed AI tools for code review, compliance, and analytics",
+          "Developed AI tools for code review, compliance, and analytics"
         ],
         projects: [
           {
@@ -220,7 +190,7 @@ export const experienceData = [
         details: [
           "Built ETL pipelines improving data retrieval speed by 60%",
           "Delivered analytics with 97–100% accuracy for decision-making",
-          "Enabled targeted marketing through data-driven segmentation",
+          "Enabled targeted marketing through data-driven segmentation"
         ],
         projects: [
           {
@@ -233,9 +203,9 @@ export const experienceData = [
             techStack: "Python, PostgreSQL, SQL, Excel, Data Pipelines"
           }
         ]
-      },
+      }
     ],
-    awards: [],
+    awards: []
   },
   {
     id: 2,
@@ -254,8 +224,8 @@ export const experienceData = [
         details: [
           "Reduced data processing time by 50% through automation",
           "Delivered insights for marketing and retention strategies",
-          "Conducted A/B testing and hypothesis-driven analysis",
-        ],
+          "Conducted A/B testing and hypothesis-driven analysis"
+        ]
       },
       {
         id: 202,
@@ -264,11 +234,11 @@ export const experienceData = [
         details: [
           "Supported data cleaning, transformation, and analysis using SQL, Excel, and Python",
           "Contributed to marketing and sales analytics workflows",
-          "Assisted in generating actionable insights from large datasets",
-        ],
-      },
+          "Assisted in generating actionable insights from large datasets"
+        ]
+      }
     ],
-    awards: ["🏆 2023 - Fresher of the Year Award"],
+    awards: ["🏆 2023 - Fresher of the Year Award"]
   },
   {
     id: 3,
@@ -286,11 +256,11 @@ export const experienceData = [
         period: "Sep 2021 - Oct 2021",
         details: [
           "Contributed to internal application development and implementation initiatives",
-          "Improved operational efficiency by ~15%",
-        ],
-      },
+          "Improved operational efficiency by ~15%"
+        ]
+      }
     ],
-    awards: [],
+    awards: []
   },
   {
     id: 4,
@@ -308,12 +278,12 @@ export const experienceData = [
         period: "Jun 2017 - Aug 2017",
         details: [
           "Supported transaction and analytics services for real estate and mortgage datasets",
-          "Performed data mining and analysis for business operations",
-        ],
-      },
+          "Performed data mining and analysis for business operations"
+        ]
+      }
     ],
-    awards: [],
-  },
+    awards: []
+  }
 ];
 
 export const projectsData = [

@@ -16,10 +16,10 @@ import CurrentlyBuildingSection from "./CurrentlyBuildingSection";
 const HeroSection = () => {
   const { theme } = useTheme();
   const titles = [
-    "GenAI & LLM Engineer",
-    "RAG & Agentic AI Builder",
-    "AI Systems Engineer",
-    "Applied AI Consultant"
+    "Senior GenAI & LLM Engineer",
+  "Architecting Agentic AI Workflows",
+  "Building Production-Grade RAG Systems",
+  "Applied AI & Enterprise Consultant"
   ];
   const [typedText, setTypedText] = useState("");
   const [titleIndex, setTitleIndex] = useState(0);
@@ -266,18 +266,22 @@ const HeroSection = () => {
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                    GenAI Engineer with 5 years of experience building production‑grade AI systems across Data Engineering, Analytics, Machine Learning, and Generative AI. 
-                    I have 2+ years of hands‑on experience developing LLM applications, RAG pipelines, and agentic AI workflows. At Quation Solutions, I lead the development of scalable GenAI systems 
-                    that automate workflows, enhance decision‑making, and deliver measurable business impact across Healthcare, FMCG, and Technology.
+                    I bridge the gap between ambiguous enterprise challenges and production-grade AI architectures.
                   </motion.p>
 
                   <motion.p
                     className="mb-3 md:text-left text-center text-md sm:text-base"
                     variants={itemVariants}
                   >
-                    I specialize in designing end‑to‑end AI systems, including data pipelines, retrieval architectures, multi‑agent workflows, and LLM‑powered applications. My experience spans AI assistants, 
-                    intelligent automation platforms, real‑time AI pipelines, and enterprise search systems built using LangChain, LangGraph, DSPy, vector databases, and cloud‑native AI architectures, with a focus on building scalable, 
-                    reliable systems that improve operational efficiency and enable intelligent business workflows.
+                    With 5 years of experience across Data Engineering and Analytics, I have spent the last 2+ years architecting production-grade LLM applications, RAG pipelines, and agentic workflows. 
+                    As a lead at Quation Solutions, I partner with enterprise clients in Healthcare, FMCG, and Technology to transform complex, unstructured data into measurable business outcomes.
+                  </motion.p>
+
+                  <motion.p
+                    className="mb-3 md:text-left text-center text-md sm:text-base"
+                    variants={itemVariants}
+                  >
+                    From automating manual workflows to building intelligent decision-support systems, I specialize in deploying reliable, observable AI systems that move beyond the prototype phase to deliver long-term operational efficiency.
                   </motion.p>
 
                   <motion.div

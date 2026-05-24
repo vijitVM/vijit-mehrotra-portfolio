@@ -6,7 +6,7 @@ import { Card, CardContent } from "./ui/card";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import RadarChart from "./RadarChart";
 import SkillsThreeScene from "./SkillsThreeScene";
-import { skillsData } from "../data/data";
+import { skillsData, getCompactTier } from "../data/data";
 
 const SkillsSection = () => {
   const { theme } = useTheme();
@@ -68,6 +68,7 @@ const SkillsSection = () => {
     {
       id: "core",
       title: "Core Competencies",
+      focusLabel: "Focus: GenAI & Orchestration Pipelines",
       data: skillsData.coreSkills,
       backgroundColor: "rgba(6, 182, 212, 0.25)",
       borderColor: "rgba(6, 182, 212, 1)",
@@ -81,6 +82,7 @@ const SkillsSection = () => {
     {
       id: "technical",
       title: "Technical Skills",
+      focusLabel: "Focus: Core Languages & Vector Databases",
       data: skillsData.technicalSkills,
       backgroundColor: "rgba(245, 158, 11, 0.25)",
       borderColor: "rgba(245, 158, 11, 1)",
@@ -94,6 +96,7 @@ const SkillsSection = () => {
     {
       id: "soft",
       title: "Soft Skills",
+      focusLabel: "Focus: Leadership & Agile Collaboration",
       data: skillsData.softSkills,
       backgroundColor: "rgba(196, 94, 219, 0.25)",
       borderColor: "rgba(196, 94, 219, 1)",
@@ -238,16 +241,9 @@ const SkillsSection = () => {
                       transition={{ delay: 0.5 }}
                     >
                       <span
-                        className={`inline-block px-3 py-1 rounded-full ${selectedCategory.highlight} text-white text-xs`}
+                        className={`inline-block px-4 py-1.5 rounded-full ${selectedCategory.highlight} ${selectedCategory.color} border ${selectedCategory.borderColor2} backdrop-blur-md text-[10px] sm:text-xs font-semibold uppercase tracking-wider`}
                       >
-                        Average:{" "}
-                        {(
-                          selectedCategory.data.reduce(
-                            (sum, skill) => sum + skill.value,
-                            0,
-                          ) / selectedCategory.data.length
-                        ).toFixed(1)}{" "}
-                        / 5
+                        {selectedCategory.focusLabel}
                       </span>
                     </motion.div>
                   </motion.div>
@@ -285,19 +281,23 @@ const SkillsSection = () => {
               {[...selectedCategory.data, ...selectedCategory.data].map((skill, index) => (
                 <div
                   key={`${skill.name}-${index}`}
-                  className={`w-44 sm:w-56 p-3 sm:p-4 ${theme === 'dark' ? 'bg-gray-800/80 backdrop-blur-sm' : 'bg-gray-100/90'} rounded-xl ${selectedCategory.borderColor2} border hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all duration-300 shadow-lg shrink-0`}
+                  className={`w-48 sm:w-56 p-3.5 sm:p-4 ${theme === 'dark' ? 'bg-gray-800/80 backdrop-blur-sm' : 'bg-gray-100/90'} rounded-xl ${selectedCategory.borderColor2} border hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all duration-300 shadow-lg shrink-0`}
                 >
-                  <div className="flex justify-between items-center gap-2 mb-3">
-                    <span className={`font-semibold text-sm sm:text-base truncate ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>{skill.name}</span>
-                    <span className={`px-2 py-0.5 rounded-md text-xs whitespace-nowrap ${selectedCategory.highlight} ${theme === 'dark' ? 'text-white' : 'text-gray-800'} font-medium`}>
-                      {skill.value.toFixed(1)}
+                  <div className="flex flex-col gap-2">
+                    <span className={`font-semibold text-sm sm:text-base truncate ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>
+                      {skill.name}
                     </span>
-                  </div>
-                  <div className="w-full h-1.5 bg-gray-700/30 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full bg-gradient-to-r ${selectedCategory.gradient}`}
-                      style={{ width: `${(skill.value / 5) * 100}%` }}
-                    />
+                    <div className="flex justify-between items-center gap-2.5 mt-1">
+                      <div className="flex-1 h-1.5 bg-gray-700/30 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full bg-gradient-to-r ${selectedCategory.gradient}`}
+                          style={{ width: `${(skill.value / 5) * 100}%` }}
+                        />
+                      </div>
+                      <span className={`px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] whitespace-nowrap font-bold uppercase tracking-wider ${selectedCategory.highlight} ${selectedCategory.color} border ${selectedCategory.borderColor2}`}>
+                        {getCompactTier(skill.value)}
+                      </span>
+                    </div>
                   </div>
                 </div>
               ))}

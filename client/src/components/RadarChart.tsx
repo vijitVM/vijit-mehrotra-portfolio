@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
+import { getProficiencyTier } from "../data/data";
 
 interface SkillData {
   name: string;
@@ -149,10 +150,10 @@ const RadarChart = ({
             maintainAspectRatio: false,
             layout: {
               padding: {
-                top: 20,
-                bottom: 20,
-                left: 20,
-                right: 20,
+                top: isMobile ? 12 : 20,
+                bottom: isMobile ? 12 : 20,
+                left: isMobile ? 12 : 20,
+                right: isMobile ? 12 : 20,
               },
             },
             elements: {
@@ -179,6 +180,7 @@ const RadarChart = ({
                   },
                 },
                 ticks: {
+                  display: false,
                   backdropColor: "transparent",
                   color: "rgba(255, 255, 255, 0.6)",
                   showLabelBackdrop: false,
@@ -224,7 +226,7 @@ const RadarChart = ({
                   },
                   label: (context) => {
                     const value = context.parsed.r;
-                    return `Proficiency: ${value} / 5`;
+                    return `Proficiency: ${getProficiencyTier(value)}`;
                   },
                   afterLabel: () => {
                     return "";

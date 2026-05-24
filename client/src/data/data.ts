@@ -399,3 +399,18 @@ export const educationData = {
     },
   ],
 };
+
+export const getProficiencyTier = (value: number): string => {
+  if (value >= 4.3) return "Subject Matter Expert";
+  if (value >= 4.0) return "Advanced Production";
+  if (value >= 3.7) return "Strong Practice";
+  return "Hands-on Capability";
+};
+
+export const getCompactTier = (value: number): string => {
+  if (value >= 4.3) return "Expert";
+  if (value >= 4.0) return "Advanced";
+  if (value >= 3.7) return "Strong";
+  return "Active";
+};
+

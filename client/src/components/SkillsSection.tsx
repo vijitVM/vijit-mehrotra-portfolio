@@ -362,12 +362,7 @@ const SkillsSection = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pt-2">
                 {/* Interactive Pipeline Stages Selector */}
                 <div 
-                  className="lg:col-span-4 flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-visible py-2 px-1 pb-4 lg:pb-0 scrollbar-none"
-                  style={{ 
-                    WebkitOverflowScrolling: "touch",
-                    msOverflowStyle: "none",
-                    scrollbarWidth: "none"
-                  }}
+                  className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-col gap-3 py-2 px-1 pb-4 lg:pb-0"
                 >
                   {pipelineStages.map((stage, idx) => {
                     const StageIcon = stage.icon;
@@ -376,7 +371,7 @@ const SkillsSection = () => {
                       <button
                         key={idx}
                         onClick={() => setActivePipelineStage(idx)}
-                        className={`flex items-center gap-4 p-4 rounded-xl text-left border transition-all duration-300 min-w-[200px] lg:min-w-0 shrink-0 ${
+                        className={`flex items-center gap-4 p-4 rounded-xl text-left border transition-all duration-300 w-full shrink-0 ${
                           isActive
                             ? (theme === 'dark' 
                                 ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.15)]' 

@@ -236,7 +236,7 @@ const ExperienceSection = () => {
         <div className="relative max-w-7xl mx-auto py-8 flex flex-col lg:flex-row gap-8 lg:items-start">
           
           {/* Left Pane: Timeline (Sticky on Desktop) */}
-          <div className="relative w-full lg:w-2/5 lg:sticky lg:top-24 lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="relative w-full lg:w-[45%] lg:sticky lg:top-24 lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-8 scrollbar-none">
             {/* Base Dim Line */}
             <div className="absolute left-[30px] md:left-[80px] lg:left-[40px] transform -translate-x-1/2 h-full w-1 bg-gray-800 rounded-full" />
 
@@ -332,21 +332,21 @@ const ExperienceSection = () => {
                         </motion.div>
 
                         {/* Company Info */}
-                        <div className="flex-1 mb-2 sm:mb-0">
-                          <h3 className="text-base sm:text-lg font-semibold">
+                        <div className="flex-1 mb-2 sm:mb-0 lg:pr-2">
+                          <h3 className="text-base sm:text-lg font-semibold lg:whitespace-nowrap lg:truncate">
                             {company.company}
                           </h3>
                           <p className="text-xs sm:text-sm text-cyan-400">
                             <span>{company.companyPeriod}</span>
-                            <span className="mx-1 sm:mx-2">•</span>
-                            <span>{company.location}</span>
+                            <span className="mx-1 sm:mx-2 lg:hidden">•</span>
+                            <span className="lg:block">{company.location}</span>
                           </p>
                         </div>
 
-                        {/* Toggle Company Button */}
+                        {/* Toggle Company Button (Hidden on Desktop) */}
                         <Button
                           variant="link"
-                          className="text-cyan-400 hover:text-cyan-300 focus:outline-none text-xs sm:text-sm p-0 h-auto flex items-center mt-1 sm:mt-0"
+                          className="text-cyan-400 hover:text-cyan-300 focus:outline-none text-xs sm:text-sm p-0 h-auto flex items-center mt-1 sm:mt-0 lg:hidden"
                           onClick={() => toggleCompany(company.id)}
                         >
                           {expandedCompanies.includes(company.id) ? (
@@ -626,7 +626,7 @@ const ExperienceSection = () => {
           </div>
 
           {/* Right Pane: Desktop Details */}
-          <div className="hidden lg:block lg:w-3/5 xl:w-3/5 h-full relative sticky top-24">
+          <div className="hidden lg:block lg:w-[55%] xl:w-[60%] h-full relative sticky top-24">
             <AnimatePresence mode="wait">
               {(() => {
                 const activeCompany = (experienceData as CompanyExperience[]).find(c => c.id === desktopActiveCompany);
@@ -638,9 +638,10 @@ const ExperienceSection = () => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.4 }}
-                    className="w-full bg-gray-800/40 backdrop-blur-md border border-gray-700/50 rounded-2xl shadow-2xl p-8 overflow-y-auto max-h-[calc(100vh-120px)] hide-scrollbar"
+                    className="w-full bg-[#0D1117]/80 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl flex flex-col h-[calc(100vh-120px)] overflow-hidden"
                   >
-                     <div className="flex items-center gap-6 mb-8 border-b border-gray-700/50 pb-6">
+                     {/* Sticky Header */}
+                     <div className="flex items-center gap-6 p-8 border-b border-gray-700/50 bg-[#0D1117]/90 backdrop-blur-xl z-10 shrink-0">
                         {activeCompany.logoType === "image" ? (
                           <div className="w-16 h-16 rounded-xl bg-white p-2 flex items-center justify-center shrink-0">
                             <img src={activeCompany.logo} alt="logo" className="max-w-full max-h-full object-contain" />
@@ -660,7 +661,8 @@ const ExperienceSection = () => {
                         </div>
                      </div>
                      
-                     <div className="space-y-12">
+                     {/* Scrollable Content Area */}
+                     <div className="flex-1 overflow-y-auto scrollbar-none p-8 space-y-12">
                        {activeCompany.positions.map((pos, i) => (
                          <div key={i} className="relative">
                            <div className="absolute -left-4 top-2 bottom-0 w-[2px] bg-gray-700/50 rounded-full" />
@@ -725,8 +727,6 @@ const ExperienceSection = () => {
                            </div>
                          </div>
                        ))}
-                     </div>
-
                      {/* Desktop Awards */}
                      {activeCompany.awards.length > 0 && (
                        <div className="mt-12 p-6 bg-gradient-to-r from-green-500/10 to-transparent border border-green-500/20 rounded-xl">
@@ -740,6 +740,7 @@ const ExperienceSection = () => {
                          </div>
                        </div>
                      )}
+                   </div>
                   </motion.div>
                 );
               })()}

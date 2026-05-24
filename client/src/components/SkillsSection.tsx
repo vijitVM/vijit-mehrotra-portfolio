@@ -358,7 +358,14 @@ const SkillsSection = () => {
               {/* Production Pipeline Blueprint Section */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pt-2">
                 {/* Interactive Pipeline Stages Selector */}
-                <div className="lg:col-span-4 flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 scrollbar-thin">
+                <div 
+                  className="lg:col-span-4 flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-visible py-2 px-1 pb-4 lg:pb-0 scrollbar-none"
+                  style={{ 
+                    WebkitOverflowScrolling: "touch",
+                    msOverflowStyle: "none",
+                    scrollbarWidth: "none"
+                  }}
+                >
                   {pipelineStages.map((stage, idx) => {
                     const StageIcon = stage.icon;
                     const isActive = activePipelineStage === idx;

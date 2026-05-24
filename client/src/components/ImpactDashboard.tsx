@@ -98,7 +98,12 @@ const ImpactDashboard = () => {
       </motion.div>
 
       <motion.div
-        className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto sm:overflow-x-visible pb-3 sm:pb-0 scrollbar-none snap-x snap-mandatory"
+        className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto sm:overflow-x-visible py-2.5 px-1.5 pb-3 sm:pb-0 scrollbar-none snap-x snap-mandatory"
+        style={{ 
+          WebkitOverflowScrolling: "touch",
+          msOverflowStyle: "none",
+          scrollbarWidth: "none"
+        }}
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
@@ -111,7 +116,7 @@ const ImpactDashboard = () => {
               variants={cardVariants}
               whileHover={{ y: -6, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              className={`p-3.5 sm:p-4 rounded-2xl border transition-all duration-300 relative group overflow-hidden flex flex-col justify-between min-h-[140px] sm:min-h-[150px] shadow-lg shrink-0 w-[80%] sm:w-auto snap-center ${
+              className={`p-4 rounded-2xl border transition-all duration-300 relative group overflow-hidden flex flex-col justify-between min-h-[175px] sm:min-h-[155px] shadow-lg shrink-0 w-[82%] min-w-[270px] max-w-[320px] sm:w-auto sm:min-w-0 sm:max-w-none snap-center ${
                 theme === "dark"
                   ? "bg-[#0D1117]/80 backdrop-blur-md border-gray-800 hover:shadow-cyan-950/20"
                   : "bg-white/80 backdrop-blur-md border-gray-200 hover:shadow-amber-200/40"

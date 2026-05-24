@@ -7,6 +7,13 @@ import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import RadarChart from "./RadarChart";
 import SkillsThreeScene from "./SkillsThreeScene";
 import { skillsData, getCompactTier } from "../data/data";
+import { 
+  Database, 
+  Cpu, 
+  Server,
+  Activity, 
+  GitMerge
+} from "lucide-react";
 
 const SkillsSection = () => {
   const { theme } = useTheme();
@@ -21,6 +28,49 @@ const SkillsSection = () => {
   const [selectedSkillCategory, setSelectedSkillCategory] = useState<string>("core");
   // Always use radar view (3D view toggle removed)
   const visualizationType = "radar";
+
+  // State for active pipeline stage
+  const [activePipelineStage, setActivePipelineStage] = useState<number>(0);
+
+  // Pipeline stages data
+  const pipelineStages = [
+    {
+      title: "Data Ingestion & Extraction",
+      shortTitle: "Ingestion",
+      icon: Server,
+      focus: "High-Throughput Parsing",
+      desc: "Architecting high-frequency scraping and extraction pipelines that feed clean context into downstream models, avoiding unstructured data noise.",
+      techStack: ["Python", "Playwright", "Java", "ETL Pipelines", "Scheduled Triggers"],
+      systemStandard: "95%+ parsing success rate across non-standard PDF tables, email attachments, and multi-nested DOM pages."
+    },
+    {
+      title: "Agentic Orchestration",
+      shortTitle: "Orchestration",
+      icon: Cpu,
+      focus: "Stateful Graph Execution",
+      desc: "Engineering multi-agent crews and stateful DAG graphs that run tool validations, automated query routing, and parallel task execution.",
+      techStack: ["LangGraph", "CrewAI", "LangChain", "DSPy Prompt Compilation", "OpenAI / LLaMA"],
+      systemStandard: "Linear pipelines are replaced with self-correcting agent state machines to handle edge-cases dynamically."
+    },
+    {
+      title: "Storage & Index Optimization",
+      shortTitle: "Context Storage",
+      icon: Database,
+      focus: "Hybrid Semantic Search",
+      desc: "Configuring high-dimensional vector search indices, metadata catalogs, and graph schemas for sub-second, highly relevant information retrieval.",
+      techStack: ["PGVector", "Milvus", "ChromaDB", "Neo4j Graph DB", "HNSW Indexing", "FlashRank Reranking"],
+      systemStandard: "Combining graph structures with vector similarity to eliminate hallucinations and resolve sparse taxonomy problems."
+    },
+    {
+      title: "LLMOps & Telemetry Guardrails",
+      shortTitle: "Telemetry",
+      icon: Activity,
+      focus: "Observability & Guardrails",
+      desc: "Instrumenting full execution tracing, latency breakdown, cost budgets, and automated outputs validation checks directly in the production CI/CD loop.",
+      techStack: ["Langfuse Tracing", "GitLab CI/CD Pipelines", "System Test Assertions", "Cost & Latency Telemetry"],
+      systemStandard: "Real-time trace logs mapped to custom evaluation metrics, maintaining safe, cost-bounded operations."
+    }
+  ];
 
   // Animation variants
   const headerVariants = {
@@ -304,7 +354,170 @@ const SkillsSection = () => {
             </motion.div>
           </div>
         </motion.div>
-        <div className="w-full py-20 border-b-[1px] border-b-gray-800 sm:px-2 lgl:px-0"></div>
+
+        {/* Production Pipeline Blueprint Section */}
+        <motion.div
+          className="w-full max-w-6xl mx-auto mt-20 pt-12 border-t border-gray-800/60"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 30 }}
+          transition={{ delay: 0.7, duration: 0.8 }}
+        >
+          {/* Header */}
+          <div className="text-center mb-10">
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-widest ${
+              theme === "dark"
+                ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                : "bg-amber-500/10 text-amber-600 border border-amber-500/20"
+            }`}>
+              Production Architecture Stack
+            </span>
+            <h3 className={`text-2xl sm:text-3xl font-bold mt-4 tracking-tight ${
+              theme === "dark" ? "text-gray-100" : "text-gray-800"
+            }`}>
+              AI Systems Pipeline Blueprint
+            </h3>
+            <p className={`text-xs sm:text-sm mt-2 max-w-xl mx-auto leading-relaxed ${
+              theme === "dark" ? "text-gray-400" : "text-gray-600"
+            }`}>
+              A functional blueprint showing how my engineering skills connect to orchestrate, optimize, and secure commercial LLM solutions.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            {/* Interactive Pipeline Stages Selector */}
+            <div className="lg:col-span-4 flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 scrollbar-thin">
+              {pipelineStages.map((stage, idx) => {
+                const StageIcon = stage.icon;
+                const isActive = activePipelineStage === idx;
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => setActivePipelineStage(idx)}
+                    className={`flex items-center gap-4 p-4 rounded-xl text-left border transition-all duration-300 min-w-[200px] lg:min-w-0 shrink-0 ${
+                      isActive
+                        ? (theme === 'dark' 
+                            ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.15)]' 
+                            : 'bg-amber-500/10 border-amber-500/40 text-amber-700 shadow-[0_0_15px_rgba(245,158,11,0.1)]')
+                        : (theme === 'dark'
+                            ? 'bg-[#161B22]/40 hover:bg-[#161B22]/70 border-gray-800/80 text-gray-400 hover:border-gray-700'
+                            : 'bg-gray-50/80 hover:bg-gray-100/90 border-gray-200 text-gray-600 hover:border-gray-300')
+                    }`}
+                  >
+                    <div className={`p-2.5 rounded-lg border ${
+                      isActive
+                        ? (theme === 'dark' ? 'bg-cyan-500/20 border-cyan-500/30' : 'bg-amber-500/20 border-amber-500/30')
+                        : (theme === 'dark' ? 'bg-gray-800/40 border-gray-700/40' : 'bg-gray-200/50 border-gray-350/50')
+                    }`}>
+                      <StageIcon className="h-5 w-5" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-[10px] uppercase font-mono tracking-widest opacity-60 leading-none">
+                        STAGE 0{idx + 1}
+                      </div>
+                      <div className="font-bold text-xs sm:text-sm mt-1 leading-tight">
+                        {stage.shortTitle}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Pipeline Stage Details Console */}
+            <div className="lg:col-span-8">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activePipelineStage}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className={`p-6 rounded-2xl border flex flex-col justify-between h-full relative overflow-hidden shadow-xl ${
+                    theme === 'dark'
+                      ? 'bg-[#0D1117]/60 border-gray-800 hover:border-cyan-500/20'
+                      : 'bg-white border-gray-200 hover:border-amber-500/20'
+                  }`}
+                >
+                  <div className="space-y-4">
+                    {/* Header bar */}
+                    <div className="flex justify-between items-start border-b border-gray-800/40 pb-4">
+                      <div>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                          theme === 'dark' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' : 'bg-amber-500/10 text-amber-700 border border-amber-500/20'
+                        }`}>
+                          {pipelineStages[activePipelineStage].focus}
+                        </span>
+                        <h4 className={`text-lg sm:text-xl font-bold mt-2 ${
+                          theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
+                        }`}>
+                          {pipelineStages[activePipelineStage].title}
+                        </h4>
+                      </div>
+                      <div className="text-3xl font-black font-mono opacity-15 leading-none">
+                        0{activePipelineStage + 1}
+                      </div>
+                    </div>
+
+                    {/* Desc */}
+                    <p className={`text-xs sm:text-sm leading-relaxed ${
+                      theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
+                      {pipelineStages[activePipelineStage].desc}
+                    </p>
+
+                    {/* Tech Stacks */}
+                    <div className="space-y-2 pt-2">
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                        Core Tech Stack
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {pipelineStages[activePipelineStage].techStack.map((tech) => (
+                          <span
+                            key={tech}
+                            className={`px-2.5 py-1 rounded-lg text-xs font-semibold border ${
+                              theme === 'dark'
+                                ? 'bg-gray-800/40 border-gray-700/60 text-gray-300'
+                                : 'bg-gray-50 border-gray-200 text-gray-700'
+                            }`}
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Standard guidelines */}
+                  <div className={`mt-6 p-4 rounded-xl border flex gap-3.5 items-start ${
+                    theme === 'dark'
+                      ? 'bg-cyan-950/10 border-cyan-800/20'
+                      : 'bg-amber-50/20 border-amber-200/30'
+                  }`}>
+                    <div className={`p-1.5 rounded-lg border shrink-0 ${
+                      theme === 'dark'
+                        ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400'
+                        : 'bg-amber-500/10 border-amber-500/20 text-amber-700'
+                    }`}>
+                      <GitMerge className="h-4 w-4" />
+                    </div>
+                    <div className="space-y-0.5">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-gray-500 leading-none">
+                        Production System Guideline
+                      </div>
+                      <p className={`text-[11px] sm:text-xs leading-relaxed font-medium mt-1 ${
+                        theme === 'dark' ? 'text-cyan-200' : 'text-amber-900'
+                      }`}>
+                        {pipelineStages[activePipelineStage].systemStandard}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </motion.div>
+
+        <div className="w-full py-10 border-b-[1px] border-b-gray-800 sm:px-2 lgl:px-0"></div>
       </div>
     </section>
   );

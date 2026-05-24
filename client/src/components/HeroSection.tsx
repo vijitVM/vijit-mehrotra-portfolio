@@ -175,7 +175,7 @@ const HeroSection = () => {
 
           {/* First row: Main content columns */}
           <motion.div
-            className="flex flex-col md:flex-row font-titleFont w-full md:items-start justify-center md:flex-wrap gap-6 mb-2"
+            className="flex flex-col md:flex-row font-titleFont w-full max-w-full overflow-hidden md:items-start justify-center md:flex-wrap gap-6 mb-2"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -222,10 +222,10 @@ const HeroSection = () => {
             </motion.div>
  
             {/* Right column (text content) */}
-            <div className="flex items-center justify-start w-full md:w-6/12 pb-2">
-              <div className="items-start justify-center w-full md:min-h-[42vh] flex flex-col gap-2">
+            <div className="flex items-center justify-start w-full md:w-6/12 pb-2 px-4 md:px-0 max-w-full overflow-hidden">
+              <div className="items-start justify-center w-full md:min-h-[42vh] flex flex-col gap-2 max-w-full">
                 <motion.div
-                  className="flex flex-col gap-2 w-full"
+                  className="flex flex-col gap-2 w-full max-w-full"
                   variants={containerVariants}
                 >
                   <motion.h1
@@ -240,7 +240,7 @@ const HeroSection = () => {
                   </motion.h1>
  
                   <motion.h2
-                    className="text-base sm:text-2xl font-medium text-gray-300 mb-3 md:flex md:justify-start flex justify-center"
+                    className="text-gray-300 mb-3 md:flex md:justify-start flex justify-center px-2"
                     variants={itemVariants}
                   >
                     <span
@@ -248,7 +248,7 @@ const HeroSection = () => {
                         theme === "dark"
                           ? "from-amber-300 to-pink-500"
                           : "from-cyan-400 to-blue-500"
-                      } text-transparent bg-clip-text font-semibold text-base sm:text-2xl transition-colors duration-300`}
+                      } text-transparent bg-clip-text font-semibold text-[13px] min-[375px]:text-sm min-[410px]:text-base sm:text-2xl transition-colors duration-300`}
                     >
                       {typedText}
                     </span>
@@ -257,7 +257,7 @@ const HeroSection = () => {
                         theme === "dark" ? "text-cyan-500" : "text-amber-500"
                       } font-bold ml-1 transition-all duration-300 ${
                         cursorVisible ? "opacity-100" : "opacity-0"
-                      }`}
+                      } text-[13px] min-[375px]:text-sm min-[410px]:text-base sm:text-2xl`}
                     >
                       |
                     </span>

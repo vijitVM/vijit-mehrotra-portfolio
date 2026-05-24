@@ -357,13 +357,13 @@ const SkillsSection = () => {
 
         {/* Production Pipeline Blueprint Section */}
         <motion.div
-          className="w-full max-w-6xl mx-auto mt-20 pt-12 border-t border-gray-800/60"
+          className="w-full max-w-6xl mx-auto mt-10 pt-8 border-t border-gray-800/60"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 30 }}
           transition={{ delay: 0.7, duration: 0.8 }}
         >
           {/* Header */}
-          <div className="text-center mb-10">
+          <div className="text-center mb-6">
             <span className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-widest ${
               theme === "dark"
                 ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"

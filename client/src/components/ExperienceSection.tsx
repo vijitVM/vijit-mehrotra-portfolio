@@ -622,6 +622,7 @@ const ExperienceSection = () => {
                 </motion.div>
               </motion.div>
             );
+          })}
           </div>
 
           {/* Right Pane: Desktop Details */}

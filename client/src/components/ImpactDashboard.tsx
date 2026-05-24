@@ -98,7 +98,7 @@ const ImpactDashboard = () => {
       </motion.div>
 
       <motion.div
-        className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+        className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto sm:overflow-x-visible pb-3 sm:pb-0 scrollbar-none snap-x snap-mandatory"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
@@ -111,7 +111,7 @@ const ImpactDashboard = () => {
               variants={cardVariants}
               whileHover={{ y: -6, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              className={`p-3 rounded-2xl border transition-all duration-300 relative group overflow-hidden flex flex-col justify-between min-h-[135px] sm:min-h-[145px] shadow-lg ${
+              className={`p-3.5 sm:p-4 rounded-2xl border transition-all duration-300 relative group overflow-hidden flex flex-col justify-between min-h-[140px] sm:min-h-[150px] shadow-lg shrink-0 w-[80%] sm:w-auto snap-center ${
                 theme === "dark"
                   ? "bg-[#0D1117]/80 backdrop-blur-md border-gray-800 hover:shadow-cyan-950/20"
                   : "bg-white/80 backdrop-blur-md border-gray-200 hover:shadow-amber-200/40"

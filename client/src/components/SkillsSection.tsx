@@ -405,7 +405,7 @@ const SkillsSection = () => {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
                       transition={{ duration: 0.3 }}
-                      className={`p-6 rounded-2xl border flex flex-col justify-between h-full relative overflow-hidden shadow-xl ${
+                      className={`p-4 sm:p-6 rounded-2xl border flex flex-col justify-between h-full relative overflow-hidden shadow-xl ${
                         theme === 'dark'
                           ? 'bg-[#0D1117]/60 border-gray-800 hover:border-cyan-500/20'
                           : 'bg-white border-gray-200 hover:border-amber-500/20'
@@ -413,20 +413,20 @@ const SkillsSection = () => {
                     >
                       <div className="space-y-4">
                         {/* Header bar */}
-                        <div className="flex justify-between items-start border-b border-gray-800/40 pb-4">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start border-b border-gray-800/40 pb-4 relative pr-10 sm:pr-0">
                           <div>
                             <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
                               theme === 'dark' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' : 'bg-amber-500/10 text-amber-700 border border-amber-500/20'
                             }`}>
                               {pipelineStages[activePipelineStage].focus}
                             </span>
-                            <h4 className={`text-lg sm:text-xl font-bold mt-2 ${
+                            <h4 className={`text-base sm:text-lg lg:text-xl font-bold mt-2 ${
                               theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
                             }`}>
                               {pipelineStages[activePipelineStage].title}
                             </h4>
                           </div>
-                          <div className="text-3xl font-black font-mono opacity-15 leading-none">
+                          <div className="text-3xl font-black font-mono opacity-15 leading-none absolute top-1 right-1 sm:static">
                             0{activePipelineStage + 1}
                           </div>
                         </div>
@@ -461,7 +461,7 @@ const SkillsSection = () => {
                       </div>
 
                       {/* Standard guidelines */}
-                      <div className={`mt-6 p-4 rounded-xl border flex gap-3.5 items-start ${
+                      <div className={`mt-4 sm:mt-6 p-3 sm:p-4 rounded-xl border flex gap-2.5 sm:gap-3.5 items-start ${
                         theme === 'dark'
                           ? 'bg-cyan-950/10 border-cyan-800/20'
                           : 'bg-amber-50/20 border-amber-200/30'

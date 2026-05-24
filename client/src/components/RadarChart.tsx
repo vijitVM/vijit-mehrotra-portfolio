@@ -121,11 +121,27 @@ const RadarChart = ({
         gradient.addColorStop(0, backgroundColor);
         gradient.addColorStop(1, "rgba(0, 0, 0, 0.1)");
 
+        // Helper to dynamically map long technical titles to compact labels for mobile screens
+        const getShortLabel = (label: string): string => {
+          const mapping: Record<string, string> = {
+            "AI Application Development": "AI App Dev",
+            "Generative AI & LLMs": "GenAI & LLMs",
+            "Agentic AI Systems": "Agentic AI",
+            "Machine Learning": "Machine Learn",
+            "MLOps & LLMOps": "MLOps",
+            "Data Visualization": "Data Viz",
+            "RAG Systems": "RAG Systems",
+            "LLM Evaluation": "LLM Eval",
+            "ETL Pipelines": "ETL Pipelines"
+          };
+          return mapping[label] || label;
+        };
+
         // Create new chart instance
         chartInstance.current = new Chart(ctx, {
           type: "radar",
           data: {
-            labels: data.map((item) => item.name),
+            labels: data.map((item) => isMobile ? getShortLabel(item.name) : item.name),
             datasets: [
               {
                 label: "",
@@ -150,10 +166,10 @@ const RadarChart = ({
             maintainAspectRatio: false,
             layout: {
               padding: {
-                top: isMobile ? 12 : 20,
-                bottom: isMobile ? 12 : 20,
-                left: isMobile ? 12 : 20,
-                right: isMobile ? 12 : 20,
+                top: isMobile ? 15 : 20,
+                bottom: isMobile ? 15 : 20,
+                left: isMobile ? 32 : 20,
+                right: isMobile ? 32 : 20,
               },
             },
             elements: {
@@ -175,7 +191,7 @@ const RadarChart = ({
                 pointLabels: {
                   color: "rgba(255, 255, 255, 0.85)",
                   font: {
-                    size: isMobile ? 10 : 12,
+                    size: isMobile ? 8.5 : 12,
                     weight: "bold",
                   },
                 },

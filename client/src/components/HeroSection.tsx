@@ -12,6 +12,7 @@ import MouseFollowEffect from "./MouseFollowEffect";
 import { useTheme } from "./ThemeProvider";
 import profilePic from "../attached_assets/Vijit_github_profile_pic.jpg";
 import CurrentlyBuildingSection from "./CurrentlyBuildingSection";
+import ImpactDashboard from "./ImpactDashboard";
 
 const HeroSection = () => {
   const { theme } = useTheme();
@@ -331,6 +332,14 @@ const HeroSection = () => {
                 </motion.div>
               </div>
             </div>
+          </motion.div>
+
+          {/* Dynamic Row: Enterprise Impact Dashboard */}
+          <motion.div
+            className="w-full max-w-[80%] mx-auto mb-2 py-1"
+            variants={itemVariants}
+          >
+            <ImpactDashboard />
           </motion.div>
 
           {/* Second row: Currently Building Section - Properly positioned without hacks */}

@@ -66,7 +66,7 @@ export const experienceData = [
     positions: [
       {
         id: 101,
-        role: "Senior Consultant, GenAI / AI Systems Engineer",
+        role: "Senior Consultant, GenAI / LLM Engineer",
         period: "May 2025 - Present",
         details: [
           "Architecting agentic AI systems for enterprise automation in Healthcare and FMCG",

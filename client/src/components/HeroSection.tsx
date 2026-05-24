@@ -267,7 +267,7 @@ const HeroSection = () => {
                     className="mb-3 md:text-left text-center text-sm sm:text-base leading-relaxed text-gray-300 break-words max-w-[92vw] md:max-w-none mx-auto md:mx-0"
                     variants={itemVariants}
                   >
-                    As an AI Systems lead at Quation Solutions, I partner with enterprise clients in Healthcare, FMCG, and Technology to transform unstructured data into reliable, observable systems that deliver measurable operational efficiency.
+                    As a Senior Consultant and GenAI Engineer at Quation Solutions, I partner with enterprise clients including Healthcare, FMCG, and Technology to transform unstructured data into reliable, observable systems that deliver measurable operational efficiency.
                   </motion.p>
 
                   <motion.div

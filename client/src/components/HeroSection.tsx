@@ -182,15 +182,15 @@ const HeroSection = () => {
           >
             {/* Left column (profile image) */}
             <motion.div
-              className="w-full md:w-5/12 px-2"
+              className="w-full md:w-5/12 px-2 flex justify-center"
               variants={profileVariants}
               onMouseMove={handleProfileHover}
               onMouseLeave={handleProfileLeave}
               style={{ perspective: "1000px" }}
             >
-              <div className="w-full md:min-h-[42vh] lg:w-auto flex justify-center items-center pt-2 pb-2 md:p-0">
+              <div className="w-full flex justify-center items-center pt-2 pb-2 md:p-0">
                 <motion.div
-                  className={`w-fit h-full rounded-lg bg-transparent border-2 border-dashed ${
+                  className={`w-40 h-40 sm:w-52 sm:h-52 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full md:rounded-2xl bg-transparent border-2 border-dashed ${
                     theme === "dark" ? "border-cyan-700" : "border-amber-300"
                   } flex items-center justify-center overflow-hidden ${
                     theme === "dark"
@@ -205,9 +205,9 @@ const HeroSection = () => {
                     <img
                       src={profilePic}
                       alt="Vijit Mehrotra"
-                      className="object-cover w-full h-full sm:max-w-[260px] md:max-w-[300px] lg:max-w-[340px] xl:max-w-[380px]"
+                      className="object-cover w-full h-full"
                     />
-
+ 
                     {/* Hover glow effect */}
                     <motion.div
                       className={`absolute inset-0 opacity-0 hover:opacity-40 ${
@@ -220,16 +220,16 @@ const HeroSection = () => {
                 </motion.div>
               </div>
             </motion.div>
-
+ 
             {/* Right column (text content) */}
             <div className="flex items-center justify-start w-full md:w-6/12 pb-2">
               <div className="items-start justify-center w-full md:min-h-[42vh] flex flex-col gap-2">
                 <motion.div
-                  className="flex flex-col gap-2"
+                  className="flex flex-col gap-2 w-full"
                   variants={containerVariants}
                 >
                   <motion.h1
-                    className={`text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r ${
+                    className={`text-3xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r ${
                       theme === "dark"
                         ? "from-cyan-400 to-purple-500"
                         : "from-amber-400 to-orange-500"
@@ -238,9 +238,9 @@ const HeroSection = () => {
                   >
                     Vijit Mehrotra
                   </motion.h1>
-
+ 
                   <motion.h2
-                    className="text-xl font-medium text-gray-300 mb-3 md:flex md:justify-start flex justify-center"
+                    className="text-base sm:text-2xl font-medium text-gray-300 mb-3 md:flex md:justify-start flex justify-center"
                     variants={itemVariants}
                   >
                     <span
@@ -248,7 +248,7 @@ const HeroSection = () => {
                         theme === "dark"
                           ? "from-amber-300 to-pink-500"
                           : "from-cyan-400 to-blue-500"
-                      } text-transparent bg-clip-text font-semibold text-xl sm:text-2xl transition-colors duration-300`}
+                      } text-transparent bg-clip-text font-semibold text-base sm:text-2xl transition-colors duration-300`}
                     >
                       {typedText}
                     </span>

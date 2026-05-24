@@ -245,14 +245,17 @@ const SkillsSection = () => {
                   onValueChange={setSelectedSkillCategory}
                   className="w-full"
                 >
-                  <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-4 overflow-visible">
+                  <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-4 overflow-visible bg-transparent gap-1 px-1 sm:bg-muted">
                     {skillCategories.map(category => (
                       <TabsTrigger 
                         key={category.id} 
                         value={category.id}
-                        className={`data-[state=active]:${category.color} data-[state=active]:shadow-sm ${category.bgHover}`}
+                        className={`data-[state=active]:${category.color} data-[state=active]:shadow-sm ${category.bgHover} text-[10px] sm:text-sm px-2 py-1.5`}
                       >
-                        {category.title}
+                        <span className="hidden sm:inline">{category.title}</span>
+                        <span className="inline sm:hidden">
+                          {category.id === "core" ? "Core" : category.id === "technical" ? "Technical" : "Soft"}
+                        </span>
                       </TabsTrigger>
                     ))}
                   </TabsList>

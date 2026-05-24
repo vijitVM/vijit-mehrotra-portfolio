@@ -5,7 +5,6 @@ import { useTheme } from "./ThemeProvider";
 import { Card, CardContent } from "./ui/card";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import RadarChart from "./RadarChart";
-import SkillsThreeScene from "./SkillsThreeScene";
 import { skillsData, getCompactTier } from "../data/data";
 import { 
   Database, 
@@ -26,11 +25,12 @@ const SkillsSection = () => {
   
   // State for selected category
   const [selectedSkillCategory, setSelectedSkillCategory] = useState<string>("core");
-  // Always use radar view (3D view toggle removed)
-  const visualizationType = "radar";
 
   // State for active pipeline stage
   const [activePipelineStage, setActivePipelineStage] = useState<number>(0);
+
+  // State for skills sub-section view mode
+  const [viewMode, setViewMode] = useState<"radar" | "pipeline">("radar");
 
   // Pipeline stages data
   const pipelineStages = [
@@ -187,335 +187,310 @@ const SkillsSection = () => {
           SKILLS
         </motion.h2>
 
-        {/* <motion.p
-          className="text-xl text-center mb-4"
-          variants={headerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          transition={{ delay: 0.1 }}
+        {/* View Mode Toggle Switch */}
+        <motion.div 
+          className="flex justify-center mb-6"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 15 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
         >
-          Core Competencies & Technical Proficiencies
-        </motion.p>
-         */}
-{/* 3D View toggle removed */}
-
-        {/* Category Tabs */}
-        <motion.div
-          className="mb-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-        >
-          <Tabs 
-            defaultValue="core" 
-            value={selectedSkillCategory}
-            onValueChange={setSelectedSkillCategory}
-            className="w-full"
-          >
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-4 overflow-visible">
-              {skillCategories.map(category => (
-                <TabsTrigger 
-                  key={category.id} 
-                  value={category.id}
-                  className={`data-[state=active]:${category.color} data-[state=active]:shadow-sm ${category.bgHover}`}
-                >
-                  {category.title}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
+          <div className={`p-1 rounded-xl border flex gap-1 ${
+            theme === 'dark' ? 'bg-[#0D1117]/80 border-gray-800' : 'bg-gray-100 border-gray-200'
+          }`}>
+            <button
+              onClick={() => setViewMode("radar")}
+              className={`px-4 py-2 rounded-lg text-xs font-bold transition-all duration-300 flex items-center gap-1.5 ${
+                viewMode === "radar"
+                  ? (theme === 'dark' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shadow-sm' : 'bg-amber-500/10 text-amber-700 border border-amber-500/20 shadow-sm')
+                  : 'text-gray-400 hover:text-gray-200 border border-transparent'
+              }`}
+            >
+              <Activity className="h-3.5 w-3.5" />
+              <span>Competency Radar</span>
+            </button>
+            <button
+              onClick={() => setViewMode("pipeline")}
+              className={`px-4 py-2 rounded-lg text-xs font-bold transition-all duration-300 flex items-center gap-1.5 ${
+                viewMode === "pipeline"
+                  ? (theme === 'dark' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shadow-sm' : 'bg-amber-500/10 text-amber-700 border border-amber-500/20 shadow-sm')
+                  : 'text-gray-400 hover:text-gray-200 border border-transparent'
+              }`}
+            >
+              <GitMerge className="h-3.5 w-3.5" />
+              <span>System Pipeline Blueprint</span>
+            </button>
+          </div>
         </motion.div>
 
-        {/* Skills Visualization */}
-        <motion.div
-          className="w-full max-w-4xl mx-auto"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ 
-            opacity: isInView ? 1 : 0, 
-            scale: isInView ? 1 : 0.9 
-          }}
-          transition={{ delay: 0.4, duration: 0.7 }}
-        >
-          <AnimatePresence mode="wait">
+        {/* View Mode AnimatePresence Container */}
+        <AnimatePresence mode="wait">
+          {viewMode === "radar" ? (
             <motion.div
-              key={`${selectedSkillCategory}-${visualizationType}`}
-              initial={{ opacity: 0, x: visualizationType === "radar" ? -20 : 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: visualizationType === "radar" ? 20 : -20 }}
-              transition={{ duration: 0.5 }}
-              className="w-full"
+              key="radar-view"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.35 }}
+              className="space-y-6"
             >
-              <Card
-                className={`w-full bg-gray-800/70 backdrop-blur-sm rounded-lg shadow-xl border ${selectedCategory.borderColor2} overflow-hidden`}
+              {/* Category Tabs */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.5 }}
               >
-                <div
-                  className={`h-1 w-full bg-gradient-to-r ${selectedCategory.gradient}`}
-                />
-                <CardContent className="p-6 overflow-visible">
-                  <motion.h3
-                    className={`text-lg sm:text-xl font-semibold mb-3 sm:mb-6 text-center ${selectedCategory.color}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    {selectedCategory.title}
-                  </motion.h3>
-                  <motion.div
-                    className="w-full h-64 sm:h-72 md:h-80 relative pt-2 sm:pt-4 pb-6"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                      transition: {
-                        delay: 0.4,
-                        duration: 0.8,
-                      },
-                    }}
-                  >
-                    {visualizationType === "radar" ? (
+                <Tabs 
+                  defaultValue="core" 
+                  value={selectedSkillCategory}
+                  onValueChange={setSelectedSkillCategory}
+                  className="w-full"
+                >
+                  <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-4 overflow-visible">
+                    {skillCategories.map(category => (
+                      <TabsTrigger 
+                        key={category.id} 
+                        value={category.id}
+                        className={`data-[state=active]:${category.color} data-[state=active]:shadow-sm ${category.bgHover}`}
+                      >
+                        {category.title}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </Tabs>
+              </motion.div>
+
+              {/* Skills Radar Card */}
+              <motion.div
+                className="w-full max-w-4xl mx-auto"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                <Card
+                  className={`w-full bg-gray-800/70 backdrop-blur-sm rounded-lg shadow-xl border ${selectedCategory.borderColor2} overflow-hidden`}
+                >
+                  <div
+                    className={`h-1 w-full bg-gradient-to-r ${selectedCategory.gradient}`}
+                  />
+                  <CardContent className="p-6 overflow-visible">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-3 sm:mb-6 text-center ${selectedCategory.color}`}>
+                      {selectedCategory.title}
+                    </h3>
+                    <div className="w-full h-64 sm:h-72 md:h-80 relative pt-2 sm:pt-4 pb-6">
                       <RadarChart
                         data={selectedCategory.data}
                         backgroundColor={selectedCategory.backgroundColor}
                         borderColor={selectedCategory.borderColor}
                         pointBackgroundColor={selectedCategory.pointBackgroundColor}
                       />
-                    ) : (
-                      <SkillsThreeScene categoryId={selectedCategory.id} />
-                    )}
 
-                    {/* Skill level indicator that appears below the chart */}
-                    <motion.div
-                      className="absolute -bottom-2 left-0 right-0 text-center text-sm font-medium"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
-                    >
-                      <span
-                        className={`inline-block px-4 py-1.5 rounded-full ${selectedCategory.highlight} ${selectedCategory.color} border ${selectedCategory.borderColor2} backdrop-blur-md text-[10px] sm:text-xs font-semibold uppercase tracking-wider`}
-                      >
-                        {selectedCategory.focusLabel}
-                      </span>
-                    </motion.div>
-                  </motion.div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Skills Infinite Marquee */}
-        <motion.div 
-          className="w-full max-w-6xl mx-auto mt-6 overflow-hidden relative"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 30 }}
-          transition={{ delay: 0.6, duration: 0.7 }}
-        >
-          {/* Gradient Edges for seamless fade */}
-          <div className={`absolute left-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-r ${theme === 'dark' ? 'from-gray-900/80' : 'from-white'} to-transparent z-10 pointer-events-none`}></div>
-          <div className={`absolute right-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-l ${theme === 'dark' ? 'from-gray-900/80' : 'from-white'} to-transparent z-10 pointer-events-none`}></div>
-          
-          <div className="flex w-full group pb-4 pt-2">
-            <motion.div
-              className="flex space-x-4 min-w-max pl-4"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{
-                x: {
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  duration: 35,
-                  ease: "linear",
-                },
-              }}
-            >
-              {/* Double the array for seamless infinity loop */}
-              {[...selectedCategory.data, ...selectedCategory.data].map((skill, index) => (
-                <div
-                  key={`${skill.name}-${index}`}
-                  className={`w-48 sm:w-56 p-3.5 sm:p-4 ${theme === 'dark' ? 'bg-gray-800/80 backdrop-blur-sm' : 'bg-gray-100/90'} rounded-xl ${selectedCategory.borderColor2} border hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all duration-300 shadow-lg shrink-0`}
-                >
-                  <div className="flex flex-col gap-2">
-                    <span className={`font-semibold text-sm sm:text-base truncate ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>
-                      {skill.name}
-                    </span>
-                    <div className="flex justify-between items-center gap-2.5 mt-1">
-                      <div className="flex-1 h-1.5 bg-gray-700/30 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full bg-gradient-to-r ${selectedCategory.gradient}`}
-                          style={{ width: `${(skill.value / 5) * 100}%` }}
-                        />
-                      </div>
-                      <span className={`px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] whitespace-nowrap font-bold uppercase tracking-wider ${selectedCategory.highlight} ${selectedCategory.color} border ${selectedCategory.borderColor2}`}>
-                        {getCompactTier(skill.value)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </motion.div>
-
-        {/* Production Pipeline Blueprint Section */}
-        <motion.div
-          className="w-full max-w-6xl mx-auto mt-10 pt-8 border-t border-gray-800/60"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 30 }}
-          transition={{ delay: 0.7, duration: 0.8 }}
-        >
-          {/* Header */}
-          <div className="text-center mb-6">
-            <span className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-widest ${
-              theme === "dark"
-                ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
-                : "bg-amber-500/10 text-amber-600 border border-amber-500/20"
-            }`}>
-              Production Architecture Stack
-            </span>
-            <h3 className={`text-2xl sm:text-3xl font-bold mt-4 tracking-tight ${
-              theme === "dark" ? "text-gray-100" : "text-gray-800"
-            }`}>
-              AI Systems Pipeline Blueprint
-            </h3>
-            <p className={`text-xs sm:text-sm mt-2 max-w-xl mx-auto leading-relaxed ${
-              theme === "dark" ? "text-gray-400" : "text-gray-600"
-            }`}>
-              A functional blueprint showing how my engineering skills connect to orchestrate, optimize, and secure commercial LLM solutions.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            {/* Interactive Pipeline Stages Selector */}
-            <div className="lg:col-span-4 flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 scrollbar-thin">
-              {pipelineStages.map((stage, idx) => {
-                const StageIcon = stage.icon;
-                const isActive = activePipelineStage === idx;
-                return (
-                  <button
-                    key={idx}
-                    onClick={() => setActivePipelineStage(idx)}
-                    className={`flex items-center gap-4 p-4 rounded-xl text-left border transition-all duration-300 min-w-[200px] lg:min-w-0 shrink-0 ${
-                      isActive
-                        ? (theme === 'dark' 
-                            ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.15)]' 
-                            : 'bg-amber-500/10 border-amber-500/40 text-amber-700 shadow-[0_0_15px_rgba(245,158,11,0.1)]')
-                        : (theme === 'dark'
-                            ? 'bg-[#161B22]/40 hover:bg-[#161B22]/70 border-gray-800/80 text-gray-400 hover:border-gray-700'
-                            : 'bg-gray-50/80 hover:bg-gray-100/90 border-gray-200 text-gray-600 hover:border-gray-300')
-                    }`}
-                  >
-                    <div className={`p-2.5 rounded-lg border ${
-                      isActive
-                        ? (theme === 'dark' ? 'bg-cyan-500/20 border-cyan-500/30' : 'bg-amber-500/20 border-amber-500/30')
-                        : (theme === 'dark' ? 'bg-gray-800/40 border-gray-700/40' : 'bg-gray-200/50 border-gray-350/50')
-                    }`}>
-                      <StageIcon className="h-5 w-5" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-[10px] uppercase font-mono tracking-widest opacity-60 leading-none">
-                        STAGE 0{idx + 1}
-                      </div>
-                      <div className="font-bold text-xs sm:text-sm mt-1 leading-tight">
-                        {stage.shortTitle}
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Pipeline Stage Details Console */}
-            <div className="lg:col-span-8">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activePipelineStage}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className={`p-6 rounded-2xl border flex flex-col justify-between h-full relative overflow-hidden shadow-xl ${
-                    theme === 'dark'
-                      ? 'bg-[#0D1117]/60 border-gray-800 hover:border-cyan-500/20'
-                      : 'bg-white border-gray-200 hover:border-amber-500/20'
-                  }`}
-                >
-                  <div className="space-y-4">
-                    {/* Header bar */}
-                    <div className="flex justify-between items-start border-b border-gray-800/40 pb-4">
-                      <div>
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                          theme === 'dark' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' : 'bg-amber-500/10 text-amber-700 border border-amber-500/20'
-                        }`}>
-                          {pipelineStages[activePipelineStage].focus}
+                      {/* Skill level indicator */}
+                      <div className="absolute -bottom-2 left-0 right-0 text-center text-sm font-medium">
+                        <span className={`inline-block px-4 py-1.5 rounded-full ${selectedCategory.highlight} ${selectedCategory.color} border ${selectedCategory.borderColor2} backdrop-blur-md text-[10px] sm:text-xs font-semibold uppercase tracking-wider`}>
+                          {selectedCategory.focusLabel}
                         </span>
-                        <h4 className={`text-lg sm:text-xl font-bold mt-2 ${
-                          theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
-                        }`}>
-                          {pipelineStages[activePipelineStage].title}
-                        </h4>
-                      </div>
-                      <div className="text-3xl font-black font-mono opacity-15 leading-none">
-                        0{activePipelineStage + 1}
                       </div>
                     </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
 
-                    {/* Desc */}
-                    <p className={`text-xs sm:text-sm leading-relaxed ${
-                      theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                    }`}>
-                      {pipelineStages[activePipelineStage].desc}
-                    </p>
-
-                    {/* Tech Stacks */}
-                    <div className="space-y-2 pt-2">
-                      <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
-                        Core Tech Stack
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {pipelineStages[activePipelineStage].techStack.map((tech) => (
-                          <span
-                            key={tech}
-                            className={`px-2.5 py-1 rounded-lg text-xs font-semibold border ${
-                              theme === 'dark'
-                                ? 'bg-gray-800/40 border-gray-700/60 text-gray-300'
-                                : 'bg-gray-50 border-gray-200 text-gray-700'
-                            }`}
-                          >
-                            {tech}
+              {/* Skills Infinite Marquee */}
+              <motion.div 
+                className="w-full max-w-6xl mx-auto overflow-hidden relative pt-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                {/* Gradient Edges */}
+                <div className={`absolute left-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-r ${theme === 'dark' ? 'from-gray-900/80' : 'from-white'} to-transparent z-10 pointer-events-none`}></div>
+                <div className={`absolute right-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-l ${theme === 'dark' ? 'from-gray-900/80' : 'from-white'} to-transparent z-10 pointer-events-none`}></div>
+                
+                <div className="flex w-full group pb-4 pt-2">
+                  <motion.div
+                    className="flex space-x-4 min-w-max pl-4"
+                    animate={{ x: ["0%", "-50%"] }}
+                    transition={{
+                      x: {
+                        repeat: Infinity,
+                        repeatType: "loop",
+                        duration: 35,
+                        ease: "linear",
+                      },
+                    }}
+                  >
+                    {[...selectedCategory.data, ...selectedCategory.data].map((skill, index) => (
+                      <div
+                        key={`${skill.name}-${index}`}
+                        className={`w-48 sm:w-56 p-3.5 sm:p-4 ${theme === 'dark' ? 'bg-gray-800/80 backdrop-blur-sm' : 'bg-gray-100/90'} rounded-xl ${selectedCategory.borderColor2} border hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all duration-300 shadow-lg shrink-0`}
+                      >
+                        <div className="flex flex-col gap-2">
+                          <span className={`font-semibold text-sm sm:text-base truncate ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>
+                            {skill.name}
                           </span>
-                        ))}
+                          <div className="flex justify-between items-center gap-2.5 mt-1">
+                            <div className="flex-1 h-1.5 bg-gray-700/30 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full bg-gradient-to-r ${selectedCategory.gradient}`}
+                                style={{ width: `${(skill.value / 5) * 100}%` }}
+                              />
+                            </div>
+                            <span className={`px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] whitespace-nowrap font-bold uppercase tracking-wider ${selectedCategory.highlight} ${selectedCategory.color} border ${selectedCategory.borderColor2}`}>
+                              {getCompactTier(skill.value)}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    ))}
+                  </motion.div>
+                </div>
+              </motion.div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="pipeline-view"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.35 }}
+              className="w-full max-w-6xl mx-auto"
+            >
+              {/* Production Pipeline Blueprint Section */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pt-2">
+                {/* Interactive Pipeline Stages Selector */}
+                <div className="lg:col-span-4 flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 scrollbar-thin">
+                  {pipelineStages.map((stage, idx) => {
+                    const StageIcon = stage.icon;
+                    const isActive = activePipelineStage === idx;
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => setActivePipelineStage(idx)}
+                        className={`flex items-center gap-4 p-4 rounded-xl text-left border transition-all duration-300 min-w-[200px] lg:min-w-0 shrink-0 ${
+                          isActive
+                            ? (theme === 'dark' 
+                                ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.15)]' 
+                                : 'bg-amber-500/10 border-amber-500/40 text-amber-700 shadow-[0_0_15px_rgba(245,158,11,0.1)]')
+                            : (theme === 'dark'
+                                ? 'bg-[#161B22]/40 hover:bg-[#161B22]/70 border-gray-800/80 text-gray-400 hover:border-gray-700'
+                                : 'bg-gray-50/80 hover:bg-gray-100/90 border-gray-200 text-gray-600 hover:border-gray-300')
+                        }`}
+                      >
+                        <div className={`p-2.5 rounded-lg border ${
+                          isActive
+                            ? (theme === 'dark' ? 'bg-cyan-500/20 border-cyan-500/30' : 'bg-amber-500/20 border-amber-500/30')
+                            : (theme === 'dark' ? 'bg-gray-800/40 border-gray-700/40' : 'bg-gray-200/50 border-gray-350/50')
+                        }`}>
+                          <StageIcon className="h-5 w-5" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-[10px] uppercase font-mono tracking-widest opacity-60 leading-none">
+                            STAGE 0{idx + 1}
+                          </div>
+                          <div className="font-bold text-xs sm:text-sm mt-1 leading-tight">
+                            {stage.shortTitle}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
 
-                  {/* Standard guidelines */}
-                  <div className={`mt-6 p-4 rounded-xl border flex gap-3.5 items-start ${
-                    theme === 'dark'
-                      ? 'bg-cyan-950/10 border-cyan-800/20'
-                      : 'bg-amber-50/20 border-amber-200/30'
-                  }`}>
-                    <div className={`p-1.5 rounded-lg border shrink-0 ${
-                      theme === 'dark'
-                        ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400'
-                        : 'bg-amber-500/10 border-amber-500/20 text-amber-700'
-                    }`}>
-                      <GitMerge className="h-4 w-4" />
-                    </div>
-                    <div className="space-y-0.5">
-                      <div className="text-[10px] font-bold uppercase tracking-wider text-gray-500 leading-none">
-                        Production System Guideline
+                {/* Pipeline Stage Details Console */}
+                <div className="lg:col-span-8">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activePipelineStage}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.3 }}
+                      className={`p-6 rounded-2xl border flex flex-col justify-between h-full relative overflow-hidden shadow-xl ${
+                        theme === 'dark'
+                          ? 'bg-[#0D1117]/60 border-gray-800 hover:border-cyan-500/20'
+                          : 'bg-white border-gray-200 hover:border-amber-500/20'
+                      }`}
+                    >
+                      <div className="space-y-4">
+                        {/* Header bar */}
+                        <div className="flex justify-between items-start border-b border-gray-800/40 pb-4">
+                          <div>
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                              theme === 'dark' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' : 'bg-amber-500/10 text-amber-700 border border-amber-500/20'
+                            }`}>
+                              {pipelineStages[activePipelineStage].focus}
+                            </span>
+                            <h4 className={`text-lg sm:text-xl font-bold mt-2 ${
+                              theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
+                            }`}>
+                              {pipelineStages[activePipelineStage].title}
+                            </h4>
+                          </div>
+                          <div className="text-3xl font-black font-mono opacity-15 leading-none">
+                            0{activePipelineStage + 1}
+                          </div>
+                        </div>
+
+                        {/* Desc */}
+                        <p className={`text-xs sm:text-sm leading-relaxed ${
+                          theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                        }`}>
+                          {pipelineStages[activePipelineStage].desc}
+                        </p>
+
+                        {/* Tech Stacks */}
+                        <div className="space-y-2 pt-2">
+                          <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                            Core Tech Stack
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {pipelineStages[activePipelineStage].techStack.map((tech) => (
+                              <span
+                                key={tech}
+                                className={`px-2.5 py-1 rounded-lg text-xs font-semibold border ${
+                                  theme === 'dark'
+                                    ? 'bg-gray-800/40 border-gray-700/60 text-gray-300'
+                                    : 'bg-gray-50 border-gray-200 text-gray-700'
+                                }`}
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                      <p className={`text-[11px] sm:text-xs leading-relaxed font-medium mt-1 ${
-                        theme === 'dark' ? 'text-cyan-200' : 'text-amber-900'
+
+                      {/* Standard guidelines */}
+                      <div className={`mt-6 p-4 rounded-xl border flex gap-3.5 items-start ${
+                        theme === 'dark'
+                          ? 'bg-cyan-950/10 border-cyan-800/20'
+                          : 'bg-amber-50/20 border-amber-200/30'
                       }`}>
-                        {pipelineStages[activePipelineStage].systemStandard}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-        </motion.div>
+                        <div className={`p-1.5 rounded-lg border shrink-0 ${
+                          theme === 'dark'
+                            ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400'
+                            : 'bg-amber-500/10 border-amber-500/20 text-amber-700'
+                        }`}>
+                          <GitMerge className="h-4 w-4" />
+                        </div>
+                        <div className="space-y-0.5">
+                          <div className="text-[10px] font-bold uppercase tracking-wider text-gray-500 leading-none">
+                            Production System Guideline
+                          </div>
+                          <p className={`text-[11px] sm:text-xs leading-relaxed font-medium mt-1 ${
+                            theme === 'dark' ? 'text-cyan-200' : 'text-amber-900'
+                          }`}>
+                            {pipelineStages[activePipelineStage].systemStandard}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <div className="w-full py-10 border-b-[1px] border-b-gray-800 sm:px-2 lgl:px-0"></div>
       </div>

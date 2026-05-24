@@ -87,7 +87,7 @@ export const experienceData = [
           {
             title: "Agentic Social Listening System",
             sections: [
-              { title: "The Enterprise Challenge", points: ["FMCG clients could not parse massive, noisy competitive signals from unstructured Twitter streams at scale, suffering from high duplication and weak classification."] },
+              { title: "The Enterprise Challenge", points: ["IT Client could not parse massive, noisy competitive signals from unstructured Twitter streams at scale, suffering from high duplication and weak classification."] },
               { title: "Production System Design", points: ["Designed a stateful multi-agent pipeline using LangGraph to automate signal ingestion → deduplication → classification → intelligence generation.", "Engineered hybrid vector search using PGVector with HNSW index for millisecond-level deduplication."] },
               { title: "LLMOps & Telemetry", points: ["Programmatically optimized prompt structures using DSPy (SIMBA + Chain-of-Thought) across hybrid open/closed-source models (GPT, LLaMA, Mistral)."] },
               { title: "Measurable Business Impact", points: ["Scaled signal processing capacity by 100% (from 7.5K to 15K records/day) while boosting extraction accuracy to 90%."] }

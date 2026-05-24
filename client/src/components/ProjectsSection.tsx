@@ -216,6 +216,7 @@ const ProjectsSection = () => {
                   </div>
                 </Card>
               </motion.div>
+            );
           })}
         </div>
         

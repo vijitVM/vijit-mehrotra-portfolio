@@ -198,7 +198,7 @@ const ExperienceSection = () => {
   return (
     <section
       id="experience"
-      className="w-full flex flex-col items-center justify-center py-12 pt-12"
+      className="w-full flex flex-col items-center justify-center py-6 md:py-12 md:pt-12"
       ref={sectionRef}
     >
       <div className="container mx-auto px-4">
@@ -221,7 +221,7 @@ const ExperienceSection = () => {
         </motion.p>
 
         <motion.p
-          className="text-center text-gray-400 mb-12"
+          className="text-center text-gray-400 mb-6 md:mb-12"
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}

@@ -167,7 +167,7 @@ const SkillsSection = () => {
   return (
     <section
       id="skills"
-      className="w-full mx-auto items-center justify-center py-8 pt-20 bg-gray-900/50 relative"
+      className="w-full mx-auto items-center justify-center py-6 md:py-8 pt-10 md:pt-20 bg-gray-900/50 relative"
       ref={sectionRef}
     >
       <motion.div
@@ -179,7 +179,7 @@ const SkillsSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.h2
-          className="text-3xl font-bold mb-8 text-center text-cyan-500 uppercase tracking-wider"
+          className="text-3xl font-bold mb-4 md:mb-8 text-center text-cyan-500 uppercase tracking-wider"
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -189,7 +189,7 @@ const SkillsSection = () => {
 
         {/* View Mode Toggle Switch */}
         <motion.div 
-          className="flex justify-center mb-6"
+          className="flex justify-center mb-4 md:mb-6"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 15 }}
           transition={{ delay: 0.2, duration: 0.5 }}
@@ -371,7 +371,7 @@ const SkillsSection = () => {
                       <button
                         key={idx}
                         onClick={() => setActivePipelineStage(idx)}
-                        className={`flex items-center gap-4 p-4 rounded-xl text-left border transition-all duration-300 w-full shrink-0 ${
+                        className={`flex items-center gap-3 sm:gap-4 p-2.5 sm:p-4 rounded-xl text-left border transition-all duration-300 w-full shrink-0 ${
                           isActive
                             ? (theme === 'dark' 
                                 ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.15)]' 
@@ -381,18 +381,18 @@ const SkillsSection = () => {
                                 : 'bg-gray-50/80 hover:bg-gray-100/90 border-gray-200 text-gray-600 hover:border-gray-300')
                         }`}
                       >
-                        <div className={`p-2.5 rounded-lg border ${
+                        <div className={`p-2 sm:p-2.5 rounded-lg border shrink-0 ${
                           isActive
                             ? (theme === 'dark' ? 'bg-cyan-500/20 border-cyan-500/30' : 'bg-amber-500/20 border-amber-500/30')
                             : (theme === 'dark' ? 'bg-gray-800/40 border-gray-700/40' : 'bg-gray-200/50 border-gray-350/50')
                         }`}>
-                          <StageIcon className="h-5 w-5" />
+                          <StageIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                         </div>
-                        <div className="flex-1">
-                          <div className="text-[10px] uppercase font-mono tracking-widest opacity-60 leading-none">
+                        <div className="flex-1 flex flex-row sm:flex-col items-center sm:items-start justify-between sm:justify-start">
+                          <div className="text-[9px] sm:text-[10px] uppercase font-mono tracking-widest opacity-60 leading-none">
                             STAGE 0{idx + 1}
                           </div>
-                          <div className="font-bold text-xs sm:text-sm mt-1 leading-tight">
+                          <div className="font-bold text-xs sm:text-sm mt-0 sm:mt-1 leading-tight text-right sm:text-left truncate ml-2 sm:ml-0">
                             {stage.shortTitle}
                           </div>
                         </div>

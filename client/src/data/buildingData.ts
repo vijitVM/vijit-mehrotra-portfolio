@@ -10,7 +10,7 @@ export const buildingData: BuildingItem[] = [
   },
   {
     type: "exploring",
-    content: "Advanced LLM orchestration patterns using LangGraph and DSPy for deterministic AI"
+    content: "Advanced LLM orchestration patterns using LangGraph and DSPy"
   },
   {
     type: "learning",

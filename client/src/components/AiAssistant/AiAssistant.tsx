@@ -313,7 +313,7 @@ const AiAssistant: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.95 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className={`absolute bottom-20 right-0 w-80 sm:w-96 rounded-2xl shadow-2xl flex flex-col border overflow-hidden ${
+            className={`absolute bottom-20 right-0 w-[90vw] sm:w-96 rounded-2xl shadow-2xl flex flex-col border overflow-hidden ${
               theme === 'dark' 
                 ? 'bg-[#0D1117]/95 backdrop-blur-md border-gray-800 shadow-black/80' 
                 : 'bg-white/95 backdrop-blur-md border-gray-200 shadow-gray-400/20'

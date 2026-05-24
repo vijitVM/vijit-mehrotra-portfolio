@@ -124,46 +124,62 @@ const ImpactDashboard = () => {
                 }`}
               />
 
-              <div className="flex justify-between items-start mb-1.5 relative z-10">
-                <span
-                  className={`text-[9px] sm:text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
-                    theme === "dark"
-                      ? "bg-gray-800/80 text-gray-400 border border-gray-700/50"
-                      : "bg-gray-100 text-gray-500 border border-gray-200"
-                  }`}
-                >
-                  {metric.context}
-                </span>
-                <div
-                  className={`p-1.5 rounded-lg ${
-                    theme === "dark"
-                      ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
-                      : "bg-amber-500/10 text-amber-600 border border-amber-500/20"
-                  }`}
-                >
-                  <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                </div>
-              </div>
+              <div className="relative z-10 flex flex-col h-full justify-between">
+                {/* Top Section / Mobile Row */}
+                <div className="flex flex-row sm:flex-col items-center sm:items-start gap-3 sm:gap-0">
+                  {/* Icon (Left on mobile, Top-Right on desktop) */}
+                  <div
+                    className={`p-2 sm:p-1.5 rounded-lg shrink-0 sm:absolute sm:top-0 sm:right-0 ${
+                      theme === "dark"
+                        ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                        : "bg-amber-500/10 text-amber-600 border border-amber-500/20"
+                    }`}
+                  >
+                    <Icon className="h-5 w-5 sm:h-4 sm:w-4" />
+                  </div>
 
-              <div className="mt-auto relative z-10 space-y-0.5">
-                <div
-                  className={`text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r bg-clip-text text-transparent ${
-                    theme === "dark"
-                      ? "from-cyan-400 to-blue-500"
-                      : "from-amber-500 to-orange-600"
-                  }`}
-                >
-                  {metric.value}
+                  {/* Content Wrapper */}
+                  <div className="flex flex-col flex-1 sm:w-full">
+                    <div className="mb-0.5 sm:mb-1.5">
+                      <span
+                        className={`text-[9px] sm:text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                          theme === "dark"
+                            ? "bg-gray-800/80 text-gray-400 border border-gray-700/50"
+                            : "bg-gray-100 text-gray-500 border border-gray-200"
+                        }`}
+                      >
+                        {metric.context}
+                      </span>
+                    </div>
+
+                    {/* Desktop vs Mobile Value/Label Layout */}
+                    <div className="mt-0 sm:mt-auto flex flex-col sm:block">
+                      {/* Mobile Inline Layout */}
+                      <div className="sm:hidden flex items-center justify-between w-full pr-1">
+                        <div className={`text-sm font-bold tracking-wide uppercase ${theme === "dark" ? "text-gray-200" : "text-gray-800"}`}>
+                          {metric.label}
+                        </div>
+                        <div className={`text-xl font-black tracking-tight bg-gradient-to-r bg-clip-text text-transparent ${theme === "dark" ? "from-cyan-400 to-blue-500" : "from-amber-500 to-orange-600"}`}>
+                          {metric.value}
+                        </div>
+                      </div>
+
+                      {/* Desktop Stacked Layout */}
+                      <div className="hidden sm:block">
+                        <div className={`text-3xl font-black tracking-tight bg-gradient-to-r bg-clip-text text-transparent mb-0.5 ${theme === "dark" ? "from-cyan-400 to-blue-500" : "from-amber-500 to-orange-600"}`}>
+                          {metric.value}
+                        </div>
+                        <div className={`text-xs font-bold tracking-wide uppercase ${theme === "dark" ? "text-gray-200" : "text-gray-800"}`}>
+                          {metric.label}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div
-                  className={`text-xs sm:text-sm font-bold tracking-wide uppercase ${
-                    theme === "dark" ? "text-gray-200" : "text-gray-800"
-                  }`}
-                >
-                  {metric.label}
-                </div>
+
+                {/* Description (Bottom) */}
                 <p
-                  className={`text-[10px] sm:text-xs leading-relaxed mt-1 font-medium ${
+                  className={`text-[10px] sm:text-xs leading-relaxed mt-2 sm:mt-3 font-medium ${
                     theme === "dark" ? "text-gray-400" : "text-gray-500"
                   }`}
                 >

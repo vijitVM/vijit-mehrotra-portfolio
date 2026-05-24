@@ -87,7 +87,7 @@ export const experienceData = [
           {
             title: "Agentic Social Listening System",
             sections: [
-              { title: "The Enterprise Challenge", points: ["IT Client could not parse massive, noisy competitive signals from unstructured Twitter streams at scale, suffering from high duplication and weak classification."] },
+              { title: "The Enterprise Challenge", points: ["FMCG clients could not parse massive, noisy competitive signals from unstructured Twitter streams at scale, suffering from high duplication and weak classification."] },
               { title: "Production System Design", points: ["Designed a stateful multi-agent pipeline using LangGraph to automate signal ingestion → deduplication → classification → intelligence generation.", "Engineered hybrid vector search using PGVector with HNSW index for millisecond-level deduplication."] },
               { title: "LLMOps & Telemetry", points: ["Programmatically optimized prompt structures using DSPy (SIMBA + Chain-of-Thought) across hybrid open/closed-source models (GPT, LLaMA, Mistral)."] },
               { title: "Measurable Business Impact", points: ["Scaled signal processing capacity by 100% (from 7.5K to 15K records/day) while boosting extraction accuracy to 90%."] }
@@ -196,9 +196,9 @@ export const experienceData = [
           {
             title: "Lead Generation & Marketing Data Platform",
             sections: [
-              { title: "Overview", points: ["Built ETL pipelines and analytics systems for marketing data"] },
-              { title: "Performance", points: ["Improved data retrieval speed by ~60%", "Optimized database schema by ~30%"] },
-              { title: "Impact", points: ["Enabled targeted campaigns and segmentation"] }
+              { title: "The Enterprise Challenge", points: ["Sales and growth teams were throttled by slow, manual processing of high-volume marketing leads, resulting in delayed campaign attribution and high database indexing overhead."] },
+              { title: "Production System Design", points: ["Engineered a robust, automated ETL processing framework using Python and optimized SQL routines to centralize multi-channel marketing metrics."] },
+              { title: "Measurable Business Impact", points: ["Accelerated data ingestion and query execution times by 60%, reduced PostgreSQL schema overhead by 30%, and empowered marketing teams to trigger real-time, segment-targeted lead campaigns."] }
             ],
             techStack: "Python, PostgreSQL, SQL, Excel, Data Pipelines"
           }

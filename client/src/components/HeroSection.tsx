@@ -18,9 +18,9 @@ const HeroSection = () => {
   const { theme } = useTheme();
   const titles = [
     "Senior GenAI & LLM Engineer",
-  "Architecting Agentic AI Workflows",
-  "Building Production-Grade RAG Systems",
-  "Applied AI & Enterprise Consultant"
+    "Architecting Agentic AI Workflows",
+    "Building Production-Grade RAG Systems",
+    "Applied AI & Enterprise Consultant"
   ];
   const [typedText, setTypedText] = useState("");
   const [titleIndex, setTitleIndex] = useState(0);
@@ -153,7 +153,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      
+
       className="flex flex-col items-center justify-center min-h-screen w-full px-2 py-4 border-b-[1px] border-b-gray-800"
       ref={heroRef}
       onMouseMove={handleMouseMove}
@@ -190,13 +190,11 @@ const HeroSection = () => {
             >
               <div className="w-full flex justify-center items-center pt-2 pb-2 md:p-0">
                 <motion.div
-                  className={`w-40 h-40 sm:w-52 sm:h-52 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full md:rounded-2xl bg-transparent border-2 border-dashed ${
-                    theme === "dark" ? "border-cyan-700" : "border-amber-300"
-                  } flex items-center justify-center overflow-hidden ${
-                    theme === "dark"
+                  className={`w-40 h-40 sm:w-52 sm:h-52 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full md:rounded-2xl bg-transparent border-2 border-dashed ${theme === "dark" ? "border-cyan-700" : "border-amber-300"
+                    } flex items-center justify-center overflow-hidden ${theme === "dark"
                       ? "shadow-2xl shadow-cyan-700/20"
                       : "shadow-2xl shadow-amber-500/20"
-                  } transition-colors duration-300`}
+                    } transition-colors duration-300`}
                   style={{
                     transform: profileTransform,
                   }}
@@ -207,20 +205,19 @@ const HeroSection = () => {
                       alt="Vijit Mehrotra"
                       className="object-cover w-full h-full"
                     />
- 
+
                     {/* Hover glow effect */}
                     <motion.div
-                      className={`absolute inset-0 opacity-0 hover:opacity-40 ${
-                        theme === "dark"
+                      className={`absolute inset-0 opacity-0 hover:opacity-40 ${theme === "dark"
                           ? "bg-gradient-to-tr from-cyan-500/30 to-purple-500/30"
                           : "bg-gradient-to-tr from-amber-500/30 to-orange-500/30"
-                      } transition-opacity duration-300 pointer-events-none`}
+                        } transition-opacity duration-300 pointer-events-none`}
                     />
                   </div>
                 </motion.div>
               </div>
             </motion.div>
- 
+
             {/* Right column (text content) */}
             <div className="flex items-center justify-start w-full md:w-6/12 pb-2 px-4 md:px-0 max-w-full overflow-hidden">
               <div className="items-start justify-center w-full md:min-h-[42vh] flex flex-col gap-2 max-w-full">
@@ -229,49 +226,45 @@ const HeroSection = () => {
                   variants={containerVariants}
                 >
                   <motion.h1
-                    className={`text-3xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r ${
-                      theme === "dark"
+                    className={`text-3xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r ${theme === "dark"
                         ? "from-cyan-400 to-purple-500"
                         : "from-amber-400 to-orange-500"
-                    } text-transparent bg-clip-text mb-2 md:text-left text-center transition-colors duration-300`}
+                      } text-transparent bg-clip-text mb-2 md:text-left text-center transition-colors duration-300`}
                     variants={itemVariants}
                   >
                     Vijit Mehrotra
                   </motion.h1>
- 
+
                   <motion.h2
                     className="text-gray-300 mb-3 md:flex md:justify-start flex justify-center px-2"
                     variants={itemVariants}
                   >
                     <span
-                      className={`min-h-[1.0rem] bg-gradient-to-r ${
-                        theme === "dark"
+                      className={`min-h-[1.0rem] bg-gradient-to-r ${theme === "dark"
                           ? "from-amber-300 to-pink-500"
                           : "from-cyan-400 to-blue-500"
-                      } text-transparent bg-clip-text font-semibold text-[13px] min-[375px]:text-sm min-[410px]:text-base sm:text-2xl transition-colors duration-300`}
+                        } text-transparent bg-clip-text font-semibold text-[13px] min-[375px]:text-sm min-[410px]:text-base sm:text-2xl transition-colors duration-300`}
                     >
                       {typedText}
                     </span>
                     <span
-                      className={`${
-                        theme === "dark" ? "text-cyan-500" : "text-amber-500"
-                      } font-bold ml-1 transition-all duration-300 ${
-                        cursorVisible ? "opacity-100" : "opacity-0"
-                      } text-[13px] min-[375px]:text-sm min-[410px]:text-base sm:text-2xl`}
+                      className={`${theme === "dark" ? "text-cyan-500" : "text-amber-500"
+                        } font-bold ml-1 transition-all duration-300 ${cursorVisible ? "opacity-100" : "opacity-0"
+                        } text-[13px] min-[375px]:text-sm min-[410px]:text-base sm:text-2xl`}
                     >
                       |
                     </span>
                   </motion.h2>
 
                   <motion.p
-                    className="mb-2 md:text-left text-center text-sm sm:text-base leading-relaxed text-gray-300"
+                    className="mb-2 md:text-left text-center text-sm sm:text-base leading-relaxed text-gray-300 break-words max-w-[92vw] md:max-w-none mx-auto md:mx-0"
                     variants={itemVariants}
                   >
                     I bridge the gap between ambiguous enterprise challenges and production-grade AI architectures. With 5 years of experience across Data Engineering and Analytics, I have spent the last 2+ years architecting high-throughput LLM applications, stateful RAG pipelines, and agentic workflows.
                   </motion.p>
 
                   <motion.p
-                    className="mb-3 md:text-left text-center text-sm sm:text-base leading-relaxed text-gray-300"
+                    className="mb-3 md:text-left text-center text-sm sm:text-base leading-relaxed text-gray-300 break-words max-w-[92vw] md:max-w-none mx-auto md:mx-0"
                     variants={itemVariants}
                   >
                     As an AI Systems lead at Quation Solutions, I partner with enterprise clients in Healthcare, FMCG, and Technology to transform unstructured data into reliable, observable systems that deliver measurable operational efficiency.
@@ -288,11 +281,10 @@ const HeroSection = () => {
                     >
                       <Button
                         variant="outline"
-                        className={`${
-                          theme === "dark"
+                        className={`${theme === "dark"
                             ? "bg-gray-800/50 hover:bg-cyan-500/80 text-white border-gray-700 hover:border-cyan-400"
                             : "bg-gray-200/50 hover:bg-amber-500/80 text-gray-800 border-gray-300 hover:border-amber-400"
-                        } font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md border transition-all duration-300`}
+                          } font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md border transition-all duration-300`}
                         onClick={() => {
                           window.open(
                             "https://drive.google.com/file/d/15G3v4yEcLR67vwXxkLSSxAwxgamgqxCZ/view?usp=sharing",
@@ -310,11 +302,10 @@ const HeroSection = () => {
                       transition={{ duration: 0.2 }}
                     >
                       <Button
-                        className={`bg-gradient-to-r ${
-                          theme === "dark"
+                        className={`bg-gradient-to-r ${theme === "dark"
                             ? "from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 shadow-lg shadow-cyan-500/20"
                             : "from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 shadow-lg shadow-amber-500/20"
-                        } text-white font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md transition-all duration-300`}
+                          } text-white font-medium py-2 px-4 sm:px-6 text-sm sm:text-base rounded-md transition-all duration-300`}
                         onClick={scrollToContact}
                       >
                         CONTACT

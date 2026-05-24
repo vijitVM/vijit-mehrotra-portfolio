@@ -5,7 +5,6 @@ import { useTheme } from "./ThemeProvider";
 import { Card, CardContent } from "./ui/card";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import RadarChart from "./RadarChart";
-import SkillsThreeScene from "./SkillsThreeScene";
 import { skillsData, getCompactTier } from "../data/data";
 import { 
   Database, 
@@ -26,8 +25,6 @@ const SkillsSection = () => {
   
   // State for selected category
   const [selectedSkillCategory, setSelectedSkillCategory] = useState<string>("core");
-  // Always use radar view (3D view toggle removed)
-  const visualizationType = "radar";
 
   // State for active pipeline stage
   const [activePipelineStage, setActivePipelineStage] = useState<number>(0);
@@ -226,77 +223,98 @@ const SkillsSection = () => {
           </Tabs>
         </motion.div>
 
-        {/* Skills Visualization */}
+        {/* Skills Visualization & Directory Grid */}
         <motion.div
-          className="w-full max-w-4xl mx-auto"
-          initial={{ opacity: 0, scale: 0.9 }}
+          className="w-full max-w-6xl mx-auto"
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ 
             opacity: isInView ? 1 : 0, 
-            scale: isInView ? 1 : 0.9 
+            scale: isInView ? 1 : 0.95 
           }}
           transition={{ delay: 0.4, duration: 0.7 }}
         >
           <AnimatePresence mode="wait">
             <motion.div
-              key={`${selectedSkillCategory}-${visualizationType}`}
-              initial={{ opacity: 0, x: visualizationType === "radar" ? -20 : 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: visualizationType === "radar" ? 20 : -20 }}
-              transition={{ duration: 0.5 }}
-              className="w-full"
+              key={selectedSkillCategory}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.4 }}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch"
             >
+              {/* Left Column: Interactive Radar Chart Card */}
               <Card
-                className={`w-full bg-gray-800/70 backdrop-blur-sm rounded-lg shadow-xl border ${selectedCategory.borderColor2} overflow-hidden`}
+                className={`lg:col-span-5 bg-gray-800/70 backdrop-blur-sm rounded-2xl shadow-xl border ${selectedCategory.borderColor2} overflow-hidden flex flex-col justify-between`}
               >
-                <div
-                  className={`h-1 w-full bg-gradient-to-r ${selectedCategory.gradient}`}
-                />
-                <CardContent className="p-6 overflow-visible">
-                  <motion.h3
-                    className={`text-lg sm:text-xl font-semibold mb-3 sm:mb-6 text-center ${selectedCategory.color}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    {selectedCategory.title}
-                  </motion.h3>
-                  <motion.div
-                    className="w-full h-64 sm:h-72 md:h-80 relative pt-2 sm:pt-4 pb-6"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                      transition: {
-                        delay: 0.4,
-                        duration: 0.8,
-                      },
-                    }}
-                  >
-                    {visualizationType === "radar" ? (
-                      <RadarChart
-                        data={selectedCategory.data}
-                        backgroundColor={selectedCategory.backgroundColor}
-                        borderColor={selectedCategory.borderColor}
-                        pointBackgroundColor={selectedCategory.pointBackgroundColor}
-                      />
-                    ) : (
-                      <SkillsThreeScene categoryId={selectedCategory.id} />
-                    )}
+                <div className={`h-1 w-full bg-gradient-to-r ${selectedCategory.gradient}`} />
+                <CardContent className="p-5 flex-1 flex flex-col justify-between overflow-visible">
+                  <div className="text-center">
+                    <h3 className={`text-base font-bold uppercase tracking-wider ${selectedCategory.color}`}>
+                      {selectedCategory.title}
+                    </h3>
+                    <p className="text-[10px] text-gray-500 font-mono tracking-widest mt-0.5 leading-none">
+                      Visual Competency Spectrum
+                    </p>
+                  </div>
+                  
+                  <div className="w-full h-56 sm:h-64 relative mt-4">
+                    <RadarChart
+                      data={selectedCategory.data}
+                      backgroundColor={selectedCategory.backgroundColor}
+                      borderColor={selectedCategory.borderColor}
+                      pointBackgroundColor={selectedCategory.pointBackgroundColor}
+                    />
+                  </div>
 
-                    {/* Skill level indicator that appears below the chart */}
-                    <motion.div
-                      className="absolute -bottom-2 left-0 right-0 text-center text-sm font-medium"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
+                  <div className="text-center mt-3">
+                    <span
+                      className={`inline-block px-3 py-1 rounded-full ${selectedCategory.highlight} ${selectedCategory.color} border ${selectedCategory.borderColor2} text-[10px] font-bold uppercase tracking-wider`}
                     >
-                      <span
-                        className={`inline-block px-4 py-1.5 rounded-full ${selectedCategory.highlight} ${selectedCategory.color} border ${selectedCategory.borderColor2} backdrop-blur-md text-[10px] sm:text-xs font-semibold uppercase tracking-wider`}
-                      >
-                        {selectedCategory.focusLabel}
-                      </span>
-                    </motion.div>
-                  </motion.div>
+                      {selectedCategory.focusLabel}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Right Column: Detailed Skills Directory List */}
+              <Card
+                className={`lg:col-span-7 bg-gray-800/70 backdrop-blur-sm rounded-2xl shadow-xl border ${selectedCategory.borderColor2} overflow-hidden`}
+              >
+                <div className={`h-1 w-full bg-gradient-to-r ${selectedCategory.gradient}`} />
+                <CardContent className="p-5">
+                  <div className="mb-4">
+                    <h3 className={`text-base font-bold uppercase tracking-wider ${
+                      theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
+                    }`}>
+                      Proficiency Matrix
+                    </h3>
+                    <p className="text-[10px] text-gray-500 font-mono tracking-widest mt-0.5 leading-none">
+                      Granular Enterprise Capabilities
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    {selectedCategory.data.map((skill) => (
+                      <div key={skill.name} className="space-y-1.5">
+                        <div className="flex justify-between items-center text-xs">
+                          <span className={`font-bold ${
+                            theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+                          }`}>
+                            {skill.name}
+                          </span>
+                          <span className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider border ${selectedCategory.borderColor2} ${selectedCategory.highlight} ${selectedCategory.color}`}>
+                            {getCompactTier(skill.value)}
+                          </span>
+                        </div>
+                        <div className="relative w-full h-2 bg-gray-700/30 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full bg-gradient-to-r ${selectedCategory.gradient}`}
+                            style={{ width: `${(skill.value / 5) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>

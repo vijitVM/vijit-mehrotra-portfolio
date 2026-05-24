@@ -1,29 +1,26 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
-// Simplified particle background with static particles
-const ParticleBackground = () => {
+const ParticleLayer = ({ count, speed }: { count: number, speed: number }) => {
+  const { scrollY } = useScroll();
+  const yOffset = useTransform(scrollY, [0, 10000], [0, -(10000 * speed)]);
+  
   const [particles, setParticles] = useState<Array<{id: number, x: number, y: number, size: number, color: string}>>([]);
   
   useEffect(() => {
-    // Create some static particles - no animation for now
-    const colors = ['rgba(6, 182, 212, 0.4)', 'rgba(79, 70, 229, 0.4)', 'rgba(147, 51, 234, 0.4)'];
-    const newParticles = Array.from({ length: 20 }).map((_, i) => ({
+    const colors = ['rgba(6, 182, 212, 0.6)', 'rgba(79, 70, 229, 0.6)', 'rgba(147, 51, 234, 0.6)'];
+    const newParticles = Array.from({ length: count }).map((_, i) => ({
       id: i,
-      x: Math.random() * 100, // percentage of width
-      y: Math.random() * 100, // percentage of height
+      x: Math.random() * 100,
+      y: Math.random() * 100,
       size: Math.random() * 3 + 1,
       color: colors[Math.floor(Math.random() * colors.length)],
     }));
-    
     setParticles(newParticles);
-  }, []);
-  
+  }, [count]);
+
   return (
-    <div 
-      className="absolute inset-0 overflow-hidden pointer-events-none z-0"
-      aria-hidden="true"
-    >
+    <motion.div style={{ y: yOffset }} className="absolute inset-0 h-[200vh]">
       {particles.map(particle => (
         <div
           key={particle.id}
@@ -35,10 +32,20 @@ const ParticleBackground = () => {
             boxShadow: `0 0 ${particle.size * 2}px ${particle.color}`,
             left: `${particle.x}%`,
             top: `${particle.y}%`,
-            opacity: 0.6,
           }}
         />
       ))}
+    </motion.div>
+  );
+};
+
+const ParticleBackground = () => {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
+      {/* 3 layers of depth for true parallax */}
+      <ParticleLayer count={15} speed={0.1} />  {/* Far (slow) */}
+      <ParticleLayer count={10} speed={0.25} /> {/* Mid */}
+      <ParticleLayer count={5} speed={0.5} />   {/* Near (fast) */}
     </div>
   );
 };

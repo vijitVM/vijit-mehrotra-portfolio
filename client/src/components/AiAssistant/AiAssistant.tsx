@@ -19,6 +19,7 @@ import {
 const AiAssistant: React.FC = () => {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const [displayMode, setDisplayMode] = useState<'floating' | 'palette'>('floating');
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +28,23 @@ const AiAssistant: React.FC = () => {
 
   const chatBoxRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsOpen((prev) => {
+          if (!prev) setDisplayMode('palette');
+          return !prev;
+        });
+      }
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
 
   useEffect(() => {
     if (chatBoxRef.current) {
@@ -262,64 +280,91 @@ const AiAssistant: React.FC = () => {
   );
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
-      {/* Premium Toggle Orb Button */}
-      <motion.button 
-        onClick={() => setIsOpen(!isOpen)} 
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className={`relative rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center shadow-2xl transition-all duration-300 border focus:outline-none ${
-          theme === 'dark'
-            ? 'bg-[#0D1117]/90 hover:bg-[#161B22] border-cyan-500/30 hover:border-cyan-400 text-cyan-400 shadow-cyan-950/40'
-            : 'bg-white/90 hover:bg-gray-50 border-amber-500/30 hover:border-amber-400 text-amber-600 shadow-amber-500/20'
-        }`}
-        aria-label="Toggle AI Co-Pilot"
-      >
-        <AnimatePresence mode="wait">
-          {isOpen ? (
-            <motion.div
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <X className="h-6 w-6" />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="icon"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="relative flex items-center justify-center"
-            >
-              <BrainCircuit className="h-6 w-6 sm:h-7 sm:w-7" />
-              {/* Outer pulsing border glow ring */}
-              <span className={`absolute -inset-1 rounded-full animate-ping opacity-25 ${
-                theme === 'dark' ? 'bg-cyan-500' : 'bg-amber-500'
-              }`} style={{ animationDuration: '3s' }} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.button>
-
-      {/* Main Console Box Panel */}
+    <>
+      {/* Blurred Backdrop for Cmd+K Palette Mode */}
       <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 30, scale: 0.95 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className={`absolute bottom-20 right-0 w-[90vw] sm:w-96 rounded-2xl shadow-2xl flex flex-col border overflow-hidden ${
-              theme === 'dark' 
-                ? 'bg-[#0D1117]/95 backdrop-blur-md border-gray-800 shadow-black/80' 
-                : 'bg-white/95 backdrop-blur-md border-gray-200 shadow-gray-400/20'
-            }`} 
-            style={{ height: '32rem' }}
+        {isOpen && displayMode === 'palette' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm"
+          />
+        )}
+      </AnimatePresence>
+
+      <div className={`fixed z-[101] transition-all duration-300 ${displayMode === 'palette' && isOpen ? 'inset-0 flex items-center justify-center p-4 pointer-events-none' : 'bottom-6 right-6 flex flex-col items-end'}`}>
+        {/* Premium Toggle Orb Button */}
+        <div className={`pointer-events-auto ${displayMode === 'palette' && isOpen ? 'hidden' : ''}`}>
+          <motion.button 
+            onClick={() => {
+              if (isOpen) {
+                setIsOpen(false);
+              } else {
+                setDisplayMode('floating');
+                setIsOpen(true);
+              }
+            }} 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`relative rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center shadow-2xl transition-all duration-300 border focus:outline-none ${
+              theme === 'dark'
+                ? 'bg-[#0D1117]/90 hover:bg-[#161B22] border-cyan-500/30 hover:border-cyan-400 text-cyan-400 shadow-cyan-950/40'
+                : 'bg-white/90 hover:bg-gray-50 border-amber-500/30 hover:border-amber-400 text-amber-600 shadow-amber-500/20'
+            }`}
+            aria-label="Toggle AI Co-Pilot"
           >
+            <AnimatePresence mode="wait">
+              {isOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X className="h-6 w-6" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="icon"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.8, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="relative flex items-center justify-center"
+                >
+                  <BrainCircuit className="h-6 w-6 sm:h-7 sm:w-7" />
+                  {/* Outer pulsing border glow ring */}
+                  <span className={`absolute -inset-1 rounded-full animate-ping opacity-25 ${
+                    theme === 'dark' ? 'bg-cyan-500' : 'bg-amber-500'
+                  }`} style={{ animationDuration: '3s' }} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
+        </div>
+
+        {/* Main Console Box Panel */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div 
+              initial={displayMode === 'palette' ? { opacity: 0, scale: 0.95 } : { opacity: 0, y: 30, scale: 0.95 }}
+              animate={displayMode === 'palette' ? { opacity: 1, scale: 1 } : { opacity: 1, y: 0, scale: 1 }}
+              exit={displayMode === 'palette' ? { opacity: 0, scale: 0.95 } : { opacity: 0, y: 30, scale: 0.95 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className={`rounded-2xl shadow-2xl flex flex-col border overflow-hidden pointer-events-auto ${
+                displayMode === 'palette'
+                  ? 'w-full max-w-4xl relative'
+                  : 'absolute bottom-20 right-0 w-[90vw] sm:w-96'
+              } ${
+                theme === 'dark' 
+                  ? 'bg-[#0D1117]/95 backdrop-blur-md border-gray-800 shadow-black/80' 
+                  : 'bg-white/95 backdrop-blur-md border-gray-200 shadow-gray-400/20'
+              }`} 
+              style={{ height: displayMode === 'palette' ? '600px' : '32rem', maxHeight: '85vh' }}
+            >
              {analysisMode ? <AnalysisView /> : (
               <>
                 {/* Premium Console Header */}
@@ -439,6 +484,7 @@ const AiAssistant: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
       <style>{`
         .prose p { margin: 0.5em 0; }
         .typing-indicator span { height: 6px; width: 6px; border-radius: 50%; display: inline-block; animation: wave 1.3s infinite; }
@@ -447,7 +493,7 @@ const AiAssistant: React.FC = () => {
         .typing-indicator span:nth-of-type(3) { animation-delay: -0.7s; }
         @keyframes wave { 0%, 60%, 100% { transform: initial; } 30% { transform: translateY(-6px); } }
       `}</style>
-    </div>
+    </>
   );
 };
 

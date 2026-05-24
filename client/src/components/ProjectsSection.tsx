@@ -1,16 +1,17 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { projectsData } from "../data/data";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef } from "react";
 import { useInView } from "framer-motion";
-import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
+import { ArrowUpRight, Github, ExternalLink, X } from "lucide-react";
 import { ProjectPitchGeneratorModal } from "./ProjectPitchGeneratorModal"; // Changed import
 
 const ProjectsSection = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
   const headerVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -116,7 +117,8 @@ const ProjectsSection = () => {
                 className="h-full"
               >
                 <Card
-                  className={`relative w-full p-3 xl:px-4 h-[350px] xl:py-3 rounded-lg flex flex-col bg-gray-800 bg-opacity-70 shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-${accent}-500/10`}
+                  onClick={() => setSelectedProject(project.id)}
+                  className={`relative w-full p-3 xl:px-4 h-[350px] xl:py-3 rounded-lg flex flex-col bg-gray-800 bg-opacity-70 shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-${accent}-500/10 cursor-pointer group`}
                 >
                   {/* Hover background highlight */}
                   <motion.div
@@ -161,7 +163,7 @@ const ProjectsSection = () => {
                           variant="ghost"
                           size="sm"
                           className="bg-black/50 backdrop-blur-sm text-white hover:bg-black/70"
-                          onClick={() => window.open(project.githubUrl, "_blank", "noopener,noreferrer")}
+                          onClick={(e) => { e.stopPropagation(); window.open(project.githubUrl, "_blank", "noopener,noreferrer"); }}
                         >
                           View on GitHub <ArrowUpRight size={16} className="ml-2" />
                         </Button>
@@ -192,7 +194,7 @@ const ProjectsSection = () => {
                     <div className="flex justify-end items-center mt-auto pt-2">
                       <div className="flex space-x-2">
                         <motion.button
-                          onClick={() => window.open(project.githubUrl, "_blank", "noopener,noreferrer")}
+                          onClick={(e) => { e.stopPropagation(); window.open(project.githubUrl, "_blank", "noopener,noreferrer"); }}
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
                           className={`p-2 rounded-full ${border} hover:bg-gray-700 transition-colors`}
@@ -201,7 +203,7 @@ const ProjectsSection = () => {
                         </motion.button>
                         {project.liveUrl && (
                           <motion.button
-                            onClick={() => window.open(project.liveUrl, "_blank", "noopener,noreferrer")}
+                            onClick={(e) => { e.stopPropagation(); window.open(project.liveUrl, "_blank", "noopener,noreferrer"); }}
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
                             className={`p-2 rounded-full ${border} hover:bg-gray-700 transition-colors`}
@@ -214,9 +216,82 @@ const ProjectsSection = () => {
                   </div>
                 </Card>
               </motion.div>
-            );
           })}
         </div>
+        
+        {/* Desktop Immersive Case Study Modal */}
+        <AnimatePresence>
+          {selectedProject && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] hidden lg:flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+              onClick={() => setSelectedProject(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                className="bg-gray-900 border border-cyan-500/30 shadow-[0_0_50px_rgba(34,211,238,0.15)] rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col relative"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {(() => {
+                  const p = projectsData.find(proj => proj.id === selectedProject);
+                  if (!p) return null;
+                  return (
+                    <>
+                      {/* Close Button */}
+                      <button 
+                        onClick={() => setSelectedProject(null)}
+                        className="absolute top-4 right-4 z-50 p-2 bg-black/50 hover:bg-black/80 rounded-full text-white backdrop-blur-md transition-colors border border-gray-700 hover:border-cyan-500"
+                      >
+                        <X size={20} />
+                      </button>
+                      
+                      {/* Header Image Area */}
+                      <div className="relative h-[300px] w-full shrink-0">
+                        <div 
+                          className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 hover:scale-105"
+                          style={{ backgroundImage: `url(${p.image})` }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent" />
+                        
+                        <div className="absolute bottom-8 left-8 right-8">
+                          <h2 className="text-4xl font-bold text-white mb-6 tracking-tight drop-shadow-md">{p.title}</h2>
+                          <div className="flex gap-4">
+                            <Button 
+                              onClick={() => window.open(p.githubUrl, "_blank", "noopener,noreferrer")}
+                              variant="secondary" 
+                              className="bg-cyan-500 text-black hover:bg-cyan-400 font-bold"
+                            >
+                              <Github size={18} className="mr-2" /> Source Code
+                            </Button>
+                            {p.liveUrl && (
+                              <Button 
+                                onClick={() => window.open(p.liveUrl, "_blank", "noopener,noreferrer")}
+                                variant="outline" 
+                                className="border-gray-600 text-white hover:bg-gray-800"
+                              >
+                                <ExternalLink size={18} className="mr-2" /> Live Demo
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Details Area */}
+                      <div className="p-8 overflow-y-auto hide-scrollbar bg-gray-900 h-full">
+                        <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 border-b border-gray-800 pb-2">Architecture & Implementation</h3>
+                        <p className="text-gray-300 leading-relaxed text-lg whitespace-pre-line">{p.description}</p>
+                      </div>
+                    </>
+                  );
+                })()}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

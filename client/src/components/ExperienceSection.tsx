@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { experienceData } from "../data/data";
 import { motion, AnimatePresence, useInView, useScroll, useSpring, useTransform } from "framer-motion";
+import { Activity } from "lucide-react";
 import { calculateTotalExperience } from "../lib/experienceCalculator";
 // Define types for the updated data structure
 interface DetailItem {
@@ -45,6 +46,7 @@ interface CompanyExperience {
 const ExperienceSection = () => {
   const [expandedCompanies, setExpandedCompanies] = useState<number[]>([]);
   const [expandedPositions, setExpandedPositions] = useState<number[]>([]);
+  const [desktopActiveCompany, setDesktopActiveCompany] = useState<number>(experienceData[0].id);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.05 });
   const timelineRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -62,7 +64,7 @@ const ExperienceSection = () => {
   });
 
   // Use a static value for experience as requested
-   const experienceInfo = useMemo(() => {
+  const experienceInfo = useMemo(() => {
     return calculateTotalExperience();
   }, []);
 
@@ -230,14 +232,17 @@ const ExperienceSection = () => {
           {experienceInfo.timePeriod}
         </motion.p>
 
-        {/* Animated Glowing Timeline */}
-        <div className="relative max-w-5xl mx-auto py-8">
-          {/* Base Dim Line */}
-          <div className="absolute left-[30px] md:left-[80px] transform -translate-x-1/2 h-full w-1 bg-gray-800 rounded-full" />
+        {/* Desktop Split-Pane Layout Wrapper */}
+        <div className="relative max-w-7xl mx-auto py-8 flex flex-col lg:flex-row gap-8 lg:items-start">
           
+          {/* Left Pane: Timeline (Sticky on Desktop) */}
+          <div className="relative w-full lg:w-2/5 lg:sticky lg:top-24 lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            {/* Base Dim Line */}
+            <div className="absolute left-[30px] md:left-[80px] lg:left-[40px] transform -translate-x-1/2 h-full w-1 bg-gray-800 rounded-full" />
+
           {/* Active Glowing Scroll Line */}
           <motion.div
-            className="absolute left-[30px] md:left-[80px] transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-cyan-400 to-purple-500 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.6)] origin-top z-0"
+            className="absolute left-[30px] md:left-[80px] lg:left-[40px] transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-cyan-400 to-purple-500 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.6)] origin-top z-0"
             style={{ scaleY }}
           />
 
@@ -253,7 +258,7 @@ const ExperienceSection = () => {
               >
                 {/* Glowing Node */}
                 <motion.div
-                  className="absolute left-[30px] md:left-[80px] transform -translate-x-1/2 h-5 w-5 sm:h-6 sm:w-6 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.8)] z-10 border-4 border-[#0D1117] bg-cyan-400"
+                  className="absolute left-[30px] md:left-[80px] lg:left-[40px] transform -translate-x-1/2 h-5 w-5 sm:h-6 sm:w-6 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.8)] z-10 border-4 border-[#0D1117] bg-cyan-400"
                   style={{
                     top: "35px",
                   }}
@@ -266,11 +271,14 @@ const ExperienceSection = () => {
 
                 {/* Company Card */}
                 <motion.div
-                  className="w-[calc(100%-65px)] md:w-[calc(100%-140px)] ml-[65px] md:ml-[140px]"
+                  className="w-[calc(100%-65px)] md:w-[calc(100%-140px)] lg:w-[calc(100%-70px)] ml-[65px] md:ml-[140px] lg:ml-[70px]"
                   whileHover={{ y: -5 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <Card className="bg-gray-800/80 backdrop-blur-md border border-gray-700 hover:border-cyan-500/50 transition-all duration-500 shadow-2xl shadow-gray-900/50 hover:shadow-cyan-500/10 overflow-hidden group">
+                  <Card 
+                    className={`bg-gray-800/80 backdrop-blur-md border transition-all duration-500 shadow-2xl overflow-hidden group lg:cursor-pointer ${desktopActiveCompany === company.id ? 'lg:border-cyan-500 lg:shadow-cyan-500/20 border-cyan-500/50 shadow-cyan-500/10' : 'border-gray-700 shadow-gray-900/50 hover:border-cyan-500/50 hover:shadow-cyan-500/10'}`}
+                    onClick={() => setDesktopActiveCompany(company.id)}
+                  >
                     <CardContent className="p-0">
                       {/* Company Header section */}
                       <div className="flex flex-wrap sm:flex-nowrap items-start p-4 sm:p-6">
@@ -369,7 +377,7 @@ const ExperienceSection = () => {
                             animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="border-t border-gray-700"
+                            className="border-t border-gray-700 lg:hidden"
                           >
                             {/* Positions List */}
                             {company.positions.map((position, posIdx) => (
@@ -614,7 +622,128 @@ const ExperienceSection = () => {
                 </motion.div>
               </motion.div>
             );
-          })}
+          </div>
+
+          {/* Right Pane: Desktop Details */}
+          <div className="hidden lg:block lg:w-3/5 xl:w-3/5 h-full relative sticky top-24">
+            <AnimatePresence mode="wait">
+              {(() => {
+                const activeCompany = (experienceData as CompanyExperience[]).find(c => c.id === desktopActiveCompany);
+                if (!activeCompany) return null;
+                return (
+                  <motion.div
+                    key={activeCompany.id}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="w-full bg-gray-800/40 backdrop-blur-md border border-gray-700/50 rounded-2xl shadow-2xl p-8 overflow-y-auto max-h-[calc(100vh-120px)] hide-scrollbar"
+                  >
+                     <div className="flex items-center gap-6 mb-8 border-b border-gray-700/50 pb-6">
+                        {activeCompany.logoType === "image" ? (
+                          <div className="w-16 h-16 rounded-xl bg-white p-2 flex items-center justify-center shrink-0">
+                            <img src={activeCompany.logo} alt="logo" className="max-w-full max-h-full object-contain" />
+                          </div>
+                        ) : (
+                          <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shrink-0">
+                            <span className="text-2xl font-bold text-white">{activeCompany.company.charAt(0)}</span>
+                          </div>
+                        )}
+                        <div>
+                          <h3 className="text-3xl font-bold text-white mb-1">{activeCompany.company}</h3>
+                          <div className="flex items-center gap-4 text-sm font-medium">
+                            <span className="text-cyan-400">{activeCompany.companyPeriod}</span>
+                            <span className="text-gray-500">•</span>
+                            <span className="text-gray-400">{activeCompany.location}</span>
+                          </div>
+                        </div>
+                     </div>
+                     
+                     <div className="space-y-12">
+                       {activeCompany.positions.map((pos, i) => (
+                         <div key={i} className="relative">
+                           <div className="absolute -left-4 top-2 bottom-0 w-[2px] bg-gray-700/50 rounded-full" />
+                           <h4 className="text-xl font-semibold text-gray-100 mb-1">{pos.role}</h4>
+                           <p className="text-cyan-500/80 text-sm mb-6 font-medium">{pos.period}</p>
+                           
+                           <div className="space-y-6">
+                             {/* Group details by domain like in mobile view */}
+                             {(() => {
+                                let currentDomain = "";
+                                return pos.details.map((detail: any, j: number) => {
+                                  if (typeof detail === "string") {
+                                    return (
+                                      <ul key={j} className="list-disc pl-5 text-gray-300 text-sm leading-relaxed marker:text-cyan-500/50">
+                                        <li>{parseFormattedText(detail)}</li>
+                                      </ul>
+                                    );
+                                  } else {
+                                    const showDomain = detail.domain !== "";
+                                    if (showDomain) currentDomain = detail.domain;
+                                    return (
+                                      <div key={j} className="space-y-2">
+                                        {showDomain && <h5 className="text-sm font-bold text-cyan-400 tracking-wide uppercase mt-4">{detail.domain}</h5>}
+                                        <ul className="list-disc pl-5 text-gray-300 text-sm leading-relaxed marker:text-cyan-500/50">
+                                          <li>{parseFormattedText(detail.text)}</li>
+                                        </ul>
+                                      </div>
+                                    );
+                                  }
+                                });
+                             })()}
+
+                             {/* Render Projects */}
+                             {pos.projects && pos.projects.length > 0 && (
+                               <div className="mt-8 space-y-6 bg-gray-900/40 p-6 rounded-xl border border-gray-800/50">
+                                 <h5 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                                   <Activity className="w-4 h-4 text-cyan-500" /> Key Architectures
+                                 </h5>
+                                 {pos.projects.map((project, pIdx) => (
+                                   <div key={pIdx} className="space-y-3">
+                                     <h6 className="font-semibold text-cyan-300 text-base border-l-2 border-cyan-500 pl-3">{project.title}</h6>
+                                     <div className="pl-4 space-y-3">
+                                       {project.sections.map((sec, sIdx) => (
+                                         <div key={sIdx}>
+                                           <span className="text-xs font-bold text-gray-400 uppercase">{sec.title}:</span>
+                                           <ul className="list-disc pl-5 text-sm text-gray-300 mt-1 marker:text-gray-600">
+                                             {sec.points.map((pt, ptIdx) => <li key={ptIdx}>{pt}</li>)}
+                                           </ul>
+                                         </div>
+                                       ))}
+                                       {project.techStack && (
+                                         <div className="pt-2 mt-2 border-t border-gray-800">
+                                            <span className="text-xs font-bold text-gray-400">STACK: </span>
+                                            <span className="text-xs text-cyan-500/80 font-mono">{project.techStack}</span>
+                                         </div>
+                                       )}
+                                     </div>
+                                   </div>
+                                 ))}
+                               </div>
+                             )}
+                           </div>
+                         </div>
+                       ))}
+                     </div>
+
+                     {/* Desktop Awards */}
+                     {activeCompany.awards.length > 0 && (
+                       <div className="mt-12 p-6 bg-gradient-to-r from-green-500/10 to-transparent border border-green-500/20 rounded-xl">
+                         <h4 className="text-sm font-bold text-green-400 uppercase tracking-wider mb-3">Awards & Recognition</h4>
+                         <div className="space-y-2">
+                           {activeCompany.awards.map((award, idx) => (
+                             <div key={idx} className="flex items-center text-sm text-gray-300">
+                               <span className="text-green-500 mr-2">★</span> {award}
+                             </div>
+                           ))}
+                         </div>
+                       </div>
+                     )}
+                  </motion.div>
+                );
+              })()}
+            </AnimatePresence>
+          </div>
         </div>
         <div className="w-full py-20 border-b-[1px] border-b-gray-800 sm:px-2 lgl:px-0"></div>
       </div>

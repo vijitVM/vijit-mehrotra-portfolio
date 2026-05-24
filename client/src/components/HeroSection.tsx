@@ -162,7 +162,7 @@ const HeroSection = () => {
       <ThreeScene />
 
       <MouseFollowEffect>
-        <div className="flex flex-col items-center justify-center w-full px-2 py-2">
+        <div className="flex flex-col items-center justify-center w-full max-w-[100vw] overflow-x-hidden px-2 py-2">
           {/* Header name on left like in screenshot 2 */}
           <div className="flex items-center mb-1 md:mb-2">
             <motion.div
@@ -319,7 +319,7 @@ const HeroSection = () => {
 
           {/* Dynamic Row: Enterprise Impact Dashboard */}
           <motion.div
-            className="w-full max-w-[80%] mx-auto mb-2 py-1"
+            className="w-full max-w-[95vw] md:max-w-[80%] mx-auto mb-2 py-1"
             variants={itemVariants}
           >
             <ImpactDashboard />
@@ -327,7 +327,7 @@ const HeroSection = () => {
 
           {/* Second row: Currently Building Section - Properly positioned without hacks */}
           <motion.div
-            className="w-full max-w-[80%] mx-auto mb-8 py-2"
+            className="w-full max-w-[95vw] md:max-w-[80%] mx-auto mb-8 py-2"
             variants={itemVariants}
           >
             <CurrentlyBuildingSection />

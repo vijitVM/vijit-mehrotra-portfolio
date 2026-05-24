@@ -79,9 +79,9 @@ const ImpactDashboard = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 mt-8 mb-4" ref={containerRef}>
+    <div className="w-full max-w-6xl mx-auto px-4 mt-3 mb-2" ref={containerRef}>
       <motion.div
-        className="text-center mb-6"
+        className="text-center mb-3"
         initial={{ opacity: 0, y: -10 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
         transition={{ duration: 0.5 }}
@@ -111,7 +111,7 @@ const ImpactDashboard = () => {
               variants={cardVariants}
               whileHover={{ y: -6, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              className={`p-4 rounded-2xl border transition-all duration-300 relative group overflow-hidden flex flex-col justify-between min-h-[160px] sm:min-h-[180px] shadow-lg ${
+              className={`p-3 rounded-2xl border transition-all duration-300 relative group overflow-hidden flex flex-col justify-between min-h-[135px] sm:min-h-[145px] shadow-lg ${
                 theme === "dark"
                   ? "bg-[#0D1117]/80 backdrop-blur-md border-gray-800 hover:shadow-cyan-950/20"
                   : "bg-white/80 backdrop-blur-md border-gray-200 hover:shadow-amber-200/40"
@@ -124,7 +124,7 @@ const ImpactDashboard = () => {
                 }`}
               />
 
-              <div className="flex justify-between items-start mb-2 relative z-10">
+              <div className="flex justify-between items-start mb-1.5 relative z-10">
                 <span
                   className={`text-[9px] sm:text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
                     theme === "dark"
@@ -145,7 +145,7 @@ const ImpactDashboard = () => {
                 </div>
               </div>
 
-              <div className="mt-auto relative z-10 space-y-1">
+              <div className="mt-auto relative z-10 space-y-0.5">
                 <div
                   className={`text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r bg-clip-text text-transparent ${
                     theme === "dark"

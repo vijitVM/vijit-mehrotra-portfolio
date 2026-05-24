@@ -154,7 +154,7 @@ const HeroSection = () => {
     <section
       id="home"
       
-      className="flex flex-col items-center justify-center min-h-full w-full px-2 py-12 border-b-[1px] border-b-gray-800"
+      className="flex flex-col items-center justify-center min-h-screen w-full px-2 py-4 border-b-[1px] border-b-gray-800"
       ref={heroRef}
       onMouseMove={handleMouseMove}
     >
@@ -162,9 +162,9 @@ const HeroSection = () => {
       <ThreeScene />
 
       <MouseFollowEffect>
-        <div className="flex flex-col items-center justify-center w-full px-2 py-6">
+        <div className="flex flex-col items-center justify-center w-full px-2 py-2">
           {/* Header name on left like in screenshot 2 */}
-          <div className="flex items-center mb-4 md:mb-8">
+          <div className="flex items-center mb-1 md:mb-2">
             <motion.div
               className="flex items-center"
               initial={{ opacity: 0, x: -20 }}
@@ -188,7 +188,7 @@ const HeroSection = () => {
               onMouseLeave={handleProfileLeave}
               style={{ perspective: "1000px" }}
             >
-              <div className="w-full md:min-h-[60vh] lg:w-auto flex justify-center items-center pt-6 pb-6 md:p-0">
+              <div className="w-full md:min-h-[42vh] lg:w-auto flex justify-center items-center pt-2 pb-2 md:p-0">
                 <motion.div
                   className={`w-fit h-full rounded-lg bg-transparent border-2 border-dashed ${
                     theme === "dark" ? "border-cyan-700" : "border-amber-300"
@@ -205,7 +205,7 @@ const HeroSection = () => {
                     <img
                       src={profilePic}
                       alt="Vijit Mehrotra"
-                      className="object-cover w-full h-full sm:max-w-[350px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[600px]"
+                      className="object-cover w-full h-full sm:max-w-[260px] md:max-w-[300px] lg:max-w-[340px] xl:max-w-[380px]"
                     />
 
                     {/* Hover glow effect */}
@@ -222,8 +222,8 @@ const HeroSection = () => {
             </motion.div>
 
             {/* Right column (text content) */}
-            <div className="flex items-center justify-start w-full md:w-6/12 pb-6">
-              <div className="items-start justify-center w-full md:min-h-[60vh] flex flex-col gap-4">
+            <div className="flex items-center justify-start w-full md:w-6/12 pb-2">
+              <div className="items-start justify-center w-full md:min-h-[42vh] flex flex-col gap-2">
                 <motion.div
                   className="flex flex-col gap-2"
                   variants={containerVariants}
@@ -233,14 +233,14 @@ const HeroSection = () => {
                       theme === "dark"
                         ? "from-cyan-400 to-purple-500"
                         : "from-amber-400 to-orange-500"
-                    } text-transparent bg-clip-text mb-4 md:text-left text-center transition-colors duration-300`}
+                    } text-transparent bg-clip-text mb-2 md:text-left text-center transition-colors duration-300`}
                     variants={itemVariants}
                   >
                     Vijit Mehrotra
                   </motion.h1>
 
                   <motion.h2
-                    className="text-xl font-medium text-gray-300 mb-6 md:flex md:justify-start flex justify-center"
+                    className="text-xl font-medium text-gray-300 mb-3 md:flex md:justify-start flex justify-center"
                     variants={itemVariants}
                   >
                     <span
@@ -264,25 +264,17 @@ const HeroSection = () => {
                   </motion.h2>
 
                   <motion.p
-                    className="mb-3 md:text-left text-center text-md sm:text-base"
+                    className="mb-2 md:text-left text-center text-sm sm:text-base leading-relaxed text-gray-300"
                     variants={itemVariants}
                   >
-                    I bridge the gap between ambiguous enterprise challenges and production-grade AI architectures.
+                    I bridge the gap between ambiguous enterprise challenges and production-grade AI architectures. With 5 years of experience across Data Engineering and Analytics, I have spent the last 2+ years architecting high-throughput LLM applications, stateful RAG pipelines, and agentic workflows.
                   </motion.p>
 
                   <motion.p
-                    className="mb-3 md:text-left text-center text-md sm:text-base"
+                    className="mb-3 md:text-left text-center text-sm sm:text-base leading-relaxed text-gray-300"
                     variants={itemVariants}
                   >
-                    With 5 years of experience across Data Engineering and Analytics, I have spent the last 2+ years architecting production-grade LLM applications, RAG pipelines, and agentic workflows. 
-                    As a lead at Quation Solutions, I partner with enterprise clients in Healthcare, FMCG, and Technology to transform complex, unstructured data into measurable business outcomes.
-                  </motion.p>
-
-                  <motion.p
-                    className="mb-3 md:text-left text-center text-md sm:text-base"
-                    variants={itemVariants}
-                  >
-                    From automating manual workflows to building intelligent decision-support systems, I specialize in deploying reliable, observable AI systems that move beyond the prototype phase to deliver long-term operational efficiency.
+                    As an AI Systems lead at Quation Solutions, I partner with enterprise clients in Healthcare, FMCG, and Technology to transform unstructured data into reliable, observable systems that deliver measurable operational efficiency.
                   </motion.p>
 
                   <motion.div

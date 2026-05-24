@@ -101,7 +101,7 @@ const CurrentlyBuildingSection = () => {
   };
 
   return (
-    <div ref={sectionRef} className="w-full flex justify-center my-6">
+    <div ref={sectionRef} className="w-full flex justify-center mt-2 mb-4">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
@@ -109,20 +109,20 @@ const CurrentlyBuildingSection = () => {
         className="bg-[#0D1117] border border-gray-800 rounded-xl overflow-hidden w-full max-w-2xl shadow-2xl shadow-cyan-900/20"
       >
         {/* MacOS Style Terminal Header */}
-        <div className="flex items-center px-4 py-3 bg-gray-900/80 border-b border-gray-800">
+        <div className="flex items-center px-4 py-2 bg-gray-900/80 border-b border-gray-800">
           <div className="flex space-x-2 mr-4">
             <div className="h-3 w-3 rounded-full bg-[#FF5F56] shadow-sm"></div>
             <div className="h-3 w-3 rounded-full bg-[#FFBD2E] shadow-sm"></div>
             <div className="h-3 w-3 rounded-full bg-[#27C93F] shadow-sm"></div>
           </div>
-          <div className="flex-1 text-center text-gray-400 font-mono text-xs tracking-wider opacity-80">
+          <div className="flex-1 text-center text-gray-400 font-mono text-[10px] sm:text-xs tracking-wider opacity-80">
             vijit@portfolio: ~/ai-lab/active-projects
           </div>
           <div className="w-10"></div> {/* Spacer to keep title centered */}
         </div>
 
         {/* Terminal Window Content */}
-        <div className="p-5 sm:p-6 font-mono text-sm sm:text-base space-y-3 bg-[#0D1117]">
+        <div className="p-3.5 sm:p-4.5 font-mono text-xs sm:text-sm space-y-2 bg-[#0D1117]">
           {buildingData.map((item: BuildingItem, i: number) => (
             <motion.div
               key={i}

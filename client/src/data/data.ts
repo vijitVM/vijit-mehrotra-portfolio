@@ -77,52 +77,50 @@ export const experienceData = [
           {
             title: "Healthcare Field Intelligence GenAI Assistant",
             sections: [
-              { title: "Overview", points: ["Built a multi-persona GenAI assistant enabling contextual Q&A and semantic search over healthcare datasets for field intelligence workflows"] },
-              { title: "Architecture & System Design", points: ["Designed multi-persona system supporting District Managers, Sales Representatives, and HCP workflows", "Implemented RAG pipelines using LangChain and ChromaDB", "Integrated structured data from Amazon Redshift and Cube.js for business-context-aware querying"] },
-              { title: "Modeling & Optimization", points: ["Optimized multi-step LLM workflows and prompt strategies", "Reduced response latency from ~30–35s to <10s"] },
-              { title: "Data Engineering", points: ["Combined structured and unstructured healthcare data for contextual retrieval", "Enabled semantic search and efficient information access"] },
-              { title: "Deployment & Observability", points: ["Deployed production-grade services using Azure OpenAI on AWS", "Integrated backend/frontend systems", "Implemented observability using Langfuse"] },
-              { title: "Impact", points: ["Improved response accuracy by ~30%", "Reduced manual lookup effort by 60–70%", "Enabled faster, role-based decision-making"] }
+              { title: "The Enterprise Challenge", points: ["District Managers, HCPs, and Sales reps struggled to query isolated healthcare datasets and unstructured context, spending hours on manual search."] },
+              { title: "Production System Design", points: ["Architected a secure, multi-persona RAG system connecting LangChain and ChromaDB with Redshift and Cube.js contextual querying."] },
+              { title: "LLMOps & Telemetry", points: ["Optimized prompt compiler graphs to slash response latencies from ~35s down to <10s; integrated Langfuse for absolute real-time trace tracking and quality assurance."] },
+              { title: "Measurable Business Impact", points: ["Response accuracy increased by 30% while cutting manual lookups by 60–70%, enabling direct, role-based strategic decisions."] }
             ],
             techStack: "Python, LangChain, ChromaDB, Azure OpenAI, AWS, Amazon Redshift, Cube.js, Langfuse"
           },
           {
             title: "Agentic Social Listening System",
             sections: [
-              { title: "Overview", points: ["Built and scaled an agentic social listening system to identify competitive signals from large-scale Twitter data."] },
-              { title: "Architecture & System Design", points: ["Multi-agent pipeline (LangGraph) for ingestion → deduplication → entity extraction → classification → signal generation", "Transitioned from linear workflow to stateful agentic architecture"] },
-              { title: "Modeling & Optimization", points: ["DSPy (SIMBA + CoT) for classification optimization", "Hybrid model usage (GPT-OSS, Mistral, LLaMA)"] },
-              { title: "Data Engineering", points: ["Semantic deduplication using embeddings + vector search (PGVector with HNSW)"] },
-              { title: "Impact", points: ["Scaled from 7.5K → 15K records/day", "Improved accuracy from ~80% → ~90%"] }
+              { title: "The Enterprise Challenge", points: ["FMCG clients could not parse massive, noisy competitive signals from unstructured Twitter streams at scale, suffering from high duplication and weak classification."] },
+              { title: "Production System Design", points: ["Designed a stateful multi-agent pipeline using LangGraph to automate signal ingestion → deduplication → classification → intelligence generation.", "Engineered hybrid vector search using PGVector with HNSW index for millisecond-level deduplication."] },
+              { title: "LLMOps & Telemetry", points: ["Programmatically optimized prompt structures using DSPy (SIMBA + Chain-of-Thought) across hybrid open/closed-source models (GPT, LLaMA, Mistral)."] },
+              { title: "Measurable Business Impact", points: ["Scaled signal processing capacity by 100% (from 7.5K to 15K records/day) while boosting extraction accuracy to 90%."] }
             ],
             techStack: "Python, LangGraph, DSPy (SIMBA, CoT), GPT-OSS, Mistral, LLaMA, Nomic Embeddings, PGVector (HNSW), SQL, Langfuse"
           },
           {
             title: "Growth Bets: Batch Intelligence Platform",
             sections: [
-              { title: "Overview", points: ["Architected a specialized platform using orchestrated agent crews to validate high-potential 'Growth Bets' via batch-processed analysis."] },
-              { title: "Architecture & System Design", points: ["Orchestrated autonomous agent crews using CrewAI for signal validation", "Implemented high-throughput batch processing workflows for strategic signal discovery"] },
-              { title: "Impact", points: ["Reduced batch processing time by 60%", "Increased delivery of validated strategic 'Growth Bets' by 20–25%"] }
+              { title: "The Enterprise Challenge", points: ["Strategic business validation of high-potential growth initiatives was bottlenecked by slow, manual analysis of market and regulatory reports."] },
+              { title: "Production System Design", points: ["Architected high-throughput batch pipelines orchestrated by autonomous agent crews using CrewAI to parallelize deep-dive signal validation."] },
+              { title: "LLMOps & Telemetry", points: ["Integrated unified tracing with Langfuse to monitor cost, token consumption, and agent drift across large batch runs."] },
+              { title: "Measurable Business Impact", points: ["Reduced validation turnaround time by 60% and accelerated delivery of qualified strategic growth bets by 20–25%."] }
             ],
             techStack: "Python, CrewAI, SQL, Batch Processing Pipelines, LLaMA, Langfuse"
           },
           {
             title: "VOC Complaint Intelligence System",
             sections: [
-              { title: "Overview", points: ["Built agentic pipelines for analyzing customer complaints in automotive domain"] },
-              { title: "Capabilities", points: ["Classification, sentiment analysis, auto-tagging, emotion detection"] },
-              { title: "Integration", points: ["Real-time dashboards for CX monitoring"] },
-              { title: "Impact", points: ["Reduced manual triage effort", "Improved response time"] }
+              { title: "The Enterprise Challenge", points: ["Automotive customer feedback and complaints in public channels were unorganized, leading to slow customer-experience response rates and expensive manual triage."] },
+              { title: "Production System Design", points: ["Built agentic NLP pipelines utilizing OpenAI models for emotional analytics, automatic sentiment tagging, and complaint severity categorization."] },
+              { title: "LLMOps & Telemetry", points: ["Connected pipelines to live CX dashboards for real-time threat-monitoring and alert triggers."] },
+              { title: "Measurable Business Impact", points: ["Eliminated manual customer triage and halved internal response times to high-risk complaints."] }
             ],
             techStack: "Python, OpenAI APIs, NLP, Sentiment Analysis, Langfuse, BI Dashboarding Tools"
           },
           {
             title: "Data & Email Processing Automation",
             sections: [
-              { title: "Overview", points: ["Automated extraction and processing of purchase orders and invoices from emails"] },
-              { title: "System Design", points: ["Handled PDFs, Excel files, and email attachments"] },
-              { title: "Automation", points: ["Scheduled workflows for continuous processing"] },
-              { title: "Impact", points: ["~95% accuracy", "Reduced manual effort significantly"] }
+              { title: "The Enterprise Challenge", points: ["Manual extraction of purchase orders and invoices from dense email threads and multi-format attachments was slow, error-prone, and delayed financial matching."] },
+              { title: "Production System Design", points: ["Engineered scheduled document processing agents handling PDFs, Excel files, and attachments using Java and Python."] },
+              { title: "LLMOps & Telemetry", points: ["Integrated continuous transaction logging and email-trigger webhooks for full auditability."] },
+              { title: "Measurable Business Impact", points: ["Achieved a 95% PO ingestion accuracy rate and saved dozens of manual accounting hours weekly."] }
             ],
             techStack: "Python, Java, Windows Task Scheduler, PDF Processing, Excel Processing, SQL Database, Outlook Email Automation"
           }
@@ -141,43 +139,45 @@ export const experienceData = [
           {
             title: "RAG-Based Data Analysis Assistant",
             sections: [
-              { title: "Overview", points: ["Built GenAI chatbot for querying Marketing Mix Modeling data"] },
-              { title: "Capabilities", points: ["Natural language queries → SQL generation", "Retrieval over structured and unstructured data"] },
-              { title: "Impact", points: ["40% faster insights", "60% reduction in SQL requests"] }
+              { title: "The Enterprise Challenge", points: ["Marketing Mix Modeling teams spent too much time manually writing SQL queries to query multi-source relational databases and unstructured catalog reports."] },
+              { title: "Production System Design", points: ["Built a GenAI chatbot utilizing natural language to SQL code compilation pipelines, executing secure queries over PostgreSQL databases."] },
+              { title: "Measurable Business Impact", points: ["Sped up insight retrieval by 40% and reduced manual SQL query requests from MMM teams by 60%."] }
             ],
             techStack: "gpt-4o, gpt-4o-mini, PostgreSQL, Vector Database, Langfuse, Custom RAG Pipeline"
           },
           {
             title: "AI-Powered Web Scraping & Compliance Assistant",
             sections: [
-              { title: "Overview", points: ["Built LLM-powered agent for automated web data extraction"] },
-              { title: "Capabilities", points: ["Link analysis and compliance workflows"] },
-              { title: "Impact", points: ["50% reduction in manual effort"] }
+              { title: "The Enterprise Challenge", points: ["Compliance teams manually parsed deep-nested websites and legal text to check regulatory standards, leading to slow risk mitigation."] },
+              { title: "Production System Design", points: ["Developed a Playwright-based autonomous scraping agent running semantic parsing of scraped document graphs for compliance validation."] },
+              { title: "Measurable Business Impact", points: ["Halved manual compliance audit effort and improved report validation speed."] }
             ],
             techStack: "gpt-4o, gpt-4o-mini, Playwright, Langfuse, Custom GenAI Pipelines"
           },
           {
             title: "GenAI Workflow Automation Bot (Jira)",
             sections: [
-              { title: "Overview", points: ["Automated agile workflows including story creation and planning"] },
-              { title: "Impact", points: ["30% improvement in team efficiency"] }
+              { title: "The Enterprise Challenge", points: ["Product management spent dozens of hours manually writing agile user stories, defining requirements, and mapping project sprints."] },
+              { title: "Production System Design", points: ["Created a Jira API integration bot compiling requirements into full user stories and automating ticket generation with semantic sprint mapping."] },
+              { title: "Measurable Business Impact", points: ["Boosted development team agile planning efficiency by 30%."] }
             ],
             techStack: "gpt-4o, gpt-4o-mini, Jira API, Langfuse, Milvus DB"
           },
           {
             title: "GenAI Code Review System",
             sections: [
-              { title: "Overview", points: ["Automated code review, cleaning, and vulnerability detection"] },
-              { title: "Impact", points: ["Improved development speed by ~30%"] }
+              { title: "The Enterprise Challenge", points: ["Manual code reviews slowed down the CI/CD pipeline and occasionally missed subtle architectural vulnerabilities or code smells."] },
+              { title: "Production System Design", points: ["Designed a GitLab CI/CD pipeline agent using OpenAI models to automate line-by-line syntax checking, security checks, and code-cleanup recommendations."] },
+              { title: "Measurable Business Impact", points: ["Decreased overall manual pull request review time and boosted code delivery speeds by ~30%."] }
             ],
             techStack: "OpenAI o3-mini, GitLab API, GitLab CI/CD, Langfuse, Custom LLMOps Pipelines"
           },
           {
             title: "Data Catalog Intelligence Assistant",
             sections: [
-              { title: "Overview", points: ["Multi-agent RAG system for querying enterprise data"] },
-              { title: "Capabilities", points: ["Query SQL + PDFs + Excel in natural language"] },
-              { title: "Impact", points: ["Reduced data retrieval time by ~70%"] }
+              { title: "The Enterprise Challenge", points: ["Data governance analysts struggled to navigate sparse data catalogs, Excel documentation, and PDF schema reports scattered across platforms."] },
+              { title: "Production System Design", points: ["Engineered a multi-agent RAG system utilizing Neo4j graph databases, Milvus, and FlashRank rerankers for unified natural language schema search."] },
+              { title: "Measurable Business Impact", points: ["Slashed enterprise data schema retrieval times by ~70%."] }
             ],
             techStack: "gpt-4o, Milvus DB, Langchain, Neo4j, FlashRank, SQL, Langfuse, Google AI"
           }

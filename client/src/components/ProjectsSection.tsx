@@ -158,12 +158,14 @@ const ProjectsSection = () => {
                         className="absolute inset-0 bg-black bg-opacity-30 opacity-0 flex items-center justify-center transition-opacity duration-300"
                         initial={{ opacity: 0 }}
                         whileHover={{ opacity: 1 }}
+                        aria-hidden={false}
                       >
                         <Button
                           variant="ghost"
                           size="sm"
                           className="bg-black/50 backdrop-blur-sm text-white hover:bg-black/70"
                           onClick={(e) => { e.stopPropagation(); window.open(project.githubUrl, "_blank", "noopener,noreferrer"); }}
+                          aria-label={`View ${project.title} on GitHub`}
                         >
                           View on GitHub <ArrowUpRight size={16} className="ml-2" />
                         </Button>

@@ -31,7 +31,6 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
     }
 
     // Debug the active section
-    console.log("Current active section:", activeSection);
   }, [activeSection]);
 
   // Handle scroll direction to show/hide header
@@ -56,13 +55,9 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Log current screen size for debugging
-  useEffect(() => {
-    console.log("Current screen size:", screenSize);
-  }, [screenSize]);
+
 
   const handleNavClick = (sectionId: string) => {
-    console.log(`Navigation clicked for: ${sectionId}`);
 
     // Close mobile menu first
     setIsMobileMenuOpen(false);
@@ -144,9 +139,6 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
       const scrollPosition =
         window.scrollY + elementRect.top + scrollAdjustment;
 
-      console.log(
-        `Auto-scrolling to ${sectionId}: adjustment=${scrollAdjustment.toFixed(2)}, element height=${elementHeight}, viewport=${viewportWidth}x${viewportHeight}`,
-      );
 
       // Initial scroll
       window.scrollTo({
@@ -170,7 +162,6 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
               behavior: "smooth",
             });
             
-            console.log(`Visibility adjustment for ${sectionId}`);
           }
           
           // Disconnect observer after check
@@ -388,14 +379,14 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
                 </motion.div>
               </motion.div>
               <div>
-                <motion.h1
+                <motion.p
                   className="text-sm sm:text-xl font-semibold"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
                 >
                   Vijit Mehrotra
-                </motion.h1>
+                </motion.p>
                 <motion.p
                   className="text-sm text-gray-400"
                   initial={{ opacity: 0, y: 5 }}
@@ -431,6 +422,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
               >
                 <button
                   onClick={() => handleNavClick(item.id)}
+                  aria-current={activeSection === item.id ? "page" : undefined}
                   className={`relative px-2 py-1 text-xs ${
                     activeSection === item.id
                       ? "text-cyan-400"

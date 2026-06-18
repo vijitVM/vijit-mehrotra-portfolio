@@ -353,7 +353,7 @@ export const educationData = {
     },
     {
       id: 2,
-      degree: "Bachlelor Of Computer Application",
+      degree: "Bachelor Of Computer Application",
       institution: "Jain University",
       period: "2014 - 2017",
       year: "2017",

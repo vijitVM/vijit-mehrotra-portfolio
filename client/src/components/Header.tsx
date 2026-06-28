@@ -393,7 +393,7 @@ const Header = ({ activeSection, screenSize = "laptop" }: HeaderProps) => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.5 }}
                 >
-                  Generative AI Specialist
+                 Senior Generative AI Specialist
                 </motion.p>
               </div>
             </motion.div>

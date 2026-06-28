@@ -377,7 +377,7 @@ const ExperienceSection = () => {
                             animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.3 }}
-                            style={{ overflow: "visible" }}
+                            style={{ overflow: "hidden" }}
                             className="border-t border-gray-700"
                           >
                             {/* Positions List */}
@@ -407,7 +407,7 @@ const ExperienceSection = () => {
                                       <Button
                                         variant="link"
                                         className="text-cyan-400/80 hover:text-cyan-400 focus:outline-none text-xs p-0 h-auto flex items-center font-medium"
-                                        onClick={() => {
+                                        onClick={(e) => {
                                           e.stopPropagation();
                                           togglePosition(position.id);
                                         }}

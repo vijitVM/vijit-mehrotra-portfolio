@@ -347,7 +347,7 @@ const ExperienceSection = () => {
                         <Button
                           variant="link"
                           className="text-cyan-400 hover:text-cyan-300 focus:outline-none text-xs sm:text-sm p-0 h-auto flex items-center mt-1 sm:mt-0"
-                          onClick={() => toggleCompany(company.id)}
+                          onClick={(e) => { e.stopPropagation(); toggleCompany(company.id); }}
                         >
                           {expandedCompanies.includes(company.id) ? (
                             <>
@@ -377,6 +377,7 @@ const ExperienceSection = () => {
                             animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.3 }}
+                            style={{ overflow: "visible" }}
                             className="border-t border-gray-700"
                           >
                             {/* Positions List */}
@@ -406,9 +407,10 @@ const ExperienceSection = () => {
                                       <Button
                                         variant="link"
                                         className="text-cyan-400/80 hover:text-cyan-400 focus:outline-none text-xs p-0 h-auto flex items-center font-medium"
-                                        onClick={() =>
-                                          togglePosition(position.id)
-                                        }
+                                        onClick={() => {
+                                          e.stopPropagation();
+                                          togglePosition(position.id);
+                                        }}
                                       >
                                         {expandedPositions.includes(
                                           position.id,

@@ -225,7 +225,7 @@ const ContactSection = () => {
                           Vijit Mehrotra
                         </h3>
                         <p className="text-gray-400">
-                          Generative AI Specialist
+                          Senior Generative AI Specialist
                         </p>
                       </div>
                     </div>

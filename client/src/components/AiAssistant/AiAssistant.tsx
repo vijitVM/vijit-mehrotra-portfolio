@@ -71,14 +71,14 @@ const AiAssistant: React.FC = () => {
     // Character-level drip-feed buffer for natural typing speed
     const charBuffer: string[] = [];
     let dripping = false;
-    const CHAR_DELAY_MS = 18; // milliseconds per character (~55 chars/sec)
+    const CHAR_DELAY_MS = 30; // milliseconds per character (~55 chars/sec)
 
     const startDrip = () => {
       if (dripping) return;
       dripping = true;
       const drip = () => {
         if (charBuffer.length > 0) {
-          const batch = charBuffer.splice(0, Math.min(2, charBuffer.length)).join('');
+          const batch = charBuffer.splice(0, 1).join('');
           onContent(batch);
           setTimeout(drip, CHAR_DELAY_MS);
         } else {
@@ -113,7 +113,7 @@ const AiAssistant: React.FC = () => {
     await new Promise<void>((resolve) => {
       const flush = () => {
         if (charBuffer.length > 0) {
-          const batch = charBuffer.splice(0, Math.min(2, charBuffer.length)).join('');
+          const batch = charBuffer.splice(0, 1).join('');
           onContent(batch);
           setTimeout(flush, CHAR_DELAY_MS);
         } else {

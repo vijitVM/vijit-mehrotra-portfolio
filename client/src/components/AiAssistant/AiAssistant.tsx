@@ -67,6 +67,27 @@ const AiAssistant: React.FC = () => {
     if (!response.body) throw new Error('No response body');
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
+
+    // Character-level drip-feed buffer for natural typing speed
+    const charBuffer: string[] = [];
+    let dripping = false;
+    const CHAR_DELAY_MS = 18; // milliseconds per character (~55 chars/sec)
+    const startDrip = () => {
+      if (dripping) return;
+      dripping = true;
+      const drip = () => {
+        if (charBuffer.length > 0) {
+          // Emit a small batch (1-3 chars) for a natural feel
+          const batch = charBuffer.splice(0, Math.min(2, charBuffer.length)).join('');
+          onContent(batch);
+          setTimeout(drip, CHAR_DELAY_MS);
+        } else {
+          dripping = false;
+        }
+      };
+      drip();
+    };
+    
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
@@ -78,12 +99,30 @@ const AiAssistant: React.FC = () => {
           try {
             const parsed = JSON.parse(jsonString);
             if (parsed.content) {
-              onContent(parsed.content);
+              // Push each character into the buffer
+              for (const ch of parsed.content) {
+                charBuffer.push(ch);
+              }
+              startDrip();
             }
           } catch (e) { console.error("Failed to parse JSON:", jsonString); }
         }
       }
     }
+
+    // Flush any remaining characters after stream ends
+    await new Promise<void>((resolve) => {
+      const flush = () => {
+        if (charBuffer.length > 0) {
+          const batch = charBuffer.splice(0, Math.min(2, charBuffer.length)).join('');
+          onContent(batch);
+          setTimeout(flush, CHAR_DELAY_MS);
+        } else {
+          resolve();
+        }
+      };
+      flush();
+    });
   };
   
   const handleSendMessage = async (predefinedQuestion?: string) => {

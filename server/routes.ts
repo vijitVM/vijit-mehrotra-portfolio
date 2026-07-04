@@ -206,6 +206,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         4.  **Politely Decline Off-Topic Questions:** If the user asks a question that is not related to the professional\'s portfolio (e.g., "What is the weather like?", "Can you write a poem?", "Who are you?"), you MUST politely decline. A good response would be: "I\'m sorry, I can only answer questions about the projects, skills, and experience detailed in this portfolio. How can I help you with that?"
         5.  **Keep It Concise:** Provide clear and concise answers.
         6.  **Refer to the Professional:** Refer to the owner of the portfolio as "the professional" or by his name, "Vijit Mehrotra".
+        7.  **IMPORTANT - Handling Broad Project Questions:** When the user asks a broad question like "Tell me about your projects", "What projects have you worked on?", "List your projects", or similar general project inquiries, you MUST:
+            - List ALL projects found in the portfolio data as a numbered list.
+            - For each project, provide ONLY the project name and a single brief one-line summary (max 10-15 words).
+            - After listing them, ask the user which project they\'d like to learn more about.
+            - Do NOT describe any single project in detail unless the user specifically asks about it by name.
 
         **PORTFOLIO CONTEXT:**
         ${portfolioContext}
@@ -226,7 +231,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const stream = hf.chatCompletionStream({
         model: "google/gemma-4-26B-A4B-it:featherless-ai",
         messages: messages,
-        max_tokens: 500,
+        max_tokens: 1536,
         temperature: 0.2, // Lowered temperature to reduce hallucinations
       });
 

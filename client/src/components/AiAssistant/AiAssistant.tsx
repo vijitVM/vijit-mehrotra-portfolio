@@ -72,12 +72,12 @@ const AiAssistant: React.FC = () => {
     const charBuffer: string[] = [];
     let dripping = false;
     const CHAR_DELAY_MS = 18; // milliseconds per character (~55 chars/sec)
+
     const startDrip = () => {
       if (dripping) return;
       dripping = true;
       const drip = () => {
         if (charBuffer.length > 0) {
-          // Emit a small batch (1-3 chars) for a natural feel
           const batch = charBuffer.splice(0, Math.min(2, charBuffer.length)).join('');
           onContent(batch);
           setTimeout(drip, CHAR_DELAY_MS);
@@ -87,7 +87,7 @@ const AiAssistant: React.FC = () => {
       };
       drip();
     };
-    
+
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
@@ -99,7 +99,6 @@ const AiAssistant: React.FC = () => {
           try {
             const parsed = JSON.parse(jsonString);
             if (parsed.content) {
-              // Push each character into the buffer
               for (const ch of parsed.content) {
                 charBuffer.push(ch);
               }
@@ -110,7 +109,7 @@ const AiAssistant: React.FC = () => {
       }
     }
 
-    // Flush any remaining characters after stream ends
+    // Flush remaining characters after stream ends
     await new Promise<void>((resolve) => {
       const flush = () => {
         if (charBuffer.length > 0) {
@@ -239,7 +238,7 @@ const AiAssistant: React.FC = () => {
           <span>What are his key technical skills?</span>
         </button>
         <button 
-          onClick={() => handleSendMessage('Tell me about the VOC Complaint Intelligence System.')} 
+          onClick={() => handleSendMessage('Tell me about his key projects.')} 
           className={`flex items-center gap-2.5 p-2.5 text-left rounded-xl transition-all duration-200 border ${
             theme === 'dark' 
               ? 'bg-[#161B22]/70 hover:bg-[#21262D] border-gray-800 text-gray-300 hover:border-cyan-500/40' 

@@ -67,7 +67,7 @@ export const experienceData = [
       {
         id: 101,
         role: "Senior Consultant, GenAI / LLM Engineer",
-        period: "May 2025 - Present",
+        period: "May 2025 - July 2026",
         details: [
           "Architecting agentic AI systems for enterprise automation in Healthcare and FMCG",
           "Spearheaded a social intelligence platform scaling to 15K records/day at 90% accuracy",

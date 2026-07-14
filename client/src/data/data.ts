@@ -57,7 +57,7 @@ export const experienceData = [
   {
     id: 1,
     company: "Quation Solutions Private Limited",
-    companyPeriod: "May 2023 - Present",
+    companyPeriod: "May 2023 - July 2026",
     location: "Bengaluru",
     color: "bg-blueAccent",
     textColor: "text-blueAccent",

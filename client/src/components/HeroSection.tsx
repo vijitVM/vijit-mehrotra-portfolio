@@ -154,7 +154,7 @@ const HeroSection = () => {
     <section
       id="home"
 
-      className="flex flex-col items-center justify-center min-h-screen w-full px-2 py-4 border-b-[1px] border-b-gray-800"
+      className="flex flex-col items-center justify-center min-h-screen w-full px-2 pt-24 pb-4 border-b-[1px] border-b-gray-800"
       ref={heroRef}
       onMouseMove={handleMouseMove}
     >

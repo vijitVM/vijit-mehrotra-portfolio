@@ -62,13 +62,13 @@ const CurrentlyBuildingSection = () => {
   const getIcon = (type: BuildingItem["type"]) => {
     switch (type) {
       case "building":
-        return <Terminal className="h-3 w-5" />;
+        return <Terminal className="h-3 w-6" />;
       case "exploring":
-        return <Sparkles className="h-3 w-5" />;
+        return <Sparkles className="h-3 w-6" />;
       case "learning":
-        return <Target className="h-3 w-5" />;
+        return <Target className="h-3 w-6" />;
       default:
-        return <Code className="h-3 w-5" />;
+        return <Code className="h-3 w-6" />;
     }
   };
 

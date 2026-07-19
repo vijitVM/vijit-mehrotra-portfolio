@@ -257,14 +257,14 @@ const HeroSection = () => {
                   </motion.h2>
 
                   <motion.p
-                    className="mb-2 md:text-left text-center text-sm sm:text-base leading-relaxed text-gray-300 break-words max-w-[92vw] md:max-w-none mx-auto md:mx-0"
+                    className="mb-2 md:text-left text-center text-sm sm:text-base leading-relaxed text-gray-500 break-words max-w-[92vw] md:max-w-none mx-auto md:mx-0"
                     variants={itemVariants}
                   >
                     I bridge the gap between ambiguous enterprise challenges and production-grade AI architectures. With 5 years of experience across Data Engineering and Analytics, I have spent the last 2+ years architecting high-throughput LLM applications, stateful RAG pipelines, and agentic workflows.
                   </motion.p>
 
                   <motion.p
-                    className="mb-3 md:text-left text-center text-sm sm:text-base leading-relaxed text-gray-300 break-words max-w-[92vw] md:max-w-none mx-auto md:mx-0"
+                    className="mb-3 md:text-left text-center text-sm sm:text-base leading-relaxed text-gray-500 break-words max-w-[92vw] md:max-w-none mx-auto md:mx-0"
                     variants={itemVariants}
                   >
                     As a Senior Consultant and GenAI Engineer at Quation Solutions, I partner with enterprise clients including Healthcare, FMCG, and Technology to transform unstructured data into reliable, observable systems that deliver measurable operational efficiency.

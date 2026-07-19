@@ -106,7 +106,7 @@ const CurrentlyBuildingSection = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="bg-[#0D1117] border border-gray-800 rounded-xl overflow-hidden w-full max-w-2xl shadow-2xl shadow-cyan-900/20"
+        className="bg-[#0D1117] border border-gray-800 rounded-xl overflow-hidden w-full max-w-4xl shadow-2xl shadow-cyan-900/20"
       >
         {/* MacOS Style Terminal Header */}
         <div className="flex items-center px-4 py-2 bg-gray-900/80 border-b border-gray-800">
